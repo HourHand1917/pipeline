@@ -183,9 +183,9 @@ public partial class BattleManager : Node
         if (CurrentPhase != Phase.PlayerLighting)
             return;
 
-        boardManager.ClearAllLights();
+        //boardManager.ClearAllLights();(清空按钮充能状态的代码，我目前先注释掉，看看会不会有什么bug，有的话再重构)
         SetPhase(Phase.EnemyTurn);
-        Log("玩家结束回合，未发动的点亮格子全部熄灭。");
+        Log("玩家结束回合，保留点亮过的按钮");
         EmitSignal(SignalName.BattleStateChanged);
 
         await ToSignal(GetTree().CreateTimer(0.35f), "timeout");
