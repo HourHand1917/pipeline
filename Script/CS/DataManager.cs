@@ -87,7 +87,7 @@ public partial class DataManager : Node
         string description)
     {
         // GDScript 的 CardData.new() 等价于这样调用
-        var card = GD.Load<GDScript>("res://scripts/card_data.gd").New().As<GodotObject>();
+        var card = GD.Load<GDScript>("res://Script/GD/resource/carddata.gd").New().As<GodotObject>();
 
         card.Set("id", cardId);
         card.Set("display_name", cardName);

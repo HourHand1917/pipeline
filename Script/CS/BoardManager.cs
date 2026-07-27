@@ -34,8 +34,8 @@ public partial class BoardManager : Node
             var rowCells = new List<GodotObject>();
             for (int column = 0; column < BoardSize; column++)
             {
-                var cell = ClassDB.Instantiate("CellRuntime").As<GodotObject>();
-                cell.Call("_init", new Vector2I(column, row));
+                var cell = GD.Load<GDScript>("res://Script/GD/refcounted/cell_runtime.gd")
+                .New(new Vector2I(column, row)).As<GodotObject>();
                 rowCells.Add(cell);
             }
             cells.Add(rowCells);
@@ -112,20 +112,14 @@ public partial class BoardManager : Node
 
         var occupied = GetPreviewCells(cardData, anchor, rotationSteps);
 
-        // 创建 CardRuntime 实例
-        var runtime = ClassDB.Instantiate("CardRuntime").As<GodotObject>();
-        runtime.Set("instance_id", _nextInstanceId);
-        runtime.Set("data", cardData);
-        runtime.Set("anchor_position", anchor);
-        runtime.Set("rotation_steps", rotationSteps);
-
         var occupiedArray = new Godot.Collections.Array<Vector2I>();
         foreach (var pos in occupied)
             occupiedArray.Add(pos);
-        runtime.Set("occupied_cells", occupiedArray);
 
-        runtime.Set("is_ready", false);
-        runtime.Set("cooldown_remaining", 0);
+        // 直接传 5 个参数给 _init
+        var runtime = GD.Load<GDScript>("res://Script/GD/refcounted/card_runtime.gd")
+            .New(_nextInstanceId, cardData, anchor, rotationSteps, occupiedArray)
+            .As<GodotObject>();
 
         _nextInstanceId++;
         runtime_cards.Add(runtime);
@@ -141,7 +135,6 @@ public partial class BoardManager : Node
         EmitSignal(SignalName.BoardChanged);
         return runtime;
     }
-
     /// <summary>
     /// 移除指定 ID 的卡片
     /// </summary>
