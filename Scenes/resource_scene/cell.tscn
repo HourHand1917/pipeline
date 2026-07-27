@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://mhuig05qrgpm"]
+
+[ext_resource type="Script" uid="uid://dykdft6spqcek" path="res://Script/CS/Cell.cs" id="1_xknft"]
+[ext_resource type="Script" uid="uid://f7qelmmat5wb" path="res://Script/CS/statsmachine/cell/cell_StatsIdel.cs" id="2_2dcc4"]
+[ext_resource type="Script" uid="uid://c0dwub47fad43" path="res://Script/CS/statsmachine/cell/cell_Statsmachine.cs" id="2_w7s2e"]
+[ext_resource type="Script" uid="uid://dpugkbx1oh4ol" path="res://Script/CS/statsmachine/cell/cell_StatsCharged.cs" id="3_kxewn"]
+[ext_resource type="Script" uid="uid://cc83takuibjxi" path="res://Script/CS/statsmachine/cell/cell_StatsBase.cs" id="5_wh1il"]
+
+[node name="Cell" type="Control" unique_id=1486217352]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_xknft")
+
+[node name="texure" type="TextureRect" parent="." unique_id=807526854]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="statsmachine" type="Node" parent="." unique_id=302752339]
+script = ExtResource("2_w7s2e")
+
+[node name="stats_charged" type="Node" parent="statsmachine" unique_id=131236530]
+script = ExtResource("3_kxewn")
+
+[node name="stats_idel" type="Node" parent="statsmachine" unique_id=2016516740]
+script = ExtResource("2_2dcc4")
+
+[node name="status_base" type="StatusIndicator" parent="statsmachine" unique_id=361672452]
+script = ExtResource("5_wh1il")
