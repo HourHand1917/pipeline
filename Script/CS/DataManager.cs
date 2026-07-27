@@ -1,168 +1,114 @@
 using Godot;
-using System.Collections.Generic;
+using Godot.Collections;
 
+/// <summary>
+/// 全局 Autoload。纯逻辑——图鉴、背包、构筑存档。
+/// 卡牌通过 AcquireCard(Resource, count) 获取。
+/// </summary>
+[GlobalClass]
 public partial class DataManager : Node
 {
     [Signal] public delegate void BuildSavedEventHandler();
+    [Signal] public delegate void CardAcquiredEventHandler(StringName cardId, int count);
 
     public static DataManager Instance { get; private set; }
 
-    private Dictionary<StringName, GodotObject> cardDatabase = new();
-    private Godot.Collections.Array<Godot.Collections.Dictionary> savedBuild = new();
+    public Dictionary<StringName, Resource> CardDataLog { get; private set; } = new();// 图鉴：卡牌 id -> 卡牌资源
+    public Dictionary<StringName, int> CardsCount { get; private set; } = new();// 背包：卡牌 id -> 拥有数量
+    private Array<Dictionary> _savedBuild = new();
 
     public override void _Ready()
     {
+        if (Instance != null) GD.PushError("DataManager: 重复实例化");
         Instance = this;
-        CreateDefaultCards();
     }
 
-    /// <summary>
-    /// 创建默认卡片数据库
-    /// </summary>
-    private void CreateDefaultCards()
+    // ================================================================
+    //  获取卡牌（唯一入口）
+    // ================================================================
+
+    public void AcquireCard(Resource cardResource, int count)
     {
-        cardDatabase.Clear();
+        if (cardResource == null) { GD.PushError("AcquireCard: null"); return; }
+        var obj = (GodotObject)cardResource;
+        var id = obj.Get("id").AsStringName();
+        if (string.IsNullOrEmpty(id)) { GD.PushError("AcquireCard: 缺少 id"); return; }
 
-        cardDatabase["revolver"] = MakeCard(
-            "revolver",
-            "左轮枪",
-            "✦",
-            "攻击",
-            new Vector2I[] { new(0, 0), new(1, 0) },
-            "damage",
-            3,
-            1,
-            "点亮2格后，对敌人造成3点伤害。"
-        );
-
-        cardDatabase["shield"] = MakeCard(
-            "shield",
-            "铁皮盾",
-            "◆",
-            "防御",
-            new Vector2I[] { new(0, 0), new(0, 1) },
-            "shield",
-            3,
-            1,
-            "点亮2格后，获得3点护盾。"
-        );
-
-        cardDatabase["battery"] = MakeCard(
-            "battery",
-            "发条电池",
-            "⚙",
-            "能量",
-            new Vector2I[] { new(0, 0) },
-            "energy",
-            2,
-            1,
-            "点亮1格后，获得2点能量。"
-        );
-
-        cardDatabase["medkit"] = MakeCard(
-            "medkit",
-            "急救包",
-            "✚",
-            "恢复",
-            new Vector2I[] { new(0, 0), new(0, 1), new(1, 1) },
-            "heal",
-            2,
-            2,
-            "点亮L形3格后，恢复2点生命。"
-        );
-    }
-
-    /// <summary>
-    /// 创建一张 CardData（使用 Set 动态设置属性）
-    /// </summary>
-    private GodotObject MakeCard(
-        StringName cardId,
-        string cardName,
-        string icon,
-        string category,
-        Vector2I[] shape,
-        string effectType,
-        int value,
-        int cooldown,
-        string description)
-    {
-        // GDScript 的 CardData.new() 等价于这样调用
-        var card = GD.Load<GDScript>("res://Script/GD/resource/carddata.gd").New().As<GodotObject>();
-
-        card.Set("id", cardId);
-        card.Set("display_name", cardName);
-        card.Set("icon_text", icon);
-        card.Set("category", category);
-
-        var shapeArray = new Godot.Collections.Array<Vector2I>();
-        foreach (var s in shape)
-            shapeArray.Add(s);
-        card.Set("shape_offsets", shapeArray);
-
-        card.Set("effect_type", effectType);
-        card.Set("effect_value", value);
-        card.Set("cooldown_turns", cooldown);
-        card.Set("description", description);
-
-        return card;
-    }
-
-    /// <summary>
-    /// 根据 ID 获取卡片
-    /// </summary>
-    public GodotObject GetCard(StringName cardId)
-    {
-        if (cardDatabase.TryGetValue(cardId, out var card))
-            return card;
-        return null;
-    }
-
-    /// <summary>
-    /// 获取所有卡片
-    /// </summary>
-    public List<GodotObject> GetAllCards()
-    {
-        var result = new List<GodotObject>();
-        foreach (var value in cardDatabase.Values)
-            result.Add(value);
-        return result;
-    }
-
-    /// <summary>
-    /// 保存当前构筑
-    /// </summary>
-    public void SaveBuild(List<GodotObject> runtimeCards)
-    {
-        savedBuild.Clear();
-
-        foreach (var runtime in runtimeCards)
+        if (!CardDataLog.ContainsKey(id))
         {
-            var data = runtime.Get("data").As<GodotObject>();
-            var dict = new Godot.Collections.Dictionary
-            {
-                { "card_id", data.Get("id").AsStringName() },
-                { "anchor", (Vector2I)runtime.Get("anchor_position") },
-                { "rotation", (int)runtime.Get("rotation_steps") }
-            };
-            savedBuild.Add(dict);
+            CardDataLog[id] = cardResource;
+            GD.Print($"图鉴新增：{GetCardName(id)}");
         }
 
+        CardsCount[id] = CardsCount.TryGetValue(id, out int c) ? c + count : count;
+        EmitSignal(SignalName.CardAcquired, id, count);
+        GD.Print($"背包：{GetCardName(id)} +{count}（共 {CardsCount[id]} 张）");
+    }
+
+    // ================================================================
+    //  消耗
+    // ================================================================
+
+    public bool ConsumeCard(StringName id, int count)
+    {
+        if (!CardsCount.TryGetValue(id, out int c) || c < count) return false;
+        CardsCount[id] = c - count;
+        if (CardsCount[id] <= 0) CardsCount.Remove(id);
+        return true;
+    }
+
+    // ================================================================
+    //  查询
+    // ================================================================
+
+    public bool HasCard(StringName id) => CardsCount.TryGetValue(id, out int c) && c > 0;
+    public int GetCardCount(StringName id) => CardsCount.TryGetValue(id, out int c) ? c : 0;
+    public Resource GetCard(StringName id) => CardDataLog.TryGetValue(id, out var c) ? c : null;
+
+    public string GetCardName(StringName id)
+    {
+        var r = GetCard(id);
+        return r != null ? ((GodotObject)r).Get("display_name").AsString() : id.ToString();
+    }
+
+    public Array<Resource> GetOwnedCards()
+    {
+        var a = new Array<Resource>();
+        foreach (var (id, n) in CardsCount)
+            if (n > 0 && CardDataLog.TryGetValue(id, out var c)) a.Add(c);
+        return a;
+    }
+
+    public Array<Resource> GetAllCards()
+    {
+        var a = new Array<Resource>();
+        foreach (var v in CardDataLog.Values) a.Add(v);
+        return a;
+    }
+
+    // ================================================================
+    //  构筑存档
+    // ================================================================
+
+    public void SaveBuild(Array<GodotObject> runtimeCards)
+    {
+        _savedBuild.Clear();
+        foreach (var rt in runtimeCards)
+        {
+            _savedBuild.Add(new Dictionary
+            {
+                { "card_id", ((GodotObject)rt.Get("data")).Get("id").AsStringName() },
+                { "anchor",  rt.Get("anchor_position").AsVector2I() },
+                { "rotation", rt.Get("rotation_steps").AsInt32() }
+            });
+        }
         EmitSignal(SignalName.BuildSaved);
     }
 
-    /// <summary>
-    /// 加载构筑（返回副本）
-    /// </summary>
-    public Godot.Collections.Array<Godot.Collections.Dictionary> LoadBuild()
+    public Array<Dictionary> LoadBuild()
     {
-        var duplicate = new Godot.Collections.Array<Godot.Collections.Dictionary>();
-        foreach (var dict in savedBuild)
-        {
-            var newDict = new Godot.Collections.Dictionary();
-            foreach (var key in dict.Keys)
-                newDict[key] = dict[key];
-            duplicate.Add(newDict);
-        }
-        return duplicate;
+        var a = new Array<Dictionary>();
+        foreach (var e in _savedBuild) a.Add(e.Duplicate());
+        return a;
     }
 }

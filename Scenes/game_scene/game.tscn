@@ -5,6 +5,11 @@
 [ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_n3q8q"]
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
 [ext_resource type="Script" uid="uid://ewyhs1lrqmxo" path="res://Script/CS/UIManager.cs" id="5_cyck0"]
+[ext_resource type="Script" uid="uid://cjyj7g4diq8ih" path="res://Script/CS/StarterDeck.cs" id="6_ch5wo"]
+[ext_resource type="Resource" path="res://Resource/card/battery.tres" id="7_q0om0"]
+[ext_resource type="Resource" path="res://Resource/card/medkit.tres" id="8_dmhrc"]
+[ext_resource type="Resource" path="res://Resource/card/revolver.tres" id="9_om8ky"]
+[ext_resource type="Resource" path="res://Resource/card/shield.tres" id="10_ck04x"]
 
 [node name="mainscene" type="Node2D" unique_id=157704710 node_paths=PackedStringArray("BoardManager", "EffectResolver", "BattleManager", "UIManager")]
 script = ExtResource("1_b3e48")
@@ -321,3 +326,7 @@ offset_right = 40.0
 offset_bottom = 23.0
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=184738653]
+script = ExtResource("6_ch5wo")
+Cards = [ExtResource("7_q0om0"), ExtResource("8_dmhrc"), ExtResource("9_om8ky"), ExtResource("10_ck04x")]

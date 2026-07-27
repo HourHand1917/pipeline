@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System.Collections.Generic;
 
 public partial class BoardManager : Node
@@ -12,7 +13,7 @@ public partial class BoardManager : Node
     public const int BoardSize = 3;
 
     private List<List<GodotObject>> cells = new();
-    public List<GodotObject> runtime_cards { get; private set; } = new();
+    public Array<GodotObject> runtime_cards { get; private set; } = new();
     private int _nextInstanceId = 1;
 
     public override void _Ready()

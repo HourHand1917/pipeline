@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://co0af57tnnq30"]
+
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"shield"
+display_name = "铁皮盾"
+icon_text = "◆"
+category = "防御"
+description = "点亮2格后，获得3点护盾。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1)])
+effect_type = "shield"
+effect_value = 3

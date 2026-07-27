@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://s7ocm6ggcnio"]
+
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"battery"
+display_name = "发条电池"
+icon_text = "⚙"
+category = "能量"
+description = "点亮1格后，获得2点能量。"
+effect_type = "energy"
+effect_value = 2

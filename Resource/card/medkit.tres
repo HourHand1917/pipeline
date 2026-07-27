@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://m2m6umk3whxc"]
+
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"medkit"
+display_name = "急救包"
+icon_text = "✚"
+category = "恢复"
+description = "点亮L形3格后，恢复2点生命。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 1)])
+effect_type = "heal"
+effect_value = 2
+cooldown_turns = 2
