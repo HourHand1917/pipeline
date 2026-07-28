@@ -12,6 +12,10 @@ public partial class BoardManager : Node
 
     public const int BoardSize = 3;
 
+    public int BoardSizeWidth { get; private set; } = 3;
+    public int BoardSizeHeight { get; private set; } = 2;
+    public int TotalCells => BoardSizeWidth * BoardSizeHeight;
+
     private List<List<GodotObject>> cells = new();
     public Array<GodotObject> runtime_cards { get; private set; } = new();
     private int _nextInstanceId = 1;
@@ -24,19 +28,22 @@ public partial class BoardManager : Node
     /// <summary>
     /// 重置整个板子
     /// </summary>
-    public void ResetBoard()
+    public void ResetBoard(int width = 3, int height = 2)
     {
+        BoardSizeWidth = width;
+        BoardSizeHeight = height;
+        
         cells.Clear();
         runtime_cards.Clear();
         _nextInstanceId = 1;
 
-        for (int row = 0; row < BoardSize; row++)
+        for (int row = 0; row < BoardSizeHeight; row++)
         {
             var rowCells = new List<GodotObject>();
-            for (int column = 0; column < BoardSize; column++)
+            for (int column = 0; column < BoardSizeWidth; column++)
             {
                 var cell = GD.Load<GDScript>("res://Script/GD/refcounted/cell_runtime.gd")
-                .New(new Vector2I(column, row)).As<GodotObject>();
+                    .New(new Vector2I(column, row)).As<GodotObject>();
                 rowCells.Add(cell);
             }
             cells.Add(rowCells);
@@ -61,31 +68,31 @@ public partial class BoardManager : Node
     public bool IsInside(Vector2I position)
     {
         return position.X >= 0
-            && position.X < BoardSize
+            && position.X < BoardSizeWidth
             && position.Y >= 0
-            && position.Y < BoardSize;
+            && position.Y < BoardSizeHeight;
     }
 
     /// <summary>
     /// 判断卡片能否放置在指定位置
     /// </summary>
-    public bool CanPlace(GodotObject cardData, Vector2I anchor, int rotationSteps)
+  public bool CanPlace(GodotObject cardData, Vector2I anchor, int rotationSteps)
+{
+    var shape = cardData.Call("get_rotated_shape", rotationSteps)
+        .As<Godot.Collections.Array<Vector2I>>();
+
+    foreach (Vector2I offset in shape)
     {
-        var shape = cardData.Call("get_rotated_shape", rotationSteps)
-            .As<Godot.Collections.Array<Vector2I>>();
+        var target = anchor + offset;
+        if (!IsInside(target))
+            return false;
 
-        foreach (Vector2I offset in shape)
-        {
-            var target = anchor + offset;
-            if (!IsInside(target))
-                return false;
-
-            var cell = GetCell(target);
-            if ((int)cell.Get("card_instance_id") != -1)
-                return false;
-        }
-        return true;
+        var cell = GetCell(target);
+        if (cell == null || (int)cell.Get("card_instance_id") != -1)
+            return false;
     }
+    return true;
+}
 
     /// <summary>
     /// 获取预览占用的格子坐标列表

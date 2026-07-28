@@ -20,6 +20,8 @@ public partial class UIManager : CanvasLayer
     private StringName selectedCardId = "";
     private int selectedRotation = 0;
     private Vector2I hoveredBuildCell = new(-1, -1);
+    private int currentGridWidth = 3;
+    private int currentGridHeight = 2;
 
     // ============ 编辑器导出的节点引用 ============
     [Export] private Control buildscreen;
@@ -38,6 +40,10 @@ public partial class UIManager : CanvasLayer
     [Export] private Button startbattlebutton;
     [Export] private Button endturnbutton;
     [Export] private Button backbutton;
+    [Export] private Button grid3x2button;
+    [Export] private Button grid3x3button;
+    [Export] private Button grid4x3button;
+
 
     private List<Button> buildButtons = new();
     private List<Button> battleButtons = new();
@@ -83,6 +89,12 @@ public partial class UIManager : CanvasLayer
         startbattlebutton.Pressed += () => EmitSignal(SignalName.StartBattleRequested);
         endturnbutton.Pressed += () => EmitSignal(SignalName.EndTurnRequested);
         backbutton.Pressed += ShowBuildScreen;
+        grid3x2button.Pressed += () => SwitchGrid(3, 2);
+        grid3x3button.Pressed += () => SwitchGrid(3, 3);
+        grid4x3button.Pressed += () => SwitchGrid(4, 3);
+
+        BuildPositionMap();
+        UpdateGridState();
     }
 
     // ============ 主循环 ============
@@ -199,10 +211,18 @@ public partial class UIManager : CanvasLayer
             previewValid = boardManager.CanPlace(selectedCard, hoveredBuildCell, selectedRotation);
         }
 
-        for (int index = 0; index < 9; index++)
+        for (int index = 0; index < 12; index++)
         {
-            var position = IndexToPosition(index);
+            var position = buttonPositions[index];
             var button = buildButtons[index];
+
+            // 跳过不可用的按钮
+            if (!IsCellInCurrentGrid(index))
+            {
+                button.Text = "";
+                continue;
+            }
+
             var cell = boardManager.GetCell(position);
             var runtime = boardManager.GetCardByCell(position);
 
@@ -224,12 +244,20 @@ public partial class UIManager : CanvasLayer
         }
     }
 
-    private void RefreshBattleBoard()
+        private void RefreshBattleBoard()
     {
-        for (int index = 0; index < 9; index++)
+        for (int index = 0; index < 12; index++)
         {
-            var position = IndexToPosition(index);
+            var position = buttonPositions[index];
             var button = battleButtons[index];
+
+            if (!IsCellInCurrentGrid(index))
+            {
+                button.Text = "";
+                button.Disabled = true;
+                continue;
+            }
+
             var cell = boardManager.GetCell(position);
             var runtime = boardManager.GetCardByCell(position);
 
@@ -271,6 +299,47 @@ public partial class UIManager : CanvasLayer
             battleManager.EnemyHp, battleManager.EnemyMaxHp, battleManager.EnemyShield);
     }
 
+    private void SwitchGrid(int width, int height)
+    {
+        if (currentGridWidth == width && currentGridHeight == height)
+            return;
+
+        currentGridWidth = width;
+        currentGridHeight = height;
+
+        boardManager.ResetBoard(width, height);
+        UpdateGridState();
+
+        selectedCardId = "";
+        selectedRotation = 0;
+        hoveredBuildCell = new Vector2I(-1, -1);
+        RefreshAll();
+    }
+
+    private void UpdateGridState()
+    {
+        buildgrid.Columns = 4;
+        battlegrid.Columns = 4;
+
+        for (int i = 0; i < buildButtons.Count; i++)
+        {
+            buildButtons[i].Visible = true;
+            buildButtons[i].Disabled = !IsCellInCurrentGrid(i);
+        }
+
+        for (int i = 0; i < battleButtons.Count; i++)
+        {
+            battleButtons[i].Visible = true;
+            battleButtons[i].Disabled = !IsCellInCurrentGrid(i);
+        }
+    }
+
+    private bool IsCellInCurrentGrid(int index)
+    {
+        int row = index / 4;
+        int col = index % 4;
+        return col < currentGridWidth && row < currentGridHeight;
+    }
     private void RefreshActivationButtons()
     {
         if (activationbox == null) return;
@@ -325,7 +394,7 @@ public partial class UIManager : CanvasLayer
 
     private void OnBuildCellPressed(int index)
     {
-        var position = IndexToPosition(index);
+        var position = buttonPositions[index];
         var runtime = boardManager.GetCardByCell(position);
 
         if (runtime != null)
@@ -348,7 +417,7 @@ public partial class UIManager : CanvasLayer
 
     private void OnBuildCellHovered(int index)
     {
-        hoveredBuildCell = IndexToPosition(index);
+        hoveredBuildCell = buttonPositions[index];
         RefreshAll();
     }
 
@@ -360,7 +429,7 @@ public partial class UIManager : CanvasLayer
 
     private void OnBattleCellPressed(int index)
     {
-        EmitSignal(SignalName.LightCellRequested, IndexToPosition(index));
+        EmitSignal(SignalName.LightCellRequested, buttonPositions[index]);
     }
 
     private void OnRotatePressed()
@@ -384,5 +453,14 @@ public partial class UIManager : CanvasLayer
         EmitSignal(SignalName.PlaceCardRequested, "medkit", new Vector2I(0, 1), 1);
     }
 
-    private Vector2I IndexToPosition(int index) => new(index % 3, index / 3);
+// 按钮索引 → 二维坐标的映射表（始终 4 列）
+    private Vector2I[] buttonPositions = new Vector2I[12];
+
+    private void BuildPositionMap()
+    {
+        for (int i = 0; i < 12; i++)
+        {
+            buttonPositions[i] = new Vector2I(i % 4, i / 4);
+        }
+    }
 }

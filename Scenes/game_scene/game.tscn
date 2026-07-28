@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
 [ext_resource type="Script" uid="uid://ewyhs1lrqmxo" path="res://Script/CS/UIManager.cs" id="5_cyck0"]
 [ext_resource type="Script" uid="uid://cjyj7g4diq8ih" path="res://Script/CS/StarterDeck.cs" id="6_ch5wo"]
+[ext_resource type="Theme" uid="uid://drcnq2eeiclew" path="res://celltest.tres" id="6_dmhrc"]
 [ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="7_q0om0"]
 [ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="8_dmhrc"]
 [ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="9_om8ky"]
@@ -27,7 +28,7 @@ script = ExtResource("3_n3q8q")
 [node name="battlemanager" type="Node" parent="." unique_id=99120345]
 script = ExtResource("4_qa4rf")
 
-[node name="UImanager" type="CanvasLayer" parent="." unique_id=440750608 node_paths=PackedStringArray("buildscreen", "battlescreen", "buildgrid", "battlegrid", "inventorybox", "activationbox", "loglabel", "statuslabel", "ghostpanel", "ghostlabel", "rotatebutton", "examplebutton", "clearbutton", "startbattlebutton", "endturnbutton", "backbutton")]
+[node name="UImanager" type="CanvasLayer" parent="." unique_id=440750608 node_paths=PackedStringArray("buildscreen", "battlescreen", "buildgrid", "battlegrid", "inventorybox", "activationbox", "loglabel", "statuslabel", "ghostpanel", "ghostlabel", "rotatebutton", "examplebutton", "clearbutton", "startbattlebutton", "endturnbutton", "backbutton", "grid3x2button", "grid3x3button", "grid4x3button")]
 script = ExtResource("5_cyck0")
 buildscreen = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen")
 battlescreen = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/battlescreen")
@@ -45,6 +46,9 @@ clearbutton = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bu
 startbattlebutton = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/actionbox/startbattlebutton")
 endturnbutton = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/battlescreen/battleVbox/battlecontent/boardcolum/endturnbutton")
 backbutton = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/battlescreen/battleVbox/battlecontent/sidepanel/backbutton")
+grid3x2button = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/actionbox/3*2")
+grid3x3button = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/actionbox/3*3")
+grid4x3button = NodePath("rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/actionbox/4*3")
 
 [node name="rootcontrol" type="Control" parent="UImanager" unique_id=219127132]
 layout_mode = 3
@@ -85,7 +89,7 @@ theme_override_constants/separation = 10
 [node name="title" type="Label" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox" unique_id=1167350778]
 layout_mode = 2
 theme_override_font_sizes/font_size = 64
-text = "黑匣子！3*3战斗框架"
+text = "黑匣子！核心背包框架"
 horizontal_alignment = 1
 
 [node name="buildscreen" type="Control" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox" unique_id=1030149978]
@@ -126,43 +130,67 @@ horizontal_alignment = 1
 layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
-columns = 3
+columns = 4
 
 [node name="buildbutton0" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=1353387983]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="buildbutton1" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=796958271]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="buildbutton2" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=487459844]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="buildbutton3" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=1723996707]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="buildbutton4" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=533525708]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="buildbutton5" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=205387595]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="buildbutton6" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=1675601560]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="buildbutton7" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=1135220184]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="buildbutton8" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=538912719]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
+theme = ExtResource("6_dmhrc")
+
+[node name="buildbutton9" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=1741107196]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("6_dmhrc")
+
+[node name="buildbutton10" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=961195289]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("6_dmhrc")
+
+[node name="buildbutton11" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/buildgrid" unique_id=439864094]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("6_dmhrc")
 
 [node name="actionbox" type="HBoxContainer" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel" unique_id=1078587976]
 layout_mode = 2
@@ -187,6 +215,21 @@ text = "清空"
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "进入战斗"
+
+[node name="3*2" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/actionbox" unique_id=1417455587]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "3*2"
+
+[node name="3*3" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/actionbox" unique_id=121221997]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "3*3"
+
+[node name="4*3" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/buildscreen/bulidHbox/centerpanel/actionbox" unique_id=761332852]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "4*3"
 
 [node name="battlescreen" type="Control" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox" unique_id=1989155356]
 visible = false
@@ -214,7 +257,7 @@ layout_mode = 2
 layout_mode = 2
 theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
-columns = 3
+columns = 4
 
 [node name="battlebutton0" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/battlescreen/battleVbox/battlecontent/boardcolum/battlegird" unique_id=1915267531]
 custom_minimum_size = Vector2(166, 166)
@@ -249,6 +292,18 @@ custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
 
 [node name="battlebutton8" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/battlescreen/battleVbox/battlecontent/boardcolum/battlegird" unique_id=1277819582]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton9" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/battlescreen/battleVbox/battlecontent/boardcolum/battlegird" unique_id=1172534405]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton10" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/battlescreen/battleVbox/battlecontent/boardcolum/battlegird" unique_id=47675104]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton11" type="Button" parent="UImanager/rootcontrol/mainmargin/gamepanel/gameVbox/battlescreen/battleVbox/battlecontent/boardcolum/battlegird" unique_id=492694456]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
 

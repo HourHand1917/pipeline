@@ -1,0 +1,7 @@
+[gd_resource type="Theme" format=3 uid="uid://drcnq2eeiclew"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2ky8i"]
+bg_color = Color(0.99999994, 0.22362632, 0.6974609, 1)
+
+[resource]
+Button/styles/disabled = SubResource("StyleBoxFlat_2ky8i")
