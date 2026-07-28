@@ -6,10 +6,10 @@
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
 [ext_resource type="Script" uid="uid://ewyhs1lrqmxo" path="res://Script/CS/UIManager.cs" id="5_cyck0"]
 [ext_resource type="Script" uid="uid://cjyj7g4diq8ih" path="res://Script/CS/StarterDeck.cs" id="6_ch5wo"]
-[ext_resource type="Resource" path="res://Resource/card/battery.tres" id="7_q0om0"]
-[ext_resource type="Resource" path="res://Resource/card/medkit.tres" id="8_dmhrc"]
-[ext_resource type="Resource" path="res://Resource/card/revolver.tres" id="9_om8ky"]
-[ext_resource type="Resource" path="res://Resource/card/shield.tres" id="10_ck04x"]
+[ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="7_q0om0"]
+[ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="8_dmhrc"]
+[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="9_om8ky"]
+[ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="10_ck04x"]
 
 [node name="mainscene" type="Node2D" unique_id=157704710 node_paths=PackedStringArray("BoardManager", "EffectResolver", "BattleManager", "UIManager")]
 script = ExtResource("1_b3e48")
