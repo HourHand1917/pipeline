@@ -29,7 +29,6 @@ public partial class UIManager : CanvasLayer
     [Export] private VBoxContainer inventorybox;
     [Export] private VBoxContainer activationbox;
     [Export] private RichTextLabel loglabel;
-    [Export] private RichTextLabel architecturelabel;
     [Export] private Label statuslabel;
     [Export] private Panel ghostpanel;
     [Export] private Label ghostlabel;
@@ -126,7 +125,7 @@ public partial class UIManager : CanvasLayer
         RefreshBattleBoard();
         RefreshStatus();
         RefreshActivationButtons();
-        RefreshArchitecture();
+        //RefreshArchitecture();
     }
 
     public void ShowBuildScreen()
@@ -291,31 +290,7 @@ public partial class UIManager : CanvasLayer
         }
     }
 
-    private void RefreshArchitecture()
-    {
-        if (architecturelabel == null) return;
-
-        string lines = "";
-        foreach (var runtime in boardManager.runtime_cards)
-        {
-            var data = runtime.Get("data").As<GodotObject>();
-            var cells = runtime.Get("occupied_cells").As<Godot.Collections.Array<Vector2I>>();
-            lines += string.Format("\n• {0}  cells={1}  ready={2}  cooldown={3}",
-                data.Get("display_name"), cells.Count,
-                runtime.Get("is_ready"), runtime.Get("cooldown_remaining"));
-        }
-
-        architecturelabel.Text = string.Format(
-            "[b]DataManager[/b]\n保存构筑、卡牌数据库\n\n"
-            + "[b]BoardManager[/b]\ncells[3][3]\n放置、占位、点亮、Ready判断、冷却\n\n"
-            + "[b]BattleManager[/b]\n回合状态、能量验证、发动二次验证、假人行动\n\n"
-            + "[b]UIManager[/b]\n鼠标轮廓、格子预览、发动按钮、HUD\n\n"
-            + "[b]EffectResolver[/b]\n伤害、护盾、能量、回复\n\n"
-            + "[b]当前运行数据[/b]\nphase = {0}\nround = {1}\nplayer_energy = {2}\nruntime_cards = {3}\n{4}",
-            BattleManager.PhaseKeys.Keys()[(int)battleManager.CurrentPhase],
-            battleManager.RoundNumber, battleManager.PlayerEnergy,
-            boardManager.runtime_cards.Count, lines);
-    }
+//
 
     private void UpdateGhostText()
     {
