@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://q1ojg1hovxf7"]
+
+[ext_resource type="Script" uid="uid://hgfer4mgvtcw" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
+
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "loglabel", "statuslabel", "endturnbutton", "backbutton")]
+layout_mode = 3
+anchors_preset = 0
+size_flags_vertical = 3
+script = ExtResource("1_tb4nm")
+battlegrid = NodePath("battleVbox/battlecontent/boardcolum/battlegird")
+activationbox = NodePath("battleVbox/battlecontent/sidepanel/activationbox")
+loglabel = NodePath("battleVbox/battlecontent/sidepanel/loglabel")
+statuslabel = NodePath("battleVbox/statuslabel")
+endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/endturnbutton")
+backbutton = NodePath("battleVbox/battlecontent/sidepanel/backbutton")
+
+[node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
+layout_mode = 0
+offset_right = 1790.0
+offset_bottom = 874.0
+
+[node name="statuslabel" type="Label" parent="battleVbox" unique_id=1658931596]
+layout_mode = 2
+
+[node name="battlecontent" type="HBoxContainer" parent="battleVbox" unique_id=1492056502]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 16
+alignment = 1
+
+[node name="boardcolum" type="VBoxContainer" parent="battleVbox/battlecontent" unique_id=2044582270]
+layout_mode = 2
+
+[node name="battlegird" type="GridContainer" parent="battleVbox/battlecontent/boardcolum" unique_id=1115932286]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="battlebutton0" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=1351062490]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton1" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=812746955]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton2" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=587745352]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton3" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=1076993994]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton4" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=935489907]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton5" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=100479747]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton6" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=641229182]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton7" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=60299277]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton8" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=759301779]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton9" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=1410012045]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton10" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=536568164]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="battlebutton11" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=1471560108]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+
+[node name="endturnbutton" type="Button" parent="battleVbox/battlecontent/boardcolum" unique_id=1599096835]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "结束回合"
+
+[node name="sidepanel" type="VBoxContainer" parent="battleVbox/battlecontent" unique_id=264618196]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="activationtitle" type="Label" parent="battleVbox/battlecontent/sidepanel" unique_id=118741897]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "可发动物品"
+
+[node name="activationbox" type="VBoxContainer" parent="battleVbox/battlecontent/sidepanel" unique_id=1667135277]
+layout_mode = 2
+
+[node name="dummylabel" type="Label" parent="battleVbox/battlecontent/sidepanel" unique_id=565926205]
+layout_mode = 2
+theme_override_font_sizes/font_size = 23
+text = "训练假人：每回合获得一格挡，
+并且攻击一点伤害"
+
+[node name="loglabel" type="RichTextLabel" parent="battleVbox/battlecontent/sidepanel" unique_id=747665748]
+custom_minimum_size = Vector2(249.55, 239.065)
+layout_mode = 2
+scroll_active = false
+
+[node name="backbutton" type="Button" parent="battleVbox/battlecontent/sidepanel" unique_id=1736902636]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "返回构筑"
