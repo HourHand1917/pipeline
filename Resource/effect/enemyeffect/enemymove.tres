@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://bx4aumkpg0w8b"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_7thol"]
+
+[resource]
+script = ExtResource("1_7thol")
+display_name = "移动"
+description = "向指定方向移动"
+type = 3
+metadata/_custom_type_script = "uid://d6txs258a48w"

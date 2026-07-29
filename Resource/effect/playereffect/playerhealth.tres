@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://dhaorf2xbetno"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_vtmkt"]
+
+[resource]
+script = ExtResource("1_vtmkt")
+display_name = "治疗"
+description = "对玩家回复指定生命"
+type = 2
+target = 0
+amount = 5
+metadata/_custom_type_script = "uid://d6txs258a48w"

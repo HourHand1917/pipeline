@@ -13,8 +13,8 @@ public partial class DataManager : Node
 
     public static DataManager Instance { get; private set; }
 
-    public Dictionary<StringName, Resource> CardDataLog { get; private set; } = new();// 图鉴：卡牌 id -> 卡牌资源
-    public Dictionary<StringName, int> CardsCount { get; private set; } = new();// 背包：卡牌 id -> 拥有数量
+    public Dictionary<StringName, Resource> CardDataLog { get; private set; } = new(); // 图鉴：卡牌 id -> 卡牌资源
+    public Dictionary<StringName, int> CardsCount { get; private set; } = new();        // 背包：卡牌 id -> 拥有数量
     private Array<Dictionary> _savedBuild = new();
 
     public override void _Ready()
@@ -105,10 +105,52 @@ public partial class DataManager : Node
         EmitSignal(SignalName.BuildSaved);
     }
 
+    public void SaveBuildWithSize(Array<GodotObject> runtimeCards, Vector2I boardSize)
+    {
+        _savedBuild.Clear();
+        foreach (var rt in runtimeCards)
+        {
+            _savedBuild.Add(new Dictionary
+            {
+                { "card_id", ((GodotObject)rt.Get("data")).Get("id").AsStringName() },
+                { "anchor",  rt.Get("anchor_position").AsVector2I() },
+                { "rotation", rt.Get("rotation_steps").AsInt32() },
+                { "board_size", boardSize }
+            });
+        }
+        EmitSignal(SignalName.BuildSaved);
+    }
+
     public Array<Dictionary> LoadBuild()
     {
         var a = new Array<Dictionary>();
         foreach (var e in _savedBuild) a.Add(e.Duplicate());
         return a;
+    }
+
+    // ================================================================
+    //  新版规则系统
+    // ================================================================
+
+    private GodotObject _cachedRules;
+
+    public GodotObject GetRules()
+    {
+        if (_cachedRules == null)
+        {
+            _cachedRules = GD.Load<GDScript>("res://Script/GD/resource/game_rules.gd").New().As<GodotObject>();
+        }
+        return _cachedRules;
+    }
+
+    private GodotObject _cachedLoadout;
+
+    public GodotObject GetRecommendedLoadout()
+    {
+        if (_cachedLoadout == null)
+        {
+            _cachedLoadout = GD.Load<GDScript>("res://Script/GD/resource/loadout_data.gd").New().As<GodotObject>();
+        }
+        return _cachedLoadout;
     }
 }

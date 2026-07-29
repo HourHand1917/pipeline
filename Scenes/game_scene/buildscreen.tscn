@@ -1,0 +1,154 @@
+[gd_scene format=3 uid="uid://e53m086153iv"]
+
+[ext_resource type="Script" uid="uid://eackngvunayx" path="res://Script/CS/BuildScreen.cs" id="1_4ump6"]
+[ext_resource type="Theme" uid="uid://drcnq2eeiclew" path="res://celltest.tres" id="1_5isqd"]
+
+[node name="buildscreen" type="Control" unique_id=556158832 node_paths=PackedStringArray("buildgrid", "inventorybox", "rotatebutton", "examplebutton", "clearbutton", "startbattlebutton", "grid3x2button", "grid3x3button", "grid4x3button")]
+layout_mode = 3
+anchors_preset = 0
+size_flags_vertical = 3
+script = ExtResource("1_4ump6")
+buildgrid = NodePath("bulidHbox/centerpanel/buildgrid")
+inventorybox = NodePath("bulidHbox/leftpanel/inventorybox")
+rotatebutton = NodePath("bulidHbox/centerpanel/actionbox/rotatebutton")
+examplebutton = NodePath("bulidHbox/centerpanel/actionbox/examplebutton")
+clearbutton = NodePath("bulidHbox/centerpanel/actionbox/clearbutton")
+startbattlebutton = NodePath("bulidHbox/centerpanel/actionbox/startbattlebutton")
+grid3x2button = NodePath("bulidHbox/centerpanel/actionbox/grid3*2button")
+grid3x3button = NodePath("bulidHbox/centerpanel/actionbox/grid3*3button")
+grid4x3button = NodePath("bulidHbox/centerpanel/actionbox/grid4*3button")
+
+[node name="bulidHbox" type="HBoxContainer" parent="." unique_id=1952704667]
+layout_mode = 0
+offset_right = 1818.0
+offset_bottom = 876.0
+theme_override_constants/separation = 16
+
+[node name="leftpanel" type="VBoxContainer" parent="bulidHbox" unique_id=1707404455]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="inventorytitle" type="Label" parent="bulidHbox/leftpanel" unique_id=1182943436]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "物品库"
+
+[node name="inventorybox" type="VBoxContainer" parent="bulidHbox/leftpanel" unique_id=596498499]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="centerpanel" type="VBoxContainer" parent="bulidHbox" unique_id=1366222005]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="hintlabel" type="Label" parent="bulidHbox/centerpanel" unique_id=98025181]
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "选择物品，移动鼠标查看占位轮廓，R旋转。"
+horizontal_alignment = 1
+
+[node name="buildgrid" type="GridContainer" parent="bulidHbox/centerpanel" unique_id=1590721404]
+layout_mode = 2
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 4
+
+[node name="buildbutton0" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=2079595570]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton1" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=1214187550]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton2" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=1891095221]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton3" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=669554500]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton4" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=2116777028]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton5" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=128351452]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton6" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=2039039983]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton7" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=1797221526]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton8" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=1231036353]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton9" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=348710319]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton10" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=1002719921]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="buildbutton11" type="Button" parent="bulidHbox/centerpanel/buildgrid" unique_id=1374479229]
+custom_minimum_size = Vector2(166, 166)
+layout_mode = 2
+theme = ExtResource("1_5isqd")
+
+[node name="actionbox" type="HBoxContainer" parent="bulidHbox/centerpanel" unique_id=652630378]
+layout_mode = 2
+alignment = 1
+
+[node name="rotatebutton" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=159459029]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "旋转"
+
+[node name="examplebutton" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=1999798468]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "自动示例"
+
+[node name="clearbutton" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=408155390]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "清空"
+
+[node name="startbattlebutton" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=33314561]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "进入战斗"
+
+[node name="grid3*2button" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=1846742936]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "3*2"
+
+[node name="grid3*3button" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=188638073]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "3*3"
+
+[node name="grid4*3button" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=1779745098]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "4*3"

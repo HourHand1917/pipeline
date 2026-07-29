@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="PlayerData" format=3 uid="uid://byg8q6qn1j604"]
+
+[ext_resource type="Script" uid="uid://fr43p4ntrtg3" path="res://Script/GD/resource/player_data.gd" id="1_3oigq"]
+
+[resource]
+script = ExtResource("1_3oigq")
+glyph = "rubber"
+metadata/_custom_type_script = "uid://fr43p4ntrtg3"

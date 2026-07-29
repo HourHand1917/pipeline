@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://cjtq7vag05xli"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_wcma4"]
+
+[resource]
+script = ExtResource("1_wcma4")
+display_name = "攻击"
+description = "向指定目标攻击，造成设定伤害"
+target = 0
+amount = 5
+metadata/_custom_type_script = "uid://d6txs258a48w"
