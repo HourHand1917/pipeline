@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b4u6wmsfd4vhs"]
 
-[ext_resource type="Script" uid="uid://brf3qknn70gm3" path="res://Script/CS/MainScene.cs" id="1_b3e48"]
+[ext_resource type="Script" uid="uid://danf4bip5tn5e" path="res://Script/CS/MainScene.cs" id="1_b3e48"]
 [ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_ch5wo"]
 [ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_n3q8q"]
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
@@ -14,7 +14,6 @@
 [ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="10_ck04x"]
 
 [node name="mainscene" type="Node2D" unique_id=157704710 node_paths=PackedStringArray("BoardManager", "EffectResolver", "BattleManager", "BuildScreen", "BattleScreen")]
-position = Vector2(-2, 0)
 script = ExtResource("1_b3e48")
 BoardManager = NodePath("boardmanager")
 EffectResolver = NodePath("effectresolver")
