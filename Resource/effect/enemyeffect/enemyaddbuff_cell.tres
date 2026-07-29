@@ -11,6 +11,8 @@ description = "向玩家的格子蒙尘，
 才能激活"
 type = 6
 target = 0
+amount = 2
 buff = ExtResource("1_4e0qb")
-buff_target_cell = Vector2i(0, 0)
+buff_stacks = 2
+buff_target_cell = Vector2i(1, 1)
 metadata/_custom_type_script = "uid://d6txs258a48w"

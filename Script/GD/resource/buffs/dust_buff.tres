@@ -10,6 +10,7 @@ buff_name = "蒙尘"
 polarity = 1
 description = "对指定的格子进行侵蚀：
 需要消耗更多费用来点亮格子"
+duration = 2
 max_stacks = 3
 icon = ExtResource("1_gteuo")
 metadata/_custom_type_script = "uid://cdx6a5n1cpbwd"

@@ -5,17 +5,21 @@ var buffs: Array[BuffInstance] = []
 
 
 func add_buff(buff_resource: Buff, stacks: int = 1) -> void:
+    print("[调试] add_buff 进入，buffs数量=", buffs.size())
     if buff_resource.stackable:
         for bi in buffs:
             if bi.buff != null and bi.buff.id == buff_resource.id:
                 bi.add_stacks(stacks)
                 bi.remaining_duration = maxi(bi.remaining_duration, buff_resource.duration)
                 buff_resource.on_apply(self, bi.stacks)
+                print("[调试] add_buff 堆叠完成，buffs数量=", buffs.size())
                 return
 
     var instance := BuffInstance.new(buff_resource, stacks)
     buffs.append(instance)
     buff_resource.on_apply(self, stacks)
+    print("[调试] add_buff 新实例完成，buffs数量=", buffs.size())
+
 
 
 func remove_buff(buff_id: String) -> void:
@@ -28,29 +32,37 @@ func remove_buff(buff_id: String) -> void:
 
 func has_buff(buff_id: String) -> bool:
     for bi in buffs:
-        if bi != null and bi.buff != null and bi.buff.id == buff_id:
-            return true
+        if bi != null and bi.buff != null:
+            print("[调试 stats] has_buff: buff.id=", bi.buff.id, " 查找=", buff_id)
+            if bi.buff.id == buff_id:
+                return true
     return false
 
 
 func get_buff_stacks(buff_id: String) -> int:
     for bi in buffs:
-        if bi != null and bi.buff != null and bi.buff.id == buff_id:
-            return bi.stacks
+        if bi != null and bi.buff != null:
+            print("[调试 stats] buff.id=", bi.buff.id, " 查找=", buff_id, " 匹配=", bi.buff.id == buff_id)
+            if bi.buff.id == buff_id:
+                return bi.stacks
     return 0
 
 
 func tick_turn_start() -> void:
+    print("[调试] tick_turn_start 被调用，buffs数量=", buffs.size())
     var expired: Array[BuffInstance] = []
     for bi in buffs:
         if bi == null or bi.buff == null:
             continue
+        print("[调试] tick_turn_start: buff.id=", bi.buff.id, " remaining_duration=", bi.remaining_duration)
         bi.buff.on_turn_start(self, bi.stacks)
         if bi.tick_duration():
+            print("[调试] tick_turn_start: buff 过期，移除")
             bi.buff.on_remove(self)
             expired.append(bi)
     for bi in expired:
         buffs.erase(bi)
+    print("[调试] tick_turn_start 完成，buffs数量=", buffs.size())
 
 
 func tick_turn_end() -> void:
@@ -67,6 +79,8 @@ func tick_turn_end() -> void:
 
 
 func clear_buffs() -> void:
+    print("[调试] clear_buffs 被调用！堆栈：")
+    print_stack()
     for bi in buffs:
         if bi != null and bi.buff != null:
             bi.buff.on_remove(self)

@@ -8,7 +8,7 @@
 script = ExtResource("2_k6c20")
 id = &"adddust"
 display_name = "撒把灰"
-intent_text = "意图：为玩家的00添加蒙尘"
+intent_text = "意图：为玩家的格子添加蒙尘"
 priority = 2
 min_range = 3
 max_range = 3

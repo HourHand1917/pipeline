@@ -381,6 +381,29 @@ public partial class BoardManager : Node
         EmitSignal(SignalName.BoardChanged);
     }
 
+public void TickCellBuffs()
+{
+    foreach (var row in cells)
+    {
+        foreach (var cell in row)
+        {
+            var stats = cell.Get("stats").As<GodotObject>();
+            if (stats != null)
+            {
+                // 调试：检查格子 (1,1) 的蒙尘状态
+                var pos = cell.Get("position").AsVector2I();
+                if (pos.X == 1 && pos.Y == 1)
+                {
+                    bool hasDust = stats.Call("has_buff", "dust").AsBool();
+                    int dustStacks = stats.Call("get_buff_stacks", "dust").AsInt32();
+                    GD.Print($"[调试] 格子(1,1) 蒙尘：has={hasDust}, stacks={dustStacks}");
+                }
+                stats.Call("tick_turn_start");
+            }
+        }
+    }
+}
+
     // ================================================================
     //  存档
     // ================================================================

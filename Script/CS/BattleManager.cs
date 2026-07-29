@@ -141,7 +141,7 @@ public partial class BattleManager : Node
     //  点亮格子
     // ================================================================
 
-    public void TryLightCell(Vector2I position)
+        public void TryLightCell(Vector2I position)
     {
         if (!CanAcceptPlayerAction())
         {
@@ -172,10 +172,37 @@ public partial class BattleManager : Node
             return;
         }
 
-        int chargeCost = rules.Get("charge_energy_cost").AsInt32();
-        if (PlayerEnergy < chargeCost)
+        // ============ 失效检查 ============
+        var stats = cell.Get("stats").As<GodotObject>();
+        if (stats != null)
         {
-            Log($"能量不足，点亮需要{chargeCost}点能量。");
+            GD.Print($"[调试] TryLightCell stats.GetHashCode={stats.GetHashCode()}");
+            GD.Print($"[调试] TryLightCell stats.buffs数量={stats.Get("buffs").As<Array>().Count}");
+
+            if (stats.Call("has_buff", "disabled").AsBool())
+            {
+                Log("该格子已失效，无法点亮。");
+                return;
+            }
+        }
+
+        // ============ 蒙尘额外消耗 ============
+        int chargeCost = rules.Get("charge_energy_cost").AsInt32();
+        int dustExtra = 0;
+        if (stats != null)
+        {
+            int st = stats.Call("get_buff_stacks", "dust").AsInt32();
+            GD.Print($"[调试] TryLightCell get_buff_stacks(dust)={st}");
+            dustExtra = st;
+        }
+        int totalCost = chargeCost + dustExtra;
+
+        GD.Print($"[调试] TryLightCell ({position.X},{position.Y})：基础={chargeCost}, 蒙尘+{dustExtra}, 总消耗={totalCost}");
+
+        if (PlayerEnergy < totalCost)
+        {
+            string dustMsg = dustExtra > 0 ? $"（蒙尘额外消耗+{dustExtra}）" : "";
+            Log($"能量不足，点亮需要{totalCost}点能量{dustMsg}。");
             return;
         }
 
@@ -186,12 +213,13 @@ public partial class BattleManager : Node
             return;
         }
 
-        PlayerEnergy -= chargeCost;
+        PlayerEnergy -= totalCost;
         boardManager.SetCellLit(position, true);
-        Log($"点亮{data2.Get("display_name")}的一格，消耗{chargeCost}点能量。");
+
+        string dustMsg2 = dustExtra > 0 ? $"（蒙尘额外消耗{dustExtra}）" : "";
+        Log($"点亮{data2.Get("display_name")}的一格，消耗{totalCost}点能量{dustMsg2}。");
         EmitSignal(SignalName.BattleStateChanged);
     }
-
     // ================================================================
     //  发动卡牌
     // ================================================================
@@ -429,6 +457,7 @@ private void ResolveEnemyTurn()
         PlayerEnergy = rules.Get("energy_per_turn").AsInt32();
         usedCardIds.Clear();
         boardManager.TickCooldowns();
+        boardManager.TickCellBuffs();  // ← 新增
         SetPhase(Phase.PlayerTurn);
         Log($"第{RoundNumber}回合开始：能量重置为{PlayerEnergy}，冷却-1。");
         EmitSignal(SignalName.BattleStateChanged);
