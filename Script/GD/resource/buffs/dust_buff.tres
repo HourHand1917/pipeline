@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="DustBuff" format=3 uid="uid://gwq2b3i6iig7"]
+
+[ext_resource type="Texture2D" uid="uid://b7va0e0jpk3vl" path="res://icon.svg" id="1_gteuo"]
+[ext_resource type="Script" uid="uid://qj7xl2y5asv8" path="res://Script/GD/resource/buffs/buff_script/dust_buff.gd" id="2_bnavk"]
+
+[resource]
+script = ExtResource("2_bnavk")
+id = "dust"
+buff_name = "蒙尘"
+polarity = 1
+description = "对指定的格子进行侵蚀：
+需要消耗更多费用来点亮格子"
+max_stacks = 3
+icon = ExtResource("1_gteuo")
+metadata/_custom_type_script = "uid://cdx6a5n1cpbwd"

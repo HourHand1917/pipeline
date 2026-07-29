@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://cvytp2qwsaofo"]
+
+[ext_resource type="Resource" uid="uid://gwq2b3i6iig7" path="res://Script/GD/resource/buffs/dust_buff.tres" id="1_4e0qb"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_7mp2c"]
+
+[resource]
+script = ExtResource("1_7mp2c")
+display_name = "蒙尘"
+description = "向玩家的格子蒙尘，
+让他花费更多费用
+才能激活"
+type = 6
+target = 0
+buff = ExtResource("1_4e0qb")
+buff_target_cell = Vector2i(0, 0)
+metadata/_custom_type_script = "uid://d6txs258a48w"

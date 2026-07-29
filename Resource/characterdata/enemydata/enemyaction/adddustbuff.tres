@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyActionData" format=3 uid="uid://dmfn3oreem7el"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_3ise4"]
+[ext_resource type="Script" uid="uid://7hwav6op8h01" path="res://Script/GD/resource/enemy_action_data.gd" id="2_k6c20"]
+[ext_resource type="Resource" uid="uid://cvytp2qwsaofo" path="res://Resource/effect/enemyeffect/enemyaddbuff_cell.tres" id="2_sut4l"]
+
+[resource]
+script = ExtResource("2_k6c20")
+id = &"adddust"
+display_name = "撒把灰"
+intent_text = "意图：为玩家的00添加蒙尘"
+priority = 2
+min_range = 3
+max_range = 3
+effects = Array[ExtResource("1_3ise4")]([ExtResource("2_sut4l")])
+metadata/_custom_type_script = "uid://7hwav6op8h01"

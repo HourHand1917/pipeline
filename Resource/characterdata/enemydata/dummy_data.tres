@@ -4,9 +4,10 @@
 [ext_resource type="Script" uid="uid://qarur3c2xyfi" path="res://Script/GD/resource/enemy_data.gd" id="2_mf5of"]
 [ext_resource type="Resource" uid="uid://d76y88n6q1n1" path="res://Resource/characterdata/enemydata/enemyaction/dummy_actionattack.tres" id="2_tlidg"]
 [ext_resource type="Resource" uid="uid://ontb0woo7qh7" path="res://Resource/characterdata/enemydata/enemyaction/dummy_action_getclose.tres" id="3_abakw"]
+[ext_resource type="Resource" uid="uid://dmfn3oreem7el" path="res://Resource/characterdata/enemydata/enemyaction/adddustbuff.tres" id="4_abakw"]
 
 [resource]
 script = ExtResource("2_mf5of")
 display_name = "假人"
-actions = Array[ExtResource("1_g8xaa")]([ExtResource("2_tlidg"), ExtResource("3_abakw")])
+actions = Array[ExtResource("1_g8xaa")]([ExtResource("2_tlidg"), ExtResource("3_abakw"), ExtResource("4_abakw")])
 metadata/_custom_type_script = "uid://qarur3c2xyfi"

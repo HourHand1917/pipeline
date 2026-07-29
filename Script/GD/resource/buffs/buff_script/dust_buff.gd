@@ -9,8 +9,8 @@ func _init() -> void:
 
 
 func on_before_light(cell: CellRuntime, stacks: int) -> int:
-    return stacks  # 额外消耗 = 层数
+    return stacks
 
 
 func can_light(cell: CellRuntime) -> bool:
-    return true  # 不影响能否点亮
+    return true

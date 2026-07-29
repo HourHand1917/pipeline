@@ -12,6 +12,12 @@ public partial class EffectResolver : Node
     /// <summary>
     /// 执行卡牌效果。兼容旧版单效果和新版 effects 数组。
     /// </summary>
+        private BoardManager boardManager;
+
+    public void SetBoardManager(BoardManager board)
+    {
+        boardManager = board;
+    }
     public bool ExecuteCard(GodotObject card, BattleManager battleManager)
     {
         if (card == null || battleManager == null)
@@ -156,6 +162,48 @@ public partial class EffectResolver : Node
                 battleManager.AddPlayerEnergy(amount);
                 return true;
 
+            case "apply_buff":
+            {
+                var buffResource = effect.Get("buff").As<GodotObject>();
+                int stacks = effect.Get("buff_stacks").AsInt32();
+                int buffTarget = effect.Get("buff_target").AsInt32();
+                var targetCell = effect.Get("buff_target_cell").AsVector2I();
+
+                if (buffResource == null) return false;
+
+                switch (buffTarget)
+                {
+                    case 0: // PLAYER_STATS
+                        ApplyBuffToPlayerStats(buffResource, stacks);
+                        break;
+                    case 1: // ENEMY_STATS
+                        ApplyBuffToEnemyStats(buffResource, stacks);
+                        break;
+                    case 2: // PLAYER_CELLS
+                        ApplyBuffToPlayerCells(buffResource, stacks, targetCell);
+                        break;
+                    case 3: // ENEMY_CELLS
+                        break;
+                }
+                return true;
+            }
+
+            case "remove_buff":
+            {
+                var buffObj = effect.Get("buff").As<GodotObject>();
+                string buffId = "";
+                if (buffObj != null)
+                    buffId = buffObj.Get("id").AsString();
+
+                if (string.IsNullOrEmpty(buffId)) return false;
+
+                if (target == 0)
+                    RemoveBuffFromPlayerCells(buffId);
+                else
+                    RemoveBuffFromEnemyCells(buffId);
+                return true;
+            }
+
             default:
                 GD.PushWarning($"未知效果类型：{typeKey}");
                 return false;
@@ -186,4 +234,62 @@ public partial class EffectResolver : Node
                 return false;
         }
     }
+
+private void ApplyBuffToPlayerCells(GodotObject buffResource, int stacks, Vector2I targetCell)
+{
+    if (targetCell.X >= 0 && targetCell.Y >= 0)
+    {
+        // 指定单个格子
+        var cell = boardManager.GetCell(targetCell);
+        if (cell == null) return;
+        var stats = cell.Get("stats").As<GodotObject>();
+        stats?.Call("add_buff", buffResource, stacks);
+    }
+    else
+    {
+        // 全体玩家已占格子
+        foreach (var runtime in boardManager.runtime_cards)
+        {
+            var cells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
+            foreach (var pos in cells)
+            {
+                var cell = boardManager.GetCell(pos);
+                var stats = cell?.Get("stats").As<GodotObject>();
+                stats?.Call("add_buff", buffResource, stacks);
+            }
+        }
+    }
 }
+
+        private void ApplyBuffToPlayerStats(GodotObject buffResource, int stacks)
+        {
+            // 玩家全局 Stats（目前还没创建，预留）
+            // playerStats?.Call("add_buff", buffResource, stacks);
+            GD.Print($"玩家获得 Buff：{buffResource.Get("buff_name")} ×{stacks}");
+        }
+
+        private void ApplyBuffToEnemyStats(GodotObject buffResource, int stacks)
+        {
+            // 敌人全局 Stats（预留）
+            GD.Print($"敌人获得 Buff：{buffResource.Get("buff_name")} ×{stacks}");
+        }
+
+    private void RemoveBuffFromPlayerCells(string buffId)
+    {
+        foreach (var runtime in boardManager.runtime_cards)
+        {
+            var cells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
+            foreach (var pos in cells)
+            {
+                var cell = boardManager.GetCell(pos);
+                var stats = cell?.Get("stats").As<GodotObject>();
+                stats?.Call("remove_buff", buffId);
+            }
+        }
+    }
+
+    private void RemoveBuffFromEnemyCells(string buffId)
+    {
+        // 同上
+    }
+    }

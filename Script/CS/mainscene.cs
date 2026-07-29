@@ -43,6 +43,8 @@ public partial class MainScene : Node2D
         BattleManager.LogMessage += (string text) => BattleScreen.AppendLog(text);
         BattleManager.BattleEnded += OnBattleEnded;
 
+        EffectResolver.SetBoardManager(BoardManager);
+        
         ShowBuild();
     }
 
