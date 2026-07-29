@@ -1,6 +1,8 @@
 [gd_resource type="Resource" script_class="CardData" format=3 uid="uid://s7ocm6ggcnio"]
 
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_2wfos"]
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+[ext_resource type="Resource" uid="uid://daqnlvs8i6n46" path="res://Resource/effect/playereffect/playerenergy.tres" id="2_c58e7"]
 
 [resource]
 script = ExtResource("1_card")
@@ -11,3 +13,4 @@ category = "能量"
 description = "点亮1格后，获得2点能量。"
 effect_type = "energy"
 effect_value = 2
+effects = Array[ExtResource("1_2wfos")]([ExtResource("2_c58e7")])

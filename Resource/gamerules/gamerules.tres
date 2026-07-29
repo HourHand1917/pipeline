@@ -1,0 +1,13 @@
+[gd_resource type="Resource" format=3 uid="uid://7xcxpk1gllam"]
+
+[ext_resource type="Resource" uid="uid://dvuk11qortwcr" path="res://Resource/characterdata/enemydata/dummy_data.tres" id="1_fevqp"]
+[ext_resource type="Resource" uid="uid://ckhovgwhpjpco" path="res://Resource/battlemap/testmap.tres" id="1_q0xg1"]
+[ext_resource type="Script" uid="uid://b6ayj5caxm85k" path="res://Script/GD/resource/game_rules.gd" id="1_vy0ow"]
+[ext_resource type="Resource" uid="uid://byg8q6qn1j604" path="res://Resource/characterdata/playerdata/playerdata.tres" id="2_q0xg1"]
+
+[resource]
+script = ExtResource("1_vy0ow")
+player_data = ExtResource("2_q0xg1")
+enemy_data = ExtResource("1_fevqp")
+battle_map = ExtResource("1_q0xg1")
+metadata/_custom_type_script = "uid://b6ayj5caxm85k"

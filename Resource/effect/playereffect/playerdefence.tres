@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://b715dnj40bvor"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_povy5"]
+
+[resource]
+script = ExtResource("1_povy5")
+display_name = "防御"
+description = "获得指定格挡"
+type = 1
+target = 0
+amount = 5
+metadata/_custom_type_script = "uid://d6txs258a48w"

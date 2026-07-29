@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://dmfqyv2tlk0m1"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_7go0s"]
+
+[resource]
+script = ExtResource("1_7go0s")
+display_name = "靠近"
+description = "向靠近敌人的方向移动"
+type = 3
+target = 0
+metadata/_custom_type_script = "uid://d6txs258a48w"

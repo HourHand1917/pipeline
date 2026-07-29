@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://bga5it2qsleq4"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_cgqmt"]
+
+[resource]
+script = ExtResource("1_cgqmt")
+display_name = "远离"
+description = "向远离敌人的方向移动指定距离"
+type = 4
+target = 0
+metadata/_custom_type_script = "uid://d6txs258a48w"

@@ -2,15 +2,23 @@
 
 [ext_resource type="Script" uid="uid://hgfer4mgvtcw" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "loglabel", "statuslabel", "endturnbutton", "backbutton")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "readylist", "loglabel", "statuslabel", "energylabel", "distancelabel", "roundlabel", "phaselabel", "readylabel", "movebackbutton", "moveforwardbutton", "endturnbutton", "backbutton")]
 layout_mode = 3
 anchors_preset = 0
 size_flags_vertical = 3
 script = ExtResource("1_tb4nm")
 battlegrid = NodePath("battleVbox/battlecontent/boardcolum/battlegird")
 activationbox = NodePath("battleVbox/battlecontent/sidepanel/activationbox")
+readylist = NodePath("battleVbox/battlecontent/sidepanel/readylist")
 loglabel = NodePath("battleVbox/battlecontent/sidepanel/loglabel")
 statuslabel = NodePath("battleVbox/statuslabel")
+energylabel = NodePath("battleVbox/infobar/energylabel")
+distancelabel = NodePath("battleVbox/infobar/distancelabel")
+roundlabel = NodePath("battleVbox/infobar/roundlabel")
+phaselabel = NodePath("battleVbox/infobar/phaselabel")
+readylabel = NodePath("battleVbox/battlecontent/sidepanel/readylabel")
+movebackbutton = NodePath("battleVbox/battlecontent/boardcolum/movebar/movebackbutton")
+moveforwardbutton = NodePath("battleVbox/battlecontent/boardcolum/movebar/moveforwardbutton")
 endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/endturnbutton")
 backbutton = NodePath("battleVbox/battlecontent/sidepanel/backbutton")
 
@@ -21,6 +29,31 @@ offset_bottom = 874.0
 
 [node name="statuslabel" type="Label" parent="battleVbox" unique_id=1658931596]
 layout_mode = 2
+
+[node name="infobar" type="HBoxContainer" parent="battleVbox" unique_id=54570403]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="roundlabel" type="Label" parent="battleVbox/infobar" unique_id=393697912]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "回合0"
+
+[node name="phaselabel" type="Label" parent="battleVbox/infobar" unique_id=659047388]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "构筑阶段"
+
+[node name="energylabel" type="Label" parent="battleVbox/infobar" unique_id=920811024]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "能量 0/0"
+
+[node name="distancelabel" type="Label" parent="battleVbox/infobar" unique_id=1403401876]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "玩家0.怪物0，距离0格"
 
 [node name="battlecontent" type="HBoxContainer" parent="battleVbox" unique_id=1492056502]
 layout_mode = 2
@@ -85,6 +118,21 @@ layout_mode = 2
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
 
+[node name="movebar" type="HBoxContainer" parent="battleVbox/battlecontent/boardcolum" unique_id=953537882]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="movebackbutton" type="Button" parent="battleVbox/battlecontent/boardcolum/movebar" unique_id=1501721777]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "后退"
+
+[node name="moveforwardbutton" type="Button" parent="battleVbox/battlecontent/boardcolum/movebar" unique_id=1709012874]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "前进"
+
 [node name="endturnbutton" type="Button" parent="battleVbox/battlecontent/boardcolum" unique_id=1599096835]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
@@ -99,14 +147,16 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "可发动物品"
 
+[node name="readylabel" type="Label" parent="battleVbox/battlecontent/sidepanel" unique_id=1913187748]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "0张就绪"
+
 [node name="activationbox" type="VBoxContainer" parent="battleVbox/battlecontent/sidepanel" unique_id=1667135277]
 layout_mode = 2
 
-[node name="dummylabel" type="Label" parent="battleVbox/battlecontent/sidepanel" unique_id=565926205]
+[node name="readylist" type="VBoxContainer" parent="battleVbox/battlecontent/sidepanel" unique_id=1142338414]
 layout_mode = 2
-theme_override_font_sizes/font_size = 23
-text = "训练假人：每回合获得一格挡，
-并且攻击一点伤害"
 
 [node name="loglabel" type="RichTextLabel" parent="battleVbox/battlecontent/sidepanel" unique_id=747665748]
 custom_minimum_size = Vector2(249.55, 239.065)

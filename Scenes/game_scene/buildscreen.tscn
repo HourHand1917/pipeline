@@ -14,9 +14,9 @@ rotatebutton = NodePath("bulidHbox/centerpanel/actionbox/rotatebutton")
 examplebutton = NodePath("bulidHbox/centerpanel/actionbox/examplebutton")
 clearbutton = NodePath("bulidHbox/centerpanel/actionbox/clearbutton")
 startbattlebutton = NodePath("bulidHbox/centerpanel/actionbox/startbattlebutton")
-grid3x2button = NodePath("bulidHbox/centerpanel/actionbox/3*2")
-grid3x3button = NodePath("bulidHbox/centerpanel/actionbox/3*3")
-grid4x3button = NodePath("bulidHbox/centerpanel/actionbox/4*3")
+grid3x2button = NodePath("bulidHbox/centerpanel/actionbox/grid3*2button")
+grid3x3button = NodePath("bulidHbox/centerpanel/actionbox/grid3*3button")
+grid4x3button = NodePath("bulidHbox/centerpanel/actionbox/grid4*3button")
 
 [node name="bulidHbox" type="HBoxContainer" parent="." unique_id=1952704667]
 layout_mode = 0
@@ -138,17 +138,17 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "进入战斗"
 
-[node name="3*2" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=1846742936]
+[node name="grid3*2button" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=1846742936]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "3*2"
 
-[node name="3*3" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=188638073]
+[node name="grid3*3button" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=188638073]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "3*3"
 
-[node name="4*3" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=1779745098]
+[node name="grid4*3button" type="Button" parent="bulidHbox/centerpanel/actionbox" unique_id=1779745098]
 layout_mode = 2
 theme_override_font_sizes/font_size = 36
 text = "4*3"

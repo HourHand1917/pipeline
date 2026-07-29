@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="BattleMapData" format=3 uid="uid://ckhovgwhpjpco"]
+
+[ext_resource type="Script" uid="uid://dtt2n86015c5" path="res://Script/GD/resource/battle_map_data.gd" id="1_gnrkj"]
+
+[resource]
+script = ExtResource("1_gnrkj")
+metadata/_custom_type_script = "uid://dtt2n86015c5"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyActionData" format=3 uid="uid://ontb0woo7qh7"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_pa76j"]
+[ext_resource type="Script" uid="uid://7hwav6op8h01" path="res://Script/GD/resource/enemy_action_data.gd" id="2_23xs7"]
+[ext_resource type="Resource" uid="uid://bx4aumkpg0w8b" path="res://Resource/effect/enemyeffect/enemymove.tres" id="2_y1b5s"]
+
+[resource]
+script = ExtResource("2_23xs7")
+id = &"get_close"
+display_name = "逼近"
+intent_text = "意图：向玩家方向靠近"
+priority = 1
+min_range = 3
+effects = Array[ExtResource("1_pa76j")]([ExtResource("2_y1b5s")])
+metadata/_custom_type_script = "uid://7hwav6op8h01"
