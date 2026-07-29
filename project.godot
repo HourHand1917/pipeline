@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 DataManager="*uid://6q55ge08isfy"
+MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 
 [display]
 
@@ -26,6 +27,10 @@ window/size/viewport_height=1080
 [dotnet]
 
 project/assembly_name="Pipeline"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
 
 [physics]
 
