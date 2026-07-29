@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://bpod731ja3no6"]
+
+[ext_resource type="Script" uid="uid://wnv8svixg043" path="res://features/exploration/scripts/CS/PlayerController.cs" id="1_tdwrg"]
+[ext_resource type="Script" uid="uid://debl1p40o27si" path="res://features/exploration/scripts/CS/CameraFollow.cs" id="2_xu4y1"]
+[ext_resource type="Script" uid="uid://dk1nlss2cbht" path="res://features/exploration/scripts/CS/states/PlayerStateMachine.cs" id="3_b7xts"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3qvi6"]
+size = Vector2(64, 64)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qfbxx"]
+radius = 120.0
+
+[node name="Player" type="CharacterBody2D" unique_id=1138772278]
+script = ExtResource("1_tdwrg")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1969210657]
+
+[node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=2052699507]
+shape = SubResource("RectangleShape2D_3qvi6")
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1386724070]
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+script = ExtResource("2_xu4y1")
+
+[node name="InteractionArea" type="Area2D" parent="." unique_id=1502309909]
+
+[node name="InteractionRange" type="CollisionShape2D" parent="InteractionArea" unique_id=870183628]
+shape = SubResource("CircleShape2D_qfbxx")
+
+[node name="StateMachine" type="Node" parent="." unique_id=2011406293]
+script = ExtResource("3_b7xts")
