@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class MainScene : Node
+public partial class MainScene : Node2D
 {
     [Export] public BoardManager BoardManager { get; set; }
     [Export] public EffectResolver EffectResolver { get; set; }

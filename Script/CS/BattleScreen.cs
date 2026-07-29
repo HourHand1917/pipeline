@@ -22,12 +22,17 @@ public partial class BattleScreen : Control
     [Export] private RichTextLabel loglabel;
     [Export] private Label statuslabel;
     [Export] private Label energylabel;
-    [Export] private Label distancelabel;
     [Export] private Label roundlabel;
     [Export] private Label phaselabel;
     [Export] private Label readylabel;
+
+    // stagepanel
+    [Export] private Label distancelabel;
+    [Export] private HBoxContainer distancetrack;
     [Export] private Button movebackbutton;
     [Export] private Button moveforwardbutton;
+    [Export] private Label movehint;
+
     [Export] private Button endturnbutton;
     [Export] private Button backbutton;
 
@@ -74,6 +79,7 @@ public partial class BattleScreen : Control
         if (boardManager == null || battleManager == null) return;
         RefreshBoard(gridWidth, gridHeight);
         RefreshStatus();
+        RefreshTrack();
         RefreshActivationButtons();
     }
 
@@ -173,28 +179,108 @@ public partial class BattleScreen : Control
             distancelabel.Text = $"玩家 {battleManager.PlayerMapPosition} · 怪物 {battleManager.EnemyMapPosition} · 距离 {battleManager.Distance} 格";
         }
 
-        // 移动按钮状态
-        bool canAct = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
-        var rules2 = DataManager.Instance.GetRules();
-        if (rules2 != null)
+        if (movehint != null)
         {
-            int moveStep = rules2.Get("player_move_step").AsInt32();
-            int moveCost = rules2.Get("move_energy_cost").AsInt32();
+            var rules = DataManager.Instance.GetRules();
+            int cost = rules?.Get("move_energy_cost").AsInt32() ?? 1;
+            int step = rules?.Get("player_move_step").AsInt32() ?? 1;
+            movehint.Text = $"移动{step}格消耗 {cost} ⚡";
+        }
 
-            if (movebackbutton != null)
-            {
-                movebackbutton.Text = $"← 后退{moveStep}格 · {moveCost} ⚡";
-                movebackbutton.Disabled = !canAct || !battleManager.CanPlayerMove((int)BattleManager.MoveAction.Backward);
-            }
-            if (moveforwardbutton != null)
-            {
-                moveforwardbutton.Text = $"前进{moveStep}格 · {moveCost} ⚡ →";
-                moveforwardbutton.Disabled = !canAct || !battleManager.CanPlayerMove((int)BattleManager.MoveAction.Forward);
-            }
+        bool canAct = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
+        if (movebackbutton != null)
+        {
+            movebackbutton.Text = "← 后退";
+            movebackbutton.Disabled = !canAct || !battleManager.CanPlayerMove((int)BattleManager.MoveAction.Backward);
+        }
+        if (moveforwardbutton != null)
+        {
+            moveforwardbutton.Text = "前进 →";
+            moveforwardbutton.Disabled = !canAct || !battleManager.CanPlayerMove((int)BattleManager.MoveAction.Forward);
         }
 
         if (endturnbutton != null)
             endturnbutton.Disabled = !canAct;
+    }
+
+    // ================================================================
+    //  距离轨道刷新
+    // ================================================================
+
+    private void RefreshTrack()
+    {
+        if (distancetrack == null || battleManager == null) return;
+
+        foreach (Node child in distancetrack.GetChildren())
+            child.QueueFree();
+
+        var rules = DataManager.Instance.GetRules();
+        var battleMap = rules?.Get("battle_map").As<GodotObject>();
+        int cellCount = battleMap?.Get("cell_count").AsInt32() ?? 7;
+
+        var playerData = rules?.Get("player_data").As<GodotObject>();
+        var enemyData = rules?.Get("enemy_data").As<GodotObject>();
+        string playerGlyph = playerData?.Get("glyph").AsString() ?? "旅";
+        string enemyGlyph = enemyData?.Get("glyph").AsString() ?? "怪";
+        Color playerTint = playerData?.Get("tint").AsColor() ?? new Color("#f4cf61");
+        Color enemyTint = enemyData?.Get("tint").AsColor() ?? new Color("#e66c62");
+
+        for (int i = 1; i <= cellCount; i++)
+        {
+            var cell = new PanelContainer();
+            cell.CustomMinimumSize = new Vector2(144, 144);
+
+            var vbox = new VBoxContainer();
+            cell.AddChild(vbox);
+
+            // 占位区（后期放动画/精灵）
+            var occupant = new Control();
+            occupant.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+            occupant.SizeFlagsHorizontal = Control.SizeFlags.Fill;
+
+            // 文字标签
+            var glyphLabel = new Label();
+            glyphLabel.HorizontalAlignment = HorizontalAlignment.Center;
+            glyphLabel.VerticalAlignment = VerticalAlignment.Center;
+            glyphLabel.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
+            glyphLabel.SizeFlagsHorizontal = Control.SizeFlags.Fill;
+            glyphLabel.AddThemeFontSizeOverride("font_size", 64);
+            occupant.AddChild(glyphLabel);
+
+            if (i == battleManager.PlayerMapPosition && i == battleManager.EnemyMapPosition)
+            {
+                occupant.Modulate = new Color(0.6f, 0.3f, 0.3f);
+                glyphLabel.Text = $"{playerGlyph}/{enemyGlyph}";
+                glyphLabel.Modulate = Colors.White;
+            }
+            else if (i == battleManager.PlayerMapPosition)
+            {
+                occupant.Modulate = new Color(playerTint.R, playerTint.G, playerTint.B, 0.3f);
+                glyphLabel.Text = playerGlyph;
+                glyphLabel.Modulate = playerTint;
+            }
+            else if (i == battleManager.EnemyMapPosition)
+            {
+                occupant.Modulate = new Color(enemyTint.R, enemyTint.G, enemyTint.B, 0.3f);
+                glyphLabel.Text = enemyGlyph;
+                glyphLabel.Modulate = enemyTint;
+            }
+            else
+            {
+                glyphLabel.Text = "";
+            }
+
+            vbox.AddChild(occupant);
+
+            // 格号
+            var label = new Label();
+            label.Text = $"{i}";
+            label.HorizontalAlignment = HorizontalAlignment.Center;
+            vbox.AddChild(label);
+            
+
+            distancetrack.AddChild(cell);
+        }
     }
 
     // ================================================================

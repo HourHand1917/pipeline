@@ -43,10 +43,10 @@ offset_right = 12.0
 offset_bottom = 58.0
 
 [node name="battlescreen" parent="." unique_id=1970829475 instance=ExtResource("6_om8ky")]
-offset_left = -180.0
-offset_top = 188.0
-offset_right = -180.0
-offset_bottom = 188.0
+offset_left = 54.0
+offset_top = 171.0
+offset_right = 54.0
+offset_bottom = 171.0
 
 [node name="ghostpanel" type="Panel" parent="." unique_id=504890748]
 visible = false

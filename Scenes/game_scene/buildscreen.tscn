@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://e53m086153iv"]
 
 [ext_resource type="Script" uid="uid://eackngvunayx" path="res://Script/CS/BuildScreen.cs" id="1_4ump6"]
-[ext_resource type="Theme" uid="uid://drcnq2eeiclew" path="res://celltest.tres" id="1_5isqd"]
+[ext_resource type="Theme" uid="uid://drcnq2eeiclew" path="res://theme/celltest.tres" id="1_5isqd"]
 
 [node name="buildscreen" type="Control" unique_id=556158832 node_paths=PackedStringArray("buildgrid", "inventorybox", "rotatebutton", "examplebutton", "clearbutton", "startbattlebutton", "grid3x2button", "grid3x3button", "grid4x3button")]
 layout_mode = 3
