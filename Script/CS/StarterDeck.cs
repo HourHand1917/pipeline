@@ -11,8 +11,8 @@ public partial class StarterDeck : Node
 
     public override void _Ready()
     {
-        var dm = GetNode<DataManager>("/root/DataManager");
         foreach (var card in Cards)
-            dm.AcquireCard(card, 1);
+            DataManager.Instance.AcquireCard(card, 3);
+        DataManager.Instance.UpgradeCard("battery");
     }
 }

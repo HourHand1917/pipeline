@@ -13,8 +13,10 @@ public partial class DataManager : Node
 
     public static DataManager Instance { get; private set; }
 
-    public Dictionary<StringName, Resource> CardDataLog { get; private set; } = new(); // 图鉴：卡牌 id -> 卡牌资源
-    public Dictionary<StringName, int> CardsCount { get; private set; } = new();        // 背包：卡牌 id -> 拥有数量
+    /// <summary>背包：卡牌 id → 卡牌数据（数量靠 _cardCounts）</summary>
+    public Dictionary<StringName, Resource> CardData { get; private set; } = new();
+    /// <summary>背包：卡牌 id → 持有数量。归零时和 CardData 一起删除。</summary>
+    public Dictionary<StringName, int> CardCounts { get; private set; } = new();
     private Array<Dictionary> _savedBuild = new();
 
     public override void _Ready()
@@ -34,15 +36,11 @@ public partial class DataManager : Node
         var id = obj.Get("id").AsStringName();
         if (string.IsNullOrEmpty(id)) { GD.PushError("AcquireCard: 缺少 id"); return; }
 
-        if (!CardDataLog.ContainsKey(id))
-        {
-            CardDataLog[id] = cardResource;
-            GD.Print($"图鉴新增：{GetCardName(id)}");
-        }
+        CardData[id] = cardResource; // 覆盖也没关系
+        CardCounts[id] = CardCounts.TryGetValue(id, out int c) ? c + count : count;
 
-        CardsCount[id] = CardsCount.TryGetValue(id, out int c) ? c + count : count;
         EmitSignal(SignalName.CardAcquired, id, count);
-        GD.Print($"背包：{GetCardName(id)} +{count}（共 {CardsCount[id]} 张）");
+        GD.Print($"背包：{GetCardName(id)} +{count}（共 {CardCounts[id]} 张）");
     }
 
     // ================================================================
@@ -51,9 +49,41 @@ public partial class DataManager : Node
 
     public bool ConsumeCard(StringName id, int count)
     {
-        if (!CardsCount.TryGetValue(id, out int c) || c < count) return false;
-        CardsCount[id] = c - count;
-        if (CardsCount[id] <= 0) CardsCount.Remove(id);
+        if (!CardCounts.TryGetValue(id, out int c) || c < count)
+            return false;
+
+        c -= count;
+        if (c <= 0)
+        {
+            CardData.Remove(id);
+            CardCounts.Remove(id);
+        }
+        else
+        {
+            CardCounts[id] = c;
+        }
+
+        return true;
+    }
+
+    // ================================================================
+    //  升级
+    // ================================================================
+
+    public bool UpgradeCard(StringName cardId)
+    {
+        var card = GetCard(cardId);
+        if (card == null) return false;
+
+        var obj = (GodotObject)card;
+        var upgradedRes = obj.Get("upgraded_version").As<Resource>();
+        if (upgradedRes == null) return false;
+
+        if (!ConsumeCard(cardId, 1)) return false;
+        AcquireCard(upgradedRes, 1);
+
+        var upgradedObj = (GodotObject)upgradedRes;
+        GD.Print($"升级：{GetCardName(cardId)} → {upgradedObj.Get("display_name").AsString()}");
         return true;
     }
 
@@ -61,9 +91,14 @@ public partial class DataManager : Node
     //  查询
     // ================================================================
 
-    public bool HasCard(StringName id) => CardsCount.TryGetValue(id, out int c) && c > 0;
-    public int GetCardCount(StringName id) => CardsCount.TryGetValue(id, out int c) ? c : 0;
-    public Resource GetCard(StringName id) => CardDataLog.TryGetValue(id, out var c) ? c : null;
+    public bool HasCard(StringName id) =>
+        CardCounts.TryGetValue(id, out int c) && c > 0;
+
+    public int GetCardCount(StringName id) =>
+        CardCounts.TryGetValue(id, out int c) ? c : 0;
+
+    public Resource GetCard(StringName id) =>
+        CardData.TryGetValue(id, out var res) ? res : null;
 
     public string GetCardName(StringName id)
     {
@@ -71,19 +106,24 @@ public partial class DataManager : Node
         return r != null ? ((GodotObject)r).Get("display_name").AsString() : id.ToString();
     }
 
+    /// <summary>持有至少 1 张的卡牌列表，按 ID 排序（同前缀的升级版自动跟在原版后面）</summary>
     public Array<Resource> GetOwnedCards()
     {
-        var a = new Array<Resource>();
-        foreach (var (id, n) in CardsCount)
-            if (n > 0 && CardDataLog.TryGetValue(id, out var c)) a.Add(c);
-        return a;
-    }
+        var list = new System.Collections.Generic.List<Resource>();
+        foreach (var (id, count) in CardCounts)
+            if (count > 0 && CardData.TryGetValue(id, out var res))
+                list.Add(res);
 
-    public Array<Resource> GetAllCards()
-    {
-        var a = new Array<Resource>();
-        foreach (var v in CardDataLog.Values) a.Add(v);
-        return a;
+        list.Sort((a, b) =>
+        {
+            var idA = ((GodotObject)a).Get("id").AsString();
+            var idB = ((GodotObject)b).Get("id").AsString();
+            return string.Compare(idA, idB, System.StringComparison.Ordinal);
+        });
+
+        var result = new Array<Resource>();
+        foreach (var r in list) result.Add(r);
+        return result;
     }
 
     // ================================================================

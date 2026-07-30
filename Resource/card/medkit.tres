@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_3g17w"]
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
 [ext_resource type="Resource" uid="uid://dhaorf2xbetno" path="res://Resource/effect/playereffect/playerhealth.tres" id="2_mncka"]
+[ext_resource type="Resource" path="res://Resource/card/medkit_up.tres" id="3_upgrade"]
 
 [resource]
 script = ExtResource("1_card")
@@ -16,3 +17,4 @@ effect_type = "heal"
 effect_value = 2
 cooldown_turns = 2
 effects = Array[ExtResource("1_3g17w")]([ExtResource("2_mncka")])
+upgraded_version = ExtResource("3_upgrade")
