@@ -255,6 +255,19 @@ public partial class BuildScreen : Control
         RefreshBoard();
     }
 
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventKey keyEvent
+            && keyEvent.Pressed
+            && !keyEvent.Echo
+            && keyEvent.Keycode == Key.R
+            && selectedCardId != "")
+        {
+            selectedRotation = (selectedRotation + 1) % 4;
+            RefreshBoard();
+        }
+    }
+
     private void OnRotatePressed()
     {
         if (selectedCardId == "") return;
