@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_0b8qq"]
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
 [ext_resource type="Resource" uid="uid://njlqpnogrjuh" path="res://Resource/effect/playereffect/playerattack.tres" id="2_t0j4d"]
+[ext_resource type="Resource" path="res://Resource/card/revolver_up.tres" id="3_upgrade"]
 
 [resource]
 script = ExtResource("1_card")
@@ -16,3 +17,4 @@ min_range = 1
 max_range = 5
 effect_value = 3
 effects = Array[ExtResource("1_0b8qq")]([ExtResource("2_t0j4d")])
+upgraded_version = ExtResource("3_upgrade")

@@ -142,29 +142,32 @@ public partial class BuildScreen : Control
         foreach (Node child in inventorybox.GetChildren())
             child.QueueFree();
 
-        foreach (var card in DataManager.Instance.GetAllCards())
+        foreach (var card in DataManager.Instance.GetOwnedCards())
         {
             StringName cardId = ((GodotObject)card).Get("id").AsStringName();
-            bool alreadyPlaced = IsCardPlaced(cardId);
+            int ownedCount = DataManager.Instance.GetCardCount(cardId);
+            int placedCount = CountPlacedOnBoard(cardId);
+            int remaining = ownedCount - placedCount;
 
             var button = new Button();
-            button.Disabled = alreadyPlaced;
-            int count = ((GodotObject)card).Get("shape_offsets").As<Array<Vector2I>>().Count;
-            button.Text = $"{((GodotObject)card).Get("icon_text")} {((GodotObject)card).Get("display_name")}｜占用{count}格\n{((GodotObject)card).Get("description")}";
+            button.Disabled = remaining <= 0;
+            int shapeCount = ((GodotObject)card).Get("shape_offsets").As<Array<Vector2I>>().Count;
+            button.Text = $"{((GodotObject)card).Get("icon_text")} {((GodotObject)card).Get("display_name")}  x{remaining}｜占用{shapeCount}格\n{((GodotObject)card).Get("description")}";
             button.CustomMinimumSize = new Vector2(0, 74);
             button.Pressed += () => OnInventoryCardPressed(cardId);
             inventorybox.AddChild(button);
         }
     }
 
-    private bool IsCardPlaced(StringName cardId)
+    private int CountPlacedOnBoard(StringName cardId)
     {
+        int count = 0;
         foreach (var runtime in boardManager.runtime_cards)
         {
             var data = runtime.Get("data").As<GodotObject>();
-            if (data.Get("id").AsStringName() == cardId) return true;
+            if (data.Get("id").AsStringName() == cardId) count++;
         }
-        return false;
+        return count;
     }
 
     // ================================================================
@@ -250,6 +253,19 @@ public partial class BuildScreen : Control
     {
         hoveredBuildCell = buttonPositions[index];
         RefreshBoard();
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event is InputEventKey keyEvent
+            && keyEvent.Pressed
+            && !keyEvent.Echo
+            && keyEvent.Keycode == Key.R
+            && selectedCardId != "")
+        {
+            selectedRotation = (selectedRotation + 1) % 4;
+            RefreshBoard();
+        }
     }
 
     private void OnRotatePressed()

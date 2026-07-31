@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_xbiaw"]
 [ext_resource type="Resource" uid="uid://b715dnj40bvor" path="res://Resource/effect/playereffect/playerdefence.tres" id="2_ln2rx"]
+[ext_resource type="Resource" path="res://Resource/card/shield_up.tres" id="3_upgrade"]
 
 [resource]
 script = ExtResource("1_card")
@@ -15,3 +16,4 @@ shape_offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(0, 1)])
 effect_type = "shield"
 effect_value = 3
 effects = Array[ExtResource("1_xbiaw")]([ExtResource("2_ln2rx")])
+upgraded_version = ExtResource("3_upgrade")
