@@ -1,0 +1,44 @@
+{
+	"board_level": 1,
+	"boss_defeated": false,
+	"card_counts": {
+		"battery": 1,
+		"cleanse_pill": 1,
+		"knockback_gun": 1,
+		"medkit": 2,
+		"poison_sword": 1,
+		"rapier": 1,
+		"revolver": 1,
+		"shield": 1,
+		"strength_glasses": 1,
+		"teleport_shoes": 1
+	},
+	"current_hp": 28,
+	"last_exploration_x": 120.0,
+	"map_progress": 2,
+	"max_hp": 30,
+	"money": 20,
+	"opened_event_ids": [
+		"smoke_combat"
+	],
+	"saved_build": [
+		{
+			"anchor": [
+				0,
+				0
+			],
+			"card_id": "revolver",
+			"rotation": 0
+		},
+		{
+			"anchor": [
+				2,
+				0
+			],
+			"card_id": "shield",
+			"rotation": 0
+		}
+	],
+	"shield": 0,
+	"water": 1
+}

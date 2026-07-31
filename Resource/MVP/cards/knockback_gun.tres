@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MvpCardDefinition" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_card_definition.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+card_id = &"knockback_gun"
+display_name = "冲击枪"
+description = "造成4点伤害，并将怪物击退2格。"
+color = Color(0.95, 0.38, 0.25, 1)
+shape = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0), Vector2i(0, 1)])
+effect_type = "knockback"
+power = 4
+move_amount = 2
+min_range = 1
+max_range = 4
+cooldown_turns = 1
+

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_exploration_scene.gd" id="1"]
+
+[node name="MvpExploration" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+player_move_speed = 330.0
+interaction_distance = 105.0
+world_width = 1300.0
+start_position_x = 110.0
+

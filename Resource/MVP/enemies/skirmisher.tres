@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MvpEnemyAiProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_enemy_ai_profile.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+ai_id = &"skirmisher"
+display_name = "游击机械犬"
+debug_description = "距离1-3时攻击后撤1格；否则快速接近。"
+color = Color(0.92, 0.58, 0.22, 1)
+max_hp = 26
+base_damage = 4
+behavior = "skirmisher"
+attack_min_range = 1
+attack_max_range = 3
+preferred_min_range = 2
+preferred_max_range = 3
+move_amount = 2
+

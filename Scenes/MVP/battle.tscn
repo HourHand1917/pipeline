@@ -1,0 +1,36 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_battle_scene.gd" id="1"]
+[ext_resource type="Texture2D" path="res://Assets/MVP/pipeline_ui_runtime.png" id="2"]
+[ext_resource type="Resource" path="res://Resource/MVP/enemies/chaser.tres" id="3"]
+[ext_resource type="Resource" path="res://Resource/MVP/enemies/sniper.tres" id="4"]
+[ext_resource type="Resource" path="res://Resource/MVP/enemies/poisoner.tres" id="5"]
+[ext_resource type="Resource" path="res://Resource/MVP/enemies/skirmisher.tres" id="6"]
+[ext_resource type="Resource" path="res://Resource/MVP/enemies/guardian_boss.tres" id="7"]
+
+[node name="MvpBattle" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+energy_per_turn = 3
+move_energy_cost = 1
+track_cell_count = 9
+player_start_position = 1
+enemy_start_position = 6
+normal_enemy_hp = 24
+boss_enemy_hp = 45
+normal_enemy_damage = 5
+boss_enemy_damage = 8
+enemy_attack_range = 2
+enemy_move_amount = 1
+preserve_partial_charge = true
+clear_player_shield_each_round = true
+enemy_ai_profiles = Array[Resource]([ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6")])
+boss_ai_profile = ExtResource("7")
+debug_enemy_profile_index = 0
+allow_runtime_ai_switch = true
+backdrop_texture = ExtResource("2")

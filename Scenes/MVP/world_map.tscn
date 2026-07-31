@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_map_scene.gd" id="1"]
+
+[node name="MvpWorldMap" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+node_names = Array[String](["废弃站台", "巡逻区", "休息营地", "首领巢穴"])
+allow_debug_node_selection = true
+map_accent_color = Color(0.282, 0.835, 0.933, 1)
+

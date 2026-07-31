@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="MvpEnemyAiProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_enemy_ai_profile.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+ai_id = &"guardian"
+display_name = "管线守卫"
+debug_description = "每2回合获得护盾；距离2以内重击，否则稳定靠近。"
+color = Color(0.9, 0.2, 0.25, 1)
+max_hp = 48
+base_damage = 8
+starting_shield = 6
+behavior = "guardian"
+attack_min_range = 0
+attack_max_range = 2
+preferred_min_range = 1
+preferred_max_range = 2
+move_amount = 1
+shield_amount = 6
+special_every_n_turns = 2
+

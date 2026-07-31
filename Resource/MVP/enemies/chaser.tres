@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MvpEnemyAiProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_enemy_ai_profile.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+ai_id = &"chaser"
+display_name = "废土追击者"
+debug_description = "距离2以内攻击，否则每回合向玩家靠近1格。"
+color = Color(0.82, 0.31, 0.36, 1)
+max_hp = 24
+base_damage = 5
+behavior = "chaser"
+attack_min_range = 0
+attack_max_range = 2
+preferred_min_range = 1
+preferred_max_range = 2
+move_amount = 1
+

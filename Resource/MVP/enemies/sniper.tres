@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="MvpEnemyAiProfile" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_enemy_ai_profile.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+ai_id = &"sniper"
+display_name = "管线狙击手"
+debug_description = "理想距离3-5；过近时后退，射程内射击，过远时靠近。"
+color = Color(0.72, 0.42, 0.87, 1)
+max_hp = 20
+base_damage = 6
+behavior = "sniper"
+attack_min_range = 3
+attack_max_range = 6
+preferred_min_range = 3
+preferred_max_range = 5
+move_amount = 1
+

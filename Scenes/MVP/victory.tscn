@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/MVP/mvp_end_scene.gd" id="1"]
+
+[node name="MvpVictory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+victory = true
+title_text = "管线恢复运转"
+body_text = "你已完成地图、探索、构筑、回合战斗、奖励、存档与 Boss 的完整 MVP 循环。"
+
