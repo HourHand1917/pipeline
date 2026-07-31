@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://c48ybh4kptb1p" path="res://features/exploration/scripts/CS/interactables/MerchantInteractable.cs" id="5_jrhl4"]
 [ext_resource type="Script" uid="uid://cmoxk1cciwmtx" path="res://features/exploration/scripts/CS/interactables/CampfireInteractable.cs" id="6_dwgp3"]
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="7_0wweh"]
-[ext_resource type="Script" uid="uid://y7w3gahi8ql2" path="res://features/exploration/scripts/CS/interactables/HostileNPCInteractable.cs" id="8_tmhqc"]
+[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="7_k4n68"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nefgh"]
 size = Vector2(4000, 32)
@@ -14,21 +14,37 @@ size = Vector2(4000, 32)
 [sub_resource type="CircleShape2D" id="CircleShape2D_djeg3"]
 radius = 120.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_k4n68"]
+radius = 48.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_ng1om"]
 radius = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5g27p"]
+radius = 48.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_uengo"]
 radius = 120.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_v1dgx"]
+radius = 48.0
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_bidvr"]
 radius = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6soyk"]
+radius = 48.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_posh8"]
 radius = 120.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_dpqj4"]
+radius = 48.0
+
 [node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player")]
 script = ExtResource("1_v1dgx")
 Player = NodePath("MapLayer/Player")
+MapId = "test_map"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 
@@ -56,10 +72,16 @@ DisplayName = "铁匠工作台"
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Workbench" unique_id=644053544]
 modulate = Color(0.6, 0.4, 0.2, 1)
-position = Vector2(0, -40)
 
-[node name="InteractionRange" type="CollisionShape2D" parent="MapLayer/Workbench" unique_id=1647047167]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Workbench" unique_id=1647047167]
 shape = SubResource("CircleShape2D_djeg3")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Workbench" unique_id=1830911937]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Workbench/ClickZone" unique_id=164859093]
+shape = SubResource("CircleShape2D_k4n68")
 
 [node name="Merchant" type="Area2D" parent="MapLayer" unique_id=1717690169]
 position = Vector2(900, 340)
@@ -68,10 +90,16 @@ DisplayName = "流浪商人"
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Merchant" unique_id=734450618]
 modulate = Color(1, 0.85, 0.2, 1)
-position = Vector2(0, -40)
 
-[node name="InteractionRange" type="CollisionShape2D" parent="MapLayer/Merchant" unique_id=1951003275]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Merchant" unique_id=1951003275]
 shape = SubResource("CircleShape2D_ng1om")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Merchant" unique_id=428845974]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Merchant/ClickZone" unique_id=40018695]
+shape = SubResource("CircleShape2D_5g27p")
 
 [node name="Campfire" type="Area2D" parent="MapLayer" unique_id=666391469]
 position = Vector2(1300, 340)
@@ -80,10 +108,16 @@ DisplayName = "温暖篝火"
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Campfire" unique_id=616897506]
 modulate = Color(1, 0.5, 0.1, 1)
-position = Vector2(0, -40)
 
-[node name="InteractionRange" type="CollisionShape2D" parent="MapLayer/Campfire" unique_id=2064613238]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Campfire" unique_id=2064613238]
 shape = SubResource("CircleShape2D_uengo")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Campfire" unique_id=1050169058]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Campfire/ClickZone" unique_id=1985526617]
+shape = SubResource("CircleShape2D_v1dgx")
 
 [node name="Chest" type="Area2D" parent="MapLayer" unique_id=1157013061]
 position = Vector2(1700, 340)
@@ -92,19 +126,30 @@ DisplayName = "旧宝箱"
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Chest" unique_id=1524283300]
 modulate = Color(0.2, 0.45, 0.8, 1)
-position = Vector2(0, -40)
 
-[node name="InteractionRange" type="CollisionShape2D" parent="MapLayer/Chest" unique_id=1091730595]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Chest" unique_id=1091730595]
 shape = SubResource("CircleShape2D_bidvr")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Chest" unique_id=472912609]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Chest/ClickZone" unique_id=1410434977]
+shape = SubResource("CircleShape2D_6soyk")
 
 [node name="EnemyPatrol" type="Area2D" parent="MapLayer" unique_id=422480220]
 position = Vector2(2100, 340)
-script = ExtResource("8_tmhqc")
-DisplayName = "巡逻哥布林"
+script = ExtResource("7_k4n68")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/EnemyPatrol" unique_id=1233133044]
 modulate = Color(0.85, 0.15, 0.15, 1)
-position = Vector2(0, -40)
 
-[node name="InteractionRange" type="CollisionShape2D" parent="MapLayer/EnemyPatrol" unique_id=920393440]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/EnemyPatrol" unique_id=920393440]
 shape = SubResource("CircleShape2D_posh8")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/EnemyPatrol" unique_id=530959081]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/EnemyPatrol/ClickZone" unique_id=692005185]
+shape = SubResource("CircleShape2D_dpqj4")

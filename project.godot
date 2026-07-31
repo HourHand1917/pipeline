@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 DataManager="*uid://6q55ge08isfy"
+GameState="*uid://coph3qe8cvhlr"
 MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 
 [display]
