@@ -50,7 +50,7 @@ public partial class BoardManager : Node
             foreach (var runtime in runtime_cards)
             {
                 bool fits = true;
-                var occupiedCells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
+                var occupiedCells = runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>();
                 foreach (var pos in occupiedCells)
                 {
                     if (!IsInsideSize(pos, size.X, size.Y))
@@ -78,22 +78,22 @@ public partial class BoardManager : Node
         // 恢复保留卡牌的格子状态
         foreach (var runtime in runtime_cards)
         {
-            var occupiedCells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
+            var occupiedCells = runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>();
             for (int index = 0; index < occupiedCells.Count; index++)
             {
                 var pos = occupiedCells[index];
                 var cell = GetCell(pos);
-                cell.Set("card_instance_id", runtime.Get("instance_id").AsInt32());
-                cell.Set("local_shape_index", index);
+                cell.Set(GDScriptKeys.CellRuntime.CardInstanceId, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32());
+                cell.Set(GDScriptKeys.CellRuntime.LocalShapeIndex, index);
 
                 // 尝试恢复点亮状态
                 if (pos.X < oldColumns && pos.Y < oldRows
                     && pos.Y < oldCells.Count && pos.X < oldCells[pos.Y].Count)
                 {
                     var oldCell = oldCells[pos.Y][pos.X];
-                    if ((int)oldCell.Get("card_instance_id") == (int)runtime.Get("instance_id"))
+                    if ((int)oldCell.Get("card_instance_id") == (int)runtime.Get(GDScriptKeys.CardRuntime.InstanceId))
                     {
-                        cell.Set("is_lit", oldCell.Get("is_lit").AsBool());
+                        cell.Set(GDScriptKeys.CellRuntime.IsLit, oldCell.Get("is_lit").AsBool());
                     }
                 }
             }
@@ -103,12 +103,12 @@ public partial class BoardManager : Node
         // 发出移除信号
         foreach (var runtime in removedCards)
         {
-            if ((bool)runtime.Get("is_ready"))
+            if ((bool)runtime.Get(GDScriptKeys.CardRuntime.IsReady))
             {
-                runtime.Set("is_ready", false);
-                EmitSignal(SignalName.CardReadyChanged, runtime.Get("instance_id").AsInt32(), false);
+                runtime.Set(GDScriptKeys.CardRuntime.IsReady, false);
+                EmitSignal(SignalName.CardReadyChanged, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32(), false);
             }
-            EmitSignal(SignalName.CardRemoved, runtime.Get("instance_id").AsInt32());
+            EmitSignal(SignalName.CardRemoved, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32());
         }
 
         if (!preserveCards)
@@ -162,7 +162,7 @@ public partial class BoardManager : Node
             if (!IsInside(target)) return false;
 
             var cell = GetCell(target);
-            int cellCardId = cell.Get("card_instance_id").AsInt32();
+            int cellCardId = cell.Get(GDScriptKeys.CellRuntime.CardInstanceId).AsInt32();
             if (cellCardId != -1 && cellCardId != ignoreInstanceId) return false;
         }
         return true;
@@ -199,8 +199,8 @@ public partial class BoardManager : Node
         for (int index = 0; index < occupied.Count; index++)
         {
             var cell = GetCell(occupied[index]);
-            cell.Set("card_instance_id", runtime.Get("instance_id").AsInt32());
-            cell.Set("local_shape_index", index);
+            cell.Set(GDScriptKeys.CellRuntime.CardInstanceId, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32());
+            cell.Set(GDScriptKeys.CellRuntime.LocalShapeIndex, index);
         }
 
         EmitSignal(SignalName.CardPlaced, runtime);
@@ -213,21 +213,21 @@ public partial class BoardManager : Node
         var runtime = GetRuntimeCard(instanceId);
         if (runtime == null) return false;
 
-        var occupiedCells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
+        var occupiedCells = runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>();
         foreach (var pos in occupiedCells)
         {
             var cell = GetCell(pos);
-            if (cell != null && cell.Get("card_instance_id").AsInt32() == instanceId)
+            if (cell != null && cell.Get(GDScriptKeys.CellRuntime.CardInstanceId).AsInt32() == instanceId)
             {
-                cell.Set("card_instance_id", -1);
-                cell.Set("local_shape_index", -1);
-                cell.Set("is_lit", false);
+                cell.Set(GDScriptKeys.CellRuntime.CardInstanceId, -1);
+                cell.Set(GDScriptKeys.CellRuntime.LocalShapeIndex, -1);
+                cell.Set(GDScriptKeys.CellRuntime.IsLit, false);
             }
         }
 
-        if ((bool)runtime.Get("is_ready"))
+        if ((bool)runtime.Get(GDScriptKeys.CardRuntime.IsReady))
         {
-            runtime.Set("is_ready", false);
+            runtime.Set(GDScriptKeys.CardRuntime.IsReady, false);
             EmitSignal(SignalName.CardReadyChanged, instanceId, false);
         }
 
@@ -244,7 +244,7 @@ public partial class BoardManager : Node
     public GodotObject GetRuntimeCard(int instanceId)
     {
         foreach (var runtime in runtime_cards)
-            if (runtime.Get("instance_id").AsInt32() == instanceId)
+            if (runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32() == instanceId)
                 return runtime;
         return null;
     }
@@ -252,8 +252,8 @@ public partial class BoardManager : Node
     public GodotObject GetCardByCell(Vector2I position)
     {
         var cell = GetCell(position);
-        if (cell == null || cell.Get("card_instance_id").AsInt32() == -1) return null;
-        return GetRuntimeCard(cell.Get("card_instance_id").AsInt32());
+        if (cell == null || cell.Get(GDScriptKeys.CellRuntime.CardInstanceId).AsInt32() == -1) return null;
+        return GetRuntimeCard(cell.Get(GDScriptKeys.CellRuntime.CardInstanceId).AsInt32());
     }
 
     // ================================================================
@@ -266,9 +266,9 @@ public partial class BoardManager : Node
         if (cell == null) return null;
 
         var runtime = GetCardByCell(position);
-        if ((bool)cell.Get("is_lit") == value) return runtime;
+        if ((bool)cell.Get(GDScriptKeys.CellRuntime.IsLit) == value) return runtime;
 
-        cell.Set("is_lit", value);
+        cell.Set(GDScriptKeys.CellRuntime.IsLit, value);
         if (runtime != null)
             UpdateCardReady(runtime);
 
@@ -280,16 +280,16 @@ public partial class BoardManager : Node
     {
         if (runtime == null) return false;
 
-        var occupiedCells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
+        var occupiedCells = runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>();
         if (occupiedCells.Count == 0) return false;
 
         // 保留冷却检查
-        if (runtime.Get("cooldown_remaining").AsInt32() > 0) return false;
+        if (runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32() > 0) return false;
 
         foreach (var pos in occupiedCells)
         {
             var cell = GetCell(pos);
-            if (cell == null || !(bool)cell.Get("is_lit")) return false;
+            if (cell == null || !(bool)cell.Get(GDScriptKeys.CellRuntime.IsLit)) return false;
         }
         return true;
     }
@@ -297,9 +297,9 @@ public partial class BoardManager : Node
     private void UpdateCardReady(GodotObject runtime)
     {
         bool isNowReady = CheckCardReady(runtime);
-        if (isNowReady == (bool)runtime.Get("is_ready")) return;
-        runtime.Set("is_ready", isNowReady);
-        EmitSignal(SignalName.CardReadyChanged, runtime.Get("instance_id").AsInt32(), isNowReady);
+        if (isNowReady == (bool)runtime.Get(GDScriptKeys.CardRuntime.IsReady)) return;
+        runtime.Set(GDScriptKeys.CardRuntime.IsReady, isNowReady);
+        EmitSignal(SignalName.CardReadyChanged, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32(), isNowReady);
     }
 
     // ================================================================
@@ -311,22 +311,22 @@ public partial class BoardManager : Node
         if (runtime == null) return;
 
         bool changed = false;
-        var occupiedCells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
+        var occupiedCells = runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>();
         foreach (var pos in occupiedCells)
         {
             var cell = GetCell(pos);
-            if (cell != null && (bool)cell.Get("is_lit"))
+            if (cell != null && (bool)cell.Get(GDScriptKeys.CellRuntime.IsLit))
             {
-                cell.Set("is_lit", false);
+                cell.Set(GDScriptKeys.CellRuntime.IsLit, false);
                 changed = true;
             }
         }
 
-        bool wasReady = (bool)runtime.Get("is_ready");
-        runtime.Set("is_ready", false);
+        bool wasReady = (bool)runtime.Get(GDScriptKeys.CardRuntime.IsReady);
+        runtime.Set(GDScriptKeys.CardRuntime.IsReady, false);
         if (wasReady)
         {
-            EmitSignal(SignalName.CardReadyChanged, runtime.Get("instance_id").AsInt32(), false);
+            EmitSignal(SignalName.CardReadyChanged, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32(), false);
             changed = true;
         }
 
@@ -340,9 +340,9 @@ public partial class BoardManager : Node
         {
             foreach (var cell in row)
             {
-                if ((bool)cell.Get("is_lit"))
+                if ((bool)cell.Get(GDScriptKeys.CellRuntime.IsLit))
                 {
-                    cell.Set("is_lit", false);
+                    cell.Set(GDScriptKeys.CellRuntime.IsLit, false);
                     changed = true;
                 }
             }
@@ -350,15 +350,33 @@ public partial class BoardManager : Node
 
         foreach (var runtime in runtime_cards)
         {
-            if ((bool)runtime.Get("is_ready"))
+            if ((bool)runtime.Get(GDScriptKeys.CardRuntime.IsReady))
             {
-                runtime.Set("is_ready", false);
-                EmitSignal(SignalName.CardReadyChanged, runtime.Get("instance_id").AsInt32(), false);
+                runtime.Set(GDScriptKeys.CardRuntime.IsReady, false);
+                EmitSignal(SignalName.CardReadyChanged, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32(), false);
                 changed = true;
             }
         }
 
         if (changed) EmitSignal(SignalName.BoardChanged);
+    }
+
+    // ================================================================
+    //  状态重置（战斗开始/返回构筑时调用）
+    // ================================================================
+
+    /// <summary>
+    /// 重置所有卡牌状态：冷却清零、就绪取消、点亮清除。
+    /// 战斗开始时由 BattleManager 调用。
+    /// </summary>
+    public void ResetAllCardStates()
+    {
+        foreach (var runtime in runtime_cards)
+        {
+            runtime.Set(GDScriptKeys.CardRuntime.CooldownRemaining, 0);
+            runtime.Set(GDScriptKeys.CardRuntime.IsReady, false);
+        }
+        ClearAllLights();
     }
 
     // ================================================================
@@ -369,14 +387,14 @@ public partial class BoardManager : Node
     {
         foreach (var runtime in runtime_cards)
         {
-            int currentCooldown = runtime.Get("cooldown_remaining").AsInt32();
+            int currentCooldown = runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32();
             int newCooldown = Mathf.Max(0, currentCooldown - 1);
-            runtime.Set("cooldown_remaining", newCooldown);
+            runtime.Set(GDScriptKeys.CardRuntime.CooldownRemaining, newCooldown);
 
             bool newReady = CheckCardReady(runtime);
-            runtime.Set("is_ready", newReady);
+            runtime.Set(GDScriptKeys.CardRuntime.IsReady, newReady);
 
-            EmitSignal(SignalName.CooldownChanged, runtime.Get("instance_id").AsInt32(), newCooldown);
+            EmitSignal(SignalName.CooldownChanged, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32(), newCooldown);
         }
         EmitSignal(SignalName.BoardChanged);
     }
@@ -387,18 +405,18 @@ public void TickCellBuffs()
     {
         foreach (var cell in row)
         {
-            var stats = cell.Get("stats").As<GodotObject>();
+            var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
             if (stats != null)
             {
                 // 调试：检查格子 (1,1) 的蒙尘状态
-                var pos = cell.Get("position").AsVector2I();
+                var pos = cell.Get(GDScriptKeys.CellRuntime.Position).AsVector2I();
                 if (pos.X == 1 && pos.Y == 1)
                 {
-                    bool hasDust = stats.Call("has_buff", "dust").AsBool();
-                    int dustStacks = stats.Call("get_buff_stacks", "dust").AsInt32();
+                    bool hasDust = stats.Call(GDScriptKeys.Stats.HasBuff, "dust").AsBool();
+                    int dustStacks = stats.Call(GDScriptKeys.Stats.GetBuffStacks, "dust").AsInt32();
                     GD.Print($"[调试] 格子(1,1) 蒙尘：has={hasDust}, stacks={dustStacks}");
                 }
-                stats.Call("tick_turn_start");
+                stats.Call(GDScriptKeys.Stats.TickTurnStart);
             }
         }
     }

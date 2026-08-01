@@ -2,6 +2,13 @@ using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
 
+/// <summary>
+/// 构筑 Canvas（重构版）。
+/// 以覆盖层形式显示在现有 UI 之上，负责卡牌选择与桌面摆放。
+/// 构筑结果通过 DataManager 的 SaveBuild 接口持久化，
+/// 战斗系统通过 DataManager 的 LoadBuild 读取。
+/// </summary>
+[GlobalClass]
 public partial class BuildScreen : Control
 {
     // ============ 信号 ============
@@ -10,6 +17,7 @@ public partial class BuildScreen : Control
     [Signal] public delegate void StartBattleRequestedEventHandler();
     [Signal] public delegate void ClearBuildRequestedEventHandler();
     [Signal] public delegate void BoardSizeRequestedEventHandler(Vector2I size);
+    [Signal] public delegate void BuildCanvasClosedEventHandler();
 
     // ============ 外部引用 ============
     private BoardManager boardManager;
@@ -32,9 +40,12 @@ public partial class BuildScreen : Control
     [Export] private Button grid3x3button;
     [Export] private Button grid4x3button;
 
+    // 最大格子按钮数（4×3 棋盘的按钮总数，与场景中预创建的按钮数一致）
+    private const int MAX_GRID_BUTTONS = 12;
+
     // ============ 内部数据 ============
     private List<Button> buildButtons = new();
-    private Vector2I[] buttonPositions = new Vector2I[12];
+    private Vector2I[] buttonPositions = new Vector2I[MAX_GRID_BUTTONS];
 
     // ================================================================
     //  Setup
@@ -52,7 +63,7 @@ public partial class BuildScreen : Control
         }
 
         // 二维坐标映射
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < MAX_GRID_BUTTONS; i++)
             buttonPositions[i] = new Vector2I(i % 4, i / 4);
 
         // 格子按钮信号
@@ -64,7 +75,7 @@ public partial class BuildScreen : Control
             buildButtons[i].MouseExited += () => { hoveredBuildCell = new(-1, -1); RefreshBoard(); };
         }
 
-        // 操作按钮信号
+        // 操作按钮
         rotatebutton.Pressed += OnRotatePressed;
         examplebutton.Pressed += PlaceExampleBuild;
         clearbutton.Pressed += () => EmitSignal(SignalName.ClearBuildRequested);
@@ -74,6 +85,36 @@ public partial class BuildScreen : Control
         grid4x3button.Pressed += () => RequestBoardSize(4, 3);
 
         UpdateGridState();
+    }
+
+    // ================================================================
+    //  Overlay 控制
+    // ================================================================
+
+    /// <summary>
+    /// 以覆盖层形式打开构筑 Canvas。会刷新物品栏与桌面。
+    /// </summary>
+    public void Open()
+    {
+        Visible = true;
+        RefreshAll();
+    }
+
+    /// <summary>
+    /// 关闭覆盖层并发出信号。
+    /// </summary>
+    public void Close()
+    {
+        Visible = false;
+        EmitSignal(SignalName.BuildCanvasClosed);
+    }
+
+    /// <summary>
+    /// 切换显示/隐藏。
+    /// </summary>
+    public void Toggle()
+    {
+        if (Visible) Close(); else Open();
     }
 
     // ================================================================
@@ -88,7 +129,7 @@ public partial class BuildScreen : Control
 
     public void ShowMessage(string text)
     {
-        GD.Print($"[BuildScreen] {text}");
+        GD.Print($"[BuildCanvas] {text}");
     }
 
     public Vector2I GetHoveredCell() => hoveredBuildCell;
@@ -134,7 +175,7 @@ public partial class BuildScreen : Control
     }
 
     // ================================================================
-    //  物品栏刷新
+    //  物品栏刷新 —————— 从 DataManager 读取背包，生成卡牌按钮
     // ================================================================
 
     private void RefreshInventory()
@@ -144,15 +185,16 @@ public partial class BuildScreen : Control
 
         foreach (var card in DataManager.Instance.GetOwnedCards())
         {
-            StringName cardId = ((GodotObject)card).Get("id").AsStringName();
+            var cardObj = (GodotObject)card;
+            StringName cardId = cardObj.Get(GDScriptKeys.CardData.Id).AsStringName();
             int ownedCount = DataManager.Instance.GetCardCount(cardId);
             int placedCount = CountPlacedOnBoard(cardId);
             int remaining = ownedCount - placedCount;
 
             var button = new Button();
             button.Disabled = remaining <= 0;
-            int shapeCount = ((GodotObject)card).Get("shape_offsets").As<Array<Vector2I>>().Count;
-            button.Text = $"{((GodotObject)card).Get("icon_text")} {((GodotObject)card).Get("display_name")}  x{remaining}｜占用{shapeCount}格\n{((GodotObject)card).Get("description")}";
+            int shapeCount = cardObj.Get(GDScriptKeys.CardData.ShapeOffsets).As<Array<Vector2I>>().Count;
+            button.Text = $"{cardObj.Get(GDScriptKeys.CardData.IconText)} {cardObj.Get(GDScriptKeys.CardData.DisplayName)}  x{remaining}｜占用{shapeCount}格\n{cardObj.Get(GDScriptKeys.CardData.Description)}";
             button.CustomMinimumSize = new Vector2(0, 74);
             button.Pressed += () => OnInventoryCardPressed(cardId);
             inventorybox.AddChild(button);
@@ -164,14 +206,14 @@ public partial class BuildScreen : Control
         int count = 0;
         foreach (var runtime in boardManager.runtime_cards)
         {
-            var data = runtime.Get("data").As<GodotObject>();
-            if (data.Get("id").AsStringName() == cardId) count++;
+            var data = runtime.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
+            if (data.Get(GDScriptKeys.CardData.Id).AsStringName() == cardId) count++;
         }
         return count;
     }
 
     // ================================================================
-    //  板子刷新
+    //  板子刷新 —————— 更新格子按钮文字（含预览）
     // ================================================================
 
     private void RefreshBoard()
@@ -186,7 +228,7 @@ public partial class BuildScreen : Control
             previewValid = boardManager.CanPlace(card, hoveredBuildCell, selectedRotation);
         }
 
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < MAX_GRID_BUTTONS; i++)
         {
             var pos = buttonPositions[i];
             var btn = buildButtons[i];
@@ -197,21 +239,21 @@ public partial class BuildScreen : Control
                 continue;
             }
 
-            var cell = boardManager.GetCell(pos);
             var runtime = boardManager.GetCardByCell(pos);
             btn.Modulate = Colors.White;
             btn.Text = "";
 
             if (runtime != null)
             {
-                var data = runtime.Get("data").As<GodotObject>();
-                btn.Text = $"{data.Get("icon_text")}\n{data.Get("display_name")}";
+                var data = runtime.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
+                btn.Text = $"{data.Get(GDScriptKeys.CardData.IconText)}\n{data.Get(GDScriptKeys.CardData.DisplayName)}";
             }
 
             if (previewPositions.Contains(pos))
             {
                 var card = DataManager.Instance.GetCard(selectedCardId);
-                btn.Text = $"{((GodotObject)card).Get("icon_text")}\n{(previewValid ? "可放置" : "冲突")}";
+                var cardObj = (GodotObject)card;
+                btn.Text = $"{cardObj.Get(GDScriptKeys.CardData.IconText)}\n{(previewValid ? "可放置" : "冲突")}";
                 btn.Modulate = previewValid ? Colors.White : new Color(0.85f, 0.45f, 0.45f);
             }
         }
@@ -236,7 +278,7 @@ public partial class BuildScreen : Control
         var runtime = boardManager.GetCardByCell(pos);
         if (runtime != null)
         {
-            EmitSignal(SignalName.RemoveCardRequested, runtime.Get("instance_id").AsInt32());
+            EmitSignal(SignalName.RemoveCardRequested, runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32());
             RefreshAll();
             return;
         }

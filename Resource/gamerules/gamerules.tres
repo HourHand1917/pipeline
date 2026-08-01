@@ -1,4 +1,4 @@
-[gd_resource type="Resource" format=3 uid="uid://7xcxpk1gllam"]
+[gd_resource type="Resource" script_class="GameRules" format=3 uid="uid://7xcxpk1gllam"]
 
 [ext_resource type="Resource" uid="uid://dvuk11qortwcr" path="res://Resource/characterdata/enemydata/dummy_data.tres" id="1_fevqp"]
 [ext_resource type="Resource" uid="uid://ckhovgwhpjpco" path="res://Resource/battlemap/testmap.tres" id="1_q0xg1"]

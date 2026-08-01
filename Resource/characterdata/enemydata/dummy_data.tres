@@ -9,5 +9,6 @@
 [resource]
 script = ExtResource("2_mf5of")
 display_name = "假人"
+glyph = "假人"
 actions = Array[ExtResource("1_g8xaa")]([ExtResource("2_tlidg"), ExtResource("3_abakw"), ExtResource("4_abakw")])
 metadata/_custom_type_script = "uid://qarur3c2xyfi"
