@@ -4,5 +4,5 @@
 
 [resource]
 script = ExtResource("1_3oigq")
-glyph = "rubber"
+glyph = "玩家"
 metadata/_custom_type_script = "uid://fr43p4ntrtg3"

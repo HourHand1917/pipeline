@@ -10,6 +10,6 @@ id = &"get_close"
 display_name = "逼近"
 intent_text = "意图：向玩家方向靠近"
 priority = 1
-min_range = 3
+min_range = 4
 effects = Array[ExtResource("1_pa76j")]([ExtResource("2_y1b5s")])
 metadata/_custom_type_script = "uid://7hwav6op8h01"

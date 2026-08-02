@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://hgfer4mgvtcw" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "readylist", "loglabel", "statuslabel", "energylabel", "distancelabel", "roundlabel", "phaselabel", "readylabel", "movebackbutton", "moveforwardbutton", "endturnbutton", "backbutton")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "readylist", "loglabel", "statuslabel", "energylabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton")]
 layout_mode = 3
 anchors_preset = 0
 size_flags_vertical = 3
@@ -13,12 +13,14 @@ readylist = NodePath("battleVbox/battlecontent/sidepanel/readylist")
 loglabel = NodePath("battleVbox/battlecontent/sidepanel/loglabel")
 statuslabel = NodePath("battleVbox/statuslabel")
 energylabel = NodePath("battleVbox/infobar/energylabel")
-distancelabel = NodePath("battleVbox/infobar/distancelabel")
 roundlabel = NodePath("battleVbox/infobar/roundlabel")
 phaselabel = NodePath("battleVbox/infobar/phaselabel")
 readylabel = NodePath("battleVbox/battlecontent/sidepanel/readylabel")
-movebackbutton = NodePath("battleVbox/battlecontent/boardcolum/movebar/movebackbutton")
-moveforwardbutton = NodePath("battleVbox/battlecontent/boardcolum/movebar/moveforwardbutton")
+distancelabel = NodePath("battleVbox/infobar/distancelabel")
+distancetrack = NodePath("battleVbox/stagepanel/margin/stageVbox/distancetrack")
+movebackbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movebackbutton")
+moveforwardbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/moveforwardbutton")
+movehint = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movehint")
 endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/endturnbutton")
 backbutton = NodePath("battleVbox/battlecontent/sidepanel/backbutton")
 
@@ -55,11 +57,61 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "玩家0.怪物0，距离0格"
 
+[node name="stagepanel" type="PanelContainer" parent="battleVbox" unique_id=1224801427]
+layout_mode = 2
+
+[node name="margin" type="MarginContainer" parent="battleVbox/stagepanel" unique_id=1286502687]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="stageVbox" type="VBoxContainer" parent="battleVbox/stagepanel/margin" unique_id=854700267]
+layout_mode = 2
+
+[node name="distanceheader" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=881479664]
+layout_mode = 2
+
+[node name="eyebrow" type="Label" parent="battleVbox/stagepanel/margin/stageVbox/distanceheader" unique_id=365746658]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "战斗距离"
+
+[node name="distancelabel" type="Label" parent="battleVbox/stagepanel/margin/stageVbox/distanceheader" unique_id=1637419259]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "玩家0·敌人0·距离0格"
+horizontal_alignment = 1
+
+[node name="distancetrack" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=503304078]
+layout_mode = 2
+alignment = 1
+
+[node name="movement" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=953537882]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="movebackbutton" type="Button" parent="battleVbox/stagepanel/margin/stageVbox/movement" unique_id=1501721777]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "后退"
+
+[node name="movehint" type="Label" parent="battleVbox/stagepanel/margin/stageVbox/movement" unique_id=682321102]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "移动消耗 1 能量"
+
+[node name="moveforwardbutton" type="Button" parent="battleVbox/stagepanel/margin/stageVbox/movement" unique_id=1709012874]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "前进"
+
 [node name="battlecontent" type="HBoxContainer" parent="battleVbox" unique_id=1492056502]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 16
-alignment = 1
 
 [node name="boardcolum" type="VBoxContainer" parent="battleVbox/battlecontent" unique_id=2044582270]
 layout_mode = 2
@@ -117,21 +169,6 @@ layout_mode = 2
 [node name="battlebutton11" type="Button" parent="battleVbox/battlecontent/boardcolum/battlegird" unique_id=1471560108]
 custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
-
-[node name="movebar" type="HBoxContainer" parent="battleVbox/battlecontent/boardcolum" unique_id=953537882]
-layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="movebackbutton" type="Button" parent="battleVbox/battlecontent/boardcolum/movebar" unique_id=1501721777]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "后退"
-
-[node name="moveforwardbutton" type="Button" parent="battleVbox/battlecontent/boardcolum/movebar" unique_id=1709012874]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "前进"
 
 [node name="endturnbutton" type="Button" parent="battleVbox/battlecontent/boardcolum" unique_id=1599096835]
 layout_mode = 2
