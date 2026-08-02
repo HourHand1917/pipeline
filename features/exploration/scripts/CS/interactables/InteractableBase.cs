@@ -1,10 +1,9 @@
 using Godot;
 
 /// <summary>
-/// 可互动物体基类。两个检测范围：
-///   DetectionRange — 大圆，玩家靠近检测（触发亮度闪烁）
-///   ClickZone/ClickShape — 小圆，鼠标悬停变亮 + 点击互动
-/// 闪烁用 Tween（从当前值平滑过渡，无突变）。
+/// 可互动物体基类。Area2D 检测玩家靠近 + 接收点击事件。
+/// 闪烁行为由可选的 BlinkComponent 子节点提供，不挂在基类上。
+/// 遵循 Composition over Inheritance。
 /// </summary>
 [GlobalClass]
 public abstract partial class InteractableBase : Area2D, IPersistable
@@ -24,10 +23,9 @@ public abstract partial class InteractableBase : Area2D, IPersistable
     protected CollisionShape2D detectionShape;
     protected Area2D clickZone;
     protected CollisionShape2D clickShape;
-    private Color baseColor;
-    private bool isHovered;
-    private Tween blinkTween;
     protected string _mapId;
+
+    private BlinkComponent _blink;
 
     public override void _Ready()
     {
@@ -35,6 +33,7 @@ public abstract partial class InteractableBase : Area2D, IPersistable
         detectionShape = GetNode<CollisionShape2D>("DetectionRange");
         clickZone = GetNode<Area2D>("ClickZone");
         clickShape = clickZone.GetNode<CollisionShape2D>("ClickShape");
+        _blink = GetNodeOrNull<BlinkComponent>("Blink");
 
         if (detectionShape.Shape is CircleShape2D circle)
             circle.Radius = DetectionRadius;
@@ -47,17 +46,17 @@ public abstract partial class InteractableBase : Area2D, IPersistable
         BodyEntered += OnBodyEntered;
         BodyExited += OnBodyExited;
 
-        // 子 Area2D：负责鼠标悬停 + 点击
-        clickZone.MouseEntered += () => { isHovered = true; OnHoverChanged(); };
-        clickZone.MouseExited += () => { isHovered = false; OnHoverChanged(); };
+        // 子 Area2D：点击事件
         clickZone.InputEvent += (v, e, i) => OnClickInput(v, e, i);
+
+        // 闪烁组件：独立管理悬停 + 闪烁
+        _blink?.Setup(sprite, clickZone);
 
         SetupPlaceholder();
 
         var image = Image.CreateEmpty(64, 64, false, Image.Format.Rgba8);
         image.Fill(sprite.Modulate);
         sprite.Texture = ImageTexture.CreateFromImage(image);
-        baseColor = sprite.Modulate;
     }
 
     /// <summary>由 ExplorationManager 注入，保存 mapId 并恢复持久化状态</summary>
@@ -87,13 +86,9 @@ public abstract partial class InteractableBase : Area2D, IPersistable
     public virtual void LoadState(Godot.Collections.Dictionary state)
     {
         if (state.TryGetValue("interacted", out var v) && v.AsBool())
-        {
-            // 已互动过 → 隐藏或变灰
             QueueFree();
-        }
     }
 
-    /// <summary>子类在状态改变时调用此方法持久化</summary>
     protected void PersistInteraction(string mapId)
     {
         if (string.IsNullOrEmpty(PersistenceId) || string.IsNullOrEmpty(mapId)) return;
@@ -107,7 +102,7 @@ public abstract partial class InteractableBase : Area2D, IPersistable
         if (body is PlayerController)
         {
             IsPlayerInRange = true;
-            StartBlinking();
+            if (_blink != null) _blink.IsPlayerInRange = true;
             EmitSignal(SignalName.PlayerEnteredRange);
         }
     }
@@ -117,7 +112,7 @@ public abstract partial class InteractableBase : Area2D, IPersistable
         if (body is PlayerController)
         {
             IsPlayerInRange = false;
-            StopBlinking();
+            if (_blink != null) _blink.IsPlayerInRange = false;
             EmitSignal(SignalName.PlayerExitedRange);
         }
     }
@@ -131,38 +126,5 @@ public abstract partial class InteractableBase : Area2D, IPersistable
         {
             HandleInteract();
         }
-    }
-
-    private void OnHoverChanged()
-    {
-        if (isHovered && IsPlayerInRange)
-        {
-            // 暂停闪烁，固定高亮
-            blinkTween?.Kill();
-            sprite.Modulate = new Color(baseColor.R * 1.5f, baseColor.G * 1.5f, baseColor.B * 1.5f, 1.0f);
-        }
-        else if (!isHovered && IsPlayerInRange)
-        {
-            // 恢复闪烁
-            StartBlinking();
-        }
-    }
-
-    private void StartBlinking()
-    {
-        blinkTween?.Kill();
-        blinkTween = CreateTween();
-        blinkTween.SetLoops(0);
-        var dim = new Color(baseColor.R * 0.5f, baseColor.G * 0.5f, baseColor.B * 0.5f, 1.0f);
-        blinkTween.TweenProperty(sprite, "modulate", dim, 0.6f)
-            .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-        blinkTween.TweenProperty(sprite, "modulate", baseColor, 0.6f)
-            .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.InOut);
-    }
-
-    private void StopBlinking()
-    {
-        blinkTween?.Kill();
-        sprite.Modulate = baseColor;
     }
 }

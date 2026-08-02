@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_v1dgx"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="2_6soyk"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_5g27p"]
 [ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="4_h6glm"]
 [ext_resource type="Script" uid="uid://c48ybh4kptb1p" path="res://features/exploration/scripts/CS/interactables/MerchantInteractable.cs" id="5_jrhl4"]
 [ext_resource type="Script" uid="uid://cmoxk1cciwmtx" path="res://features/exploration/scripts/CS/interactables/CampfireInteractable.cs" id="6_dwgp3"]
@@ -83,6 +84,9 @@ collision_mask = 0
 [node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Workbench/ClickZone" unique_id=164859093]
 shape = SubResource("CircleShape2D_k4n68")
 
+[node name="Blink" type="Node" parent="MapLayer/Workbench" unique_id=714301005]
+script = ExtResource("4_5g27p")
+
 [node name="Merchant" type="Area2D" parent="MapLayer" unique_id=1717690169]
 position = Vector2(900, 340)
 script = ExtResource("5_jrhl4")
@@ -100,6 +104,9 @@ collision_mask = 0
 
 [node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Merchant/ClickZone" unique_id=40018695]
 shape = SubResource("CircleShape2D_5g27p")
+
+[node name="Blink" type="Node" parent="MapLayer/Merchant" unique_id=2112791020]
+script = ExtResource("4_5g27p")
 
 [node name="Campfire" type="Area2D" parent="MapLayer" unique_id=666391469]
 position = Vector2(1300, 340)
@@ -119,6 +126,9 @@ collision_mask = 0
 [node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Campfire/ClickZone" unique_id=1985526617]
 shape = SubResource("CircleShape2D_v1dgx")
 
+[node name="Blink" type="Node" parent="MapLayer/Campfire" unique_id=1909855403]
+script = ExtResource("4_5g27p")
+
 [node name="Chest" type="Area2D" parent="MapLayer" unique_id=1157013061]
 position = Vector2(1700, 340)
 script = ExtResource("7_0wweh")
@@ -136,6 +146,9 @@ collision_mask = 0
 
 [node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Chest/ClickZone" unique_id=1410434977]
 shape = SubResource("CircleShape2D_6soyk")
+
+[node name="Blink" type="Node" parent="MapLayer/Chest" unique_id=1103344199]
+script = ExtResource("4_5g27p")
 
 [node name="EnemyPatrol" type="Area2D" parent="MapLayer" unique_id=422480220]
 position = Vector2(2100, 340)

@@ -19,7 +19,6 @@ public partial class HostileNPC : NPCBase
     public override void _Ready()
     {
         base._Ready();
-        // 缩小检测范围等于仇恨半径
         DetectionRadius = AggroRadius;
         if (detectionShape.Shape is CircleShape2D circle)
             circle.Radius = DetectionRadius;
