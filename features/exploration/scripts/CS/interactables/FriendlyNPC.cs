@@ -6,10 +6,6 @@ using Godot;
 [GlobalClass]
 public partial class FriendlyNPC : NPCBase
 {
-    protected override void SetupPlaceholder()
-    {
-        sprite.Modulate = new Color(0.3f, 0.7f, 1.0f); // 蓝色
-    }
 
     public override void HandleInteract()
     {

@@ -9,6 +9,9 @@ public partial class PlayerController : CharacterBody2D
 {
     [Export] public float MoveSpeed { get; set; } = 300.0f;
 
+    public int MapLeft { get; set; } = -2000;
+    public int MapRight { get; set; } = 3500;
+
     /// <summary>
     /// 当前朝向：-1 左，1 右
     /// </summary>
@@ -35,6 +38,11 @@ public partial class PlayerController : CharacterBody2D
     {
         Velocity = new Vector2(x, 0);
         MoveAndSlide();
+        // 地图左右边界约束
+        GlobalPosition = new Vector2(
+            Mathf.Clamp(GlobalPosition.X, MapLeft, MapRight),
+            GlobalPosition.Y
+        );
     }
 
     /// <summary>
