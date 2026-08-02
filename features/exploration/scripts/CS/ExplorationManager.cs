@@ -12,22 +12,17 @@ public partial class ExplorationManager : Node2D
     /// <summary>地图唯一 ID（持久化用，如 "forest_01"）</summary>
     [Export] public string MapId { get; set; } = "";
 
-    [ExportGroup("相机边界")]
+    [ExportGroup("地图边界")]
     [Export] public int MapLeft { get; set; } = -2000;
     [Export] public int MapRight { get; set; } = 3500;
-    [Export] public int MapTop { get; set; } = -400;
-    [Export] public int MapBottom { get; set; } = 600;
 
     public override void _Ready()
     {
-        // 应用相机边界
-        var cam = Player?.GetNode<Camera2D>("Camera");
-        if (cam != null)
+        // 地图边界 → 玩家不可走出
+        if (Player != null)
         {
-            cam.LimitLeft = MapLeft;
-            cam.LimitRight = MapRight;
-            cam.LimitTop = MapTop;
-            cam.LimitBottom = MapBottom;
+            Player.MapLeft = MapLeft;
+            Player.MapRight = MapRight;
         }
 
         // 向所有持久化物注入 MapId 并恢复状态

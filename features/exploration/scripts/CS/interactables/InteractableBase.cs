@@ -12,8 +12,6 @@ public abstract partial class InteractableBase : Area2D, IPersistable
     [Signal] public delegate void PlayerExitedRangeEventHandler();
 
     [Export] public string DisplayName { get; set; } = "物体";
-    [Export] public float DetectionRadius { get; set; } = 120.0f;
-    [Export] public float ClickRadius { get; set; } = 48.0f;
     /// <summary>跨地图持久化 ID（同一地图内唯一）</summary>
     [Export] public string PersistenceId { get; set; } = "";
 
@@ -25,7 +23,7 @@ public abstract partial class InteractableBase : Area2D, IPersistable
     protected CollisionShape2D clickShape;
     protected string _mapId;
 
-    private BlinkComponent _blink;
+    [Export] private BlinkComponent _blink;
 
     public override void _Ready()
     {
@@ -33,12 +31,6 @@ public abstract partial class InteractableBase : Area2D, IPersistable
         detectionShape = GetNode<CollisionShape2D>("DetectionRange");
         clickZone = GetNode<Area2D>("ClickZone");
         clickShape = clickZone.GetNode<CollisionShape2D>("ClickShape");
-        _blink = GetNodeOrNull<BlinkComponent>("Blink");
-
-        if (detectionShape.Shape is CircleShape2D circle)
-            circle.Radius = DetectionRadius;
-        if (clickShape.Shape is CircleShape2D circle2)
-            circle2.Radius = ClickRadius;
 
         // 父 Area2D：只负责检测玩家靠近
         CollisionLayer = 0;
@@ -48,15 +40,6 @@ public abstract partial class InteractableBase : Area2D, IPersistable
 
         // 子 Area2D：点击事件
         clickZone.InputEvent += (v, e, i) => OnClickInput(v, e, i);
-
-        // 闪烁组件：独立管理悬停 + 闪烁
-        _blink?.Setup(sprite, clickZone);
-
-        SetupPlaceholder();
-
-        var image = Image.CreateEmpty(64, 64, false, Image.Format.Rgba8);
-        image.Fill(sprite.Modulate);
-        sprite.Texture = ImageTexture.CreateFromImage(image);
     }
 
     /// <summary>由 ExplorationManager 注入，保存 mapId 并恢复持久化状态</summary>
@@ -89,13 +72,18 @@ public abstract partial class InteractableBase : Area2D, IPersistable
             QueueFree();
     }
 
+    protected void SetBlinkEnabled(bool enabled)
+    {
+        if (_blink != null) _blink.Enabled = enabled;
+    }
+
     protected void PersistInteraction(string mapId)
     {
         if (string.IsNullOrEmpty(PersistenceId) || string.IsNullOrEmpty(mapId)) return;
         GameState.Instance?.SetObjectState(mapId, PersistenceId, SaveState());
     }
 
-    protected virtual void SetupPlaceholder() { }
+
 
     private void OnBodyEntered(Node2D body)
     {
@@ -117,12 +105,13 @@ public abstract partial class InteractableBase : Area2D, IPersistable
         }
     }
 
+    private bool CanInteract =>
+        IsPlayerInRange && (_blink == null || _blink.IsHovered);
+
     private void OnClickInput(Node viewport, InputEvent @event, long shapeIdx)
     {
-        if (@event is InputEventMouseButton mouseButton
-            && mouseButton.ButtonIndex == MouseButton.Left
-            && mouseButton.Pressed
-            && IsPlayerInRange)
+        if (@event is InputEventMouseButton { ButtonIndex: MouseButton.Left, Pressed: true }
+            && CanInteract)
         {
             HandleInteract();
         }
