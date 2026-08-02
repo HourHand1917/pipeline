@@ -43,6 +43,7 @@ public partial class BattleScreen : Control
     [Export] private Label movehint;
     [Export] private Button endturnbutton;
     [Export] private Button backbutton;
+    [Export] private TextureProgressBar playerHealthBar;
 
     // ================================================================
     //  Setup
@@ -78,6 +79,7 @@ public partial class BattleScreen : Control
         UIManager.MoveHint = movehint;
         UIManager.EndTurnButton = endturnbutton;
         UIManager.BackButton = backbutton;
+        UIManager.PlayerHealthBar = playerHealthBar;
 
         UIManager.Setup(boardManager, battleManager);
 

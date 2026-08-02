@@ -1,0 +1,6 @@
+[gd_resource type="StyleBoxTexture" format=3 uid="uid://6mdxgm54qqo0"]
+
+[ext_resource type="Texture2D" uid="uid://b3bkcqnm8g00i" path="res://features/exploration/art_assets/battlescreen/Untitled18_20260802221135.jpg" id="1_ixhcp"]
+
+[resource]
+texture = ExtResource("1_ixhcp")

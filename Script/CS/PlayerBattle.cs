@@ -78,6 +78,14 @@ public partial class PlayerBattle : Node2D
 
     public void TakeDamage(int amount)
     {
+        if (amount <= 0)
+        {
+            // 回血
+            CurrentHp = Mathf.Min(MaxHp, CurrentHp - amount);
+            EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
+            return;
+        }
+
         int shieldDmg = Mathf.Min(Shield, amount);
         Shield -= shieldDmg;
         int hpDmg = amount - shieldDmg;

@@ -39,6 +39,7 @@ public partial class UIManager : Node
     public Label MoveHint { get; set; }
     public Button EndTurnButton { get; set; }
     public Button BackButton { get; set; }
+    public TextureProgressBar PlayerHealthBar { get; set; }
 
     // ============ 内部数据 ============
     private List<Button> battleButtons = new();
@@ -116,14 +117,33 @@ public partial class UIManager : Node
         if (player == null) return;
         _player = player;
 
-        player.HealthChanged += (cur, max) => UpdateStatusLine();
+        // 血量变化 → 更新血条
+        player.HealthChanged += (cur, max) =>
+    {
+        GD.Print($"[血条调试] cur={cur}, max={max}");
+        GD.Print($"[血条调试] PlayerHealthBar is null? {PlayerHealthBar == null}");
+        if (PlayerHealthBar != null)
+        {
+            GD.Print($"[血条调试] 设置前: MaxValue={PlayerHealthBar.MaxValue}, Value={PlayerHealthBar.Value}");
+            PlayerHealthBar.MaxValue = max;
+            PlayerHealthBar.Value = cur;
+            GD.Print($"[血条调试] 设置后: MaxValue={PlayerHealthBar.MaxValue}, Value={PlayerHealthBar.Value}");
+        }
+        UpdateStatusLine();
+    };
+
+        // 护盾变化 → 更新状态栏
         player.ShieldChanged += (_) => UpdateStatusLine();
+
+        // 能量变化 → 更新能量标签
         player.EnergyChanged += (cur, max) =>
         {
             if (EnergyLabel != null)
                 EnergyLabel.Text = $"⚡ {cur} / {max}";
         };
+
         player.PositionChanged += (_) => RefreshDistanceTrack();
+
         player.BuffApplied += (buff, stacks) =>
         {
             GD.Print($"[UIManager] 玩家获得 Buff：{buff.Get("buff_name")} ×{stacks}");
@@ -132,6 +152,7 @@ public partial class UIManager : Node
         {
             GD.Print($"[UIManager] 玩家移除 Buff：{buffId}");
         };
+
         player.Died += () =>
         {
             if (StatusLabel != null)
