@@ -1,0 +1,9 @@
+[gd_resource type="Theme" format=3 uid="uid://trkpjvb2ambn"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hq7pe"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pfmq5"]
+
+[resource]
+Button/styles/disabled = SubResource("StyleBoxTexture_hq7pe")
+Button/styles/hover = SubResource("StyleBoxTexture_pfmq5")
