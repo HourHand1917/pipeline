@@ -9,5 +9,5 @@ var stats: Stats = Stats.new()        # 每个格子有独立的 Stats 容器
 
 
 func _init(cell_position: Vector2i) -> void:
-    position = cell_position
-    stats = Stats.new()
+	position = cell_position
+	stats = Stats.new()
