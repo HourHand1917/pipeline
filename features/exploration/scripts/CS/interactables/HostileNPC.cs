@@ -11,17 +11,11 @@ public partial class HostileNPC : NPCBase
 
     private bool hasTriggered;
 
-    protected override void SetupPlaceholder()
-    {
-        sprite.Modulate = new Color(0.85f, 0.15f, 0.15f); // 红色
-    }
-
     public override void _Ready()
     {
         base._Ready();
-        DetectionRadius = AggroRadius;
         if (detectionShape.Shape is CircleShape2D circle)
-            circle.Radius = DetectionRadius;
+            circle.Radius = AggroRadius;
     }
 
     public override void _PhysicsProcess(double delta)

@@ -12,11 +12,6 @@ public partial class ChestInteractable : InteractableBase
     /// <summary>是否已经打开过</summary>
     public bool IsOpened { get; private set; }
 
-    protected override void SetupPlaceholder()
-    {
-        sprite.Modulate = new Color(0.2f, 0.45f, 0.8f);
-    }
-
     public override void HandleInteract()
     {
         if (IsOpened)
@@ -25,6 +20,7 @@ public partial class ChestInteractable : InteractableBase
             {
                 ItemsRemaining--;
                 GD.Print($"从「{DisplayName}」取走 1 件物品，剩余 {ItemsRemaining}。");
+                if (ItemsRemaining <= 0) SetBlinkEnabled(false);
                 PersistInteraction(_mapId);
             }
             else
@@ -58,7 +54,8 @@ public partial class ChestInteractable : InteractableBase
 
         if (IsOpened && ItemsRemaining <= 0)
         {
-            sprite.Modulate = new Color(0.1f, 0.2f, 0.4f); // 空宝箱更暗
+            sprite.Modulate = new Color(0.1f, 0.2f, 0.4f);
+            SetBlinkEnabled(false);
         }
     }
 }
