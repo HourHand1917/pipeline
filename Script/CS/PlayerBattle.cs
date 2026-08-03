@@ -76,6 +76,13 @@ public partial class PlayerBattle : Node2D
     //  伤害 / 护盾 / 回复
     // ================================================================
 
+    /// <summary>主动触发一次 HealthChanged 信号，用于 UI 初始化</summary>
+    public void EmitHealthChanged()
+    {
+        EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
+        EmitSignal(SignalName.ShieldChanged, Shield);
+        EmitSignal(SignalName.EnergyChanged, Energy, MaxEnergy);
+    }
     public void TakeDamage(int amount)
     {
         if (amount <= 0)

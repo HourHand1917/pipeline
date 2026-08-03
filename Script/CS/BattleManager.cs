@@ -133,6 +133,9 @@ public partial class BattleManager : Node
         BoardManager.ResetAllCardStates();
         SetPhase(Phase.PlayerTurn);
 
+        // 初始触发血量 / 护盾 / 能量更新
+        Player.EmitHealthChanged();
+
         Log($"战斗开始：{battleMap.Get(GDScriptKeys.BattleMap.CellCount).AsInt32()}格地图，" +
             $"{Player.DisplayName}{playerStartCell}，" +
             $"{primaryEnemy.DisplayName}{enemyStartCell}，" +

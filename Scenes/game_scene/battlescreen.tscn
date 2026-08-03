@@ -8,12 +8,44 @@
 [ext_resource type="Texture2D" uid="uid://d1g1ejeosnyl1" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220631.png" id="3_yuhd7"]
 [ext_resource type="Texture2D" uid="uid://bo0n4db5dkt3r" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802221422.jpg" id="4_lwu1b"]
 [ext_resource type="Texture2D" uid="uid://cl5guvk7krxw5" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222018.jpg" id="4_uvrjy"]
+[ext_resource type="Texture2D" uid="uid://5tdy6psvnu3k" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0001_0.png" id="5_7le68"]
+[ext_resource type="Texture2D" uid="uid://ds5perm7gmcjw" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0002_18.png" id="6_brapn"]
+[ext_resource type="Texture2D" uid="uid://mmr4d3xnpmlc" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0003_19.png" id="7_26bt4"]
+[ext_resource type="Texture2D" uid="uid://cp48k8wkx70uy" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0004_19.png" id="8_aadoi"]
+[ext_resource type="Texture2D" uid="uid://de5vtsfc3bori" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0005_19.png" id="9_pergr"]
+[ext_resource type="Texture2D" uid="uid://c8bupt3myowf0" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0006_18.png" id="10_t4udp"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mu3ns"]
 texture = ExtResource("2_rr40r")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epdb4"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vn3ql"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_7le68")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_brapn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_26bt4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_aadoi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_pergr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_t4udp")
+}],
+"loop": true,
+"name": &"idel",
+"speed": 5.0
+}]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lwu1b"]
 texture = ExtResource("2_ycqhv")
@@ -27,7 +59,7 @@ texture = ExtResource("4_lwu1b")
 [sub_resource type="Theme" id="Theme_rr40r"]
 Button/styles/normal = SubResource("StyleBoxTexture_yuhd7")
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "readylist", "loglabel", "statuslabel", "energylabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "playerHealthBar")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "readylist", "loglabel", "statuslabel", "energylabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar")]
 layout_mode = 3
 anchors_preset = 0
 size_flags_vertical = 3
@@ -48,7 +80,7 @@ moveforwardbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/mo
 movehint = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movehint")
 endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/endturnbutton")
 backbutton = NodePath("battleVbox/battlecontent/sidepanel/Control/backbutton")
-playerHealthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
+healthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
 
 [node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
 custom_minimum_size = Vector2(400, 600)
@@ -85,6 +117,13 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_epdb4")
 layout_mode = 2
 texture_under = ExtResource("3_4b0pn")
 texture_progress = ExtResource("4_uvrjy")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1189351085]
+position = Vector2(127.00001, 82)
+scale = Vector2(0.10231481, 0.10046296)
+sprite_frames = SubResource("SpriteFrames_vn3ql")
+animation = &"idel"
+frame_progress = 0.05180725
 
 [node name="infobar" type="HBoxContainer" parent="battleVbox" unique_id=54570403]
 layout_mode = 2

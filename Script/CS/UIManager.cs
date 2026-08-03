@@ -39,7 +39,7 @@ public partial class UIManager : Node
     public Label MoveHint { get; set; }
     public Button EndTurnButton { get; set; }
     public Button BackButton { get; set; }
-    public TextureProgressBar PlayerHealthBar { get; set; }
+    public TextureProgressBar HealthBar { get; set; }
 
     // ============ 内部数据 ============
     private List<Button> battleButtons = new();
@@ -121,13 +121,13 @@ public partial class UIManager : Node
         player.HealthChanged += (cur, max) =>
     {
         GD.Print($"[血条调试] cur={cur}, max={max}");
-        GD.Print($"[血条调试] PlayerHealthBar is null? {PlayerHealthBar == null}");
-        if (PlayerHealthBar != null)
+        GD.Print($"[血条调试] PlayerHealthBar is null? {HealthBar == null}");
+        if (HealthBar != null)
         {
-            GD.Print($"[血条调试] 设置前: MaxValue={PlayerHealthBar.MaxValue}, Value={PlayerHealthBar.Value}");
-            PlayerHealthBar.MaxValue = max;
-            PlayerHealthBar.Value = cur;
-            GD.Print($"[血条调试] 设置后: MaxValue={PlayerHealthBar.MaxValue}, Value={PlayerHealthBar.Value}");
+            GD.Print($"[血条调试] 设置前: MaxValue={HealthBar.MaxValue}, Value={HealthBar.Value}");
+            HealthBar.MaxValue = max;
+            HealthBar.Value = cur;
+            GD.Print($"[血条调试] 设置后: MaxValue={HealthBar.MaxValue}, Value={HealthBar.Value}");
         }
         UpdateStatusLine();
     };
