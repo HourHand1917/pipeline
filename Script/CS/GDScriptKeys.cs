@@ -36,6 +36,8 @@ public static class GDScriptKeys
 
         // 方法名
         public static readonly StringName HasDamageEffect = "has_damage_effect";
+        public static readonly StringName HasSwapEffect = "has_swap_effect";
+        public static readonly StringName HasRangeTarget = "has_range_target";
         public static readonly StringName GetRotatedShape = "get_rotated_shape";
     }
 
@@ -145,12 +147,12 @@ public static class GDScriptKeys
     }
 
     // ================================================================
-  public static class EnemyData
-{
-    public static readonly StringName GetActionForDistance = "get_action_for_distance";
-}
+    public static class EnemyData
+    {
+        public static readonly StringName GetActionForDistance = "get_action_for_distance";
+    }
     // ================================================================
-    
+
     public static class EnemyAction
     {
         public static readonly StringName DisplayName = "display_name";

@@ -10,6 +10,7 @@ enum Type {
 	ENERGY,
 	APPLY_BUFF,          # 新增：施加 Buff
 	REMOVE_BUFF,         # 新增：移除 Buff
+	SWAP_POSITION,       # 新增：绕后换位
 }
 
 enum Target {
@@ -47,6 +48,8 @@ func summary() -> String:
 	match type:
 		Type.MOVE_TOWARD_OPPONENT, Type.MOVE_AWAY_FROM_OPPONENT:
 			return "%s %d 格" % [label, amount]
+		Type.SWAP_POSITION:
+			return "绕后换位"
 		Type.APPLY_BUFF:
 			if buff != null:
 				return "施加 %s ×%d" % [buff.buff_name, buff_stacks]
@@ -67,6 +70,7 @@ func type_key() -> StringName:
 		Type.ENERGY: return &"energy"
 		Type.APPLY_BUFF: return &"apply_buff"
 		Type.REMOVE_BUFF: return &"remove_buff"
+		Type.SWAP_POSITION: return &"swap_position"
 	return &""
 
 
@@ -80,4 +84,5 @@ func _default_display_name() -> String:
 		Type.ENERGY: return "能量"
 		Type.APPLY_BUFF: return "施加 Buff"
 		Type.REMOVE_BUFF: return "移除 Buff"
+		Type.SWAP_POSITION: return "绕后"
 	return "效果"

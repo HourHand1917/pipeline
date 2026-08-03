@@ -76,8 +76,19 @@ func has_damage_effect() -> bool:
 	return false
 
 
+func has_swap_effect() -> bool:
+	for effect in effects:
+		if effect != null and effect.type == CombatEffectData.Type.SWAP_POSITION:
+			return true
+	return false
+
+
+func has_range_target() -> bool:
+	return has_damage_effect() or has_swap_effect()
+
+
 func range_text() -> String:
-	if not has_damage_effect():
+	if not has_range_target():
 		return "目标：自身"
 	var range_min := mini(min_range, max_range)
 	var range_max := maxi(min_range, max_range)

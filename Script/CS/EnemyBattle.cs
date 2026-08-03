@@ -22,6 +22,8 @@ public partial class EnemyBattle : Node2D
     public int CurrentHp { get; private set; }
     public int Shield { get; private set; }
     public int MapPosition { get; private set; }
+    /// <summary>朝向：0=正方向（右），1=负方向（左）</summary>
+    public int Facing { get; set; } = 0;
 
     /// <summary>显示名（从 EnemyData 读取）</summary>
     public string DisplayName { get; private set; } = "敌人";
@@ -113,6 +115,12 @@ public partial class EnemyBattle : Node2D
     {
         MapPosition = position;
         EmitSignal(SignalName.PositionChanged, MapPosition);
+    }
+
+    /// <summary>根据玩家位置自动计算朝向</summary>
+    public void UpdateFacing(int playerPos)
+    {
+        Facing = (MapPosition - playerPos) > 0 ? 0 : 1;
     }
 
     // ================================================================

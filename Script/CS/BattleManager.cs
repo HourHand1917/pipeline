@@ -18,6 +18,8 @@ public partial class BattleManager : Node
 
     public enum Phase { Build, PlayerTurn, EnemyTurn, BattleEnd }
     public enum MoveAction { Backward = -1, Forward = 1 }
+    public const int FacingPositive = 0; // 正方向（右）
+    public const int FacingNegative = 1; // 负方向（左）
 
     [Export] private Resource _gameRules;
 
@@ -67,6 +69,22 @@ public partial class BattleManager : Node
     // ================================================================
     //  Setup
     // ================================================================
+
+    /// <summary>朝向感知的射程检查。正方向用加法，负方向用减法。</summary>
+    public static bool IsInRange(int selfPos, int targetPos, int facing, int minRange, int maxRange)
+    {
+        if (minRange <= 0 && maxRange <= 0) return true;
+        if (facing == FacingPositive)
+        {
+            int dist = targetPos - selfPos;
+            return dist >= minRange && dist <= maxRange;
+        }
+        else
+        {
+            int dist = selfPos - targetPos;
+            return dist >= minRange && dist <= maxRange;
+        }
+    }
 
     public void Setup()
     {
@@ -128,6 +146,11 @@ public partial class BattleManager : Node
         int enemyStartCell = battleMap.Get(GDScriptKeys.BattleMap.EnemyStartCell).AsInt32();
         Player.SetMapPosition(playerStartCell);
         EnemyManager.SetAllPositions(enemyStartCell);
+
+        // 初始化朝向
+        Player.Facing = FacingPositive;
+        foreach (var enemy in EnemyManager.Enemies)
+            enemy?.UpdateFacing(Player.MapPosition);
 
         // 重置板子卡牌状态
         BoardManager.ResetAllCardStates();
@@ -235,12 +258,14 @@ public partial class BattleManager : Node
         if (!BoardManager.CheckCardReady(runtime))
         { Log($"{data.Get(GDScriptKeys.CardData.DisplayName)}尚未全部点亮。"); return; }
 
-        if (data.Call(GDScriptKeys.CardData.HasDamageEffect).AsBool())
+        if (data.Call(GDScriptKeys.CardData.HasRangeTarget).AsBool())
         {
             int minRange = data.Get(GDScriptKeys.CardData.MinRange).AsInt32();
             int maxRange = data.Get(GDScriptKeys.CardData.MaxRange).AsInt32();
-            if (Distance < minRange || Distance > maxRange)
-            { Log($"{data.Get(GDScriptKeys.CardData.DisplayName)}射程不足：距离{Distance}格，需要{minRange}–{maxRange}格。"); return; }
+            var enemy = EnemyManager.GetPrimaryEnemy();
+            int enemyPos = enemy?.MapPosition ?? 0;
+            if (!IsInRange(Player.MapPosition, enemyPos, Player.Facing, minRange, maxRange))
+            { Log($"{data.Get(GDScriptKeys.CardData.DisplayName)}射程不足：距离{Distance}格，需要{minRange}–{maxRange}格（朝向{Player.Facing}）。"); return; }
         }
 
         turnTransitionLocked = true;
@@ -272,7 +297,8 @@ public partial class BattleManager : Node
         if (Player.Energy < moveCost) return false;
 
         var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
-        int direction = battleMap.Get(GDScriptKeys.BattleMap.PlayerForwardDirection).AsInt32();
+        // 用玩家朝向作为前进方向
+        int direction = Player.Facing == FacingPositive ? 1 : -1;
         if (action == (int)MoveAction.Backward) direction *= -1;
 
         int stepCount = rules.Get(GDScriptKeys.GameRules.PlayerMoveStep).AsInt32();
@@ -292,14 +318,18 @@ public partial class BattleManager : Node
         if (!CanPlayerMove(action)) { Log("该方向已到边界或被阻挡。"); return; }
 
         int moveCost = rules.Get(GDScriptKeys.GameRules.MoveEnergyCost).AsInt32();
-        var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
-        int direction = battleMap.Get(GDScriptKeys.BattleMap.PlayerForwardDirection).AsInt32();
+        // 用玩家朝向作为前进方向
+        int direction = Player.Facing == FacingPositive ? 1 : -1;
         if (action == (int)MoveAction.Backward) direction *= -1;
 
         int oldPos = Player.MapPosition;
         int stepCount = rules.Get(GDScriptKeys.GameRules.PlayerMoveStep).AsInt32();
         Player.SetMapPosition(oldPos + direction * stepCount);
         Player.SpendEnergy(moveCost);
+
+        // 移动后更新敌人朝向
+        foreach (var enemy in EnemyManager.Enemies)
+            enemy?.UpdateFacing(Player.MapPosition);
 
         Log($"{(action == (int)MoveAction.Forward ? "前进" : "后退")}：{oldPos} → {Player.MapPosition}，距离{Distance}格，消耗{moveCost}能量。");
         EmitSignal(SignalName.BattleStateChanged);
@@ -336,9 +366,54 @@ public partial class BattleManager : Node
         if (isPlayer) Player.SetMapPosition(actorPos);
         else EnemyManager.SetAllPositions(actorPos);
 
+        // 移动后更新所有敌人朝向
+        foreach (var enemy in EnemyManager.Enemies)
+            enemy?.UpdateFacing(Player.MapPosition);
+
         int moved = Mathf.Abs(actorPos - oldPos);
         if (moved > 0)
             Log($"{(isPlayer ? Player.DisplayName : "怪物")}地图上{(toward ? "接近" : "远离")}对手{moved}格：{oldPos} → {actorPos}；距离{Distance}格。");
+    }
+
+    /// <summary>绕后换位：玩家移动到敌人背后一格，双方朝向翻转</summary>
+    public void SwapPosition()
+    {
+        var enemy = EnemyManager.GetPrimaryEnemy();
+        if (enemy == null) return;
+
+        int playerPos = Player.MapPosition;
+        int enemyPos = enemy.MapPosition;
+        int playerFacing = Player.Facing;
+        int enemyFacing = enemy.Facing;
+
+        // 计算敌人背后位置（敌人朝向的反方向）
+        int behindEnemy = enemyFacing == FacingPositive ? enemyPos - 1 : enemyPos + 1;
+
+        var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
+        if (!battleMap.Call(GDScriptKeys.BattleMap.IsValidCell, behindEnemy).AsBool())
+        {
+            Log("敌人背后无空间，无法绕后。");
+            return;
+        }
+
+        // 不可与敌人重叠
+        if (behindEnemy == enemyPos)
+        {
+            Log("绕后位置与敌人重叠，无法执行。");
+            return;
+        }
+
+        // 执行换位
+        Player.SetMapPosition(behindEnemy);
+        Player.Facing = playerFacing == FacingPositive ? FacingNegative : FacingPositive;
+        enemy.Facing = enemyFacing == FacingPositive ? FacingNegative : FacingPositive;
+
+        // 换位后更新所有敌人朝向
+        foreach (var e in EnemyManager.Enemies)
+            e?.UpdateFacing(Player.MapPosition);
+
+        Log($"绕后：移动到{behindEnemy}，双方朝向翻转。");
+        EmitSignal(SignalName.BattleStateChanged);
     }
 
     // ================================================================
@@ -373,10 +448,21 @@ public partial class BattleManager : Node
 
     private void ResolveEnemyTurn()
     {
+        var enemy = EnemyManager.GetPrimaryEnemy();
+        if (enemy == null) return;
+
         var action = EnemyManager.GetActionForDistance(Distance);
         if (action == null) { Log("敌人没有可用行动，原地等待。"); return; }
 
-        var enemy = EnemyManager.GetPrimaryEnemy();
+        // 朝向感知射程检查
+        int minRange = action.Get(GDScriptKeys.EnemyAction.MinRange).AsInt32();
+        int maxRange = action.Get(GDScriptKeys.EnemyAction.MaxRange).AsInt32();
+        if (!IsInRange(enemy.MapPosition, Player.MapPosition, enemy.Facing, minRange, maxRange))
+        {
+            Log($"{enemy.DisplayName}未面向玩家（朝向{enemy.Facing}，距离{Distance}），跳过行动。");
+            return;
+        }
+
         Log($"{enemy?.DisplayName ?? "敌人"}使用「{action.Get(GDScriptKeys.EnemyAction.DisplayName)}」。");
         EffectResolver.ExecuteEnemyAction(action, this);
     }
