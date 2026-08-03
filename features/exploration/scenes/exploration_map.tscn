@@ -28,9 +28,8 @@ radius = 120.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_dpqj4"]
 radius = 48.0
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player")]
+[node name="ExplorationMap" type="Node2D" unique_id=27246427]
 script = ExtResource("1_v1dgx")
-Player = NodePath("MapLayer/Player")
 MapId = "test_map"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]

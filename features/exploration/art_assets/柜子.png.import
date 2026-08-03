@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cckeorlnp203h"
-path="res://.godot/imported/工作台.png-247d433e365b95f64f14a28126ae9e37.ctex"
+uid="uid://gyf4guem0231"
+path="res://.godot/imported/柜子.png-5a59236e8004b2b58d7d831a5d5c8398.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/exploration/art_assets/工作台.png"
-dest_files=["res://.godot/imported/工作台.png-247d433e365b95f64f14a28126ae9e37.ctex"]
+source_file="res://features/exploration/art_assets/柜子.png"
+dest_files=["res://.godot/imported/柜子.png-5a59236e8004b2b58d7d831a5d5c8398.ctex"]
 
 [params]
 
