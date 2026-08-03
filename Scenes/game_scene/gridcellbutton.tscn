@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://b0pq5ka3u7at7"]
+
+[ext_resource type="Texture2D" uid="uid://bb3pwdh821j6l" path="res://features/exploration/art_assets/battlescreen/禁用.png" id="1_fkxl5"]
+[ext_resource type="Script" uid="uid://bs3iswb4sn1dc" path="res://Script/CS/GridCellButton.cs" id="1_yrplj"]
+[ext_resource type="Texture2D" uid="uid://pcd01fkygrth" path="res://features/exploration/art_assets/battlescreen/未激活.png" id="2_yrplj"]
+[ext_resource type="Texture2D" uid="uid://e6l18wxrn8yh" path="res://features/exploration/art_assets/battlescreen/已激活.png" id="3_e5vk8"]
+[ext_resource type="Texture2D" uid="uid://b3ft21axsbmiy" path="res://features/exploration/art_assets/battlescreen/冷却.png" id="4_0f5lh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yrplj"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e5vk8"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="Theme" id="Theme_0f5lh"]
+Button/styles/disabled = SubResource("StyleBoxFlat_yrplj")
+Button/styles/normal = SubResource("StyleBoxFlat_e5vk8")
+
+[node name="battlecellbutton" type="Button" unique_id=382575080 node_paths=PackedStringArray("normalTexture", "chargedTexture", "cooldownTexture", "disabledTexture", "textLabel")]
+custom_minimum_size = Vector2(217, 220)
+offset_right = 217.0
+offset_bottom = 223.0
+theme = SubResource("Theme_0f5lh")
+script = ExtResource("1_yrplj")
+normalTexture = NodePath("normaltexture")
+chargedTexture = NodePath("chargedtexture")
+cooldownTexture = NodePath("cooldowntexture")
+disabledTexture = NodePath("disabledtexture")
+textLabel = NodePath("labeltext")
+
+[node name="disabledtexture" type="TextureRect" parent="." unique_id=1655289428]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_fkxl5")
+
+[node name="normaltexture" type="TextureRect" parent="." unique_id=9744700]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_yrplj")
+
+[node name="chargedtexture" type="TextureRect" parent="." unique_id=955278989]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_e5vk8")
+
+[node name="cooldowntexture" type="TextureRect" parent="." unique_id=2004411770]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("4_0f5lh")
+
+[node name="labeltext" type="Label" parent="." unique_id=1217196198]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 34.0
+offset_right = 186.0
+offset_bottom = 190.0
+theme_override_font_sizes/font_size = 36

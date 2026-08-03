@@ -120,7 +120,7 @@ public partial class EnemyBattle : Node2D
     /// <summary>根据玩家位置自动计算朝向</summary>
     public void UpdateFacing(int playerPos)
     {
-        Facing = (MapPosition - playerPos) > 0 ? 0 : 1;
+        Facing = (playerPos - MapPosition) > 0 ? 0 : 1;
     }
 
     // ================================================================

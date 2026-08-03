@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://csrl42rpnfm4m"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_7iw76"]
+
+[resource]
+script = ExtResource("1_7iw76")
+display_name = "闪烁"
+description = "将位置移动到指定地点"
+type = 8
+metadata/_custom_type_script = "uid://d6txs258a48w"

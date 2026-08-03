@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://hgfer4mgvtcw" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
 [ext_resource type="Texture2D" uid="uid://cskgmyhh0il3a" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222046.png" id="2_rr40r"]
-[ext_resource type="Theme" uid="uid://trkpjvb2ambn" path="res://theme/battlecell.tres" id="2_vl3dd"]
 [ext_resource type="Texture2D" uid="uid://cuuv2na4ij1cn" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220539.png" id="2_ycqhv"]
 [ext_resource type="Texture2D" uid="uid://b8t0ee2utaod5" path="res://features/exploration/art_assets/battlescreen/底板.png" id="3_7le68"]
 [ext_resource type="Texture2D" uid="uid://qj5h8gvcg7ro" path="res://features/exploration/art_assets/battlescreen/填充.png" id="4_brapn"]
@@ -13,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://de5vtsfc3bori" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0005_19.png" id="9_pergr"]
 [ext_resource type="Texture2D" uid="uid://c8bupt3myowf0" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0006_18.png" id="10_t4udp"]
 [ext_resource type="Texture2D" uid="uid://d2luylgljdv72" path="res://features/exploration/art_assets/battlescreen/battlegrid.png" id="12_26bt4"]
+[ext_resource type="PackedScene" uid="uid://b0pq5ka3u7at7" path="res://Scenes/game_scene/gridcellbutton.tscn" id="13_7le68"]
 [ext_resource type="Texture2D" uid="uid://bad7qtk6huluv" path="res://features/exploration/art_assets/battlescreen/回合结束按钮.png" id="14_aadoi"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mu3ns"]
@@ -232,76 +232,53 @@ offset_left = 153.0
 offset_top = 123.0
 offset_right = 1060.6229
 offset_bottom = 739.24133
-scale = Vector2(0.6215992, 0.6113789)
+scale = Vector2(0.47281677, 0.45607015)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rr40r")
 
 [node name="battlegird" type="GridContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder" unique_id=1536351402]
+custom_minimum_size = Vector2(650, 400)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
 columns = 4
 
-[node name="battlebutton0" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1419634566]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton0" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=382575080 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton1" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1111243218]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton1" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1071851966 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton2" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=2099359411]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton2" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1826972282 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton3" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=106440906]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton3" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1263472353 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton4" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=882378646]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton4" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1085164984 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton5" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=643713503]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton5" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=2080237789 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton6" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=2007042984]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton6" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=887179162 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton7" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1111283223]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton7" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=16078418 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton8" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=40548487]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton8" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1908993289 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton9" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=324974287]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton9" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=416830298 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton10" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=219545197]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton10" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1441621118 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
-[node name="battlebutton11" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=591981824]
-custom_minimum_size = Vector2(166, 166)
+[node name="battlecellbutton11" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=581543781 instance=ExtResource("13_7le68")]
 layout_mode = 2
-theme = ExtResource("2_vl3dd")
 
 [node name="endturnbutton" type="TextureButton" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=409315270]
 layout_mode = 0

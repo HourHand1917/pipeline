@@ -12,6 +12,7 @@
 [ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="8_dmhrc"]
 [ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="9_om8ky"]
 [ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="10_ck04x"]
+[ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="11_ck04x"]
 
 [node name="mainscene" type="Node2D" unique_id=157704710 node_paths=PackedStringArray("BoardManager", "EffectResolver", "BattleManager", "BuildScreen", "BattleScreen")]
 script = ExtResource("1_b3e48")
@@ -33,7 +34,7 @@ _gameRules = ExtResource("5_om8ky")
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=184738653]
 script = ExtResource("6_ch5wo")
-Cards = [ExtResource("7_q0om0"), ExtResource("8_dmhrc"), ExtResource("9_om8ky"), ExtResource("10_ck04x")]
+Cards = [ExtResource("7_q0om0"), ExtResource("8_dmhrc"), ExtResource("9_om8ky"), ExtResource("10_ck04x"), ExtResource("11_ck04x")]
 
 [node name="buildscreen" parent="." unique_id=579545813 instance=ExtResource("5_dmhrc")]
 visible = false
