@@ -37,7 +37,7 @@ public partial class UIManager : Node
     public Button MoveBackButton { get; set; }
     public Button MoveForwardButton { get; set; }
     public Label MoveHint { get; set; }
-    public Button EndTurnButton { get; set; }
+    public TextureButton EndTurnButton { get; set; }
     public Button BackButton { get; set; }
     public TextureProgressBar HealthBar { get; set; }
 
@@ -46,7 +46,7 @@ public partial class UIManager : Node
     private Vector2I[] buttonPositions = new Vector2I[MAX_GRID_BUTTONS];
     private bool _isSetup;
     private int _lastCellCount = -1;
-    private List<Button> _actionButtons = new();
+    private List<BaseButton> _actionButtons = new();
 
     // ============ 战斗实例引用 ============
     private PlayerBattle _player;
@@ -117,25 +117,18 @@ public partial class UIManager : Node
         if (player == null) return;
         _player = player;
 
-        // 血量变化 → 更新血条
         player.HealthChanged += (cur, max) =>
-    {
-        GD.Print($"[血条调试] cur={cur}, max={max}");
-        GD.Print($"[血条调试] PlayerHealthBar is null? {HealthBar == null}");
-        if (HealthBar != null)
         {
-            GD.Print($"[血条调试] 设置前: MaxValue={HealthBar.MaxValue}, Value={HealthBar.Value}");
-            HealthBar.MaxValue = max;
-            HealthBar.Value = cur;
-            GD.Print($"[血条调试] 设置后: MaxValue={HealthBar.MaxValue}, Value={HealthBar.Value}");
-        }
-        UpdateStatusLine();
-    };
+            if (HealthBar != null)
+            {
+                HealthBar.MaxValue = max;
+                HealthBar.Value = cur;
+            }
+            UpdateStatusLine();
+        };
 
-        // 护盾变化 → 更新状态栏
         player.ShieldChanged += (_) => UpdateStatusLine();
 
-        // 能量变化 → 更新能量标签
         player.EnergyChanged += (cur, max) =>
         {
             if (EnergyLabel != null)
@@ -386,7 +379,6 @@ public partial class UIManager : Node
             }
         }
 
-        // 从战斗实例读取标记
         string playerGlyph = _player?.Glyph ?? "旅";
         Color playerTint = _player?.Tint ?? new Color("#f4cf61");
 

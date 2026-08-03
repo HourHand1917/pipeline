@@ -1,5 +1,4 @@
 using Godot;
-using Godot.Collections;
 
 /// <summary>
 /// BattleScreen — 战斗界面协调层（实例化重构版）。
@@ -41,7 +40,7 @@ public partial class BattleScreen : Control
     [Export] private Button movebackbutton;
     [Export] private Button moveforwardbutton;
     [Export] private Label movehint;
-    [Export] private Button endturnbutton;
+    [Export] private TextureButton endturnbutton;
     [Export] private Button backbutton;
     [Export] private TextureProgressBar healthBar;
 

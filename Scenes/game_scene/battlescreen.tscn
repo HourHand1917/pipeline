@@ -4,16 +4,16 @@
 [ext_resource type="Texture2D" uid="uid://cskgmyhh0il3a" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222046.png" id="2_rr40r"]
 [ext_resource type="Theme" uid="uid://trkpjvb2ambn" path="res://theme/battlecell.tres" id="2_vl3dd"]
 [ext_resource type="Texture2D" uid="uid://cuuv2na4ij1cn" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220539.png" id="2_ycqhv"]
-[ext_resource type="Texture2D" uid="uid://dd8o1nlgqprst" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222005.jpg" id="3_4b0pn"]
-[ext_resource type="Texture2D" uid="uid://d1g1ejeosnyl1" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220631.png" id="3_yuhd7"]
-[ext_resource type="Texture2D" uid="uid://bo0n4db5dkt3r" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802221422.jpg" id="4_lwu1b"]
-[ext_resource type="Texture2D" uid="uid://cl5guvk7krxw5" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222018.jpg" id="4_uvrjy"]
+[ext_resource type="Texture2D" uid="uid://b8t0ee2utaod5" path="res://features/exploration/art_assets/battlescreen/底板.png" id="3_7le68"]
+[ext_resource type="Texture2D" uid="uid://qj5h8gvcg7ro" path="res://features/exploration/art_assets/battlescreen/填充.png" id="4_brapn"]
 [ext_resource type="Texture2D" uid="uid://5tdy6psvnu3k" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0001_0.png" id="5_7le68"]
 [ext_resource type="Texture2D" uid="uid://ds5perm7gmcjw" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0002_18.png" id="6_brapn"]
 [ext_resource type="Texture2D" uid="uid://mmr4d3xnpmlc" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0003_19.png" id="7_26bt4"]
 [ext_resource type="Texture2D" uid="uid://cp48k8wkx70uy" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0004_19.png" id="8_aadoi"]
 [ext_resource type="Texture2D" uid="uid://de5vtsfc3bori" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0005_19.png" id="9_pergr"]
 [ext_resource type="Texture2D" uid="uid://c8bupt3myowf0" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0006_18.png" id="10_t4udp"]
+[ext_resource type="Texture2D" uid="uid://d2luylgljdv72" path="res://features/exploration/art_assets/battlescreen/battlegrid.png" id="12_26bt4"]
+[ext_resource type="Texture2D" uid="uid://bad7qtk6huluv" path="res://features/exploration/art_assets/battlescreen/回合结束按钮.png" id="14_aadoi"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mu3ns"]
 texture = ExtResource("2_rr40r")
@@ -52,12 +52,6 @@ texture = ExtResource("2_ycqhv")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rr40r"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yuhd7"]
-texture = ExtResource("4_lwu1b")
-
-[sub_resource type="Theme" id="Theme_rr40r"]
-Button/styles/normal = SubResource("StyleBoxTexture_yuhd7")
 
 [node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "readylist", "loglabel", "statuslabel", "energylabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar")]
 layout_mode = 3
@@ -115,8 +109,8 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_epdb4")
 
 [node name="healthbar" type="TextureProgressBar" parent="battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder" unique_id=46253231]
 layout_mode = 2
-texture_under = ExtResource("3_4b0pn")
-texture_progress = ExtResource("4_uvrjy")
+texture_under = ExtResource("3_7le68")
+texture_progress = ExtResource("4_brapn")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1189351085]
 position = Vector2(127.00001, 82)
@@ -224,12 +218,12 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_lwu1b")
 
 [node name="screentexture" type="TextureRect" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=535350651]
 layout_mode = 0
-offset_left = 80.00001
+offset_left = 75.00001
 offset_top = 96.0
-offset_right = 1324.0
+offset_right = 1319.0
 offset_bottom = 906.0
 scale = Vector2(0.44064844, 0.43743992)
-texture = ExtResource("3_yuhd7")
+texture = ExtResource("12_26bt4")
 
 [node name="panelborder" type="PanelContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=758408112]
 custom_minimum_size = Vector2(800, 600)
@@ -238,7 +232,7 @@ offset_left = 153.0
 offset_top = 123.0
 offset_right = 1060.6229
 offset_bottom = 739.24133
-scale = Vector2(0.67829436, 0.6157128)
+scale = Vector2(0.6215992, 0.6113789)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rr40r")
 
@@ -309,15 +303,14 @@ custom_minimum_size = Vector2(166, 166)
 layout_mode = 2
 theme = ExtResource("2_vl3dd")
 
-[node name="endturnbutton" type="Button" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=1599096835]
+[node name="endturnbutton" type="TextureButton" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=409315270]
 layout_mode = 0
-offset_left = 646.0
-offset_top = 310.0
-offset_right = 772.0
-offset_bottom = 487.0
-theme = SubResource("Theme_rr40r")
-theme_override_font_sizes/font_size = 24
-text = "结束回合"
+offset_left = 650.0
+offset_top = 311.0
+offset_right = 983.0
+offset_bottom = 744.0
+scale = Vector2(0.38058504, 0.40425068)
+texture_normal = ExtResource("14_aadoi")
 
 [node name="sidepanel" type="VBoxContainer" parent="battleVbox/battlecontent" unique_id=264618196]
 custom_minimum_size = Vector2(250, 0)
