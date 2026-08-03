@@ -16,11 +16,11 @@ public partial class BattleScreen : Control
     private BattleManager battleManager;
 
     [Export] private GridContainer battlegrid;
+    [Export] private GridContainer energyGrid;
     [Export] private VBoxContainer activationbox;
     [Export] private VBoxContainer readylist;
     [Export] private RichTextLabel loglabel;
     [Export] private Label statuslabel;
-    [Export] private Label energylabel;
     [Export] private Label roundlabel;
     [Export] private Label phaselabel;
     [Export] private Label readylabel;
@@ -32,6 +32,8 @@ public partial class BattleScreen : Control
     [Export] private TextureButton endturnbutton;
     [Export] private Button backbutton;
     [Export] private TextureProgressBar healthBar;
+    [Export] private Texture2D bulbOn;
+    [Export] private Texture2D bulbOff;
 
     public void Setup(BoardManager board, BattleManager battle)
     {
@@ -47,11 +49,11 @@ public partial class BattleScreen : Control
         }
 
         UIManager.BattleGrid = battlegrid;
+        UIManager.EnergyGrid = energyGrid;
         UIManager.ActivationBox = activationbox;
         UIManager.ReadyList = readylist;
         UIManager.LogLabel = loglabel;
         UIManager.StatusLabel = statuslabel;
-        UIManager.EnergyLabel = energylabel;
         UIManager.RoundLabel = roundlabel;
         UIManager.PhaseLabel = phaselabel;
         UIManager.ReadyLabel = readylabel;
@@ -65,6 +67,8 @@ public partial class BattleScreen : Control
         UIManager.HealthBar = healthBar;
 
         UIManager.Setup(boardManager, battleManager);
+        UIManager.BulbOn = bulbOn;
+        UIManager.BulbOff = bulbOff;
 
         UIManager.LightCellRequested += (Vector2I pos) => EmitSignal(SignalName.LightCellRequested, pos);
         UIManager.PlayCardRequested += (int id) => EmitSignal(SignalName.PlayCardRequested, id);

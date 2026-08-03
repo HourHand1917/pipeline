@@ -1,9 +1,11 @@
 [gd_scene format=3 uid="uid://q1ojg1hovxf7"]
 
 [ext_resource type="Script" uid="uid://hgfer4mgvtcw" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
+[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="2_26bt4"]
 [ext_resource type="Texture2D" uid="uid://cskgmyhh0il3a" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222046.png" id="2_rr40r"]
 [ext_resource type="Texture2D" uid="uid://cuuv2na4ij1cn" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220539.png" id="2_ycqhv"]
 [ext_resource type="Texture2D" uid="uid://b8t0ee2utaod5" path="res://features/exploration/art_assets/battlescreen/底板.png" id="3_7le68"]
+[ext_resource type="Texture2D" uid="uid://crtp4nnh3msa6" path="res://features/exploration/art_assets/battlescreen/未点亮.png" id="3_aadoi"]
 [ext_resource type="Texture2D" uid="uid://qj5h8gvcg7ro" path="res://features/exploration/art_assets/battlescreen/填充.png" id="4_brapn"]
 [ext_resource type="Texture2D" uid="uid://5tdy6psvnu3k" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0001_0.png" id="5_7le68"]
 [ext_resource type="Texture2D" uid="uid://ds5perm7gmcjw" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0002_18.png" id="6_brapn"]
@@ -53,17 +55,17 @@ texture = ExtResource("2_ycqhv")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rr40r"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "activationbox", "readylist", "loglabel", "statuslabel", "energylabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar")]
 layout_mode = 3
 anchors_preset = 0
 size_flags_vertical = 3
 script = ExtResource("1_tb4nm")
 battlegrid = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird")
+energyGrid = NodePath("energygrid")
 activationbox = NodePath("battleVbox/battlecontent/sidepanel/Control/activationbox")
 readylist = NodePath("battleVbox/battlecontent/sidepanel/Control/readylist")
 loglabel = NodePath("battleVbox/battlecontent/sidepanel/Control/loglabel")
 statuslabel = NodePath("battleVbox/statuslabel")
-energylabel = NodePath("battleVbox/infobar/energylabel")
 roundlabel = NodePath("battleVbox/infobar/roundlabel")
 phaselabel = NodePath("battleVbox/infobar/phaselabel")
 readylabel = NodePath("battleVbox/battlecontent/sidepanel/Control/readylabel")
@@ -75,6 +77,8 @@ movehint = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movehint")
 endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/endturnbutton")
 backbutton = NodePath("battleVbox/battlecontent/sidepanel/Control/backbutton")
 healthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
+bulbOn = ExtResource("2_26bt4")
+bulbOff = ExtResource("3_aadoi")
 
 [node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
 custom_minimum_size = Vector2(400, 600)
@@ -346,3 +350,30 @@ offset_right = 1080.0
 offset_bottom = 565.0
 theme_override_font_sizes/font_size = 24
 text = "返回构筑"
+
+[node name="energygrid" type="GridContainer" parent="." unique_id=921566161]
+custom_minimum_size = Vector2(200, 325)
+layout_mode = 0
+offset_left = 823.0
+offset_top = 756.0
+offset_right = 1880.0
+offset_bottom = 1206.0
+scale = Vector2(0.45967647, 0.46560314)
+columns = 5
+
+[node name="lightball0" type="TextureRect" parent="energygrid" unique_id=2105484780]
+layout_mode = 2
+texture = ExtResource("3_aadoi")
+
+[node name="lightball1" type="TextureRect" parent="energygrid" unique_id=1030194691]
+layout_mode = 2
+texture = ExtResource("3_aadoi")
+
+[node name="lightball2" type="TextureRect" parent="energygrid" unique_id=1865983441]
+layout_mode = 2
+
+[node name="lightball3" type="TextureRect" parent="energygrid" unique_id=596868955]
+layout_mode = 2
+
+[node name="lightball4" type="TextureRect" parent="energygrid" unique_id=713621969]
+layout_mode = 2

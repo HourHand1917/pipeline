@@ -17,11 +17,11 @@ public partial class UIManager : Node
     private BattleManager battleManager;
 
     public GridContainer BattleGrid { get; set; }
+    public GridContainer EnergyGrid { get; set; }
     public VBoxContainer ActivationBox { get; set; }
     public VBoxContainer ReadyList { get; set; }
     public RichTextLabel LogLabel { get; set; }
     public Label StatusLabel { get; set; }
-    public Label EnergyLabel { get; set; }
     public Label RoundLabel { get; set; }
     public Label PhaseLabel { get; set; }
     public Label ReadyLabel { get; set; }
@@ -35,6 +35,7 @@ public partial class UIManager : Node
     public TextureProgressBar HealthBar { get; set; }
 
     private List<GridCellButton> battleButtons = new();
+    private List<TextureRect> energyBulbs = new();
     private Vector2I[] buttonPositions = new Vector2I[MAX_GRID_BUTTONS];
     private bool _isSetup;
     private int _lastCellCount = -1;
@@ -42,6 +43,9 @@ public partial class UIManager : Node
 
     private PlayerBattle _player;
     private EnemyManager _enemyManager;
+
+    public Texture2D BulbOn { get; set; }
+    public Texture2D BulbOff { get; set; }
 
     // ================================================================
     //  Setup
@@ -73,6 +77,16 @@ public partial class UIManager : Node
             }
         }
 
+        if (EnergyGrid != null)
+        {
+            energyBulbs.Clear();
+            foreach (Node child in EnergyGrid.GetChildren())
+            {
+                if (child is TextureRect bulb)
+                    energyBulbs.Add(bulb);
+            }
+        }
+
         _actionButtons.Clear();
         if (MoveBackButton != null) { MoveBackButton.Pressed += () => EmitSignal(SignalName.MoveRequested, (int)BattleManager.MoveAction.Backward); _actionButtons.Add(MoveBackButton); }
         if (MoveForwardButton != null) { MoveForwardButton.Pressed += () => EmitSignal(SignalName.MoveRequested, (int)BattleManager.MoveAction.Forward); _actionButtons.Add(MoveForwardButton); }
@@ -97,7 +111,7 @@ public partial class UIManager : Node
             UpdateStatusLine();
         };
         player.ShieldChanged += (_) => UpdateStatusLine();
-        player.EnergyChanged += (cur, max) => { if (EnergyLabel != null) EnergyLabel.Text = $"⚡ {cur} / {max}"; };
+        player.EnergyChanged += (cur, max) => RefreshEnergyBulbs(cur, max);
         player.PositionChanged += (_) => RefreshDistanceTrack();
         player.BuffApplied += (buff, stacks) => GD.Print($"[UIManager] 玩家获得 Buff：{buff.Get("buff_name")} ×{stacks}");
         player.BuffRemoved += (buffId) => GD.Print($"[UIManager] 玩家移除 Buff：{buffId}");
@@ -149,10 +163,6 @@ public partial class UIManager : Node
         RefreshActivationButtons();
     }
 
-    // ================================================================
-    //  板子刷新
-    // ================================================================
-
     private void RefreshBoard(int gridWidth, int gridHeight)
     {
         bool canLight = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
@@ -162,7 +172,6 @@ public partial class UIManager : Node
             var pos = buttonPositions[i];
             var btn = battleButtons[i];
 
-            // 边界外 → 禁用
             if (pos.X >= gridWidth || pos.Y >= gridHeight)
             {
                 btn.SetText("");
@@ -175,7 +184,6 @@ public partial class UIManager : Node
 
             if (runtime == null)
             {
-                // 空格子 → 未激活
                 btn.SetText("");
                 btn.SetState(CellState.Normal);
                 btn.Disabled = true;
@@ -210,16 +218,11 @@ public partial class UIManager : Node
         }
     }
 
-    // ================================================================
-    //  状态刷新
-    // ================================================================
-
     private void RefreshStatus()
     {
         UpdateStatusLine();
         if (RoundLabel != null) RoundLabel.Text = $"回合 {battleManager.RoundNumber}";
         if (PhaseLabel != null) PhaseLabel.Text = PhaseText();
-        if (EnergyLabel != null) { int maxEnergy = _player?.MaxEnergy ?? 4; EnergyLabel.Text = $"⚡ {battleManager.PlayerEnergy} / {maxEnergy}"; }
         if (DistanceLabel != null) DistanceLabel.Text = $"玩家 {battleManager.PlayerMapPosition} · 怪物 {battleManager.EnemyMapPosition} · 距离 {battleManager.Distance} 格";
         if (MoveHint != null) { var rules = DataManager.Instance.GetRules(); int cost = rules?.Get(GDScriptKeys.GameRules.MoveEnergyCost).AsInt32() ?? 1; int step = rules?.Get(GDScriptKeys.GameRules.PlayerMoveStep).AsInt32() ?? 1; MoveHint.Text = $"移动{step}格消耗 {cost} ⚡"; }
 
@@ -229,9 +232,14 @@ public partial class UIManager : Node
         if (EndTurnButton != null) EndTurnButton.Disabled = !canAct;
     }
 
-    // ================================================================
-    //  距离轨道
-    // ================================================================
+    private void RefreshEnergyBulbs(int current, int max)
+    {
+        for (int i = 0; i < energyBulbs.Count; i++)
+        {
+            if (energyBulbs[i] == null) continue;
+            energyBulbs[i].Texture = i < current ? BulbOn : BulbOff;
+        }
+    }
 
     private void RefreshDistanceTrack()
     {
@@ -300,10 +308,6 @@ public partial class UIManager : Node
             { occupant.Modulate = new Color(1, 1, 1, 1); glyphLabel.Text = ""; glyphLabel.Modulate = Colors.White; }
         }
     }
-
-    // ================================================================
-    //  发动按钮
-    // ================================================================
 
     private void RefreshActivationButtons()
     {
