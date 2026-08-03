@@ -4,6 +4,7 @@ using Godot;
 public partial class ExplorationManager : Node2D
 {
     [Export] public PlayerController Player { get; set; }
+    [Export] public InputRouter Input { get; set; }
     [Export] public string MapId { get; set; } = "";
 
     [ExportGroup("玩家边界")]
@@ -16,6 +17,13 @@ public partial class ExplorationManager : Node2D
 
     public override void _Ready()
     {
+        // 输入 → 玩家
+        if (Input != null && Player != null)
+        {
+            Input.MovePressed += dir => Player.OnMovePressed(dir);
+            Input.MoveReleased += dir => Player.OnMoveReleased(dir);
+        }
+
         if (Player != null)
         {
             Player.MapLeft = PlayerLeft;
@@ -44,18 +52,4 @@ public partial class ExplorationManager : Node2D
             InitPersistence(child, mapId);
     }
 
-    public override void _Input(InputEvent @event)
-    {
-        if (Engine.IsEditorHint()) return;
-
-        if (@event is InputEventKey keyEvent)
-        {
-            if (keyEvent.Keycode == Key.A && keyEvent.Pressed)
-                Player?.OnMovePressed(-1);
-            else if (keyEvent.Keycode == Key.D && keyEvent.Pressed)
-                Player?.OnMovePressed(1);
-            else if ((keyEvent.Keycode == Key.A || keyEvent.Keycode == Key.D) && !keyEvent.Pressed)
-                Player?.OnMoveReleased(0);
-        }
-    }
 }
