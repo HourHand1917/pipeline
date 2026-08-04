@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dmk3a7ohv1eub"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_3dxud"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="2_iuvwa"]
+
+[sub_resource type="Resource" id="Resource_3dxud"]
+script = ExtResource("1_3dxud")
+display_name = "恢复生命"
+description = "恢复玩家的指定生命值"
+type = 2
+target = 0
+amount = 10
+metadata/_custom_type_script = "uid://d6txs258a48w"
+
+[resource]
+script = ExtResource("2_iuvwa")
+id = &"healthmad"
+display_name = "血量瓶"
+description = "使用后，恢复玩家10点生命"
+effects = Array[ExtResource("1_3dxud")]([SubResource("Resource_3dxud")])
+metadata/_custom_type_script = "uid://yt6amevji6dl"

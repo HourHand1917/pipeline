@@ -8,5 +8,5 @@ display_name = "治疗"
 description = "对玩家回复指定生命"
 type = 2
 target = 0
-amount = 5
+amount = 10
 metadata/_custom_type_script = "uid://d6txs258a48w"

@@ -34,6 +34,7 @@ public partial class BattleScreen : Control
     [Export] private TextureProgressBar healthBar;
     [Export] private Texture2D bulbOn;
     [Export] private Texture2D bulbOff;
+    [Export] private ItemPanel itemPanel;
 
     public void Setup(BoardManager board, BattleManager battle)
     {
@@ -75,6 +76,8 @@ public partial class BattleScreen : Control
         UIManager.MoveRequested += (int action) => EmitSignal(SignalName.MoveRequested, action);
         UIManager.EndTurnRequested += () => EmitSignal(SignalName.EndTurnRequested);
         UIManager.BackToBuildRequested += () => EmitSignal(SignalName.BackToBuildRequested);
+
+        itemPanel?.Refresh();
     }
 
     public void BindBattleInstances(PlayerBattle player, EnemyManager enemyManager)

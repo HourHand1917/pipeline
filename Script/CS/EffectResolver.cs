@@ -85,7 +85,7 @@ public partial class EffectResolver : Node
     //  内部实现
     // ================================================================
 
-    private bool ExecuteEffects(string sourceName, Array effects, BattleManager battleManager)
+    public bool ExecuteEffects(string sourceName, Array effects, BattleManager battleManager)
     {
         bool executedAny = false;
         foreach (var effect in effects)
