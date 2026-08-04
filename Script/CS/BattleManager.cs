@@ -18,16 +18,16 @@ public partial class BattleManager : Node
 
     public enum Phase { Build, PlayerTurn, EnemyTurn, BattleEnd }
     public enum MoveAction { Backward = -1, Forward = 1 }
+    public const int FacingPositive = 0;
+    public const int FacingNegative = 1;
 
     [Export] private Resource _gameRules;
 
-    // ============ 战斗实例引用（由 MainScene 注入） ============
     public PlayerBattle Player { get; set; }
     public EnemyManager EnemyManager { get; set; }
     public BoardManager BoardManager { get; set; }
     public EffectResolver EffectResolver { get; set; }
 
-    // ============ 主循环状态 ============
     public Phase CurrentPhase { get; private set; } = Phase.Build;
     public int RoundNumber { get; private set; } = 0;
     public int Distance => CalcDistance();
@@ -37,9 +37,6 @@ public partial class BattleManager : Node
     private bool turnTransitionLocked;
     private bool battleEndEmitted;
 
-    // ================================================================
-    //  GDScript 兼容属性（委托给实例）
-    // ================================================================
     public int PlayerHp => Player?.CurrentHp ?? 0;
     public int PlayerMaxHp => Player?.MaxHp ?? 0;
     public int PlayerEnergy => Player?.Energy ?? 0;
@@ -50,7 +47,6 @@ public partial class BattleManager : Node
     public int EnemyShield => EnemyManager?.GetPrimaryEnemy()?.Shield ?? 0;
     public int EnemyMapPosition => EnemyManager?.GetPrimaryEnemy()?.MapPosition ?? 0;
 
-    // snake_case 别名
     public Phase phase => CurrentPhase;
     public int round_number => RoundNumber;
     public int player_hp => PlayerHp;
@@ -64,17 +60,25 @@ public partial class BattleManager : Node
     public int enemy_map_position => EnemyMapPosition;
     public int distance => Distance;
 
-    // ================================================================
-    //  Setup
-    // ================================================================
-
-    public void Setup()
+    public static bool IsInRange(int selfPos, int targetPos, int facing, int minRange, int maxRange)
     {
-        // 引用由 MainScene 在 Setup 前注入
+        if (minRange <= 0 && maxRange <= 0) return true;
+        if (facing == FacingPositive)
+        {
+            int dist = targetPos - selfPos;
+            return dist >= minRange && dist <= maxRange;
+        }
+        else
+        {
+            int dist = selfPos - targetPos;
+            return dist >= minRange && dist <= maxRange;
+        }
     }
 
+    public void Setup() { }
+
     // ================================================================
-    //  战斗开始 — 读取 playerstats / enemystats / 战斗地图 / 卡牌桌
+    //  战斗开始
     // ================================================================
 
     public void StartBattle()
@@ -102,7 +106,6 @@ public partial class BattleManager : Node
         usedCardIds.Clear();
         RoundNumber = 1;
 
-        // 读取战斗地图
         var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
         if (battleMap == null)
         {
@@ -110,11 +113,9 @@ public partial class BattleManager : Node
             return;
         }
 
-        // 初始化玩家（从 PlayerData 加载）
         var playerData = rules.Get(GDScriptKeys.GameRules.PlayerData).As<GodotObject>();
         Player.LoadFromData(playerData, rules);
 
-        // 初始化敌人（从 EnemyData 加载）
         EnemyManager.SpawnAllFromConfigs(rules);
         var primaryEnemy = EnemyManager.GetPrimaryEnemy();
         if (primaryEnemy == null)
@@ -123,15 +124,25 @@ public partial class BattleManager : Node
             return;
         }
 
-        // 设置初始位置
         int playerStartCell = battleMap.Get(GDScriptKeys.BattleMap.PlayerStartCell).AsInt32();
         int enemyStartCell = battleMap.Get(GDScriptKeys.BattleMap.EnemyStartCell).AsInt32();
         Player.SetMapPosition(playerStartCell);
         EnemyManager.SetAllPositions(enemyStartCell);
 
-        // 重置板子卡牌状态
+        // 初始化朝向
+        Player.Facing = FacingPositive;
+        foreach (var enemy in EnemyManager.Enemies)
+            enemy?.UpdateFacing(Player.MapPosition);
+
+        // ============ 调试 ============
+        GD.Print($"[朝向初始化] 玩家位置={Player.MapPosition}, 玩家朝向={Player.Facing}");
+        foreach (var enemy in EnemyManager.Enemies)
+            GD.Print($"[朝向初始化] 敌人位置={enemy.MapPosition}, 敌人朝向={enemy.Facing}");
+        // ============ 调试结束 ============
+
         BoardManager.ResetAllCardStates();
         SetPhase(Phase.PlayerTurn);
+        Player.EmitHealthChanged();
 
         Log($"战斗开始：{battleMap.Get(GDScriptKeys.BattleMap.CellCount).AsInt32()}格地图，" +
             $"{Player.DisplayName}{playerStartCell}，" +
@@ -149,7 +160,7 @@ public partial class BattleManager : Node
     }
 
     // ================================================================
-    //  玩家开始回合
+    //  玩家回合
     // ================================================================
 
     private void StartPlayerTurn()
@@ -168,7 +179,7 @@ public partial class BattleManager : Node
     }
 
     // ================================================================
-    //  玩家行动 — 点亮格子
+    //  点亮格子
     // ================================================================
 
     public void TryLightCell(Vector2I position)
@@ -215,7 +226,7 @@ public partial class BattleManager : Node
     }
 
     // ================================================================
-    //  玩家行动 — 发动卡牌
+    //  发动卡牌
     // ================================================================
 
     public void TryPlayCard(int instanceId)
@@ -236,8 +247,10 @@ public partial class BattleManager : Node
         {
             int minRange = data.Get(GDScriptKeys.CardData.MinRange).AsInt32();
             int maxRange = data.Get(GDScriptKeys.CardData.MaxRange).AsInt32();
-            if (Distance < minRange || Distance > maxRange)
-            { Log($"{data.Get(GDScriptKeys.CardData.DisplayName)}射程不足：距离{Distance}格，需要{minRange}–{maxRange}格。"); return; }
+            var enemy = EnemyManager.GetPrimaryEnemy();
+            int enemyPos = enemy?.MapPosition ?? 0;
+            if (!IsInRange(Player.MapPosition, enemyPos, Player.Facing, minRange, maxRange))
+            { Log($"{data.Get(GDScriptKeys.CardData.DisplayName)}射程不足：距离{Distance}格，需要{minRange}–{maxRange}格（朝向{Player.Facing}）。"); return; }
         }
 
         turnTransitionLocked = true;
@@ -257,7 +270,7 @@ public partial class BattleManager : Node
     }
 
     // ================================================================
-    //  玩家行动 — 移动
+    //  移动
     // ================================================================
 
     public bool CanPlayerMove(int action)
@@ -269,7 +282,7 @@ public partial class BattleManager : Node
         if (Player.Energy < moveCost) return false;
 
         var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
-        int direction = battleMap.Get(GDScriptKeys.BattleMap.PlayerForwardDirection).AsInt32();
+        int direction = Player.Facing == FacingPositive ? 1 : -1;
         if (action == (int)MoveAction.Backward) direction *= -1;
 
         int stepCount = rules.Get(GDScriptKeys.GameRules.PlayerMoveStep).AsInt32();
@@ -289,8 +302,7 @@ public partial class BattleManager : Node
         if (!CanPlayerMove(action)) { Log("该方向已到边界或被阻挡。"); return; }
 
         int moveCost = rules.Get(GDScriptKeys.GameRules.MoveEnergyCost).AsInt32();
-        var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
-        int direction = battleMap.Get(GDScriptKeys.BattleMap.PlayerForwardDirection).AsInt32();
+        int direction = Player.Facing == FacingPositive ? 1 : -1;
         if (action == (int)MoveAction.Backward) direction *= -1;
 
         int oldPos = Player.MapPosition;
@@ -298,12 +310,15 @@ public partial class BattleManager : Node
         Player.SetMapPosition(oldPos + direction * stepCount);
         Player.SpendEnergy(moveCost);
 
+        foreach (var enemy in EnemyManager.Enemies)
+            enemy?.UpdateFacing(Player.MapPosition);
+
         Log($"{(action == (int)MoveAction.Forward ? "前进" : "后退")}：{oldPos} → {Player.MapPosition}，距离{Distance}格，消耗{moveCost}能量。");
         EmitSignal(SignalName.BattleStateChanged);
     }
 
     // ================================================================
-    //  效果触发的移动（委托给实例）
+    //  效果移动
     // ================================================================
 
     public void MoveCombatantTowardOpponent(int target, int amount) => MoveCombatantRelative(target, amount, true);
@@ -333,9 +348,55 @@ public partial class BattleManager : Node
         if (isPlayer) Player.SetMapPosition(actorPos);
         else EnemyManager.SetAllPositions(actorPos);
 
+        foreach (var enemy in EnemyManager.Enemies)
+            enemy?.UpdateFacing(Player.MapPosition);
+
         int moved = Mathf.Abs(actorPos - oldPos);
         if (moved > 0)
             Log($"{(isPlayer ? Player.DisplayName : "怪物")}地图上{(toward ? "接近" : "远离")}对手{moved}格：{oldPos} → {actorPos}；距离{Distance}格。");
+    }
+
+    // ================================================================
+    //  绕后
+    // ================================================================
+
+    public void SwapPosition()
+    {
+        var enemy = EnemyManager.GetPrimaryEnemy();
+        if (enemy == null) return;
+
+        int playerFacing = Player.Facing;
+        int enemyFacing = enemy.Facing;
+
+        int behindEnemy = enemyFacing == FacingPositive ? enemy.MapPosition - 1 : enemy.MapPosition + 1;
+
+        var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
+        if (!battleMap.Call(GDScriptKeys.BattleMap.IsValidCell, behindEnemy).AsBool())
+        {
+            Log("敌人背后无空间，无法绕后。");
+            return;
+        }
+
+        if (behindEnemy == enemy.MapPosition)
+        {
+            Log("绕后位置与敌人重叠，无法执行。");
+            return;
+        }
+
+        Player.SetMapPosition(behindEnemy);
+        Player.Facing = playerFacing == FacingPositive ? FacingNegative : FacingPositive;
+        enemy.Facing = enemyFacing == FacingPositive ? FacingNegative : FacingPositive;
+
+        foreach (var e in EnemyManager.Enemies)
+            e?.UpdateFacing(Player.MapPosition);
+
+        // ============ 调试 ============
+        GD.Print($"[绕后] 玩家新位置={Player.MapPosition}, 玩家朝向={Player.Facing}");
+        GD.Print($"[绕后] 敌人位置={enemy.MapPosition}, 敌人朝向={enemy.Facing}");
+        // ============ 调试结束 ============
+
+        Log($"绕后：移动到{behindEnemy}，双方朝向翻转。");
+        EmitSignal(SignalName.BattleStateChanged);
     }
 
     // ================================================================
@@ -370,16 +431,26 @@ public partial class BattleManager : Node
 
     private void ResolveEnemyTurn()
     {
+        var enemy = EnemyManager.GetPrimaryEnemy();
+        if (enemy == null) return;
+
         var action = EnemyManager.GetActionForDistance(Distance);
         if (action == null) { Log("敌人没有可用行动，原地等待。"); return; }
 
-        var enemy = EnemyManager.GetPrimaryEnemy();
+        int minRange = action.Get(GDScriptKeys.EnemyAction.MinRange).AsInt32();
+        int maxRange = action.Get(GDScriptKeys.EnemyAction.MaxRange).AsInt32();
+        if (!IsInRange(enemy.MapPosition, Player.MapPosition, enemy.Facing, minRange, maxRange))
+        {
+            Log($"{enemy.DisplayName}未面向玩家（朝向{enemy.Facing}，距离{Distance}），跳过行动。");
+            return;
+        }
+
         Log($"{enemy?.DisplayName ?? "敌人"}使用「{action.Get(GDScriptKeys.EnemyAction.DisplayName)}」。");
         EffectResolver.ExecuteEnemyAction(action, this);
     }
 
     // ================================================================
-    //  伤害 / 回复（委托给实例——保持 API 兼容 EffectResolver）
+    //  伤害 / 回复
     // ================================================================
 
     public void DamageEnemy(int amount)

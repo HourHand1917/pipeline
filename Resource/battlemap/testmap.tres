@@ -4,4 +4,5 @@
 
 [resource]
 script = ExtResource("1_gnrkj")
+include_occupied_cells_in_distance = false
 metadata/_custom_type_script = "uid://dtt2n86015c5"

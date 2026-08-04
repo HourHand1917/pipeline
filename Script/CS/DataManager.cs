@@ -19,6 +19,15 @@ public partial class DataManager : Node
     public Dictionary<StringName, int> CardCounts { get; private set; } = new();
     private Array<Dictionary> _savedBuild = new();
 
+    // ============ 道具栏（上限 4） ============
+    public Array<Resource> ItemBag { get; private set; } = new();
+    public const int MaxItemSlots = 4;
+
+    // ============ 金钱 ============
+    public enum CurrencyType { BottleCap, Faucet }
+    public int BottleCap { get; private set; } = 0;
+    public int Faucet { get; private set; } = 0;
+
     public override void _Ready()
     {
         if (Instance != null) GD.PushError("DataManager: 重复实例化");
@@ -36,7 +45,7 @@ public partial class DataManager : Node
         var id = obj.Get("id").AsStringName();
         if (string.IsNullOrEmpty(id)) { GD.PushError("AcquireCard: 缺少 id"); return; }
 
-        CardData[id] = cardResource; // 覆盖也没关系
+        CardData[id] = cardResource;
         CardCounts[id] = CardCounts.TryGetValue(id, out int c) ? c + count : count;
 
         EmitSignal(SignalName.CardAcquired, id, count);
@@ -106,7 +115,6 @@ public partial class DataManager : Node
         return r != null ? ((GodotObject)r).Get("display_name").AsString() : id.ToString();
     }
 
-    /// <summary>持有至少 1 张的卡牌列表，按 ID 排序（同前缀的升级版自动跟在原版后面）</summary>
     public Array<Resource> GetOwnedCards()
     {
         var list = new System.Collections.Generic.List<Resource>();
@@ -166,6 +174,56 @@ public partial class DataManager : Node
         var a = new Array<Dictionary>();
         foreach (var e in _savedBuild) a.Add(e.Duplicate());
         return a;
+    }
+
+    // ================================================================
+    //  道具
+    // ================================================================
+
+    /// <summary>加入道具。失败返回 false（背包满）。</summary>
+    public bool AddItem(Resource itemResource)
+    {
+        if (itemResource == null) return false;
+        if (ItemBag.Count >= MaxItemSlots)
+        {
+            GD.Print("道具栏已满。");
+            return false;
+        }
+
+        ItemBag.Add(itemResource);
+        GD.Print($"获得道具：{((GodotObject)itemResource).Get("display_name").AsString()}");
+        return true;
+    }
+
+    /// <summary>丢弃道具（使用 = 丢弃）。返回被丢弃的道具资源，方便战斗层读 effects。</summary>
+    public Resource DiscardItem(int index)
+    {
+        if (index < 0 || index >= ItemBag.Count) return null;
+
+        var item = ItemBag[index];
+        ItemBag.RemoveAt(index);
+        GD.Print($"丢弃道具：{((GodotObject)item).Get("display_name").AsString()}");
+        return item;
+    }
+
+    /// <summary>获取道具（不删除）。</summary>
+    public Resource GetItem(int index)
+    {
+        if (index < 0 || index >= ItemBag.Count) return null;
+        return ItemBag[index];
+    }
+
+    // ================================================================
+    //  金钱
+    // ================================================================
+
+    /// <summary>修改金钱。amount 可正可负。</summary>
+    public void ModifyCurrency(CurrencyType type, int amount)
+    {
+        if (type == CurrencyType.BottleCap)
+            BottleCap += amount;
+        else
+            Faucet += amount;
     }
 
     // ================================================================

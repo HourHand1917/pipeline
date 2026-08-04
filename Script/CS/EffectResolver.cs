@@ -146,6 +146,10 @@ public partial class EffectResolver : Node
                 battleManager.MoveCombatantAwayFromOpponent(target, amount);
                 return true;
 
+            case "swap_position":
+                battleManager.SwapPosition();
+                return true;
+
             case "energy":
                 if (target != 0)
                 {

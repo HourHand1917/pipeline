@@ -25,6 +25,8 @@ public partial class PlayerBattle : Node2D
     public int Energy { get; private set; }
     public int MaxEnergy { get; private set; }
     public int MapPosition { get; private set; }
+    /// <summary>朝向：0=正方向（右），1=负方向（左）</summary>
+    public int Facing { get; set; } = 0;
 
     /// <summary>角色显示名（从 PlayerData 读取）</summary>
     public string DisplayName { get; private set; } = "玩家";
@@ -76,8 +78,23 @@ public partial class PlayerBattle : Node2D
     //  伤害 / 护盾 / 回复
     // ================================================================
 
+    /// <summary>主动触发一次 HealthChanged 信号，用于 UI 初始化</summary>
+    public void EmitHealthChanged()
+    {
+        EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
+        EmitSignal(SignalName.ShieldChanged, Shield);
+        EmitSignal(SignalName.EnergyChanged, Energy, MaxEnergy);
+    }
     public void TakeDamage(int amount)
     {
+        if (amount <= 0)
+        {
+            // 回血
+            CurrentHp = Mathf.Min(MaxHp, CurrentHp - amount);
+            EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
+            return;
+        }
+
         int shieldDmg = Mathf.Min(Shield, amount);
         Shield -= shieldDmg;
         int hpDmg = amount - shieldDmg;

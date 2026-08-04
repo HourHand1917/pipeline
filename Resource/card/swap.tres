@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://dv7x64qn2fsyh"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_4bp6r"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="2_24dwg"]
+[ext_resource type="Resource" uid="uid://csrl42rpnfm4m" path="res://Resource/effect/playereffect/playerswap.tres" id="2_blxis"]
+
+[resource]
+script = ExtResource("2_24dwg")
+id = &"swap"
+display_name = "绕后"
+icon_text = "！"
+glyph = "！"
+category = "位移"
+description = "寻找面前的敌人，如果后面有空位，就移动到那里，并改变朝向"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(2, 0)])
+min_range = 1
+max_range = 1
+effects = Array[ExtResource("1_4bp6r")]([ExtResource("2_blxis")])
+metadata/_custom_type_script = "uid://3pnp4kr7h3qr"
