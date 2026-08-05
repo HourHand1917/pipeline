@@ -46,6 +46,7 @@ public partial class UIManager : Node
 
     public Texture2D BulbOn { get; set; }
     public Texture2D BulbOff { get; set; }
+    public AnimatedSprite2D RubberHeart { get; set; }
 
     // ================================================================
     //  Setup
@@ -108,6 +109,7 @@ public partial class UIManager : Node
         player.HealthChanged += (cur, max) =>
         {
             if (HealthBar != null) { HealthBar.MaxValue = max; HealthBar.Value = cur; }
+            UpdateHeartbeat(cur, max);
             UpdateStatusLine();
         };
         player.ShieldChanged += (_) => UpdateStatusLine();
@@ -341,4 +343,28 @@ public partial class UIManager : Node
         BattleManager.Phase.BattleEnd => "战斗结束",
         _ => "状态切换"
     };
+    private void UpdateHeartbeat(int currentHp, int maxHp)
+{
+    if (RubberHeart == null) return;
+
+    if (currentHp <= 0)
+    {
+        RubberHeart.Stop();
+        return;
+    }
+
+    float ratio = (float)currentHp / maxHp;
+
+    float fps;
+    if (ratio > 0.5f)
+        fps = 8f;
+    else if (ratio > 0.25f)
+        fps = 10f;
+    else
+        fps = 12f;
+
+    RubberHeart.SpeedScale = fps / 8f;
+    if (!RubberHeart.IsPlaying())
+        RubberHeart.Play("idle");
+}
 }

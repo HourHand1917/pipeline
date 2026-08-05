@@ -1,5 +1,8 @@
 using Godot;
 
+/// <summary>
+/// MainScene — 战斗场景入口（黑箱调用）。
+/// </summary>
 public partial class MainScene : Node2D
 {
     [Export] public BoardManager BoardManager { get; set; }
@@ -11,6 +14,7 @@ public partial class MainScene : Node2D
 
     public PlayerBattle Player { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
+
     private int currentGridWidth = 3;
     private int currentGridHeight = 2;
 
@@ -52,23 +56,117 @@ public partial class MainScene : Node2D
         BattleManager.LogMessage += (string text) => BattleScreen.AppendLog(text);
         BattleManager.BattleEnded += OnBattleEnded;
 
-        if (ItemPanel != null)
-        {
-            ItemPanel.ItemUsed += (int index) => BattleManager.UseItem(index);
-            ItemPanel.ItemDiscarded += (int index) => BattleManager.DiscardItem(index);
-            BattleManager.BattleStateChanged += () => ItemPanel.Refresh();
-        }
+        // TODO: ItemPanel 信号连接（等节点配置好后再启用）
+        // if (ItemPanel != null)
+        // {
+        //     ItemPanel.ItemUsed += (int index) => BattleManager.UseItem(index);
+        //     ItemPanel.ItemDiscarded += (int index) => BattleManager.DiscardItem(index);
+        //     BattleManager.BattleStateChanged += () => ItemPanel.Refresh();
+        // }
 
         ShowBuild();
     }
 
-    private void CreateBattleInstances(GodotObject rules) { /* 保持不变 */ }
-    private void OnPlaceCardRequested(StringName cardId, Vector2I anchor, int rotationSteps) { /* 保持不变 */ }
-    private void OnBoardSizeRequested(Vector2I size) { /* 保持不变 */ }
-    private void OnStartBattleRequested() { /* 保持不变 */ }
-    private void OnBattleEnded(bool playerWon) { BattleScreen.AppendLog(playerWon ? "战斗胜利！" : "战斗失败。"); }
-    private void OnClearBuildRequested() { BoardManager.ResetBoard(); BuildScreen.ShowMessage("随身武器库已清空。"); }
-    private void ShowBuild() { /* 保持不变 */ }
-    private void ShowBattle() { /* 保持不变 */ }
-    private void RefreshAllViews() { BuildScreen.RefreshAll(); BattleScreen.RefreshAll(currentGridWidth, currentGridHeight); }
+    private void CreateBattleInstances(GodotObject rules)
+    {
+        Player = GetNodeOrNull<PlayerBattle>("PlayerBattle");
+        if (Player == null)
+        {
+            Player = new PlayerBattle();
+            Player.Name = "PlayerBattle";
+            AddChild(Player);
+        }
+
+        EnemyManager = GetNodeOrNull<EnemyManager>("EnemyManager");
+        if (EnemyManager == null)
+        {
+            EnemyManager = new EnemyManager();
+            EnemyManager.Name = "EnemyManager";
+            AddChild(EnemyManager);
+
+            var enemyConfigs = new Godot.Collections.Array<GodotObject>();
+            var enemyData = rules?.Get(GDScriptKeys.GameRules.EnemyData).As<GodotObject>();
+            if (enemyData != null)
+                enemyConfigs.Add(enemyData);
+            EnemyManager.SetEnemyConfigs(enemyConfigs);
+        }
+    }
+
+    private void OnPlaceCardRequested(StringName cardId, Vector2I anchor, int rotationSteps)
+    {
+        var card = DataManager.Instance.GetCard(cardId);
+        if (card == null) { BuildScreen.ShowMessage($"找不到卡牌资源：{cardId}"); return; }
+
+        var result = BoardManager.PlaceCard(card, anchor, rotationSteps);
+        if (result == null)
+            BuildScreen.ShowMessage("这里放不下整件装备。");
+        else
+        {
+            var data = card as GodotObject;
+            BuildScreen.ShowMessage($"{data.Get(GDScriptKeys.CardData.DisplayName)} 已放入。");
+        }
+    }
+
+    private void OnBoardSizeRequested(Vector2I size)
+    {
+        int removedCount = BoardManager.ConfigureBoard(size, true);
+        currentGridWidth = size.X;
+        currentGridHeight = size.Y;
+        BuildScreen.ApplyBoardSize(size.X, size.Y);
+
+        if (removedCount > 0)
+            BuildScreen.ShowMessage($"切换为 {size.Y}×{size.X}，{removedCount} 件越界装备已取出。");
+        else
+            BuildScreen.ShowMessage($"已切换为 {size.Y}×{size.X} 箱型。");
+    }
+
+    private void OnStartBattleRequested()
+    {
+        if (BoardManager.runtime_cards.Count == 0)
+        {
+            BuildScreen.ShowMessage("至少放入一件装备才能开始试战。");
+            return;
+        }
+
+        DataManager.Instance.SaveBuildWithSize(BoardManager.runtime_cards,
+            new Vector2I(currentGridWidth, currentGridHeight));
+
+        BattleScreen.ClearLog();
+        ShowBattle();
+        BattleManager.StartBattle();
+    }
+
+    private void OnBattleEnded(bool playerWon)
+    {
+        BattleScreen.AppendLog(playerWon ? "战斗胜利！" : "战斗失败。");
+    }
+
+    private void OnClearBuildRequested()
+    {
+        BoardManager.ResetBoard();
+        BuildScreen.ShowMessage("随身武器库已清空。");
+    }
+
+    private void ShowBuild()
+    {
+        if (BattleManager.CurrentPhase != BattleManager.Phase.Build)
+            BattleManager.ReturnToBuild();
+
+        BuildScreen.Visible = true;
+        BattleScreen.Visible = false;
+        BuildScreen.RefreshAll();
+    }
+
+    private void ShowBattle()
+    {
+        BuildScreen.Visible = false;
+        BattleScreen.Visible = true;
+        BattleScreen.RefreshAll(currentGridWidth, currentGridHeight);
+    }
+
+    private void RefreshAllViews()
+    {
+        BuildScreen.RefreshAll();
+        BattleScreen.RefreshAll(currentGridWidth, currentGridHeight);
+    }
 }

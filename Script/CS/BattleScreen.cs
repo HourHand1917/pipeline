@@ -35,6 +35,7 @@ public partial class BattleScreen : Control
     [Export] private Texture2D bulbOn;
     [Export] private Texture2D bulbOff;
     [Export] private ItemPanel itemPanel;
+    [Export] private AnimatedSprite2D rubberheart;
 
     public void Setup(BoardManager board, BattleManager battle)
     {
@@ -66,6 +67,7 @@ public partial class BattleScreen : Control
         UIManager.EndTurnButton = endturnbutton;
         UIManager.BackButton = backbutton;
         UIManager.HealthBar = healthBar;
+        UIManager.RubberHeart = rubberheart;
 
         UIManager.Setup(boardManager, battleManager);
         UIManager.BulbOn = bulbOn;

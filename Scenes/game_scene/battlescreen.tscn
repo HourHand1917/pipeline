@@ -46,7 +46,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idel",
-"speed": 5.0
+"speed": 8.0
 }]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lwu1b"]
@@ -55,7 +55,7 @@ texture = ExtResource("2_ycqhv")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rr40r"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar", "rubberheart")]
 layout_mode = 3
 anchors_preset = 0
 size_flags_vertical = 3
@@ -79,6 +79,7 @@ backbutton = NodePath("battleVbox/battlecontent/sidepanel/Control/backbutton")
 healthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
 bulbOn = ExtResource("2_26bt4")
 bulbOff = ExtResource("3_aadoi")
+rubberheart = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/rubberheart")
 
 [node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
 custom_minimum_size = Vector2(400, 600)
@@ -116,12 +117,13 @@ layout_mode = 2
 texture_under = ExtResource("3_7le68")
 texture_progress = ExtResource("4_brapn")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1189351085]
-position = Vector2(127.00001, 82)
-scale = Vector2(0.10231481, 0.10046296)
+[node name="rubberheart" type="AnimatedSprite2D" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1189351085]
+position = Vector2(133, 84)
+scale = Vector2(0.16782407, 0.16226853)
 sprite_frames = SubResource("SpriteFrames_vn3ql")
 animation = &"idel"
-frame_progress = 0.05180725
+autoplay = "idel"
+frame_progress = 0.8514717
 
 [node name="infobar" type="HBoxContainer" parent="battleVbox" unique_id=54570403]
 layout_mode = 2
