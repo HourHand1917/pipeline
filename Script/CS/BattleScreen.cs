@@ -36,6 +36,7 @@ public partial class BattleScreen : Control
     [Export] private Texture2D bulbOff;
     [Export] private ItemPanel itemPanel;
     [Export] private AnimatedSprite2D rubberheart;
+    [Export] private PackedScene trackSlotScene;
 
     public void Setup(BoardManager board, BattleManager battle)
     {
@@ -68,10 +69,12 @@ public partial class BattleScreen : Control
         UIManager.BackButton = backbutton;
         UIManager.HealthBar = healthBar;
         UIManager.RubberHeart = rubberheart;
+        UIManager.TrackSlotScene = trackSlotScene;
 
         UIManager.Setup(boardManager, battleManager);
         UIManager.BulbOn = bulbOn;
         UIManager.BulbOff = bulbOff;
+
 
         UIManager.LightCellRequested += (Vector2I pos) => EmitSignal(SignalName.LightCellRequested, pos);
         UIManager.PlayCardRequested += (int id) => EmitSignal(SignalName.PlayCardRequested, id);

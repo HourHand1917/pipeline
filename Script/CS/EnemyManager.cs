@@ -38,7 +38,7 @@ public partial class EnemyManager : Node
     {
         if (enemyData == null) return null;
 
-        var enemy = new EnemyBattle();
+        var enemy = new EnemyBasicNode();  // 改用 EnemyBasicNode
         enemy.Name = enemyData.Get(GDScriptKeys.CharacterData.Id).AsString();
         enemy.LoadFromData(enemyData);
         AddChild(enemy);

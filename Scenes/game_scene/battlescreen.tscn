@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cuuv2na4ij1cn" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220539.png" id="2_ycqhv"]
 [ext_resource type="Texture2D" uid="uid://b8t0ee2utaod5" path="res://features/exploration/art_assets/battlescreen/底板.png" id="3_7le68"]
 [ext_resource type="Texture2D" uid="uid://crtp4nnh3msa6" path="res://features/exploration/art_assets/battlescreen/未点亮.png" id="3_aadoi"]
+[ext_resource type="PackedScene" uid="uid://ny1vbenkauny" path="res://Scenes/resource_scene/trackslot.tscn" id="4_aadoi"]
 [ext_resource type="Texture2D" uid="uid://qj5h8gvcg7ro" path="res://features/exploration/art_assets/battlescreen/填充.png" id="4_brapn"]
 [ext_resource type="Texture2D" uid="uid://5tdy6psvnu3k" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0001_0.png" id="5_7le68"]
 [ext_resource type="Texture2D" uid="uid://ds5perm7gmcjw" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0002_18.png" id="6_brapn"]
@@ -59,6 +60,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 layout_mode = 3
 anchors_preset = 0
 size_flags_vertical = 3
+mouse_filter = 2
 script = ExtResource("1_tb4nm")
 battlegrid = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird")
 energyGrid = NodePath("energygrid")
@@ -80,12 +82,14 @@ healthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholde
 bulbOn = ExtResource("2_26bt4")
 bulbOff = ExtResource("3_aadoi")
 rubberheart = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/rubberheart")
+trackSlotScene = ExtResource("4_aadoi")
 
 [node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
 custom_minimum_size = Vector2(400, 600)
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1087.0
+mouse_filter = 2
 
 [node name="statuslabel" type="Label" parent="battleVbox" unique_id=1658931596]
 layout_mode = 2
@@ -152,6 +156,7 @@ text = "玩家0.怪物0，距离0格"
 
 [node name="stagepanel" type="PanelContainer" parent="battleVbox" unique_id=1224801427]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="margin" type="MarginContainer" parent="battleVbox/stagepanel" unique_id=1286502687]
 layout_mode = 2
@@ -162,9 +167,11 @@ theme_override_constants/margin_bottom = 8
 
 [node name="stageVbox" type="VBoxContainer" parent="battleVbox/stagepanel/margin" unique_id=854700267]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="distanceheader" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=881479664]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="eyebrow" type="Label" parent="battleVbox/stagepanel/margin/stageVbox/distanceheader" unique_id=365746658]
 layout_mode = 2
@@ -179,7 +186,12 @@ horizontal_alignment = 1
 
 [node name="distancetrack" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=503304078]
 layout_mode = 2
+mouse_filter = 2
 alignment = 1
+
+[node name="trackslot" parent="battleVbox/stagepanel/margin/stageVbox/distancetrack" unique_id=1999530165 instance=ExtResource("4_aadoi")]
+visible = false
+layout_mode = 2
 
 [node name="movement" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=953537882]
 layout_mode = 2

@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://ny1vbenkauny"]
+
+[ext_resource type="Script" uid="uid://d4ascdbxkcu5p" path="res://Script/CS/TrackSlot.cs" id="1_ryyaf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mf0wf"]
+
+[node name="trackslot" type="PanelContainer" unique_id=1999530165 node_paths=PackedStringArray("occupant", "animatedSprite", "glyphLabel", "slotLabel")]
+custom_minimum_size = Vector2(144, 144)
+script = ExtResource("1_ryyaf")
+occupant = NodePath("Vbox/occupant")
+animatedSprite = NodePath("Vbox/occupant/animatedsprite")
+glyphLabel = NodePath("Vbox/occupant/glyphlabel")
+slotLabel = NodePath("Vbox/slotlabel")
+
+[node name="Vbox" type="VBoxContainer" parent="." unique_id=508496084]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="occupant" type="Control" parent="Vbox" unique_id=1281803080]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="animatedsprite" type="AnimatedSprite2D" parent="Vbox/occupant" unique_id=1592853035]
+visible = false
+sprite_frames = SubResource("SpriteFrames_mf0wf")
+
+[node name="glyphlabel" type="Label" parent="Vbox/occupant" unique_id=217280510]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme_override_font_sizes/font_size = 64
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="slotlabel" type="Label" parent="Vbox" unique_id=229158132]
+layout_mode = 2
+horizontal_alignment = 1

@@ -33,6 +33,7 @@ public partial class UIManager : Node
     public TextureButton EndTurnButton { get; set; }
     public Button BackButton { get; set; }
     public TextureProgressBar HealthBar { get; set; }
+    public PackedScene TrackSlotScene { get; set; }
 
     private List<GridCellButton> battleButtons = new();
     private List<TextureRect> energyBulbs = new();
@@ -47,6 +48,8 @@ public partial class UIManager : Node
     public Texture2D BulbOn { get; set; }
     public Texture2D BulbOff { get; set; }
     public AnimatedSprite2D RubberHeart { get; set; }
+
+    private PackedScene _trackSlotScene;
 
     // ================================================================
     //  Setup
@@ -98,7 +101,7 @@ public partial class UIManager : Node
     }
 
     // ================================================================
-    //  绑定
+    //  绑定_trackSlotScene = GD.Load<PackedScene>("res://scenes/TrackSlot.tscn");
     // ================================================================
 
     public void BindPlayer(PlayerBattle player)
@@ -245,7 +248,7 @@ public partial class UIManager : Node
 
     private void RefreshDistanceTrack()
     {
-        if (DistanceTrack == null || battleManager == null) return;
+        if (DistanceTrack == null || battleManager == null || TrackSlotScene == null) return;
 
         var rules = DataManager.Instance.GetRules();
         var battleMap = rules?.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
@@ -258,26 +261,11 @@ public partial class UIManager : Node
 
             for (int i = 1; i <= cellCount; i++)
             {
-                var cell = new PanelContainer();
-                cell.CustomMinimumSize = new Vector2(144, 144);
-                var vbox = new VBoxContainer();
-                cell.AddChild(vbox);
-                var occupant = new Control();
-                occupant.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-                occupant.SizeFlagsHorizontal = Control.SizeFlags.Fill;
-                var glyphLabel = new Label();
-                glyphLabel.HorizontalAlignment = HorizontalAlignment.Center;
-                glyphLabel.VerticalAlignment = VerticalAlignment.Center;
-                glyphLabel.SizeFlagsVertical = Control.SizeFlags.ExpandFill;
-                glyphLabel.SizeFlagsHorizontal = Control.SizeFlags.Fill;
-                glyphLabel.AddThemeFontSizeOverride("font_size", 64);
-                occupant.AddChild(glyphLabel);
-                vbox.AddChild(occupant);
-                var label = new Label();
-                label.Text = $"{i}";
-                label.HorizontalAlignment = HorizontalAlignment.Center;
-                vbox.AddChild(label);
-                DistanceTrack.AddChild(cell);
+                var slot = TrackSlotScene.Instantiate<TrackSlot>();
+                slot.CustomMinimumSize = new Vector2(144, 144);
+                slot.Configure(i, "", Colors.White, null);
+                slot.SlotClicked += OnTrackSlotClicked;
+                DistanceTrack.AddChild(slot);
             }
         }
 
@@ -288,27 +276,56 @@ public partial class UIManager : Node
         var primaryEnemy = _enemyManager?.GetPrimaryEnemy();
         if (primaryEnemy != null) { enemyGlyph = !string.IsNullOrEmpty(primaryEnemy.Glyph) ? primaryEnemy.Glyph : "怪"; enemyTint = primaryEnemy.Tint; }
 
-        var trackChildren = DistanceTrack.GetChildren();
-        for (int i = 0; i < trackChildren.Count; i++)
+        var slots = DistanceTrack.GetChildren();
+        for (int i = 0; i < slots.Count; i++)
         {
+            var slot = slots[i] as TrackSlot;
+            if (slot == null) continue;
             int cellNum = i + 1;
-            var panel = trackChildren[i] as PanelContainer;
-            if (panel == null) continue;
-            var vbox = panel.GetChild(0) as VBoxContainer;
-            if (vbox == null || vbox.GetChildCount() < 2) continue;
-            var occupant = vbox.GetChild(0) as Control;
-            var glyphLabel = occupant?.GetChildCount() > 0 ? occupant.GetChild(0) as Label : null;
-            if (glyphLabel == null) continue;
 
             if (cellNum == battleManager.PlayerMapPosition && cellNum == battleManager.EnemyMapPosition)
-            { occupant.Modulate = new Color(0.6f, 0.3f, 0.3f); glyphLabel.Text = $"{playerGlyph}/{enemyGlyph}"; glyphLabel.Modulate = Colors.White; }
+                slot.Configure(cellNum, $"{playerGlyph}/{enemyGlyph}", Colors.White, null);
             else if (cellNum == battleManager.PlayerMapPosition)
-            { occupant.Modulate = new Color(playerTint.R, playerTint.G, playerTint.B, 0.3f); glyphLabel.Text = playerGlyph; glyphLabel.Modulate = playerTint; }
+                slot.Configure(cellNum, playerGlyph, playerTint, _player as GodotObject);
             else if (cellNum == battleManager.EnemyMapPosition)
-            { occupant.Modulate = new Color(enemyTint.R, enemyTint.G, enemyTint.B, 0.3f); glyphLabel.Text = enemyGlyph; glyphLabel.Modulate = enemyTint; }
+                slot.Configure(cellNum, enemyGlyph, enemyTint, primaryEnemy as GodotObject);
             else
-            { occupant.Modulate = new Color(1, 1, 1, 1); glyphLabel.Text = ""; glyphLabel.Modulate = Colors.White; }
+                slot.Configure(cellNum, "", Colors.White, null);
         }
+    }
+
+    private void OnTrackSlotClicked(int cellNumber, GodotObject combatant)
+    {
+        GD.Print($"[调试] OnTrackSlotClicked 被调用！cell={cellNumber}, combatant={combatant}");
+        
+        if (combatant == null)
+        {
+            GD.Print($"点击了空格子 {cellNumber}");
+            return;
+        }
+
+        GD.Print($"=== 点击了格子 {cellNumber} ===");
+        GD.Print($"HP: {combatant.Get("CurrentHp")}/{combatant.Get("MaxHp")}");
+        GD.Print($"护盾: {combatant.Get("Shield")}");
+        GD.Print($"位置: {combatant.Get("MapPosition")}");
+        GD.Print($"存活: {combatant.Get("IsAlive")}");
+
+        var statsObj = combatant.Get("_stats");
+        GodotObject stats = statsObj.Obj != null ? statsObj.As<GodotObject>() : null;
+        if (stats != null)
+        {
+            var buffs = stats.Get("buffs").As<Array>();
+            GD.Print($"Buff 数量: {buffs.Count}");
+            for (int i = 0; i < buffs.Count; i++)
+            {
+                var bi = buffs[i].As<GodotObject>();
+                if (bi == null) continue;
+                var buff = bi.Get("buff").As<GodotObject>();
+                int stacks = bi.Get("stacks").AsInt32();
+                GD.Print($"  [{i}] {buff.Get("buff_name")} ×{stacks}");
+            }
+        }
+        GD.Print("=========================");
     }
 
     private void RefreshActivationButtons()
@@ -343,28 +360,29 @@ public partial class UIManager : Node
         BattleManager.Phase.BattleEnd => "战斗结束",
         _ => "状态切换"
     };
+
     private void UpdateHeartbeat(int currentHp, int maxHp)
-{
-    if (RubberHeart == null) return;
-
-    if (currentHp <= 0)
     {
-        RubberHeart.Stop();
-        return;
+        if (RubberHeart == null) return;
+
+        if (currentHp <= 0)
+        {
+            RubberHeart.Stop();
+            return;
+        }
+
+        float ratio = (float)currentHp / maxHp;
+
+        float fps;
+        if (ratio > 0.5f)
+            fps = 8f;
+        else if (ratio > 0.25f)
+            fps = 10f;
+        else
+            fps = 12f;
+
+        RubberHeart.SpeedScale = fps / 8f;
+        if (!RubberHeart.IsPlaying())
+            RubberHeart.Play("idle");
     }
-
-    float ratio = (float)currentHp / maxHp;
-
-    float fps;
-    if (ratio > 0.5f)
-        fps = 8f;
-    else if (ratio > 0.25f)
-        fps = 10f;
-    else
-        fps = 12f;
-
-    RubberHeart.SpeedScale = fps / 8f;
-    if (!RubberHeart.IsPlaying())
-        RubberHeart.Play("idle");
-}
 }

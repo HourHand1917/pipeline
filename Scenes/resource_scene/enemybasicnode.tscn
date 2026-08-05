@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://co7q4rr0xcv5o"]
+
+[ext_resource type="Script" uid="uid://dt1u2vejh14f0" path="res://Script/CS/EnemyBasicNode.cs" id="1_xrn7o"]
+
+[node name="enemybasicnode" type="Node2D" unique_id=1075096146]
+script = ExtResource("1_xrn7o")
+
+[node name="Button" type="Button" parent="." unique_id=2123647030]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -12.0
+offset_top = -12.0
+offset_right = -4.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(3, 3)
