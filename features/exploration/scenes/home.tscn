@@ -296,6 +296,7 @@ _clickZone = NodePath("../ClickZone")
 [node name="ShopManager" type="Node" parent="MapLayer/Room_Front/Store" unique_id=576738288]
 script = ExtResource("14_c681v")
 ShopData = ExtResource("15_jir6r")
+PersistenceId = "shop_home"
 
 [node name="Bounds" type="Node" parent="MapLayer/Room_Front" unique_id=351476092]
 script = ExtResource("7_n0vrv")
