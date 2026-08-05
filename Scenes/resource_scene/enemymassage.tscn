@@ -35,6 +35,8 @@ layout_mode = 2
 
 [node name="healthlabel" type="Label" parent="enemymassagebox/statsbox/enemybarbox/healthbarbox" unique_id=1442683368]
 layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "血量槽"
 
 [node name="defencebarbox" type="HBoxContainer" parent="enemymassagebox/statsbox/enemybarbox" unique_id=519186483]
 custom_minimum_size = Vector2(0, 180)
@@ -46,6 +48,8 @@ layout_mode = 2
 
 [node name="defencelabel" type="Label" parent="enemymassagebox/statsbox/enemybarbox/defencebarbox" unique_id=690669135]
 layout_mode = 2
+theme_override_font_sizes/font_size = 80
+text = "格挡槽"
 
 [node name="buffbox" type="HBoxContainer" parent="enemymassagebox/statsbox/enemybarbox" unique_id=534495841]
 custom_minimum_size = Vector2(0, 180)
@@ -58,3 +62,8 @@ columns = 6
 [node name="messagebox" type="HBoxContainer" parent="enemymassagebox" unique_id=725493255]
 custom_minimum_size = Vector2(0, 540)
 layout_mode = 2
+
+[node name="Label" type="Label" parent="enemymassagebox/messagebox" unique_id=1533614486]
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+text = "敌人意图或情报"
