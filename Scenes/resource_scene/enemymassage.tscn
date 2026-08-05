@@ -1,8 +1,60 @@
 [gd_scene format=3 uid="uid://bkikddh345mfu"]
 
+[ext_resource type="Texture2D" uid="uid://b7va0e0jpk3vl" path="res://icon.svg" id="1_chrr3"]
+
 [node name="PanelContainer" type="PanelContainer" unique_id=931749593]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="enemymassagebox" type="VBoxContainer" parent="." unique_id=1388013988]
+layout_mode = 2
+
+[node name="statsbox" type="HBoxContainer" parent="enemymassagebox" unique_id=1667942414]
+custom_minimum_size = Vector2(1920, 540)
+layout_mode = 2
+
+[node name="enemyicon" type="TextureRect" parent="enemymassagebox/statsbox" unique_id=250710815]
+custom_minimum_size = Vector2(540, 540)
+layout_mode = 2
+texture = ExtResource("1_chrr3")
+
+[node name="enemybarbox" type="VBoxContainer" parent="enemymassagebox/statsbox" unique_id=1903429791]
+custom_minimum_size = Vector2(1380, 540)
+layout_mode = 2
+
+[node name="healthbarbox" type="HBoxContainer" parent="enemymassagebox/statsbox/enemybarbox" unique_id=182466851]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+
+[node name="enemyhealthbar" type="TextureProgressBar" parent="enemymassagebox/statsbox/enemybarbox/healthbarbox" unique_id=1121865389]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+
+[node name="healthlabel" type="Label" parent="enemymassagebox/statsbox/enemybarbox/healthbarbox" unique_id=1442683368]
+layout_mode = 2
+
+[node name="defencebarbox" type="HBoxContainer" parent="enemymassagebox/statsbox/enemybarbox" unique_id=519186483]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+
+[node name="enemydefencebar" type="TextureProgressBar" parent="enemymassagebox/statsbox/enemybarbox/defencebarbox" unique_id=1679630434]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+
+[node name="defencelabel" type="Label" parent="enemymassagebox/statsbox/enemybarbox/defencebarbox" unique_id=690669135]
+layout_mode = 2
+
+[node name="buffbox" type="HBoxContainer" parent="enemymassagebox/statsbox/enemybarbox" unique_id=534495841]
+custom_minimum_size = Vector2(0, 180)
+layout_mode = 2
+
+[node name="buffgrid" type="GridContainer" parent="enemymassagebox/statsbox/enemybarbox/buffbox" unique_id=1198653291]
+layout_mode = 2
+columns = 6
+
+[node name="messagebox" type="HBoxContainer" parent="enemymassagebox" unique_id=725493255]
+custom_minimum_size = Vector2(0, 540)
+layout_mode = 2
