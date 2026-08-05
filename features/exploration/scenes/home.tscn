@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dkjvldkcj7f0t" path="res://features/exploration/art_assets/家-背景.png" id="2_1g70h"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="2_vdmol"]
 [ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="3_3atb7"]
-[ext_resource type="Texture2D" uid="uid://dot7leijb7s8q" path="res://features/exploration/art_assets/地板.png" id="3_vdmol"]
+[ext_resource type="Texture2D" uid="uid://baplauefd4kpy" path="res://features/exploration/art_assets/加厚地板.PNG" id="3_htdbx"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_kwm3y"]
 [ext_resource type="Texture2D" uid="uid://bfwqqe85jy6sn" path="res://features/exploration/art_assets/家-工作台.png" id="4_sh4v1"]
 [ext_resource type="Texture2D" uid="uid://bko2p4vl6k2t5" path="res://features/exploration/art_assets/休眠舱.png" id="6_tbw4g"]
@@ -13,8 +13,18 @@
 [ext_resource type="Texture2D" uid="uid://cpygny8grlept" path="res://features/exploration/art_assets/大门-关闭-拉杆上.PNG" id="9_kwm3y"]
 [ext_resource type="Texture2D" uid="uid://pb802r7ji65u" path="res://features/exploration/art_assets/商店.png" id="10_kwm3y"]
 [ext_resource type="Script" uid="uid://dci7bqwtky2sp" path="res://features/exploration/scripts/CS/interactables/RoomGateInteractable.cs" id="10_rtki2"]
+[ext_resource type="Script" uid="uid://brldldukiq5i5" path="res://features/exploration/scripts/CS/interactables/StoreInteractable.cs" id="12_epj53"]
+[ext_resource type="Script" uid="uid://cnkxsvpsj36u4" path="res://features/shop/ShopManager.cs" id="14_c681v"]
 [ext_resource type="Script" uid="uid://bju6uaedyndmv" path="res://features/exploration/scripts/CS/RoomTransitionManager.cs" id="14_htdbx"]
+[ext_resource type="Resource" uid="uid://3fm7weqvvkxh" path="res://features/shop/resources/default_shop.tres" id="15_jir6r"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="16_w8jpk"]
+[ext_resource type="Script" uid="uid://unxmpcudbtks" path="res://features/shop/ShopUI.cs" id="19_s6d8i"]
+[ext_resource type="Script" uid="uid://cjyj7g4diq8ih" path="res://Script/CS/StarterDeck.cs" id="20_8lmfl"]
+[ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="21_awyto"]
+[ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="22_fxped"]
+[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="23_tis6c"]
+[ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="24_w2wh5"]
+[ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="25_hp3pq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0vrv"]
 radius = 562.03204
@@ -40,12 +50,91 @@ radius = 682.04694
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvlmm"]
 size = Vector2(833, 862)
 
+[sub_resource type="Animation" id="Animation_8lmfl"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_awyto"]
+resource_name = "hide_shopUI"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"DisableButtons"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_fxped"]
+resource_name = "show_shopUI"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"EnableButtons"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tis6c"]
+_data = {
+&"RESET": SubResource("Animation_8lmfl"),
+&"hide_shopUI": SubResource("Animation_awyto"),
+&"show_shopUI": SubResource("Animation_fxped")
+}
+
 [node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input")]
 script = ExtResource("1_lk0dn")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "home"
-PlayerLeft = -1791
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 
@@ -56,8 +145,8 @@ position = Vector2(921, 305)
 texture = ExtResource("2_1g70h")
 
 [node name="BackGround" type="Sprite2D" parent="MapLayer/Room_Back" unique_id=1922385659]
-position = Vector2(921, 803)
-texture = ExtResource("3_vdmol")
+position = Vector2(921, 563)
+texture = ExtResource("3_htdbx")
 
 [node name="ReturnGate" type="Area2D" parent="MapLayer/Room_Back" unique_id=1049730411 node_paths=PackedStringArray("Manager", "_blink")]
 position = Vector2(1200, 350)
@@ -97,8 +186,8 @@ texture = ExtResource("2_1g70h")
 metadata/_edit_lock_ = true
 
 [node name="Ground" type="Sprite2D" parent="MapLayer/Room_Front" unique_id=1444523972]
-position = Vector2(921, 803)
-texture = ExtResource("3_vdmol")
+position = Vector2(921, 563)
+texture = ExtResource("3_htdbx")
 
 [node name="Workbench" type="Area2D" parent="MapLayer/Room_Front" unique_id=809413683 node_paths=PackedStringArray("_blink")]
 position = Vector2(-100, 304)
@@ -173,10 +262,10 @@ script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="Store" type="Area2D" parent="MapLayer/Room_Front" unique_id=474505502 node_paths=PackedStringArray("_blink")]
+[node name="Store" type="Area2D" parent="MapLayer/Room_Front" unique_id=474505502 node_paths=PackedStringArray("ShopUI")]
 position = Vector2(2436, 343)
-script = ExtResource("3_3atb7")
-_blink = NodePath("Blink")
+script = ExtResource("12_epj53")
+ShopUI = NodePath("../../../UILayer/ShopUI")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/Store" unique_id=467649211]
 position = Vector2(47, -7)
@@ -204,6 +293,10 @@ script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
+[node name="ShopManager" type="Node" parent="MapLayer/Room_Front/Store" unique_id=576738288]
+script = ExtResource("14_c681v")
+ShopData = ExtResource("15_jir6r")
+
 [node name="Bounds" type="Node" parent="MapLayer/Room_Front" unique_id=351476092]
 script = ExtResource("7_n0vrv")
 PlayerLeft = -550
@@ -219,3 +312,56 @@ script = ExtResource("14_htdbx")
 
 [node name="InputRouter" type="Node" parent="." unique_id=853271568]
 script = ExtResource("16_w8jpk")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=2084244279]
+
+[node name="ShopUI" type="Control" parent="UILayer" unique_id=1486431124 node_paths=PackedStringArray("_anim", "_itemList", "_goldLabel", "_closeButton", "_shopManager")]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("19_s6d8i")
+_anim = NodePath("Anim")
+_itemList = NodePath("Panel/ItemList")
+_goldLabel = NodePath("GoldLabel")
+_closeButton = NodePath("CloseButton")
+_shopManager = NodePath("../../MapLayer/Room_Front/Store/ShopManager")
+
+[node name="Background" type="ColorRect" parent="UILayer/ShopUI" unique_id=810003862]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/ShopUI" unique_id=803932554]
+layout_mode = 0
+offset_left = 460.0
+offset_top = 200.0
+offset_right = 1460.0
+offset_bottom = 800.0
+
+[node name="ItemList" type="VBoxContainer" parent="UILayer/ShopUI/Panel" unique_id=2077259660]
+layout_mode = 2
+
+[node name="GoldLabel" type="Label" parent="UILayer/ShopUI" unique_id=815034646]
+layout_mode = 0
+offset_left = 480.0
+offset_top = 150.0
+offset_right = 481.0
+offset_bottom = 173.0
+theme_override_font_sizes/font_size = 28
+
+[node name="CloseButton" type="Button" parent="UILayer/ShopUI" unique_id=1279185907]
+layout_mode = 0
+offset_left = 880.0
+offset_top = 750.0
+offset_right = 1040.0
+offset_bottom = 810.0
+text = "关闭"
+
+[node name="Anim" type="AnimationPlayer" parent="UILayer/ShopUI" unique_id=403436577]
+libraries/ = SubResource("AnimationLibrary_tis6c")
+
+[node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
+script = ExtResource("20_8lmfl")
+Cards = [ExtResource("21_awyto"), ExtResource("22_fxped"), ExtResource("23_tis6c"), ExtResource("24_w2wh5"), ExtResource("25_hp3pq")]
