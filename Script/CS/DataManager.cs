@@ -28,6 +28,9 @@ public partial class DataManager : Node
     public int BottleCap { get; private set; } = 0;
     public int Faucet { get; private set; } = 0;
 
+    // ============ 等级 ============
+    public int Lv { get; private set; } = 1;
+
     public override void _Ready()
     {
         if (Instance != null) GD.PushError("DataManager: 重复实例化");
@@ -250,5 +253,16 @@ public partial class DataManager : Node
             _cachedLoadout = GD.Load<GDScript>("res://Script/GD/resource/loadout_data.gd").New().As<GodotObject>();
         }
         return _cachedLoadout;
+    }
+    // ================================================================
+//  等级
+// ================================================================
+
+/// <summary>增加等级。amount 可正可负。</summary>
+    public void AddLevel(int amount)
+    {
+        Lv += amount;
+        if (Lv < 1) Lv = 1;
+        GD.Print($"等级变化：{(amount >= 0 ? "+" : "")}{amount}，当前等级 {Lv}");
     }
 }
