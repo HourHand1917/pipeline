@@ -11,96 +11,58 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_sga4y")
 
-[node name="itemHbox" type="HBoxContainer" parent="." unique_id=463463940]
-layout_mode = 2
-theme_override_constants/separation = 24
-
-[node name="itemleftVbox" type="VBoxContainer" parent="itemHbox" unique_id=4455843]
+[node name="itemleftVbox" type="VBoxContainer" parent="." unique_id=4455843]
 layout_mode = 2
 
-[node name="itemgrid" type="GridContainer" parent="itemHbox/itemleftVbox" unique_id=320686128]
+[node name="itemgrid" type="GridContainer" parent="itemleftVbox" unique_id=320686128]
 layout_mode = 2
 theme_override_constants/h_separation = 16
 theme_override_constants/v_separation = 16
 columns = 4
 
-[node name="itemslot0" type="TextureButton" parent="itemHbox/itemleftVbox/itemgrid" unique_id=437610694]
+[node name="itemslot0" type="TextureButton" parent="itemleftVbox/itemgrid" unique_id=437610694]
 custom_minimum_size = Vector2(350, 600)
 layout_mode = 2
 
-[node name="itemslot1" type="TextureButton" parent="itemHbox/itemleftVbox/itemgrid" unique_id=1096467691]
+[node name="itemslot1" type="TextureButton" parent="itemleftVbox/itemgrid" unique_id=1096467691]
 custom_minimum_size = Vector2(350, 600)
 layout_mode = 2
 
-[node name="itemslot2" type="TextureButton" parent="itemHbox/itemleftVbox/itemgrid" unique_id=1528132507]
+[node name="itemslot2" type="TextureButton" parent="itemleftVbox/itemgrid" unique_id=1528132507]
 custom_minimum_size = Vector2(350, 600)
 layout_mode = 2
 
-[node name="itemslot3" type="TextureButton" parent="itemHbox/itemleftVbox/itemgrid" unique_id=743178094]
+[node name="itemslot3" type="TextureButton" parent="itemleftVbox/itemgrid" unique_id=743178094]
 custom_minimum_size = Vector2(350, 600)
 layout_mode = 2
 
-[node name="itemactionHbox" type="HBoxContainer" parent="itemHbox/itemleftVbox" unique_id=1553172120]
+[node name="itemactionHbox" type="HBoxContainer" parent="itemleftVbox" unique_id=1553172120]
 layout_mode = 2
 theme_override_constants/separation = 16
 
-[node name="VBoxContainer" type="VBoxContainer" parent="itemHbox/itemleftVbox/itemactionHbox" unique_id=300472608]
-layout_mode = 2
-
-[node name="useitembutton" type="Button" parent="itemHbox/itemleftVbox/itemactionHbox/VBoxContainer" unique_id=1532584013]
-custom_minimum_size = Vector2(432, 228)
-layout_mode = 2
-theme_override_font_sizes/font_size = 144
-text = "使用"
-
-[node name="discarditembutton" type="Button" parent="itemHbox/itemleftVbox/itemactionHbox/VBoxContainer" unique_id=869500911]
-custom_minimum_size = Vector2(0, 228)
-layout_mode = 2
-theme_override_font_sizes/font_size = 144
-text = "丢弃"
-
-[node name="itemdesclabel" type="Label" parent="itemHbox/itemleftVbox/itemactionHbox" unique_id=939401618]
-custom_minimum_size = Vector2(1012, 470)
-layout_mode = 2
-theme_override_font_sizes/font_size = 64
-text = "卡牌信息显示
-1
-2
-3
-4"
-
-[node name="itemrightVbox" type="VBoxContainer" parent="itemHbox" unique_id=899831702]
-layout_mode = 2
-
-[node name="currencytitle" type="Label" parent="itemHbox/itemrightVbox" unique_id=870111308]
-custom_minimum_size = Vector2(474, 170)
-layout_mode = 2
-theme_override_font_sizes/font_size = 128
-text = "货币"
-
-[node name="bottlecapVbox" type="VBoxContainer" parent="itemHbox/itemrightVbox" unique_id=1015565222]
+[node name="bottlecapVbox" type="VBoxContainer" parent="itemleftVbox/itemactionHbox" unique_id=1015565222]
 custom_minimum_size = Vector2(375, 450)
 layout_mode = 2
 
-[node name="bottlecapIcon" type="TextureRect" parent="itemHbox/itemrightVbox/bottlecapVbox" unique_id=2124381922]
+[node name="bottlecapIcon" type="TextureRect" parent="itemleftVbox/itemactionHbox/bottlecapVbox" unique_id=2124381922]
 custom_minimum_size = Vector2(250, 250)
 layout_mode = 2
 
-[node name="bottlecapLabel" type="Label" parent="itemHbox/itemrightVbox/bottlecapVbox" unique_id=463993463]
+[node name="bottlecapLabel" type="Label" parent="itemleftVbox/itemactionHbox/bottlecapVbox" unique_id=463993463]
 custom_minimum_size = Vector2(375, 200)
 layout_mode = 2
 theme_override_font_sizes/font_size = 144
 text = "678"
 
-[node name="faucetVbox" type="VBoxContainer" parent="itemHbox/itemrightVbox" unique_id=1003438723]
+[node name="faucetVbox" type="VBoxContainer" parent="itemleftVbox/itemactionHbox" unique_id=1003438723]
 custom_minimum_size = Vector2(375, 450)
 layout_mode = 2
 
-[node name="fauceticon" type="TextureRect" parent="itemHbox/itemrightVbox/faucetVbox" unique_id=1416274813]
+[node name="fauceticon" type="TextureRect" parent="itemleftVbox/itemactionHbox/faucetVbox" unique_id=1416274813]
 custom_minimum_size = Vector2(250, 250)
 layout_mode = 2
 
-[node name="faucetlabel" type="Label" parent="itemHbox/itemrightVbox/faucetVbox" unique_id=1191059677]
+[node name="faucetlabel" type="Label" parent="itemleftVbox/itemactionHbox/faucetVbox" unique_id=1191059677]
 custom_minimum_size = Vector2(375, 200)
 layout_mode = 2
 theme_override_font_sizes/font_size = 144

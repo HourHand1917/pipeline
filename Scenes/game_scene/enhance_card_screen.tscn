@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://jrshsog84exi"]
+
+[node name="enhance_card_screen" type="Control" unique_id=15231731]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="upgradebox" type="VBoxContainer" parent="." unique_id=463655067]
+layout_mode = 0
+offset_left = 159.0
+offset_top = 122.0
+offset_right = 1283.0
+offset_bottom = 808.0
+
+[node name="title" type="Label" parent="upgradebox" unique_id=1025365537]
+layout_mode = 2
+theme_override_font_sizes/font_size = 54
+text = "升级示例"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="upgradebox" unique_id=1455842730]
+layout_mode = 2
+
+[node name="beforecardbox" type="PanelContainer" parent="upgradebox/HBoxContainer" unique_id=1937745497]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="upgradebox/HBoxContainer" unique_id=1216317006]
+layout_mode = 2
+
+[node name="upgradecardbox" type="PanelContainer" parent="upgradebox/HBoxContainer" unique_id=1544176993]
+layout_mode = 2
+
+[node name="comfirmbox" type="HBoxContainer" parent="upgradebox" unique_id=722172948]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="upgradebox/comfirmbox" unique_id=52861419]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="upgradebox/comfirmbox" unique_id=1060629047]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="upgradebox/comfirmbox" unique_id=1047505587]
+layout_mode = 2
+text = "确认升级"
+
+[node name="leftpanel" type="VBoxContainer" parent="." unique_id=1063234046]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 0
+offset_left = 1213.0
+offset_top = 117.0
+offset_right = 1413.0
+offset_bottom = 188.0
+
+[node name="inventorytitle" type="Label" parent="leftpanel" unique_id=608516585]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "物品库"
+
+[node name="inventorybox" type="VBoxContainer" parent="leftpanel" unique_id=399203691]
+layout_mode = 2
+theme_override_constants/separation = 8
