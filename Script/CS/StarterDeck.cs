@@ -15,6 +15,6 @@ public partial class StarterDeck : Node
         foreach (var card in Cards)
             DataManager.Instance.AcquireCard(card, 3);
         DataManager.Instance.UpgradeCard("battery");
-        DataManager.Instance.ModifyCurrency(Currency, 40);
+        DataManager.Instance.ModifyCurrency(Currency, 60);
     }
 }

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://355ib3r0b66i" path="res://Script/CS/ItemPanel.cs" id="1_sga4y"]
 
-[node name="itempanel" type="PanelContainer" unique_id=1961781588]
+[node name="itempanel" type="PanelContainer" unique_id=1961781588 node_paths=PackedStringArray("itemGrid", "useItemButton", "discardItemButton", "itemDescLabel", "bottleCapLabel", "faucetLabel")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -10,6 +10,12 @@ offset_right = 38.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_sga4y")
+itemGrid = NodePath("itemHbox/itemleftVbox/itemgrid")
+useItemButton = NodePath("itemHbox/itemleftVbox/itemactionHbox/VBoxContainer/useitembutton")
+discardItemButton = NodePath("itemHbox/itemleftVbox/itemactionHbox/VBoxContainer/discarditembutton")
+itemDescLabel = NodePath("itemHbox/itemleftVbox/itemactionHbox/itemdesclabel")
+bottleCapLabel = NodePath("itemHbox/itemrightVbox/bottlecapVbox/bottlecapLabel")
+faucetLabel = NodePath("itemHbox/itemrightVbox/faucetVbox/faucetlabel")
 
 [node name="itemHbox" type="HBoxContainer" parent="." unique_id=463463940]
 layout_mode = 2

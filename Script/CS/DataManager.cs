@@ -10,6 +10,10 @@ public partial class DataManager : Node
 {
     [Signal] public delegate void BuildSavedEventHandler();
     [Signal] public delegate void CardAcquiredEventHandler(StringName cardId, int count);
+    [Signal] public delegate void CardCollectionChangedEventHandler();
+    [Signal] public delegate void ItemBagChangedEventHandler();
+    [Signal] public delegate void CurrencyChangedEventHandler();
+    [Signal] public delegate void LevelChangedEventHandler(int newLevel);
 
     public static DataManager Instance { get; private set; }
 
@@ -52,6 +56,7 @@ public partial class DataManager : Node
         CardCounts[id] = CardCounts.TryGetValue(id, out int c) ? c + count : count;
 
         EmitSignal(SignalName.CardAcquired, id, count);
+        EmitSignal(SignalName.CardCollectionChanged);
         GD.Print($"背包：{GetCardName(id)} +{count}（共 {CardCounts[id]} 张）");
     }
 
@@ -75,6 +80,7 @@ public partial class DataManager : Node
             CardCounts[id] = c;
         }
 
+        EmitSignal(SignalName.CardCollectionChanged);
         return true;
     }
 
@@ -194,6 +200,7 @@ public partial class DataManager : Node
         }
 
         ItemBag.Add(itemResource);
+        EmitSignal(SignalName.ItemBagChanged);
         GD.Print($"获得道具：{((GodotObject)itemResource).Get("display_name").AsString()}");
         return true;
     }
@@ -205,6 +212,7 @@ public partial class DataManager : Node
 
         var item = ItemBag[index];
         ItemBag.RemoveAt(index);
+        EmitSignal(SignalName.ItemBagChanged);
         GD.Print($"丢弃道具：{((GodotObject)item).Get("display_name").AsString()}");
         return item;
     }
@@ -227,6 +235,7 @@ public partial class DataManager : Node
             BottleCap += amount;
         else
             Faucet += amount;
+        EmitSignal(SignalName.CurrencyChanged);
     }
 
     // ================================================================
@@ -263,6 +272,7 @@ public partial class DataManager : Node
     {
         Lv += amount;
         if (Lv < 1) Lv = 1;
+        EmitSignal(SignalName.LevelChanged, Lv);
         GD.Print($"等级变化：{(amount >= 0 ? "+" : "")}{amount}，当前等级 {Lv}");
     }
 }

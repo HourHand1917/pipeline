@@ -1,0 +1,270 @@
+[gd_scene format=3 uid="uid://5umggsibdp5b"]
+
+[ext_resource type="Script" uid="uid://fmv0uf5griri" path="res://features/tv_ui/PlayerTV.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://dxi4ygcn3eh1f" path="res://features/exploration/art_assets/battlescreen/合起来.png" id="2_butd8"]
+[ext_resource type="Script" uid="uid://nxmjqtd653en" path="res://features/tv_ui/MapPanel.cs" id="2_map"]
+[ext_resource type="Texture2D" uid="uid://cu8ebna3j1xx2" path="res://features/exploration/art_assets/battlescreen/上.png" id="3_1tjra"]
+[ext_resource type="Script" uid="uid://doh04poco6wm7" path="res://features/tv_ui/InventoryPanel.cs" id="3_inv"]
+[ext_resource type="Script" uid="uid://bagolccaxqna7" path="res://features/tv_ui/EnemyPanel.cs" id="4_enemy"]
+[ext_resource type="Texture2D" uid="uid://b0bicevu3twdc" path="res://features/exploration/art_assets/battlescreen/下.png" id="4_o0qei"]
+
+[sub_resource type="Animation" id="Animation_5f3a5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_h3ujh"]
+resource_name = "hide_tv"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_yfoog"]
+resource_name = "show_tv"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_butd8"]
+resource_name = "switch_panel"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.43333334, 1),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [],
+"method": &"OnSwitchMidpoint"
+}, {
+"args": [],
+"method": &"OnSwitchComplete"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1tjra"]
+_data = {
+&"RESET": SubResource("Animation_5f3a5"),
+&"hide_tv": SubResource("Animation_h3ujh"),
+&"show_tv": SubResource("Animation_yfoog"),
+&"switch_panel": SubResource("Animation_butd8")
+}
+
+[node name="PlayerTV" type="Control" unique_id=2129627915 node_paths=PackedStringArray("_anim", "_upButton", "_downButton", "_mapPanel", "_inventoryPanel", "_enemyPanel")]
+layout_mode = 3
+anchor_bottom = 0.827
+offset_right = 1403.0
+offset_bottom = -0.16003418
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+_anim = NodePath("Anim")
+_upButton = NodePath("UpBtn")
+_downButton = NodePath("DownBtn")
+_mapPanel = NodePath("PanelStack/MapPanel")
+_inventoryPanel = NodePath("PanelStack/InventoryPanel")
+_enemyPanel = NodePath("PanelStack/EnemyPanel")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1611279294]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -9.0
+offset_top = -19.0
+offset_right = 9.0
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_butd8")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="UpBtn" type="TextureButton" parent="." unique_id=1665265975]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.1
+anchor_top = 0.108
+anchor_right = 0.006
+anchor_bottom = 0.354
+offset_left = 0.30000305
+offset_top = -0.44400024
+offset_right = 0.5819988
+offset_bottom = -0.12200928
+texture_normal = ExtResource("3_1tjra")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="DownBtn" type="TextureButton" parent="." unique_id=588091186]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.1
+anchor_top = 0.35300002
+anchor_right = 0.006
+anchor_bottom = 0.59900004
+offset_left = 0.30000305
+offset_top = -0.2290039
+offset_right = 0.5819988
+offset_bottom = 0.09295654
+texture_normal = ExtResource("4_o0qei")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="PanelStack" type="Control" parent="." unique_id=1917502736]
+layout_mode = 1
+anchor_left = 0.05274412
+anchor_top = 0.13325869
+anchor_right = 0.9543835
+anchor_bottom = 0.84322506
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="MapPanel" type="Control" parent="PanelStack" unique_id=1345310407 node_paths=PackedStringArray("_routeButtons")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_map")
+_routeButtons = []
+
+[node name="InventoryPanel" type="Control" parent="PanelStack" unique_id=668771736 node_paths=PackedStringArray("_itemRow", "_useButton", "_discardButton", "_bottleCapLabel", "_faucetLabel")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_inv")
+_itemRow = NodePath("itemRow")
+_useButton = NodePath("VBoxContainer/useitembutton")
+_discardButton = NodePath("VBoxContainer/discarditembutton")
+_bottleCapLabel = NodePath("itemrightVbox/bottlecapVbox/bottlecapLabel")
+_faucetLabel = NodePath("itemrightVbox/faucetVbox/faucetlabel")
+
+[node name="itemRow" type="HBoxContainer" parent="PanelStack/InventoryPanel" unique_id=1098505415]
+layout_mode = 0
+offset_right = 883.0
+offset_bottom = 475.0
+theme_override_constants/separation = 4
+
+[node name="itemslot0" type="TextureButton" parent="PanelStack/InventoryPanel/itemRow" unique_id=1292089262]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="itemslot1" type="TextureButton" parent="PanelStack/InventoryPanel/itemRow" unique_id=497366931]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="itemslot2" type="TextureButton" parent="PanelStack/InventoryPanel/itemRow" unique_id=1877910052]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="itemslot3" type="TextureButton" parent="PanelStack/InventoryPanel/itemRow" unique_id=165800031]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelStack/InventoryPanel" unique_id=1628241477]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8466403
+anchor_right = 1.0
+anchor_bottom = 0.30599368
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="useitembutton" type="Button" parent="PanelStack/InventoryPanel/VBoxContainer" unique_id=2070024895]
+layout_mode = 2
+size_flags_vertical = 3
+text = "使用"
+
+[node name="discarditembutton" type="Button" parent="PanelStack/InventoryPanel/VBoxContainer" unique_id=1491880716]
+layout_mode = 2
+size_flags_vertical = 3
+text = "丢弃"
+
+[node name="itemrightVbox" type="VBoxContainer" parent="PanelStack/InventoryPanel" unique_id=1613503955]
+layout_mode = 0
+offset_left = 963.0
+offset_top = 438.0
+offset_right = 1219.0
+offset_bottom = 603.0
+
+[node name="currencytitle" type="Label" parent="PanelStack/InventoryPanel/itemrightVbox" unique_id=928290063]
+layout_mode = 2
+theme_override_font_sizes/font_size = 22
+text = "货币"
+
+[node name="bottlecapVbox" type="VBoxContainer" parent="PanelStack/InventoryPanel/itemrightVbox" unique_id=1604384867]
+layout_mode = 2
+
+[node name="bottlecapIcon" type="TextureRect" parent="PanelStack/InventoryPanel/itemrightVbox/bottlecapVbox" unique_id=2055004726]
+layout_mode = 2
+
+[node name="bottlecapLabel" type="Label" parent="PanelStack/InventoryPanel/itemrightVbox/bottlecapVbox" unique_id=195614312]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "678"
+
+[node name="faucetVbox" type="VBoxContainer" parent="PanelStack/InventoryPanel/itemrightVbox" unique_id=118648765]
+layout_mode = 2
+
+[node name="fauceticon" type="TextureRect" parent="PanelStack/InventoryPanel/itemrightVbox/faucetVbox" unique_id=1898690905]
+layout_mode = 2
+
+[node name="faucetlabel" type="Label" parent="PanelStack/InventoryPanel/itemrightVbox/faucetVbox" unique_id=280897162]
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "123"
+
+[node name="EnemyPanel" type="Control" parent="PanelStack" unique_id=637358488]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_enemy")
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=610337759]
+libraries/ = SubResource("AnimationLibrary_1tjra")

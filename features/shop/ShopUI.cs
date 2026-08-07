@@ -22,6 +22,7 @@ public partial class ShopUI : Control
         Visible = false;
         if (_shopManager != null)
             _shopManager.InventoryChanged += Refresh;
+        DataManager.Instance.CurrencyChanged += Refresh;
         if (_closeButton != null)
             _closeButton.Pressed += Close;
     }
@@ -45,7 +46,8 @@ public partial class ShopUI : Control
     /// </summary>
     public void EnableButtons()
     {
-        SetItemButtonsDisabled(false);
+        // 不能盲目全部启用——要重跑 Refresh 的逻辑，否则会覆盖售罄/背包满等状态
+        Refresh();
     }
 
     /// <summary>
@@ -65,6 +67,32 @@ public partial class ShopUI : Control
             if (child is Button btn)
                 btn.Disabled = disabled;
         }
+    }
+
+    private void AttachTooltip(Button btn, Resource itemRes, int price, int stock)
+    {
+        var data = new TooltipData();
+        data.Title = itemRes.Get("display_name").AsString();
+        data.Description = itemRes.Get("description").AsString();
+        var icon = itemRes.Get("icon").As<Texture2D>();
+        if (icon != null) data.Icon = icon;
+
+        data.Details = new Godot.Collections.Dictionary<string, string>
+        {
+            { "价格", $"${price}" },
+            { "库存", $"{stock}" },
+        };
+
+        // 卡牌特有：射程
+        var script = itemRes.GetScript().As<Script>();
+        if (script != null && script.ResourcePath.Contains("card_data"))
+        {
+            var range = itemRes.Call("range_text").AsString();
+            if (!string.IsNullOrEmpty(range))
+                data.Details["射程"] = range;
+        }
+
+        TooltipService.Instance.ShowFor(btn, data);
     }
 
     private void Refresh()
@@ -87,16 +115,23 @@ public partial class ShopUI : Control
 
             int stock = _shopManager.GetStock(itemRes);
             int price = entry.Get("price").AsInt32();
+            bool isCard = entry.Call("is_card").AsBool();
+            bool bagFull = !isCard && DataManager.Instance.ItemBag.Count >= DataManager.MaxItemSlots;
+
             var btn = new Button();
-            btn.Disabled = stock <= 0 || _shopManager.PlayerGold < price;
+            btn.Disabled = stock <= 0 || _shopManager.PlayerGold < price || bagFull;
 
             string name = entry.Call("get_display_name").AsString();
-            btn.Text = stock > 0
-                ? $"{name}  ${price}  剩{stock}"
-                : $"{name}  已售罄";
+            if (stock <= 0)
+                btn.Text = $"{name}  已售罄";
+            else if (bagFull)
+                btn.Text = $"{name}  ${price}  背包已满";
+            else
+                btn.Text = $"{name}  ${price}  剩{stock}";
             btn.CustomMinimumSize = new Vector2(0, 50);
             var e = entry; // capture for lambda
             btn.Pressed += () => _shopManager.Buy(e);
+            AttachTooltip(btn, itemRes, price, stock);
             _itemList.AddChild(btn);
         }
     }

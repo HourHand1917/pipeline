@@ -5,6 +5,7 @@
 [ext_resource type="Resource" uid="uid://b8v3gh0oykgbf" path="res://Resource/item/test_item.tres" id="3_item"]
 [ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="4_battery"]
 [ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="5_medkit"]
+[ext_resource type="Resource" uid="uid://dmk3a7ohv1eub" path="res://Resource/item/healthmed.tres" id="5_xs46r"]
 
 [sub_resource type="Resource" id="sub_0"]
 script = ExtResource("2_entry")
@@ -21,7 +22,13 @@ script = ExtResource("2_entry")
 item_res = ExtResource("5_medkit")
 price = 15
 
+[sub_resource type="Resource" id="Resource_ab4fy"]
+script = ExtResource("2_entry")
+item_res = ExtResource("5_xs46r")
+stock = 4
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
 [resource]
 script = ExtResource("1_data")
 shop_name = "流浪商店"
-entries = Array[ExtResource("2_entry")]([SubResource("sub_0"), SubResource("sub_1"), SubResource("sub_2")])
+entries = Array[ExtResource("2_entry")]([SubResource("sub_0"), SubResource("sub_1"), SubResource("sub_2"), SubResource("Resource_ab4fy")])

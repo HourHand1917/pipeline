@@ -111,25 +111,42 @@ public partial class ShopManager : Node, IPersistable
             EmitSignal(SignalName.TransactionResult, false, "已售罄。");
             return;
         }
-        if (PlayerGold < entry.Get("price").AsInt32())
+        int price = entry.Get("price").AsInt32();
+        if (PlayerGold < price)
         {
             EmitSignal(SignalName.TransactionResult, false, "余额不足。");
             return;
         }
 
-        DataManager.Instance.ModifyCurrency(Currency, -entry.Get("price").AsInt32());
+        // 先扣钱再发货
+        DataManager.Instance.ModifyCurrency(Currency, -price);
 
+        bool delivered;
         if (entry.Call("is_card").AsBool())
+        {
             DataManager.Instance.AcquireCard(itemRes, 1);
+            delivered = true; // 卡牌无上限
+        }
         else
-            DataManager.Instance.AddItem(itemRes);
+        {
+            delivered = DataManager.Instance.AddItem(itemRes);
+        }
+
+        if (!delivered)
+        {
+            // 发货失败（比如背包满了），退款
+            DataManager.Instance.ModifyCurrency(Currency, price); // 退款
+            var name = entry.Call("get_display_name").AsString();
+            EmitSignal(SignalName.TransactionResult, false, $"背包已满，无法购买 {name}。");
+            return;
+        }
 
         _stock[itemRes]--;
         Persist();
 
         EmitSignal(SignalName.InventoryChanged);
-        var name = entry.Call("get_display_name").AsString();
-        EmitSignal(SignalName.TransactionResult, true, $"购买 {name} 成功。");
+        var boughtName = entry.Call("get_display_name").AsString();
+        EmitSignal(SignalName.TransactionResult, true, $"购买 {boughtName} 成功。");
     }
 
     private void Persist()
