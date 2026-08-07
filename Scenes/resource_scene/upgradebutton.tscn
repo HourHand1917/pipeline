@@ -2,38 +2,41 @@
 
 [node name="upgradebutton" type="Control" unique_id=1932538259]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
 
 [node name="normalpanel" type="PanelContainer" parent="." unique_id=1185380462]
+visible = false
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 163.0
+offset_bottom = 100.0
 
 [node name="normallabel" type="Label" parent="normalpanel" unique_id=170431210]
 layout_mode = 2
 
 [node name="hoverpanel" type="PanelContainer" parent="." unique_id=771503936]
+visible = false
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 162.0
+offset_bottom = 99.0
 
 [node name="desclabel" type="Label" parent="hoverpanel" unique_id=1311479100]
 layout_mode = 2
 
 [node name="comfirmpanel" type="PanelContainer" parent="." unique_id=463723806]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 163.0
+offset_bottom = 99.0
 
-[node name="comfirmbutton" type="Button" parent="comfirmpanel" unique_id=1639023624]
+[node name="HBoxContainer" type="HBoxContainer" parent="comfirmpanel" unique_id=871149306]
 layout_mode = 2
 
-[node name="returnbutton" type="Button" parent="comfirmpanel" unique_id=1247614806]
+[node name="comfirmbutton" type="Button" parent="comfirmpanel/HBoxContainer" unique_id=1639023624]
 layout_mode = 2
+text = "使用"
+
+[node name="returnbutton" type="Button" parent="comfirmpanel/HBoxContainer" unique_id=1247614806]
+layout_mode = 2
+text = "丢弃"
 
 [node name="hintlabel" type="Label" parent="comfirmpanel" unique_id=1026161048]
 layout_mode = 2
