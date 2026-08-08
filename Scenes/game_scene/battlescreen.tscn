@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://q1ojg1hovxf7"]
 
 [ext_resource type="Script" uid="uid://hgfer4mgvtcw" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
-[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="2_26bt4"]
 [ext_resource type="Texture2D" uid="uid://cskgmyhh0il3a" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222046.png" id="2_rr40r"]
+[ext_resource type="Texture2D" uid="uid://cwpny65fl3r5u" path="res://features/exploration/art_assets/battlescreen/亮.png" id="2_t4udp"]
 [ext_resource type="Texture2D" uid="uid://cuuv2na4ij1cn" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220539.png" id="2_ycqhv"]
 [ext_resource type="Texture2D" uid="uid://b8t0ee2utaod5" path="res://features/exploration/art_assets/battlescreen/底板.png" id="3_7le68"]
 [ext_resource type="Texture2D" uid="uid://crtp4nnh3msa6" path="res://features/exploration/art_assets/battlescreen/未点亮.png" id="3_aadoi"]
+[ext_resource type="Texture2D" uid="uid://dcqvr7xx3p8t4" path="res://features/exploration/art_assets/battlescreen/灭.png" id="3_vn3ql"]
 [ext_resource type="PackedScene" uid="uid://ny1vbenkauny" path="res://Scenes/resource_scene/trackslot.tscn" id="4_aadoi"]
 [ext_resource type="Texture2D" uid="uid://qj5h8gvcg7ro" path="res://features/exploration/art_assets/battlescreen/填充.png" id="4_brapn"]
 [ext_resource type="Texture2D" uid="uid://5tdy6psvnu3k" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0001_0.png" id="5_7le68"]
@@ -83,11 +84,11 @@ movehint = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movehint")
 endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/endturnbutton")
 backbutton = NodePath("battleVbox/battlecontent/sidepanel/Control/backbutton")
 healthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
-bulbOn = ExtResource("2_26bt4")
-bulbOff = ExtResource("3_aadoi")
+bulbOn = ExtResource("2_t4udp")
+bulbOff = ExtResource("3_vn3ql")
 rubberheart = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/rubberheart")
 trackSlotScene = ExtResource("4_aadoi")
-playerTV = NodePath("battleVbox/battlecontent/Control/PlayerTV")
+playerTV = NodePath("")
 
 [node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
 custom_minimum_size = Vector2(400, 600)
@@ -376,16 +377,14 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_t4udp")
 
-[node name="Control" type="Control" parent="battleVbox/battlecontent" unique_id=409643115]
-custom_minimum_size = Vector2(700, 0)
+[node name="TVpanelcontainer" type="PanelContainer" parent="battleVbox/battlecontent" unique_id=365350853]
+custom_minimum_size = Vector2(910, 0)
 layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t4udp")
 
-[node name="PlayerTV" parent="battleVbox/battlecontent/Control" unique_id=2129627915 instance=ExtResource("18_pergr")]
-layout_mode = 1
-offset_left = -2.0
-offset_top = -9.0
-offset_right = 890.0
-offset_bottom = -93.828
+[node name="PlayerTV" parent="battleVbox/battlecontent/TVpanelcontainer" unique_id=2129627915 instance=ExtResource("18_pergr")]
+layout_mode = 2
 
 [node name="energygrid" type="GridContainer" parent="." unique_id=921566161]
 custom_minimum_size = Vector2(200, 325)
