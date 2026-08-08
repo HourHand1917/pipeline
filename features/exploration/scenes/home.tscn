@@ -25,6 +25,7 @@
 [ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="23_tis6c"]
 [ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="24_w2wh5"]
 [ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="25_hp3pq"]
+[ext_resource type="PackedScene" uid="uid://5umggsibdp5b" path="res://features/tv_ui/PlayerTV.tscn" id="26_tv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0vrv"]
 radius = 562.03204
@@ -130,11 +131,12 @@ _data = {
 &"show_shopUI": SubResource("Animation_fxped")
 }
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input")]
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_playerTV")]
 script = ExtResource("1_lk0dn")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "home"
+_playerTV = NodePath("UILayer/PlayerTV")
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 
@@ -362,6 +364,13 @@ text = "关闭"
 
 [node name="Anim" type="AnimationPlayer" parent="UILayer/ShopUI" unique_id=403436577]
 libraries/ = SubResource("AnimationLibrary_tis6c")
+
+[node name="PlayerTV" parent="UILayer" unique_id=2129627915 instance=ExtResource("26_tv")]
+offset_left = 1091.0
+offset_top = 540.0
+offset_right = 2494.0
+offset_bottom = 539.83997
+scale = Vector2(0.59, 0.59)
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")

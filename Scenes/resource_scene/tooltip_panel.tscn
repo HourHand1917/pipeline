@@ -1,0 +1,102 @@
+[gd_scene format=3 uid="uid://hpjtaqw16oae"]
+
+[ext_resource type="Script" uid="uid://ca6njk7qoo3bi" path="res://Script/CS/TooltipPanel.cs" id="1_script"]
+
+[sub_resource type="Animation" id="Animation_kti28"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_leclk"]
+resource_name = "fade_in"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_xhpvo"]
+resource_name = "fade_out"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qtj5y"]
+_data = {
+&"RESET": SubResource("Animation_kti28"),
+&"fade_in": SubResource("Animation_leclk"),
+&"fade_out": SubResource("Animation_xhpvo")
+}
+
+[node name="TooltipPanel" type="PanelContainer" unique_id=1332653514 node_paths=PackedStringArray("IconRect", "TitleLabel", "DescLabel", "DetailsGrid", "Anim")]
+visible = false
+mouse_filter = 2
+script = ExtResource("1_script")
+IconRect = NodePath("Margin/VBox/Header/Icon")
+TitleLabel = NodePath("Margin/VBox/Header/Title")
+DescLabel = NodePath("Margin/VBox/Desc")
+DetailsGrid = NodePath("Margin/VBox/Details")
+Anim = NodePath("Anim")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=1367717039]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 4
+
+[node name="VBox" type="VBoxContainer" parent="Margin" unique_id=2023451044]
+layout_mode = 2
+
+[node name="Header" type="HBoxContainer" parent="Margin/VBox" unique_id=589820091]
+layout_mode = 2
+
+[node name="Icon" type="TextureRect" parent="Margin/VBox/Header" unique_id=567677204]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+expand_mode = 4
+stretch_mode = 5
+
+[node name="Title" type="Label" parent="Margin/VBox/Header" unique_id=1158449688]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="Desc" type="Label" parent="Margin/VBox" unique_id=1951566227]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.75, 0.75, 0.8, 1)
+theme_override_font_sizes/font_size = 13
+
+[node name="Details" type="GridContainer" parent="Margin/VBox" unique_id=1825627242]
+layout_mode = 2
+theme_override_constants/h_separation = 12
+theme_override_constants/v_separation = 2
+columns = 2
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=1341402631]
+libraries/ = SubResource("AnimationLibrary_qtj5y")
