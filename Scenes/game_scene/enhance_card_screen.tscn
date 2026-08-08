@@ -1,12 +1,28 @@
 [gd_scene format=3 uid="uid://jrshsog84exi"]
 
-[node name="enhance_card_screen" type="Control" unique_id=15231731]
+[ext_resource type="Script" uid="uid://bh164x2rcnsqw" path="res://Script/CS/EnhanceCardScreen.cs" id="1_oqqot"]
+[ext_resource type="Script" uid="uid://cjyj7g4diq8ih" path="res://Script/CS/StarterDeck.cs" id="2_y4jay"]
+[ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="3_cwgip"]
+[ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="4_6o82u"]
+[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="5_4foq7"]
+[ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="6_wcy4n"]
+[ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="7_ji7xp"]
+
+[node name="enhance_card_screen" type="Control" unique_id=15231731 node_paths=PackedStringArray("inventoryBox", "beforeName", "afterName", "faucetLabel", "enhanceButton", "backButton", "initialCardsNode")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_oqqot")
+inventoryBox = NodePath("leftpanel/inventorybox")
+beforeName = NodePath("upgradebox/HBoxContainer/beforecardbox/beforecardlabel")
+afterName = NodePath("upgradebox/HBoxContainer/upgradecardbox/upgradecardlabel")
+faucetLabel = NodePath("upgradebox/comfirmbox/Label")
+enhanceButton = NodePath("upgradebox/comfirmbox/Button")
+backButton = NodePath("upgradebox/comfirmbox/Button2")
+initialCardsNode = NodePath("初始卡牌（仅测试）")
 
 [node name="upgradebox" type="VBoxContainer" parent="." unique_id=463655067]
 layout_mode = 0
@@ -25,13 +41,25 @@ horizontal_alignment = 1
 layout_mode = 2
 
 [node name="beforecardbox" type="PanelContainer" parent="upgradebox/HBoxContainer" unique_id=1937745497]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+
+[node name="beforecardlabel" type="Label" parent="upgradebox/HBoxContainer/beforecardbox" unique_id=145639475]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "原始卡牌"
 
 [node name="TextureRect" type="TextureRect" parent="upgradebox/HBoxContainer" unique_id=1216317006]
 layout_mode = 2
 
 [node name="upgradecardbox" type="PanelContainer" parent="upgradebox/HBoxContainer" unique_id=1544176993]
+custom_minimum_size = Vector2(200, 200)
 layout_mode = 2
+
+[node name="upgradecardlabel" type="Label" parent="upgradebox/HBoxContainer/upgradecardbox" unique_id=1454526817]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "升级后卡牌"
 
 [node name="comfirmbox" type="HBoxContainer" parent="upgradebox" unique_id=722172948]
 layout_mode = 2
@@ -44,7 +72,13 @@ layout_mode = 2
 
 [node name="Button" type="Button" parent="upgradebox/comfirmbox" unique_id=1047505587]
 layout_mode = 2
+theme_override_font_sizes/font_size = 36
 text = "确认升级"
+
+[node name="Button2" type="Button" parent="upgradebox/comfirmbox" unique_id=961407916]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "返回"
 
 [node name="leftpanel" type="VBoxContainer" parent="." unique_id=1063234046]
 custom_minimum_size = Vector2(200, 0)
@@ -62,3 +96,7 @@ text = "物品库"
 [node name="inventorybox" type="VBoxContainer" parent="leftpanel" unique_id=399203691]
 layout_mode = 2
 theme_override_constants/separation = 8
+
+[node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1691299459]
+script = ExtResource("2_y4jay")
+Cards = [ExtResource("3_cwgip"), ExtResource("4_6o82u"), ExtResource("5_4foq7"), ExtResource("6_wcy4n"), ExtResource("7_ji7xp")]
