@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://d2luylgljdv72" path="res://features/exploration/art_assets/battlescreen/battlegrid.png" id="12_26bt4"]
 [ext_resource type="PackedScene" uid="uid://b0pq5ka3u7at7" path="res://Scenes/game_scene/gridcellbutton.tscn" id="13_7le68"]
 [ext_resource type="Texture2D" uid="uid://bad7qtk6huluv" path="res://features/exploration/art_assets/battlescreen/回合结束按钮.png" id="14_aadoi"]
+[ext_resource type="PackedScene" uid="uid://5umggsibdp5b" path="res://features/tv_ui/PlayerTV.tscn" id="18_pergr"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mu3ns"]
 texture = ExtResource("2_rr40r")
@@ -56,7 +57,10 @@ texture = ExtResource("2_ycqhv")
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rr40r"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar", "rubberheart")]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4udp"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar", "rubberheart", "playerTV")]
 layout_mode = 3
 anchors_preset = 0
 size_flags_vertical = 3
@@ -83,6 +87,7 @@ bulbOn = ExtResource("2_26bt4")
 bulbOff = ExtResource("3_aadoi")
 rubberheart = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/rubberheart")
 trackSlotScene = ExtResource("4_aadoi")
+playerTV = NodePath("battleVbox/battlecontent/Control/PlayerTV")
 
 [node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
 custom_minimum_size = Vector2(400, 600)
@@ -364,6 +369,23 @@ offset_right = 1080.0
 offset_bottom = 565.0
 theme_override_font_sizes/font_size = 24
 text = "返回构筑"
+
+[node name="PanelContainer" type="PanelContainer" parent="battleVbox/battlecontent" unique_id=547029121]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_t4udp")
+
+[node name="Control" type="Control" parent="battleVbox/battlecontent" unique_id=409643115]
+custom_minimum_size = Vector2(700, 0)
+layout_mode = 2
+
+[node name="PlayerTV" parent="battleVbox/battlecontent/Control" unique_id=2129627915 instance=ExtResource("18_pergr")]
+layout_mode = 1
+offset_left = -2.0
+offset_top = -9.0
+offset_right = 890.0
+offset_bottom = -93.828
 
 [node name="energygrid" type="GridContainer" parent="." unique_id=921566161]
 custom_minimum_size = Vector2(200, 325)
