@@ -24,7 +24,7 @@ public partial class PlayerTV : Control
     [Export] private TextureButton _downButton;
     [Export] private MapPanel _mapPanel;
     [Export] private InventoryPanel _inventoryPanel;
-    [Export] private EnemyPanel _enemyPanel;
+    [Export] private EnemyMessage _enemyPanel;
 
     private Control[] _panels;
     private int _currentIndex;
@@ -54,7 +54,6 @@ public partial class PlayerTV : Control
     {
         if (_panels == null || _panels.Length == 0) return;
 
-        // 动画还在播：只记下方向，等当前动画结束后再执行
         if (_switching)
         {
             _queuedDirection = direction;
@@ -80,6 +79,10 @@ public partial class PlayerTV : Control
         // 切到背包面板时刷新数据和货币显示
         if (_panels[_currentIndex] == _inventoryPanel)
             RefreshInventory();
+
+        // 切离敌人面板时停止跟踪
+        if (_panels[_currentIndex] != _enemyPanel)
+            _enemyPanel?.StopTracking();
     }
 
     /// <summary>动画末尾回调 — 解锁按钮，处理排队</summary>
@@ -104,16 +107,13 @@ public partial class PlayerTV : Control
         int m = (int)mode;
         _mapPanel?.SetMode(m);
         _inventoryPanel?.SetMode(m);
-        _enemyPanel?.SetMode(m);
 
-        // 重建面板列表 — 探索模式 2 个，战斗模式 3 个
         _panels = mode == TVMode.Exploration
             ? new Control[] { _mapPanel, _inventoryPanel }
             : new Control[] { _mapPanel, _inventoryPanel, _enemyPanel };
 
         _enemyPanel.Visible = mode != TVMode.Exploration;
 
-        // 重置到地图面板
         for (int i = 0; i < _panels.Length; i++)
             if (_panels[i] != null) _panels[i].Visible = i == 0;
         _currentIndex = 0;
@@ -140,8 +140,24 @@ public partial class PlayerTV : Control
         if (_downButton != null) _downButton.Disabled = !enable;
     }
 
+    // ================================================================
+    //  面板刷新
+    // ================================================================
+
     public void RefreshInventory()
     {
         _inventoryPanel?.Refresh();
+    }
+
+    /// <summary>更新敌人面板（传入敌人实例和行动名）</summary>
+    public void UpdateEnemyPanel(EnemyBattle enemy, string actionName = "")
+    {
+        _enemyPanel?.TrackEnemy(enemy, actionName);
+    }
+
+    /// <summary>清除敌人面板跟踪</summary>
+    public void ClearEnemyPanel()
+    {
+        _enemyPanel?.StopTracking();
     }
 }
