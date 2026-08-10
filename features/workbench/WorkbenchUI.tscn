@@ -1,0 +1,748 @@
+[gd_scene format=3 uid="uid://cbgyktrrxne4a"]
+
+[ext_resource type="Script" uid="uid://c45n3fdkkjvr2" path="res://features/workbench/WorkbenchUI.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cy51lpqer8gx2" path="res://features/exploration/art_assets/workbenchUI/按钮_启用.png" id="2_3r268"]
+[ext_resource type="Texture2D" uid="uid://giwwrblnqxt" path="res://features/exploration/art_assets/workbenchUI/背景.png" id="2_qkk36"]
+[ext_resource type="Texture2D" uid="uid://cxypy2bkg4jgt" path="res://features/exploration/art_assets/workbenchUI/按钮_关闭.png" id="3_5f42w"]
+[ext_resource type="Script" uid="uid://cqa0c10xlfgll" path="res://features/workbench/EnhanceWorkbenchPanel.cs" id="3_upgrade"]
+[ext_resource type="PackedScene" uid="uid://cwnaxajo6wwxj" path="res://Scenes/game_scene/enhance_ai_screen.tscn" id="4_ai"]
+[ext_resource type="Script" uid="uid://cb5ujva8p6u6p" path="res://features/workbench/BuildWorkbenchPanel.cs" id="4_wrosw"]
+[ext_resource type="Texture2D" uid="uid://cpecotj4btliu" path="res://features/exploration/art_assets/workbenchUI/卡牌屏幕.png" id="5_3r268"]
+[ext_resource type="Texture2D" uid="uid://cte22305wyiiy" path="res://features/exploration/art_assets/workbenchUI/卡牌背景.png" id="5_hk37n"]
+[ext_resource type="Texture2D" uid="uid://lwaqyeqhb8np" path="res://features/exploration/art_assets/workbenchUI/卡牌背景（暗）.png" id="6_55txc"]
+[ext_resource type="Texture2D" uid="uid://bb1sa30wcpii0" path="res://features/exploration/art_assets/workbenchUI/build棋盘.png" id="6_nslom"]
+[ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="7_55txc"]
+[ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="8_bm"]
+[ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="9_2gsrf"]
+[ext_resource type="PackedScene" uid="uid://b0pq5ka3u7at7" path="res://Scenes/game_scene/gridcellbutton.tscn" id="9_cell"]
+[ext_resource type="Texture2D" uid="uid://c23atn6pgmi2e" path="res://features/exploration/art_assets/workbenchUI/卡牌升级面板.png" id="14_y6632"]
+[ext_resource type="Texture2D" uid="uid://ogc6gp320j04" path="res://features/exploration/art_assets/workbenchUI/升级！.png" id="15_6w6mp"]
+[ext_resource type="Texture2D" uid="uid://mmv8ss1afxfb" path="res://features/exploration/art_assets/workbenchUI/升级!（亮）.png" id="16_vj5mj"]
+[ext_resource type="Texture2D" uid="uid://b1lnd7a1xrm3c" path="res://features/exploration/art_assets/workbenchUI/升级！（暗）.png" id="17_njf40"]
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PanelStack/BuildPage:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelStack/UpgradePage:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("PanelStack/AIPage:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="anim_ai_hide"]
+resource_name = "ai_hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelStack/AIPage:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnPanelHidden"
+}]
+}
+
+[sub_resource type="Animation" id="anim_ai_show"]
+resource_name = "ai_show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelStack/AIPage:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnPanelShown"
+}]
+}
+
+[sub_resource type="Animation" id="anim_build_hide"]
+resource_name = "build_hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelStack/BuildPage:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnPanelHidden"
+}]
+}
+
+[sub_resource type="Animation" id="anim_build_show"]
+resource_name = "build_show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelStack/BuildPage:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnPanelShown"
+}]
+}
+
+[sub_resource type="Animation" id="anim_hide_wb"]
+resource_name = "hide_workbench"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [false],
+"method": &"EnableTabs"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="anim_show_wb"]
+resource_name = "show_workbench"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"EnableTabs"
+}]
+}
+
+[sub_resource type="Animation" id="anim_upgrade_hide"]
+resource_name = "upgrade_hide"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelStack/UpgradePage:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnPanelHidden"
+}]
+}
+
+[sub_resource type="Animation" id="anim_upgrade_show"]
+resource_name = "upgrade_show"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelStack/UpgradePage:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"OnPanelShown"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5f42w"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"ai_hide": SubResource("anim_ai_hide"),
+&"ai_show": SubResource("anim_ai_show"),
+&"build_hide": SubResource("anim_build_hide"),
+&"build_show": SubResource("anim_build_show"),
+&"hide_workbench": SubResource("anim_hide_wb"),
+&"show_workbench": SubResource("anim_show_wb"),
+&"upgrade_hide": SubResource("anim_upgrade_hide"),
+&"upgrade_show": SubResource("anim_upgrade_show")
+}
+
+[node name="WorkbenchUI" type="Control" unique_id=495580737 node_paths=PackedStringArray("_anim", "_buildTab", "_upgradeTab", "_aiTab", "_buildPage", "_upgradePage", "_aiPage", "_closeButton")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+_anim = NodePath("Anim")
+_buildTab = NodePath("TabBar/BuildTab")
+_upgradeTab = NodePath("TabBar/UpgradeTab")
+_aiTab = NodePath("TabBar/AITab")
+_buildTabActive = ExtResource("2_3r268")
+_upgradeTabActive = ExtResource("2_3r268")
+_aiTabActive = ExtResource("2_3r268")
+_buildPage = NodePath("PanelStack/BuildPage")
+_upgradePage = NodePath("PanelStack/UpgradePage")
+_aiPage = NodePath("PanelStack/AIPage")
+_closeButton = NodePath("CloseBtn")
+
+[node name="background" type="TextureRect" parent="." unique_id=797324562]
+layout_mode = 0
+offset_top = -41.0
+offset_right = 4571.4287
+offset_bottom = 2739.9524
+scale = Vector2(0.42, 0.42)
+texture = ExtResource("2_qkk36")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CloseBtn" type="Button" parent="." unique_id=1359965003]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -119.0
+offset_right = -16.0
+offset_bottom = 95.0
+text = "X"
+
+[node name="PanelStack" type="Control" parent="." unique_id=1042558203]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BuildPage" type="Control" parent="PanelStack" unique_id=1969213508 node_paths=PackedStringArray("_boardManager", "_buildGrid", "_inventoryBox")]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("4_wrosw")
+_boardManager = NodePath("BoardManager")
+_buildGrid = NodePath("build/buildgrid")
+_inventoryBox = NodePath("inventorybox/ScrollContainer/inventorybox")
+_cardBgNormalTex = ExtResource("5_hk37n")
+_cardBgDisabledTex = ExtResource("6_55txc")
+_cardCellSize = Vector2(120, 160)
+
+[node name="BoardManager" type="Node" parent="PanelStack/BuildPage" unique_id=556445515]
+script = ExtResource("8_bm")
+
+[node name="inventorybox" type="Control" parent="PanelStack/BuildPage" unique_id=1187437606]
+layout_mode = 1
+anchor_left = 23.0
+anchor_top = 4.425
+anchor_right = 40.9
+anchor_bottom = 19.525
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="inventoryboxBackground" type="TextureRect" parent="PanelStack/BuildPage/inventorybox" unique_id=1565862005]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.023743015
+anchor_top = -0.097607635
+anchor_right = 1.0082127
+anchor_bottom = 0.9850087
+offset_left = 6.0
+offset_top = -0.04499817
+offset_right = -0.2730713
+offset_bottom = -0.045043945
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_3r268")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelStack/BuildPage/inventorybox" unique_id=823456789]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1603575
+anchor_top = 0.13236757
+anchor_right = 0.8842123
+anchor_bottom = 0.6691391
+offset_left = 0.18399811
+offset_top = 0.049995422
+offset_right = -0.0960083
+offset_bottom = -0.16000366
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="inventorybox" type="GridContainer" parent="PanelStack/BuildPage/inventorybox/ScrollContainer" unique_id=156561971]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 4
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/BuildPage/inventorybox/ScrollContainer" unique_id=1214724546]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
+[node name="build" type="Control" parent="PanelStack/BuildPage" unique_id=247130625]
+layout_mode = 1
+anchor_left = 6.075
+anchor_top = 3.1
+anchor_right = 24.075
+anchor_bottom = 22.475
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="buildBackground" type="TextureRect" parent="PanelStack/BuildPage/build" unique_id=210631211]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 13.0
+offset_right = 751.0
+offset_bottom = 787.0
+texture = ExtResource("6_nslom")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="buildgrid" type="GridContainer" parent="PanelStack/BuildPage/build" unique_id=1375349207]
+layout_mode = 0
+offset_left = 130.99997
+offset_top = 112.999985
+offset_right = 999.0
+offset_bottom = 773.0
+scale = Vector2(0.565, 0.565)
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 4
+
+[node name="cell0" parent="PanelStack/BuildPage/build/buildgrid" unique_id=604393976 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell1" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1953496039 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell2" parent="PanelStack/BuildPage/build/buildgrid" unique_id=670808979 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell3" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1346980581 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell4" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1228717573 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell5" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1464742294 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell6" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1334296536 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell7" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1666604483 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell8" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1972083254 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell9" parent="PanelStack/BuildPage/build/buildgrid" unique_id=956146587 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell10" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1892271066 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell11" parent="PanelStack/BuildPage/build/buildgrid" unique_id=219866599 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/BuildPage/build/buildgrid" unique_id=979913663]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
+[node name="UpgradePage" type="Control" parent="PanelStack" unique_id=1490783277 node_paths=PackedStringArray("_inventoryBox", "_beforeText", "_afterText", "_faucetLabel", "_enhanceButton", "_enhanceBtnLabel")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_upgrade")
+_inventoryBox = NodePath("inventorybox/ScrollContainer/inventorybox")
+_beforeText = NodePath("ShowCardUpgrade/beforecardbox/Label")
+_afterText = NodePath("ShowCardUpgrade/upgradecardbox/Label")
+_faucetLabel = NodePath("inventorybox/Label")
+_enhanceButton = NodePath("EnhanceButton")
+_enhanceBtnLabel = NodePath("EnhanceButton/Label")
+_cardBgNormalTex = ExtResource("5_hk37n")
+_cardBgDisabledTex = ExtResource("6_55txc")
+_cardCellSize = Vector2(120, 160)
+
+[node name="ShowCardUpgrade" type="Control" parent="PanelStack/UpgradePage" unique_id=1529671374]
+layout_mode = 1
+anchor_left = 0.187
+anchor_top = 0.18779364
+anchor_right = 0.4865
+anchor_bottom = 0.6938413
+offset_left = -0.040008545
+offset_top = -0.29599
+offset_right = -0.08001709
+offset_bottom = -0.3920288
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="PanelStack/UpgradePage/ShowCardUpgrade" unique_id=287953589]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.12556173
+anchor_top = -0.19830394
+anchor_right = 1.0814574
+anchor_bottom = 1.0882353
+offset_left = 0.19799042
+offset_top = 0.13500977
+offset_right = 0.1619873
+offset_bottom = 1.0
+texture = ExtResource("14_y6632")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="upgradecardbox" type="Control" parent="PanelStack/UpgradePage/ShowCardUpgrade" unique_id=1153931455]
+custom_minimum_size = Vector2(200, 200)
+anchors_preset = 0
+offset_left = 316.0
+offset_top = 23.0
+offset_right = 516.0
+offset_bottom = 268.0
+
+[node name="Label" type="Label" parent="PanelStack/UpgradePage/ShowCardUpgrade/upgradecardbox" unique_id=272401873]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 15.0
+offset_right = 177.0
+offset_bottom = 229.0
+
+[node name="TextureRect" type="TextureRect" parent="PanelStack/UpgradePage/ShowCardUpgrade/upgradecardbox" unique_id=530072076]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_hk37n")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/UpgradePage/ShowCardUpgrade/upgradecardbox" unique_id=51468122]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
+[node name="beforecardbox" type="Control" parent="PanelStack/UpgradePage/ShowCardUpgrade" unique_id=1175308386]
+custom_minimum_size = Vector2(200, 200)
+layout_mode = 1
+anchor_left = 0.052
+anchor_top = 0.08800001
+anchor_right = 0.4
+anchor_bottom = 0.54300004
+offset_left = 0.099998474
+offset_top = 0.11999512
+offset_bottom = 0.06997681
+
+[node name="Label" type="Label" parent="PanelStack/UpgradePage/ShowCardUpgrade/beforecardbox" unique_id=611616704]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 12.0
+offset_right = 174.0
+offset_bottom = 219.0
+
+[node name="TextureRect" type="TextureRect" parent="PanelStack/UpgradePage/ShowCardUpgrade/beforecardbox" unique_id=1232191514]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 232.0
+texture = ExtResource("5_hk37n")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/UpgradePage/ShowCardUpgrade/beforecardbox" unique_id=1189795414]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
+[node name="EnhanceButton" type="TextureButton" parent="PanelStack/UpgradePage" unique_id=1335575207]
+layout_mode = 0
+offset_left = 295.0
+offset_top = 463.0
+offset_right = 957.0
+offset_bottom = 693.0
+texture_normal = ExtResource("15_6w6mp")
+texture_hover = ExtResource("16_vj5mj")
+texture_disabled = ExtResource("17_njf40")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="PanelStack/UpgradePage/EnhanceButton" unique_id=1068980225]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.16163142
+anchor_top = 0.2652174
+anchor_right = 0.8412206
+anchor_bottom = 0.67813045
+offset_right = 0.111968994
+offset_bottom = 0.02999878
+metadata/_edit_use_anchors_ = true
+
+[node name="inventorybox" type="Control" parent="PanelStack/UpgradePage" unique_id=1662925272]
+layout_mode = 1
+anchor_left = 0.47916666
+anchor_top = 0.19246031
+anchor_right = 0.85572916
+anchor_bottom = 0.75396824
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="inventoryboxBackground" type="TextureRect" parent="PanelStack/UpgradePage/inventorybox" unique_id=1922574697]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.023743015
+anchor_top = -0.097607635
+anchor_right = 1.0082127
+anchor_bottom = 0.9850087
+offset_left = 6.0
+offset_top = -0.04499817
+offset_right = -0.2730713
+offset_bottom = -0.045043945
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_3r268")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelStack/UpgradePage/inventorybox" unique_id=520619884]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1603575
+anchor_top = 0.111219116
+anchor_right = 0.8842123
+anchor_bottom = 0.67519426
+offset_left = 0.18399811
+offset_top = 0.049995422
+offset_right = -0.0960083
+offset_bottom = -0.16000366
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="inventorybox" type="GridContainer" parent="PanelStack/UpgradePage/inventorybox/ScrollContainer" unique_id=1590633496]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 4
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/UpgradePage/inventorybox/ScrollContainer" unique_id=772919305]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
+[node name="Label" type="Label" parent="PanelStack/UpgradePage/inventorybox" unique_id=228186572]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.39972338
+anchor_top = 0.7243816
+anchor_right = 0.6004108
+anchor_bottom = 0.7875442
+offset_right = -0.09701538
+offset_bottom = 0.25
+metadata/_edit_use_anchors_ = true
+
+[node name="AIPage" parent="PanelStack" unique_id=247915953 instance=ExtResource("4_ai")]
+visible = false
+layout_mode = 1
+
+[node name="TabBar" type="HBoxContainer" parent="." unique_id=125854586]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_left = 245.00002
+offset_top = 13.0
+offset_right = 801.0
+offset_bottom = 375.0
+grow_horizontal = 2
+scale = Vector2(0.465, 0.465)
+theme_override_constants/separation = 8
+
+[node name="BuildTab" type="TextureButton" parent="TabBar" unique_id=614940519]
+custom_minimum_size = Vector2(180, 56)
+layout_mode = 2
+texture_normal = ExtResource("3_5f42w")
+stretch_mode = 5
+
+[node name="UpgradeTab" type="TextureButton" parent="TabBar" unique_id=834470531]
+custom_minimum_size = Vector2(180, 56)
+layout_mode = 2
+texture_normal = ExtResource("3_5f42w")
+stretch_mode = 5
+
+[node name="AITab" type="TextureButton" parent="TabBar" unique_id=1320119995]
+custom_minimum_size = Vector2(180, 56)
+layout_mode = 2
+texture_normal = ExtResource("3_5f42w")
+stretch_mode = 5
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=1887714940]
+libraries/ = SubResource("AnimationLibrary_5f42w")

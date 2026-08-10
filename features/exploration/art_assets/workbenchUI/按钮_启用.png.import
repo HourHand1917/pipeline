@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doip62gs1t5u2"
-path="res://.godot/imported/大门-打开-拉杆下.PNG-91eb39909b62914b1cd23942c1b0f58d.ctex"
+uid="uid://cy51lpqer8gx2"
+path="res://.godot/imported/按钮_启用.png-93b6962ee55cec98a8d03a497e9b996e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/exploration/art_assets/大门-打开-拉杆下.PNG"
-dest_files=["res://.godot/imported/大门-打开-拉杆下.PNG-91eb39909b62914b1cd23942c1b0f58d.ctex"]
+source_file="res://features/exploration/art_assets/workbenchUI/按钮_启用.png"
+dest_files=["res://.godot/imported/按钮_启用.png-93b6962ee55cec98a8d03a497e9b996e.ctex"]
 
 [params]
 

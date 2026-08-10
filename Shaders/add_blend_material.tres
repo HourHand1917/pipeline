@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dummy_add_blend_mat"]
+
+[ext_resource type="Shader" path="res://Shaders/add_blend.gdshader" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/intensity = 1.0

@@ -35,6 +35,7 @@ var effect_type: String = "damage"
 @export_group("Upgrade")
 @export var upgraded_version: Resource  # 指向升级版 .tres，升级卡替换用
 @export var is_upgraded: bool = false   # 标记自身是升级版，排序用
+@export var enhance_cost: int = 1       # 升级所需 Faucet 数量
 
 @export_group("Presentation")
 @export var tint: Color = Color.WHITE

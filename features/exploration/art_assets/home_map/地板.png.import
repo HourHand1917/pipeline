@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://pb802r7ji65u"
-path="res://.godot/imported/商店.png-9fb0e657d6e63094accca2ccc9ddb76b.ctex"
+uid="uid://dot7leijb7s8q"
+path="res://.godot/imported/地板.png-737a19b9d2a6ad71db4eec366386e264.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/exploration/art_assets/商店.png"
-dest_files=["res://.godot/imported/商店.png-9fb0e657d6e63094accca2ccc9ddb76b.ctex"]
+source_file="res://features/exploration/art_assets/home_map/地板.png"
+dest_files=["res://.godot/imported/地板.png-737a19b9d2a6ad71db4eec366386e264.ctex"]
 
 [params]
 

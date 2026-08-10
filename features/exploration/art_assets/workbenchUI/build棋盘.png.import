@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cru3y67peracd"
-path="res://.godot/imported/灯.png-4ed78f05fc811883b9e26bc36a8704a8.ctex"
+uid="uid://bb1sa30wcpii0"
+path="res://.godot/imported/build棋盘.png-3d30cfe49f61a9c7077eca267584535f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/exploration/art_assets/灯.png"
-dest_files=["res://.godot/imported/灯.png-4ed78f05fc811883b9e26bc36a8704a8.ctex"]
+source_file="res://features/exploration/art_assets/workbenchUI/build棋盘.png"
+dest_files=["res://.godot/imported/build棋盘.png-3d30cfe49f61a9c7077eca267584535f.ctex"]
 
 [params]
 

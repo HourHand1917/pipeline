@@ -1,13 +1,15 @@
 using Godot;
 
 /// <summary>
-/// 工作台：用于合成/升级物品（当前仅输出日志）。
+/// 工作台交互物。点击后打开 WorkbenchUI。
 /// </summary>
+[GlobalClass]
 public partial class WorkbenchInteractable : InteractableBase
 {
+    [Export] public WorkbenchUI WorkbenchUI { get; set; }
+
     public override void HandleInteract()
     {
-        GD.Print($"与「{DisplayName}」互动 —— 打开合成界面（待实现）。");
+        WorkbenchUI?.Open();
     }
-
 }

@@ -82,7 +82,7 @@ public partial class EnhanceCardScreen : Control
     //  刷新
     // ================================================================
 
-    private void Refresh()
+    public void Refresh()
     {
         foreach (Node child in inventoryBox.GetChildren())
             child.QueueFree();

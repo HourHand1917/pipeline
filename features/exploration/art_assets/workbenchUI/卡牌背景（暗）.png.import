@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpygny8grlept"
-path="res://.godot/imported/大门-关闭-拉杆上.PNG-cee12d5ac9aed2243930733584577f33.ctex"
+uid="uid://lwaqyeqhb8np"
+path="res://.godot/imported/卡牌背景（暗）.png-f8edbb7213e68a851d2f0bc21d30b220.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/exploration/art_assets/大门-关闭-拉杆上.PNG"
-dest_files=["res://.godot/imported/大门-关闭-拉杆上.PNG-cee12d5ac9aed2243930733584577f33.ctex"]
+source_file="res://features/exploration/art_assets/workbenchUI/卡牌背景（暗）.png"
+dest_files=["res://.godot/imported/卡牌背景（暗）.png-f8edbb7213e68a851d2f0bc21d30b220.ctex"]
 
 [params]
 

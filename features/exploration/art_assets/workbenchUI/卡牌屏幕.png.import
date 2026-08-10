@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://gyf4guem0231"
-path="res://.godot/imported/柜子.png-5a59236e8004b2b58d7d831a5d5c8398.ctex"
+uid="uid://cpecotj4btliu"
+path="res://.godot/imported/卡牌屏幕.png-0b8e02cf700689c5637009fa73b5ecc3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/exploration/art_assets/柜子.png"
-dest_files=["res://.godot/imported/柜子.png-5a59236e8004b2b58d7d831a5d5c8398.ctex"]
+source_file="res://features/exploration/art_assets/workbenchUI/卡牌屏幕.png"
+dest_files=["res://.godot/imported/卡牌屏幕.png-0b8e02cf700689c5637009fa73b5ecc3.ctex"]
 
 [params]
 

@@ -85,13 +85,13 @@ TooltipService.Instance.HideTooltip();
 
 ```csharp
 new TooltipData {
-    Title = "发条电池",           // 粗体标题
-    Description = "造成 5 点伤害", // 灰字描述
-    Icon = iconTexture,           // 左侧图标（可选）
-    Details = new() {             // 键值对网格（可选）
-        ["射程"] = "1-3",
-        ["冷却"] = "2回合"
-    }
+	Title = "发条电池",           // 粗体标题
+	Description = "造成 5 点伤害", // 灰字描述
+	Icon = iconTexture,           // 左侧图标（可选）
+	Details = new() {             // 键值对网格（可选）
+		["射程"] = "1-3",
+		["冷却"] = "2回合"
+	}
 };
 ```
 
@@ -101,24 +101,24 @@ new TooltipData {
 
 ```
 1. 调用方组装 TooltipData
-       │
+	   │
 2. TooltipService.ShowFor(btn, data)
-       │  自动连接 btn.MouseEntered / MouseExited
-       │
+	   │  自动连接 btn.MouseEntered / MouseExited
+	   │
 3. 鼠标移入 btn
-       │  启动延迟计时器（ShowDelay 秒）
-       │
+	   │  启动延迟计时器（ShowDelay 秒）
+	   │
 4. 计时器到
-       │  _panel.Render(data)  ← 填充节点
-       │  _anim.Play("fade_in") ← 播放淡入动画
-       │
+	   │  _panel.Render(data)  ← 填充节点
+	   │  _anim.Play("fade_in") ← 播放淡入动画
+	   │
 5. 每帧 _process
-       │  面板跟随鼠标位置
-       │  检测屏幕边界，自动反向偏移
-       │
+	   │  面板跟随鼠标位置
+	   │  检测屏幕边界，自动反向偏移
+	   │
 6. 鼠标移出 btn
-       │  _anim.Play("fade_out") ← 播放淡出动画
-       │  动画结束时 visible = false
+	   │  _anim.Play("fade_out") ← 播放淡出动画
+	   │  动画结束时 visible = false
 ```
 
 ## 五、如何在项目中接入
@@ -128,13 +128,13 @@ new TooltipData {
 ```csharp
 // ShopUI.cs Refresh() — 每个商品按钮：
 var data = new TooltipData {
-    Title = entry.Call("get_display_name").AsString(),
-    Description = itemRes.Get("description").AsString(),
-    Icon = itemRes.Get("icon").As<Texture2D>(),
-    Details = new() {
-        ["价格"] = $"${price}",
-        ["库存"] = $"{stock}"
-    }
+	Title = entry.Call("get_display_name").AsString(),
+	Description = itemRes.Get("description").AsString(),
+	Icon = itemRes.Get("icon").As<Texture2D>(),
+	Details = new() {
+		["价格"] = $"${price}",
+		["库存"] = $"{stock}"
+	}
 };
 TooltipService.Instance.ShowFor(btn, data);
 ```
@@ -145,13 +145,13 @@ TooltipService.Instance.ShowFor(btn, data);
 // 战斗中给每个 Buff 图标挂 tooltip
 var buffRes = ...; // BuffData 资源
 var data = new TooltipData {
-    Title = buffRes.Get("buff_name").AsString(),
-    Description = buffRes.Get("description").AsString(),
-    Icon = buffRes.Get("icon").As<Texture2D>(),
-    Details = new() {
-        ["持续"] = $"{buffRes.Get("duration").AsInt32()} 回合",
-        ["层数"] = $"{stacks}"
-    }
+	Title = buffRes.Get("buff_name").AsString(),
+	Description = buffRes.Get("description").AsString(),
+	Icon = buffRes.Get("icon").As<Texture2D>(),
+	Details = new() {
+		["持续"] = $"{buffRes.Get("duration").AsInt32()} 回合",
+		["层数"] = $"{stacks}"
+	}
 };
 TooltipService.Instance.ShowFor(buffIcon, data);
 ```
@@ -162,10 +162,10 @@ TooltipService.Instance.ShowFor(buffIcon, data);
 // ItemPanel 里给每个物品槽挂 tooltip
 var item = DataManager.Instance.GetItem(i);
 var data = new TooltipData {
-    Title = item.Get("display_name").AsString(),
-    Description = item.Get("description").AsString(),
-    Icon = item.Get("icon").As<Texture2D>(),
-    Details = new() { ["类型"] = "道具" }
+	Title = item.Get("display_name").AsString(),
+	Description = item.Get("description").AsString(),
+	Icon = item.Get("icon").As<Texture2D>(),
+	Details = new() { ["类型"] = "道具" }
 };
 TooltipService.Instance.ShowFor(itemSlot, data);
 ```
@@ -176,12 +176,12 @@ TooltipService.Instance.ShowFor(itemSlot, data);
 // 战斗手牌 / 卡牌预览
 var cardRes = ...; // CardData 资源
 var data = new TooltipData {
-    Title = cardRes.Get("display_name").AsString(),
-    Description = cardRes.Get("description").AsString(),
-    Details = new() {
-        ["射程"] = cardRes.Call("range_text").AsString(),
-        ["冷却"] = $"{cardRes.Get("cooldown_turns").AsInt32()} 回合"
-    }
+	Title = cardRes.Get("display_name").AsString(),
+	Description = cardRes.Get("description").AsString(),
+	Details = new() {
+		["射程"] = cardRes.Call("range_text").AsString(),
+		["冷却"] = $"{cardRes.Get("cooldown_turns").AsInt32()} 回合"
+	}
 };
 TooltipService.Instance.ShowFor(cardBtn, data);
 ```
@@ -191,12 +191,12 @@ TooltipService.Instance.ShowFor(cardBtn, data);
 ```csharp
 // 奖励选择界面
 foreach (var reward in rewards) {
-    var data = new TooltipData {
-        Title = reward.Get("display_name").AsString(),
-        Description = reward.Get("description").AsString(),
-        Icon = reward.Get("icon").As<Texture2D>()
-    };
-    TooltipService.Instance.ShowFor(rewardSlot, data);
+	var data = new TooltipData {
+		Title = reward.Get("display_name").AsString(),
+		Description = reward.Get("description").AsString(),
+		Icon = reward.Get("icon").As<Texture2D>()
+	};
+	TooltipService.Instance.ShowFor(rewardSlot, data);
 }
 ```
 

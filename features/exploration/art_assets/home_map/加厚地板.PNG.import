@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bfwqqe85jy6sn"
-path="res://.godot/imported/家-工作台.png-1dbcc1e4987dfcdd239d17acd313cd6a.ctex"
+uid="uid://baplauefd4kpy"
+path="res://.godot/imported/加厚地板.PNG-e51a98771ad9ac01a9a723c2b73dddfd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://features/exploration/art_assets/家-工作台.png"
-dest_files=["res://.godot/imported/家-工作台.png-1dbcc1e4987dfcdd239d17acd313cd6a.ctex"]
+source_file="res://features/exploration/art_assets/home_map/加厚地板.PNG"
+dest_files=["res://.godot/imported/加厚地板.PNG-e51a98771ad9ac01a9a723c2b73dddfd.ctex"]
 
 [params]
 
