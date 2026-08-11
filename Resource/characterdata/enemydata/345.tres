@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EnemyData" format=3 uid="uid://u8v03bpms2g2"]
+
+[ext_resource type="Script" uid="uid://7hwav6op8h01" path="res://Script/GD/resource/enemy_action_data.gd" id="1_lob1f"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_yyrub"]
+[ext_resource type="Resource" uid="uid://cjtq7vag05xli" path="res://Resource/effect/enemyeffect/enemyattack.tres" id="3_00fsf"]
+[ext_resource type="Script" uid="uid://qarur3c2xyfi" path="res://Script/GD/resource/enemy_data.gd" id="4_5ff7k"]
+
+[sub_resource type="Resource" id="Resource_nq38d"]
+script = ExtResource("1_lob1f")
+id = &"打击"
+display_name = "打击"
+intent_text = "就是打你"
+priority = 1
+min_range = 1
+effects = Array[ExtResource("2_yyrub")]([ExtResource("3_00fsf")])
+metadata/_custom_type_script = "uid://7hwav6op8h01"
+
+[resource]
+script = ExtResource("4_5ff7k")
+display_name = "架子"
+glyph = "架子"
+actions = Array[ExtResource("1_lob1f")]([SubResource("Resource_nq38d")])
+metadata/_custom_type_script = "uid://qarur3c2xyfi"

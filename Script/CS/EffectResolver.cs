@@ -12,10 +12,6 @@ public partial class EffectResolver : Node
         boardManager = board;
     }
 
-    // ================================================================
-    //  卡牌效果
-    // ================================================================
-
     public bool ExecuteCard(GodotObject card, BattleManager battleManager)
     {
         if (card == null || battleManager == null)
@@ -54,10 +50,6 @@ public partial class EffectResolver : Node
         return executed;
     }
 
-    // ================================================================
-    //  敌人行动效果
-    // ================================================================
-
     public bool ExecuteEnemyAction(GodotObject action, BattleManager battleManager)
     {
         if (action == null || battleManager == null)
@@ -66,11 +58,7 @@ public partial class EffectResolver : Node
             return false;
         }
 
-        GD.Print($"[调试] ExecuteEnemyAction：{action.Get("display_name")}");
-
         var effects = action.Get("effects").As<Array>();
-        GD.Print($"[调试] effects 数量：{effects.Count}");
-
         if (effects == null || effects.Count == 0)
         {
             string displayName = action.Get("display_name").AsString();
@@ -81,10 +69,6 @@ public partial class EffectResolver : Node
         return ExecuteEffects(action.Get("display_name").AsString(), effects, battleManager);
     }
 
-    // ================================================================
-    //  内部实现
-    // ================================================================
-
     public bool ExecuteEffects(string sourceName, Array effects, BattleManager battleManager)
     {
         bool executedAny = false;
@@ -93,7 +77,6 @@ public partial class EffectResolver : Node
             if (effect.Obj == null) continue;
             var eff = effect.As<GodotObject>();
             string typeKey = eff.Call("type_key").AsString();
-            GD.Print($"[调试] 效果类型：{typeKey}");
 
             if (ExecuteEffect(eff, battleManager))
             {
@@ -112,8 +95,6 @@ public partial class EffectResolver : Node
         string typeKey = effect.Call("type_key").AsString();
         int amount = effect.Get("amount").AsInt32();
         int target = effect.Get("target").AsInt32();
-
-        GD.Print($"[调试] ExecuteEffect：typeKey={typeKey}, amount={amount}, target={target}");
 
         switch (typeKey)
         {
@@ -161,40 +142,18 @@ public partial class EffectResolver : Node
 
             case "apply_buff":
             {
-                GD.Print("[调试] 进入 apply_buff case");
-
                 var buffResource = effect.Get("buff").As<GodotObject>();
-                GD.Print($"[调试] buffResource：{buffResource}");
+                if (buffResource == null) return false;
 
                 int stacks = effect.Get("buff_stacks").AsInt32();
                 int buffTarget = effect.Get("buff_target").AsInt32();
                 var targetCell = effect.Get("buff_target_cell").AsVector2I();
 
-                GD.Print($"[调试] stacks={stacks}, buffTarget={buffTarget}, targetCell=({targetCell.X},{targetCell.Y})");
-
-                if (buffResource == null)
-                {
-                    GD.Print("[调试] buffResource 为 null，跳过");
-                    return false;
-                }
-
                 switch (buffTarget)
                 {
-                    case 0:
-                        GD.Print("[调试] 目标：PLAYER_STATS");
-                        ApplyBuffToPlayerStats(buffResource, stacks);
-                        break;
-                    case 1:
-                        GD.Print("[调试] 目标：ENEMY_STATS");
-                        ApplyBuffToEnemyStats(buffResource, stacks);
-                        break;
-                    case 2:
-                        GD.Print("[调试] 目标：PLAYER_CELLS");
-                        ApplyBuffToPlayerCells(buffResource, stacks, targetCell);
-                        break;
-                    case 3:
-                        GD.Print("[调试] 目标：ENEMY_CELLS（未实现）");
-                        break;
+                    case 0: ApplyBuffToPlayerStats(buffResource, stacks); break;
+                    case 1: ApplyBuffToEnemyStats(buffResource, stacks); break;
+                    case 2: ApplyBuffToPlayerCells(buffResource, stacks, targetCell); break;
                 }
                 return true;
             }
@@ -205,7 +164,6 @@ public partial class EffectResolver : Node
                 string buffId = "";
                 if (buffObj != null)
                     buffId = buffObj.Get("id").AsString();
-
                 if (string.IsNullOrEmpty(buffId)) return false;
 
                 if (target == 0)
@@ -225,76 +183,43 @@ public partial class EffectResolver : Node
     {
         switch (effectType)
         {
-            case "damage":
-                battleManager.DamageEnemy(effectValue);
-                return true;
-            case "shield":
-                battleManager.AddPlayerShield(effectValue);
-                return true;
-            case "energy":
-                battleManager.AddPlayerEnergy(effectValue);
-                return true;
-            case "heal":
-                battleManager.HealPlayer(effectValue);
-                return true;
-            default:
-                GD.PushWarning($"未知效果类型：{effectType}");
-                return false;
+            case "damage": battleManager.DamageEnemy(effectValue); return true;
+            case "shield": battleManager.AddPlayerShield(effectValue); return true;
+            case "energy": battleManager.AddPlayerEnergy(effectValue); return true;
+            case "heal": battleManager.HealPlayer(effectValue); return true;
+            default: GD.PushWarning($"未知效果类型：{effectType}"); return false;
         }
     }
 
     private void ApplyBuffToPlayerCells(GodotObject buffResource, int stacks, Vector2I targetCell)
-{
-    GD.Print($"[调试] ApplyBuffToPlayerCells：targetCell=({targetCell.X},{targetCell.Y})");
-
-    if (targetCell.X >= 0 && targetCell.Y >= 0)
     {
-        var cell = boardManager.GetCell(targetCell);
-        GD.Print($"[调试] 指定格子 cell：{cell != null}");
-        if (cell == null) return;
-        var stats = cell.Get("stats").As<GodotObject>();
-        GD.Print($"[调试] ApplyBuff stats：{stats != null}");
-        if (stats != null)
+        if (targetCell.X >= 0 && targetCell.Y >= 0)
         {
-            GD.Print($"[调试] ApplyBuff stats.GetHashCode={stats.GetHashCode()}");
-            GD.Print($"[调试] ApplyBuff stats.buffs数量(前)={stats.Get("buffs").As<Array>().Count}");
-            stats.Call("add_buff", buffResource, stacks);
-            GD.Print($"[调试] ApplyBuff stats.buffs数量(后)={stats.Get("buffs").As<Array>().Count}");
-            GD.Print($"[调试] add_buff 完成");
+            var cell = boardManager.GetCell(targetCell);
+            if (cell == null) return;
+            var stats = cell.Get("stats").As<GodotObject>();
+            stats?.Call("add_buff", buffResource, stacks);
         }
-    }
-    else
-    {
-        int count = 0;
-        foreach (var runtime in boardManager.runtime_cards)
+        else
         {
-            var cells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
-            foreach (var pos in cells)
+            foreach (var runtime in boardManager.runtime_cards)
             {
-                var cell = boardManager.GetCell(pos);
-                var stats = cell?.Get("stats").As<GodotObject>();
-                stats?.Call("add_buff", buffResource, stacks);
-                count++;
+                var cells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
+                foreach (var pos in cells)
+                {
+                    var cell = boardManager.GetCell(pos);
+                    var stats = cell?.Get("stats").As<GodotObject>();
+                    stats?.Call("add_buff", buffResource, stacks);
+                }
             }
         }
-        GD.Print($"[调试] 全体施加完成，共 {count} 个格子");
-    }
-}
-
-    private void ApplyBuffToPlayerStats(GodotObject buffResource, int stacks)
-    {
-        GD.Print($"[调试] 玩家获得 Buff：{buffResource.Get("buff_name")} ×{stacks}");
-        
     }
 
-    private void ApplyBuffToEnemyStats(GodotObject buffResource, int stacks)
-    {
-        GD.Print($"[调试] 敌人获得 Buff：{buffResource.Get("buff_name")} ×{stacks}");
-    }
+    private void ApplyBuffToPlayerStats(GodotObject buffResource, int stacks) { }
+    private void ApplyBuffToEnemyStats(GodotObject buffResource, int stacks) { }
 
     private void RemoveBuffFromPlayerCells(string buffId)
     {
-        GD.Print($"[调试] RemoveBuffFromPlayerCells：{buffId}");
         foreach (var runtime in boardManager.runtime_cards)
         {
             var cells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
@@ -307,8 +232,5 @@ public partial class EffectResolver : Node
         }
     }
 
-    private void RemoveBuffFromEnemyCells(string buffId)
-    {
-        GD.Print($"[调试] RemoveBuffFromEnemyCells：{buffId}");
-    }
+    private void RemoveBuffFromEnemyCells(string buffId) { }
 }

@@ -3,11 +3,13 @@
 [ext_resource type="Script" uid="uid://qarur3c2xyfi" path="res://Script/GD/resource/enemy_data.gd" id="1_d3lb0"]
 [ext_resource type="Script" uid="uid://dtt2n86015c5" path="res://Script/GD/resource/battle_map_data.gd" id="1_gnrkj"]
 [ext_resource type="Resource" uid="uid://dvuk11qortwcr" path="res://Resource/characterdata/enemydata/dummy_data.tres" id="2_0h4wk"]
+[ext_resource type="Resource" uid="uid://u8v03bpms2g2" path="res://Resource/characterdata/enemydata/345.tres" id="3_0h4wk"]
 
 [resource]
 script = ExtResource("1_gnrkj")
 cell_count = 8
-enemy_data_list = Array[ExtResource("1_d3lb0")]([ExtResource("2_0h4wk"), ExtResource("2_0h4wk")])
-enemy_start_cells = Array[int]([1, 6])
+player_start_cell = 4
+enemy_data_list = Array[ExtResource("1_d3lb0")]([ExtResource("2_0h4wk"), ExtResource("3_0h4wk")])
+enemy_start_cells = Array[int]([1, 8])
 include_occupied_cells_in_distance = false
 metadata/_custom_type_script = "uid://dtt2n86015c5"

@@ -246,52 +246,67 @@ public partial class UIManager : Node
     }
 
     private void RefreshDistanceTrack()
+{
+    if (DistanceTrack == null || battleManager == null || TrackSlotScene == null) return;
+
+    var rules = battleManager.GetRules();
+    if (rules == null) return;
+
+    var battleMap = rules?.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
+    int cellCount = battleMap?.Get(GDScriptKeys.BattleMap.CellCount).AsInt32() ?? 7;
+
+    if (cellCount != _lastCellCount)
     {
-        if (DistanceTrack == null || battleManager == null || TrackSlotScene == null) return;
+        _lastCellCount = cellCount;
 
-        var rules = DataManager.Instance.GetRules();
-        var battleMap = rules?.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
-        int cellCount = battleMap?.Get(GDScriptKeys.BattleMap.CellCount).AsInt32() ?? 7;
-
-        if (cellCount != _lastCellCount)
+        foreach (Node child in DistanceTrack.GetChildren())
         {
-            _lastCellCount = cellCount;
-            foreach (Node child in DistanceTrack.GetChildren()) child.QueueFree();
-
-            for (int i = 1; i <= cellCount; i++)
-            {
-                var slot = TrackSlotScene.Instantiate<TrackSlot>();
-                slot.CustomMinimumSize = new Vector2(144, 144);
-                slot.Configure(i, "", Colors.White, null);
-                slot.SlotClicked += OnTrackSlotClicked;
-                DistanceTrack.AddChild(slot);
-            }
+            DistanceTrack.RemoveChild(child);
+            child.QueueFree();
         }
 
-        string playerGlyph = _player?.Glyph ?? "旅";
-        Color playerTint = _player?.Tint ?? new Color("#f4cf61");
-        string enemyGlyph = "怪";
-        Color enemyTint = new Color("#e66c62");
-        var primaryEnemy = _enemyManager?.GetPrimaryEnemy();
-        if (primaryEnemy != null) { enemyGlyph = !string.IsNullOrEmpty(primaryEnemy.Glyph) ? primaryEnemy.Glyph : "怪"; enemyTint = primaryEnemy.Tint; }
-
-        var slots = DistanceTrack.GetChildren();
-        for (int i = 0; i < slots.Count; i++)
+        for (int i = 1; i <= cellCount; i++)
         {
-            var slot = slots[i] as TrackSlot;
-            if (slot == null) continue;
-            int cellNum = i + 1;
-
-            if (cellNum == battleManager.PlayerMapPosition && cellNum == battleManager.EnemyMapPosition)
-                slot.Configure(cellNum, $"{playerGlyph}/{enemyGlyph}", Colors.White, null);
-            else if (cellNum == battleManager.PlayerMapPosition)
-                slot.Configure(cellNum, playerGlyph, playerTint, _player as GodotObject);
-            else if (cellNum == battleManager.EnemyMapPosition)
-                slot.Configure(cellNum, enemyGlyph, enemyTint, primaryEnemy as GodotObject);
-            else
-                slot.Configure(cellNum, "", Colors.White, null);
+            var slot = TrackSlotScene.Instantiate<TrackSlot>();
+            slot.CustomMinimumSize = new Vector2(144, 144);
+            slot.Configure(i, "", Colors.White, null);
+            slot.SlotClicked += OnTrackSlotClicked;
+            DistanceTrack.AddChild(slot);
         }
     }
+
+    string playerGlyph = _player?.Glyph ?? "旅";
+    Color playerTint = _player?.Tint ?? new Color("#f4cf61");
+
+    var slots = DistanceTrack.GetChildren();
+    for (int i = 0; i < slots.Count; i++)
+    {
+        var slot = slots[i] as TrackSlot;
+        if (slot == null) continue;
+        int cellNum = i + 1;
+
+        bool isPlayer = cellNum == battleManager.PlayerMapPosition;
+        EnemyBattle enemyHere = null;
+        if (_enemyManager != null)
+        {
+            foreach (var enemy in _enemyManager.Enemies)
+            {
+                if (enemy != null && enemy.IsAlive && enemy.MapPosition == cellNum)
+                { enemyHere = enemy; break; }
+            }
+        }
+        bool isEnemy = enemyHere != null;
+
+        if (isPlayer && isEnemy)
+            slot.Configure(cellNum, $"{playerGlyph}/{enemyHere.Glyph}", Colors.White, enemyHere as GodotObject);
+        else if (isPlayer)
+            slot.Configure(cellNum, playerGlyph, playerTint, _player as GodotObject);
+        else if (isEnemy)
+            slot.Configure(cellNum, enemyHere.Glyph, enemyHere.Tint, enemyHere as GodotObject);
+        else
+            slot.Configure(cellNum, "", Colors.White, null);
+    }
+}
 
         private void OnTrackSlotClicked(int cellNumber, GodotObject combatant)
     {

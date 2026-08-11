@@ -30,6 +30,7 @@ public partial class BattleManager : Node
     private Dictionary<int, bool> usedCardIds = new();
     private bool turnTransitionLocked;
     private bool battleEndEmitted;
+    private EnemyBattle _targetEnemy;
 
     public int PlayerHp => Player?.CurrentHp ?? 0;
     public int PlayerMaxHp => Player?.MaxHp ?? 0;
@@ -40,6 +41,7 @@ public partial class BattleManager : Node
     public int EnemyMaxHp => EnemyManager?.GetPrimaryEnemy()?.MaxHp ?? 0;
     public int EnemyShield => EnemyManager?.GetPrimaryEnemy()?.Shield ?? 0;
     public int EnemyMapPosition => EnemyManager?.GetPrimaryEnemy()?.MapPosition ?? 0;
+    public GodotObject GetRules() => rules;
 
     public static bool IsInRange(int selfPos, int targetPos, int facing, int minRange, int maxRange)
     {
@@ -71,7 +73,9 @@ public partial class BattleManager : Node
         int playerStartCell = battleMap.Get(GDScriptKeys.BattleMap.PlayerStartCell).AsInt32();
         Player.SetMapPosition(playerStartCell);
         Player.Facing = FacingPositive;
-        foreach (var enemy in EnemyManager.Enemies) enemy?.UpdateFacing(Player.MapPosition);
+        
+        foreach (var enemy in EnemyManager.Enemies)
+            enemy?.UpdateFacing(Player.MapPosition);
 
         BoardManager.ResetAllCardStates();
         SetPhase(Phase.PlayerTurn);
@@ -130,8 +134,11 @@ public partial class BattleManager : Node
         {
             int minRange = data.Get(GDScriptKeys.CardData.MinRange).AsInt32();
             int maxRange = data.Get(GDScriptKeys.CardData.MaxRange).AsInt32();
-            var enemy = EnemyManager.GetPrimaryEnemy();
-            int enemyPos = enemy?.MapPosition ?? 0;
+
+            var lockedEnemy = GetLockedEnemyFromTV();
+            _targetEnemy = lockedEnemy ?? EnemyManager.GetPrimaryEnemy();
+            int enemyPos = _targetEnemy?.MapPosition ?? 0;
+
             if (!IsInRange(Player.MapPosition, enemyPos, Player.Facing, minRange, maxRange))
             { Log($"{data.Get(GDScriptKeys.CardData.DisplayName)}射程不足。"); return; }
         }
@@ -213,7 +220,13 @@ public partial class BattleManager : Node
         if (dir == 0) return;
         int oldPos = actorPos;
         for (int i = 0; i < amount; i++) { int candidate = actorPos + dir; if (!battleMap.Call(GDScriptKeys.BattleMap.IsValidCell, candidate).AsBool()) break; if (candidate == opponentPos) break; actorPos = candidate; }
-        if (isPlayer) Player.SetMapPosition(actorPos); else EnemyManager.SetAllPositions(actorPos);
+        if (isPlayer)
+            Player.SetMapPosition(actorPos);
+        else
+        {
+            var enemy = EnemyManager.GetPrimaryEnemy();
+            if (enemy != null) enemy.SetMapPosition(actorPos);
+        }
         foreach (var enemy in EnemyManager.Enemies) enemy?.UpdateFacing(Player.MapPosition);
         int moved = Mathf.Abs(actorPos - oldPos);
         if (moved > 0) Log($"{(isPlayer ? Player.DisplayName : "怪物")}移动{moved}格：{oldPos} → {actorPos}。");
@@ -299,13 +312,28 @@ public partial class BattleManager : Node
         return minDist == int.MaxValue ? 0 : minDist;
     }
 
-    public void DamageEnemy(int amount) { var e = EnemyManager.GetPrimaryEnemy(); if (e != null) { e.TakeDamage(amount); Log($"{e.DisplayName}受到{amount}点伤害。"); } }
+    public void DamageEnemy(int amount)
+    {
+        var e = _targetEnemy ?? EnemyManager.GetPrimaryEnemy();
+        if (e != null) { e.TakeDamage(amount); Log($"{e.DisplayName}受到{amount}点伤害。"); }
+        _targetEnemy = null;
+    }
     public void DamagePlayer(int amount) { Player?.TakeDamage(amount); Log($"玩家受到{amount}点伤害。"); }
     public void AddPlayerShield(int amount) { Player?.AddShield(amount); Log($"玩家获得{amount}点护盾。"); }
-    public void AddEnemyShield(int amount) { var e = EnemyManager.GetPrimaryEnemy(); if (e != null) { e.AddShield(amount); Log($"{e.DisplayName}获得{amount}点护盾。"); } }
+    public void AddEnemyShield(int amount)
+    {
+        var e = _targetEnemy ?? EnemyManager.GetPrimaryEnemy();
+        if (e != null) { e.AddShield(amount); Log($"{e.DisplayName}获得{amount}点护盾。"); }
+        _targetEnemy = null;
+    }
     public void AddPlayerEnergy(int amount) { Player?.AddEnergy(amount); Log($"玩家获得{amount}点能量。"); }
     public void HealPlayer(int amount) { int old = Player?.CurrentHp ?? 0; Player?.Heal(amount); Log($"玩家恢复{(Player?.CurrentHp ?? 0) - old}点生命。"); }
-    public void HealEnemy(int amount) { var e = EnemyManager.GetPrimaryEnemy(); if (e != null) { int old = e.CurrentHp; e.Heal(amount); Log($"{e.DisplayName}恢复{e.CurrentHp - old}点生命。"); } }
+    public void HealEnemy(int amount)
+    {
+        var e = _targetEnemy ?? EnemyManager.GetPrimaryEnemy();
+        if (e != null) { int old = e.CurrentHp; e.Heal(amount); Log($"{e.DisplayName}恢复{e.CurrentHp - old}点生命。"); }
+        _targetEnemy = null;
+    }
 
     public void UseItem(int itemIndex)
     {
