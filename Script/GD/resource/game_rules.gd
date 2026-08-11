@@ -3,7 +3,6 @@ class_name GameRules
 
 @export_group("Content")
 @export var player_data: PlayerData
-@export var enemy_data: EnemyData
 @export var battle_map: BattleMapData
 
 @export_group("Turn Economy")
@@ -22,9 +21,9 @@ class_name GameRules
 
 
 func is_configuration_valid() -> bool:
-	if player_data == null or enemy_data == null or battle_map == null:
+	if player_data == null or battle_map == null:
 		return false
-	if not battle_map.is_configuration_valid() or enemy_data.actions.is_empty():
+	if not battle_map.is_configuration_valid():
 		return false
 	if board_sizes.is_empty():
 		return false

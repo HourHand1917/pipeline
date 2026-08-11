@@ -147,4 +147,9 @@ public partial class PlayerTV : Control
     {
         _enemyPanel?.StopTracking();
     }
+
+        public EnemyBattle GetTrackedEnemy()
+    {
+        return _enemyPanel?.GetTrackedEnemy();
+    }
 }

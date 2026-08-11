@@ -11,32 +11,44 @@ public partial class MainScene : Node2D
     [Export] public BuildScreen BuildScreen { get; set; }
     [Export] public BattleScreen BattleScreen { get; set; }
 
+    [Export] private Resource _testGameRules;
+
     public PlayerBattle Player { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
 
     private int currentGridWidth = 3;
     private int currentGridHeight = 2;
+    private GodotObject _rules;
 
     public override void _Ready()
     {
-        var rules = DataManager.Instance.GetRules();
-        Vector2I defaultSize = rules.Get(GDScriptKeys.GameRules.BoardSizes).As<Godot.Collections.Array<Vector2I>>()[0];
+        if (_testGameRules != null)
+            _rules = _testGameRules as GodotObject;
+        else
+            _rules = DataManager.Instance.GetRules();
+
+        if (_rules == null) return;
+
+        Vector2I defaultSize = _rules.Get(GDScriptKeys.GameRules.BoardSizes).As<Godot.Collections.Array<Vector2I>>()[0];
         currentGridWidth = defaultSize.X;
         currentGridHeight = defaultSize.Y;
         BoardManager.ConfigureBoard(defaultSize, false);
 
-        CreateBattleInstances(rules);
+        CreateBattleInstances(_rules);
 
         BattleManager.Player = Player;
         BattleManager.EnemyManager = EnemyManager;
         BattleManager.BoardManager = BoardManager;
         BattleManager.EffectResolver = EffectResolver;
+        BattleManager.GameRules = _testGameRules;
         BattleManager.Setup();
 
         BuildScreen.Setup(BoardManager);
         BattleScreen.Setup(BoardManager, BattleManager);
         EffectResolver.SetBoardManager(BoardManager);
         BattleScreen.BindBattleInstances(Player, EnemyManager);
+
+        BattleManager.BattleScreenRef = BattleScreen;
 
         BuildScreen.PlaceCardRequested += OnPlaceCardRequested;
         BuildScreen.RemoveCardRequested += (int id) => BoardManager.RemoveCard(id);
@@ -58,6 +70,21 @@ public partial class MainScene : Node2D
         ShowBuild();
     }
 
+    public void ReadyWithBattleId(string battleId)
+    {
+        string path = $"res://data/battles/{battleId}.tres";
+        var res = GD.Load<Resource>(path);
+        if (res != null)
+        {
+            _testGameRules = res;
+            _Ready();
+        }
+        else
+        {
+            GD.PushError($"找不到战斗地图：{path}");
+        }
+    }
+
     private void CreateBattleInstances(GodotObject rules)
     {
         Player = GetNodeOrNull<PlayerBattle>("PlayerBattle");
@@ -74,12 +101,6 @@ public partial class MainScene : Node2D
             EnemyManager = new EnemyManager();
             EnemyManager.Name = "EnemyManager";
             AddChild(EnemyManager);
-
-            var enemyConfigs = new Godot.Collections.Array<GodotObject>();
-            var enemyData = rules?.Get(GDScriptKeys.GameRules.EnemyData).As<GodotObject>();
-            if (enemyData != null)
-                enemyConfigs.Add(enemyData);
-            EnemyManager.SetEnemyConfigs(enemyConfigs);
         }
     }
 

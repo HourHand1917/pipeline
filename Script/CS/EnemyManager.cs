@@ -22,32 +22,34 @@ public partial class EnemyManager : Node
 
     public void SpawnAllFromConfigs(GodotObject rules)
     {
-        if (_enemyDataConfigs == null || _enemyDataConfigs.Count == 0)
+        foreach (Node child in GetChildren())
         {
-            var enemyData = rules?.Get(GDScriptKeys.GameRules.EnemyData).As<GodotObject>();
-            if (enemyData != null)
-                SpawnEnemy(enemyData);
-            return;
+            if (child is EnemyBattle) child.QueueFree();
         }
+        Enemies.Clear();
 
-        foreach (var config in _enemyDataConfigs)
-            SpawnEnemy(config);
-    }
+        var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
+        var enemyDataList = battleMap.Get("enemy_data_list").As<Array>();
+        var startCells = battleMap.Get("enemy_start_cells").As<Array<int>>();
 
-    public EnemyBattle SpawnEnemy(GodotObject enemyData)
-    {
-        if (enemyData == null) return null;
+        for (int i = 0; i < enemyDataList.Count; i++)
+        {
+            var enemyData = enemyDataList[i].As<GodotObject>();
+            if (enemyData == null) continue;
 
-        var enemy = new EnemyBasicNode();  // 改用 EnemyBasicNode
-        enemy.Name = enemyData.Get(GDScriptKeys.CharacterData.Id).AsString();
-        enemy.LoadFromData(enemyData);
-        AddChild(enemy);
+            int startCell = i < startCells.Count ? startCells[i] : 6;
 
-        enemy.Died += () => OnEnemyDied(enemy);
+            var enemy = new EnemyBasicNode();
+            enemy.Name = $"Enemy_{i}";
+            enemy.LoadFromData(enemyData);
+            enemy.SetMapPosition(startCell);
+            AddChild(enemy);
 
-        Enemies.Add(enemy);
-        EmitSignal(SignalName.EnemySpawned, enemy);
-        return enemy;
+            enemy.Died += () => OnEnemyDied(enemy);
+
+            Enemies.Add(enemy);
+            EmitSignal(SignalName.EnemySpawned, enemy);
+        }
     }
 
     public void RemoveEnemy(EnemyBattle enemy)
@@ -97,21 +99,6 @@ public partial class EnemyManager : Node
             if (dist < minDist) { minDist = dist; closest = e; }
         }
         return closest;
-    }
-
-    // ================================================================
-    //  敌方回合 — 行为选择
-    // ================================================================
-
-    public GodotObject GetActionForDistance(int distance)
-    {
-        var enemy = GetPrimaryEnemy();
-        if (enemy == null) return null;
-
-        var enemyData = enemy.GetEnemyData();
-        if (enemyData == null) return null;
-
-        return enemyData.Call("get_action_for_distance", distance).As<GodotObject>();
     }
 
     public EnemyBattle GetTargetEnemy(int targetIndex = 0)

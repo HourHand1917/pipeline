@@ -178,4 +178,9 @@ public partial class EnemyMessage : PanelContainer
                 child.QueueFree();
         }
     }
+
+        public EnemyBattle GetTrackedEnemy()
+    {
+        return _trackedEnemy;
+    }
 }

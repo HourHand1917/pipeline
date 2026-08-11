@@ -293,7 +293,7 @@ public partial class UIManager : Node
         }
     }
 
-    private void OnTrackSlotClicked(int cellNumber, GodotObject combatant)
+        private void OnTrackSlotClicked(int cellNumber, GodotObject combatant)
     {
         if (combatant == null)
         {
@@ -308,9 +308,13 @@ public partial class UIManager : Node
             return;
         }
 
-        // 用 EnemyManager 获取行动（内部用 BattleManager.Distance）
-        var action = _enemyManager.GetActionForDistance(battleManager.Distance);
-        string actionName = action?.Get("display_name").AsString() ?? "";
+        string actionName = "";
+        var enemyData = enemy.GetEnemyData();
+        if (enemyData != null)
+        {
+            var action = enemyData.Call("get_action_for_distance", battleManager.Distance).As<GodotObject>();
+            actionName = action?.Get("display_name").AsString() ?? "";
+        }
 
         PlayerTV?.UpdateEnemyPanel(enemy, actionName);
     }
