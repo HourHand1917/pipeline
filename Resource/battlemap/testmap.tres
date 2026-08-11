@@ -8,8 +8,7 @@
 [resource]
 script = ExtResource("1_gnrkj")
 cell_count = 8
-player_start_cell = 4
 enemy_data_list = Array[ExtResource("1_d3lb0")]([ExtResource("2_0h4wk"), ExtResource("3_0h4wk")])
-enemy_start_cells = Array[int]([1, 8])
+enemy_start_cells = Array[int]([4, 6])
 include_occupied_cells_in_distance = false
 metadata/_custom_type_script = "uid://dtt2n86015c5"

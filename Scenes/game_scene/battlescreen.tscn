@@ -67,6 +67,10 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -2.0
+offset_right = 485.0
+offset_bottom = -2.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
@@ -96,7 +100,6 @@ trackSlotScene = ExtResource("4_aadoi")
 playerTV = NodePath("PlayerTV")
 
 [node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
-custom_minimum_size = Vector2(400, 600)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,7 +107,7 @@ anchor_bottom = 1.0
 offset_left = 1.0
 offset_top = 1.0
 offset_right = 61.0
-offset_bottom = 1.0
+offset_bottom = 5.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
