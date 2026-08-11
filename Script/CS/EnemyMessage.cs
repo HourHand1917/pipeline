@@ -10,6 +10,7 @@ public partial class EnemyMessage : PanelContainer
     [Export] private Label shieldLabel;
     [Export] private GridContainer buffGrid;
     [Export] private Label infoLabel;
+    [Export] private Label intentLabel;
 
     private EnemyBattle _trackedEnemy;
     private string _currentActionName = "";
@@ -20,20 +21,19 @@ public partial class EnemyMessage : PanelContainer
 
     public void TrackEnemy(EnemyBattle enemy, string actionName = "")
     {
-        // 先停止旧跟踪
         StopTracking();
 
         if (enemy == null) return;
 
+        GD.Print($"[调试] EnemyMessage.TrackEnemy enemy={enemy?.DisplayName}, actionName={actionName}");
+
         _trackedEnemy = enemy;
         _currentActionName = actionName;
 
-        // 订阅信号
         _trackedEnemy.HealthChanged += OnHealthChanged;
         _trackedEnemy.ShieldChanged += OnShieldChanged;
         _trackedEnemy.Died += OnDied;
 
-        // 首次刷新
         RefreshAll();
     }
 
@@ -61,7 +61,10 @@ public partial class EnemyMessage : PanelContainer
     {
         _currentActionName = actionName;
         if (_trackedEnemy != null)
+        {
             RefreshInfoLabel();
+            RefreshIntentLabel();
+        }
     }
 
     // ================================================================
@@ -72,20 +75,16 @@ public partial class EnemyMessage : PanelContainer
     {
         if (_trackedEnemy == null) return;
 
-        // 血量
         healthBar.MaxValue = _trackedEnemy.MaxHp;
         healthBar.Value = _trackedEnemy.CurrentHp;
         healthLabel.Text = $"{_trackedEnemy.CurrentHp} / {_trackedEnemy.MaxHp}";
 
-        // 格挡
         shieldBar.MaxValue = _trackedEnemy.MaxHp;
         shieldBar.Value = _trackedEnemy.Shield;
         shieldLabel.Text = $"{_trackedEnemy.Shield}";
 
-        // 信息
         RefreshInfoLabel();
-
-        // Buff
+        RefreshIntentLabel();
         RefreshBuffGrid();
     }
 
@@ -95,6 +94,16 @@ public partial class EnemyMessage : PanelContainer
             ? ""
             : $" | 行动：{_currentActionName}";
         infoLabel.Text = $"{_trackedEnemy.DisplayName}{actionText}";
+    }
+
+    private void RefreshIntentLabel()
+    {
+        if (intentLabel == null || _trackedEnemy == null) return;
+
+        if (string.IsNullOrEmpty(_currentActionName))
+        {
+            intentLabel.Text = "";
+        }
     }
 
     // ================================================================
@@ -119,6 +128,7 @@ public partial class EnemyMessage : PanelContainer
         healthBar.Value = 0;
         healthLabel.Text = $"0 / {_trackedEnemy.MaxHp}";
         infoLabel.Text = $"{_trackedEnemy.DisplayName} 已倒下";
+        if (intentLabel != null) intentLabel.Text = "";
     }
 
     // ================================================================
@@ -160,6 +170,7 @@ public partial class EnemyMessage : PanelContainer
         shieldBar.Value = 0;
         shieldLabel.Text = "--";
         infoLabel.Text = "";
+        if (intentLabel != null) intentLabel.Text = "";
 
         if (buffGrid != null)
         {

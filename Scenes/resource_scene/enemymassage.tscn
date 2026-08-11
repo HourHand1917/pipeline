@@ -8,7 +8,7 @@
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chrr3"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="enemymassagecontainer" type="PanelContainer" unique_id=931749593 node_paths=PackedStringArray("healthBar", "healthLabel", "shieldBar", "shieldLabel", "buffGrid", "infoLabel")]
+[node name="enemymassagecontainer" type="PanelContainer" unique_id=931749593 node_paths=PackedStringArray("healthBar", "healthLabel", "shieldBar", "shieldLabel", "buffGrid", "infoLabel", "intentLabel")]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -27,6 +27,7 @@ shieldBar = NodePath("enemymassagebox/statsbox/enemybarbox/defencebarbox/enemyde
 shieldLabel = NodePath("enemymassagebox/statsbox/enemybarbox/defencebarbox/defencelabel")
 buffGrid = NodePath("enemymassagebox/statsbox/enemybarbox/buffbox/buffgrid")
 infoLabel = NodePath("enemymassagebox/messagebox/Label")
+intentLabel = NodePath("enemymassagebox/messagebox/actionlabel")
 
 [node name="enemymassagebox" type="VBoxContainer" parent="." unique_id=1388013988]
 layout_mode = 2
@@ -90,3 +91,8 @@ layout_mode = 2
 layout_mode = 2
 theme_override_font_sizes/font_size = 70
 text = "敌人意图或情报"
+
+[node name="actionlabel" type="Label" parent="enemymassagebox/messagebox" unique_id=1563682933]
+layout_mode = 2
+theme_override_font_sizes/font_size = 70
+text = "行动为："

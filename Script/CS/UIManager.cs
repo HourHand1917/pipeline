@@ -34,6 +34,7 @@ public partial class UIManager : Node
     public Button BackButton { get; set; }
     public TextureProgressBar HealthBar { get; set; }
     public PackedScene TrackSlotScene { get; set; }
+    public PlayerTV PlayerTV { get; set; }
 
     private List<GridCellButton> battleButtons = new();
     private List<TextureRect> energyBulbs = new();
@@ -48,8 +49,6 @@ public partial class UIManager : Node
     public Texture2D BulbOn { get; set; }
     public Texture2D BulbOff { get; set; }
     public AnimatedSprite2D RubberHeart { get; set; }
-
-    private PackedScene _trackSlotScene;
 
     // ================================================================
     //  Setup
@@ -101,7 +100,7 @@ public partial class UIManager : Node
     }
 
     // ================================================================
-    //  绑定_trackSlotScene = GD.Load<PackedScene>("res://scenes/TrackSlot.tscn");
+    //  绑定
     // ================================================================
 
     public void BindPlayer(PlayerBattle player)
@@ -296,36 +295,24 @@ public partial class UIManager : Node
 
     private void OnTrackSlotClicked(int cellNumber, GodotObject combatant)
     {
-        GD.Print($"[调试] OnTrackSlotClicked 被调用！cell={cellNumber}, combatant={combatant}");
-        
         if (combatant == null)
         {
-            GD.Print($"点击了空格子 {cellNumber}");
+            PlayerTV?.ClearEnemyPanel();
             return;
         }
 
-        GD.Print($"=== 点击了格子 {cellNumber} ===");
-        GD.Print($"HP: {combatant.Get("CurrentHp")}/{combatant.Get("MaxHp")}");
-        GD.Print($"护盾: {combatant.Get("Shield")}");
-        GD.Print($"位置: {combatant.Get("MapPosition")}");
-        GD.Print($"存活: {combatant.Get("IsAlive")}");
-
-        var statsObj = combatant.Get("_stats");
-        GodotObject stats = statsObj.Obj != null ? statsObj.As<GodotObject>() : null;
-        if (stats != null)
+        var enemy = combatant as EnemyBattle;
+        if (enemy == null)
         {
-            var buffs = stats.Get("buffs").As<Array>();
-            GD.Print($"Buff 数量: {buffs.Count}");
-            for (int i = 0; i < buffs.Count; i++)
-            {
-                var bi = buffs[i].As<GodotObject>();
-                if (bi == null) continue;
-                var buff = bi.Get("buff").As<GodotObject>();
-                int stacks = bi.Get("stacks").AsInt32();
-                GD.Print($"  [{i}] {buff.Get("buff_name")} ×{stacks}");
-            }
+            PlayerTV?.ClearEnemyPanel();
+            return;
         }
-        GD.Print("=========================");
+
+        // 用 EnemyManager 获取行动（内部用 BattleManager.Distance）
+        var action = _enemyManager.GetActionForDistance(battleManager.Distance);
+        string actionName = action?.Get("display_name").AsString() ?? "";
+
+        PlayerTV?.UpdateEnemyPanel(enemy, actionName);
     }
 
     private void RefreshActivationButtons()

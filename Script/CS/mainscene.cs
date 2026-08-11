@@ -10,7 +10,6 @@ public partial class MainScene : Node2D
     [Export] public BattleManager BattleManager { get; set; }
     [Export] public BuildScreen BuildScreen { get; set; }
     [Export] public BattleScreen BattleScreen { get; set; }
-    [Export] public ItemPanel ItemPanel { get; set; }
 
     public PlayerBattle Player { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
@@ -55,14 +54,6 @@ public partial class MainScene : Node2D
         BattleManager.BattleStateChanged += RefreshAllViews;
         BattleManager.LogMessage += (string text) => BattleScreen.AppendLog(text);
         BattleManager.BattleEnded += OnBattleEnded;
-
-        // TODO: ItemPanel 信号连接（等节点配置好后再启用）
-        // if (ItemPanel != null)
-        // {
-        //     ItemPanel.ItemUsed += (int index) => BattleManager.UseItem(index);
-        //     ItemPanel.ItemDiscarded += (int index) => BattleManager.DiscardItem(index);
-        //     BattleManager.BattleStateChanged += () => ItemPanel.Refresh();
-        // }
 
         ShowBuild();
     }
