@@ -1,15 +1,5 @@
 using Godot;
 
-/// <summary>
-/// 玩家 TV UI 容器。右下角小电视，上下按钮切换三个面板。
-/// 所有动画由你在 AnimationPlayer 里制作。
-///
-/// 需要做的动画：
-///   RESET         → 初始状态
-///   show_tv       → TV 整体滑入 + 淡入，method track 调 EnableButtons(true)
-///   hide_tv       → TV 整体滑出 + 淡出，method track 调 EnableButtons(false)
-///   switch_panel  → PanelStack fade out→in，中点 method track 调 OnSwitchMidpoint()
-/// </summary>
 [GlobalClass]
 public partial class PlayerTV : Control
 {
@@ -24,7 +14,7 @@ public partial class PlayerTV : Control
     [Export] private TextureButton _downButton;
     [Export] private MapPanel _mapPanel;
     [Export] private InventoryPanel _inventoryPanel;
-    [Export] private EnemyPanel _enemyPanel;
+    [Export] private EnemyMessage _enemyPanel;
 
     private Control[] _panels;
     private int _currentIndex;
@@ -44,17 +34,12 @@ public partial class PlayerTV : Control
             if (_panels[i] != null) _panels[i].Visible = i == 0;
     }
 
-    // ================================================================
-    //  面板切换（AnimationPlayer 驱动）
-    // ================================================================
-
     private int? _queuedDirection;
 
     private void SwitchPanel(int direction)
     {
         if (_panels == null || _panels.Length == 0) return;
 
-        // 动画还在播：只记下方向，等当前动画结束后再执行
         if (_switching)
         {
             _queuedDirection = direction;
@@ -67,7 +52,6 @@ public partial class PlayerTV : Control
         _anim?.Play("switch_panel");
     }
 
-    /// <summary>动画中点回调 — 换子面板</summary>
     public void OnSwitchMidpoint()
     {
         int count = _panels.Length;
@@ -77,12 +61,13 @@ public partial class PlayerTV : Control
             if (_panels[i] != null) _panels[i].Visible = i == newIndex;
         _currentIndex = newIndex;
 
-        // 切到背包面板时刷新数据和货币显示
         if (_panels[_currentIndex] == _inventoryPanel)
             RefreshInventory();
+
+        if (_panels[_currentIndex] != _enemyPanel)
+            _enemyPanel?.StopTracking();
     }
 
-    /// <summary>动画末尾回调 — 解锁按钮，处理排队</summary>
     public void OnSwitchComplete()
     {
         _switching = false;
@@ -104,16 +89,16 @@ public partial class PlayerTV : Control
         int m = (int)mode;
         _mapPanel?.SetMode(m);
         _inventoryPanel?.SetMode(m);
-        _enemyPanel?.SetMode(m);
 
-        // 重建面板列表 — 探索模式 2 个，战斗模式 3 个
         _panels = mode == TVMode.Exploration
             ? new Control[] { _mapPanel, _inventoryPanel }
             : new Control[] { _mapPanel, _inventoryPanel, _enemyPanel };
 
-        _enemyPanel.Visible = mode != TVMode.Exploration;
+        _enemyPanel.Visible = mode == TVMode.Battle;
 
-        // 重置到地图面板
+        if (mode == TVMode.Exploration)
+            _enemyPanel?.StopTracking();
+
         for (int i = 0; i < _panels.Length; i++)
             if (_panels[i] != null) _panels[i].Visible = i == 0;
         _currentIndex = 0;
@@ -133,15 +118,33 @@ public partial class PlayerTV : Control
         _anim?.Play("hide_tv");
     }
 
-    /// <summary>AnimationPlayer Method Track 调用</summary>
     public void EnableButtons(bool enable)
     {
         if (_upButton != null) _upButton.Disabled = !enable;
         if (_downButton != null) _downButton.Disabled = !enable;
     }
 
+    // ================================================================
+    //  面板刷新
+    // ================================================================
+
     public void RefreshInventory()
     {
         _inventoryPanel?.Refresh();
+    }
+
+    public void UpdateEnemyPanel(EnemyBattle enemy, string actionName = "", string intentText = "")
+    {
+        _enemyPanel?.TrackEnemy(enemy, actionName);
+        // EnemyMessage 需要加上 UpdateIntentText 方法
+        if (!string.IsNullOrEmpty(intentText))
+        {
+            _enemyPanel?.CallDeferred("UpdateIntentText", intentText);
+        }
+    }
+
+    public void ClearEnemyPanel()
+    {
+        _enemyPanel?.StopTracking();
     }
 }

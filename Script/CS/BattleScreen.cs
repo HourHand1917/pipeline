@@ -37,6 +37,7 @@ public partial class BattleScreen : Control
     [Export] private ItemPanel itemPanel;
     [Export] private AnimatedSprite2D rubberheart;
     [Export] private PackedScene trackSlotScene;
+    [Export] private PlayerTV playerTV;
 
     public void Setup(BoardManager board, BattleManager battle)
     {
@@ -75,14 +76,21 @@ public partial class BattleScreen : Control
         UIManager.BulbOn = bulbOn;
         UIManager.BulbOff = bulbOff;
 
-
         UIManager.LightCellRequested += (Vector2I pos) => EmitSignal(SignalName.LightCellRequested, pos);
         UIManager.PlayCardRequested += (int id) => EmitSignal(SignalName.PlayCardRequested, id);
         UIManager.MoveRequested += (int action) => EmitSignal(SignalName.MoveRequested, action);
         UIManager.EndTurnRequested += () => EmitSignal(SignalName.EndTurnRequested);
         UIManager.BackToBuildRequested += () => EmitSignal(SignalName.BackToBuildRequested);
+        UIManager.PlayerTV = playerTV;
 
         itemPanel?.Refresh();
+
+        // PlayerTV 设为战斗模式
+        if (playerTV != null)
+        {
+            playerTV.SetMode(PlayerTV.TVMode.Battle);
+            playerTV.ShowTV();
+        }
     }
 
     public void BindBattleInstances(PlayerBattle player, EnemyManager enemyManager)

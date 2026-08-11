@@ -5,8 +5,8 @@
 [ext_resource type="Script" uid="uid://nxmjqtd653en" path="res://features/tv_ui/MapPanel.cs" id="2_map"]
 [ext_resource type="Texture2D" uid="uid://cu8ebna3j1xx2" path="res://features/exploration/art_assets/battlescreen/上.png" id="3_1tjra"]
 [ext_resource type="Script" uid="uid://doh04poco6wm7" path="res://features/tv_ui/InventoryPanel.cs" id="3_inv"]
-[ext_resource type="Script" uid="uid://bagolccaxqna7" path="res://features/tv_ui/EnemyPanel.cs" id="4_enemy"]
 [ext_resource type="Texture2D" uid="uid://b0bicevu3twdc" path="res://features/exploration/art_assets/battlescreen/下.png" id="4_o0qei"]
+[ext_resource type="PackedScene" uid="uid://bkikddh345mfu" path="res://Scenes/resource_scene/enemymassage.tscn" id="7_butd8"]
 
 [sub_resource type="Animation" id="Animation_5f3a5"]
 length = 0.001
@@ -82,6 +82,7 @@ _data = {
 }
 
 [node name="PlayerTV" type="Control" unique_id=2129627915 node_paths=PackedStringArray("_anim", "_upButton", "_downButton", "_mapPanel", "_inventoryPanel", "_enemyPanel")]
+custom_minimum_size = Vector2(1402, 896)
 layout_mode = 3
 anchor_bottom = 0.827
 offset_right = 1403.0
@@ -156,7 +157,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="MapPanel" type="Control" parent="PanelStack" unique_id=1345310407 node_paths=PackedStringArray("_routeButtons")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -256,15 +256,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 18
 text = "123"
 
-[node name="EnemyPanel" type="Control" parent="PanelStack" unique_id=637358488]
-visible = false
+[node name="EnemyPanel" parent="PanelStack" unique_id=931749593 instance=ExtResource("7_butd8")]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("4_enemy")
+offset_left = 18.0
+offset_top = 0.10021973
+offset_right = 910.0
+offset_bottom = 517.97034
+scale = Vector2(0.5714649, 0.5394293)
 
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=610337759]
 libraries/ = SubResource("AnimationLibrary_1tjra")
