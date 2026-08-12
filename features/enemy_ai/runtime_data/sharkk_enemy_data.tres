@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_data.gd" id="1_enemy"]
+
+[resource]
+script = ExtResource("1_enemy")
+id = &"sharkk"
+display_name = "sharkk"
+subtitle = "近战拳击 Boss"
+glyph = "S"
+tint = Color(0.305882, 0.760784, 0.780392, 1)
+max_hp = 52
+initial_shield = 0
+

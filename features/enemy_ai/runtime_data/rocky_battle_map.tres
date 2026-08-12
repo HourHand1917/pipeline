@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="BattleMapData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/battle_map_data.gd" id="1_map"]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_data.gd" id="2_enemy_script"]
+[ext_resource type="Resource" path="res://features/enemy_ai/runtime_data/rocky_enemy_data.tres" id="3_enemy"]
+
+[resource]
+script = ExtResource("1_map")
+cell_count = 7
+player_start_cell = 2
+enemy_data_list = Array[ExtResource("2_enemy_script")]([ExtResource("3_enemy")])
+enemy_start_cells = Array[int]([7])
+player_forward_direction = 1
+include_occupied_cells_in_distance = false

@@ -1,0 +1,86 @@
+[gd_resource type="Resource" script_class="EnemyAiProfile" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://features/enemy_ai/scripts/enemy_ai_action.gd" id="1_action"]
+[ext_resource type="Script" path="res://features/enemy_ai/scripts/enemy_ai_profile.gd" id="2_profile"]
+
+[sub_resource type="Resource" id="SharkkAttack"]
+script = ExtResource("1_action")
+id = &"sharkk_attack"
+display_name = "近身拳击"
+intent_text = "攻击：距离 1–2，造成 5 点伤害"
+action_type = 1
+min_range = 1
+max_range = 2
+damage = 5
+base_priority = 200
+random_weight = 4.0
+
+[sub_resource type="Resource" id="SharkkAdvance"]
+script = ExtResource("1_action")
+id = &"sharkk_advance"
+display_name = "压进"
+intent_text = "前进：向玩家靠近 1 格"
+action_type = 2
+min_range = 3
+max_range = 99
+move_toward = 1
+base_priority = 70
+random_weight = 2.0
+
+[sub_resource type="Resource" id="SharkkPrepareDash"]
+script = ExtResource("1_action")
+id = &"sharkk_prepare_dash"
+display_name = "蓄势后退"
+intent_text = "准备冲刺：只后退 1 格"
+action_type = 5
+min_range = 1
+max_range = 4
+move_away = 1
+base_priority = 80
+random_weight = 2.0
+sets_prepared_dash = true
+
+[sub_resource type="Resource" id="SharkkDash"]
+script = ExtResource("1_action")
+id = &"sharkk_dash"
+display_name = "凶猛冲刺"
+intent_text = "冲刺：距离 1–4，造成 10 点伤害并击退玩家；下回合眩晕；冷却 3 回合"
+action_type = 6
+min_range = 1
+max_range = 4
+damage = 10
+push_player = 1
+cooldown_turns = 3
+base_priority = 220
+random_weight = 3.0
+requires_prepared_dash = true
+stun_self_turns = 1
+
+[sub_resource type="Resource" id="SharkkDustRetreat"]
+script = ExtResource("1_action")
+id = &"sharkk_dust_retreat"
+display_name = "扬尘后撤"
+intent_text = "后退最多 2 格并扬尘：下一玩家回合封锁 1 个未点亮格；冷却 2 回合"
+action_type = 7
+min_range = 1
+max_range = 2
+move_away = 2
+cooldown_turns = 2
+base_priority = 200
+random_weight = 1.0
+applies_dust = true
+requires_damage_taken_at_least = 0
+
+[resource]
+script = ExtResource("2_profile")
+brain_type = 2
+enemy_id = &"sharkk"
+display_name = "sharkk"
+max_hp = 52
+initial_shield = 0
+start_cell = 8
+cell_count = 9
+actions = Array[ExtResource("1_action")]([SubResource("SharkkAttack"), SubResource("SharkkAdvance"), SubResource("SharkkPrepareDash"), SubResource("SharkkDash"), SubResource("SharkkDustRetreat")])
+reactive_damage_threshold = 10
+defensive_hp_ratio = 0.35
+random_seed = 3052

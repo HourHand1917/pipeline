@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://features/enemy_ai/scenes/enermy_mannager.tscn" id="1_base"]
+[ext_resource type="Resource" path="res://features/enemy_ai/profiles/rocky_profile.tres" id="2_profile"]
+
+[node name="EnermyMannager" instance=ExtResource("1_base")]
+profile = ExtResource("2_profile")
+auto_bind = true
+show_debug_panel = true
+

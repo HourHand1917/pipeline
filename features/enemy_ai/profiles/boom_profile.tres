@@ -1,0 +1,54 @@
+[gd_resource type="Resource" script_class="EnemyAiProfile" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://features/enemy_ai/scripts/enemy_ai_action.gd" id="1_action"]
+[ext_resource type="Script" path="res://features/enemy_ai/scripts/enemy_ai_profile.gd" id="2_profile"]
+
+[sub_resource type="Resource" id="BoomAttack"]
+script = ExtResource("1_action")
+id = &"boom_attack"
+display_name = "撞击"
+intent_text = "攻击：距离 1–2，造成 3 点伤害（原表未给伤害，当前为可调默认值）"
+action_type = 1
+min_range = 1
+max_range = 2
+damage = 3
+base_priority = 100
+random_weight = 5.0
+
+[sub_resource type="Resource" id="BoomAdvanceOne"]
+script = ExtResource("1_action")
+id = &"boom_advance_1"
+display_name = "逼近 1 格"
+intent_text = "前进：向玩家靠近 1 格"
+action_type = 2
+min_range = 3
+max_range = 99
+move_toward = 1
+base_priority = 100
+random_weight = 1.0
+
+[sub_resource type="Resource" id="BoomAdvanceTwo"]
+script = ExtResource("1_action")
+id = &"boom_advance_2"
+display_name = "逼近 2 格"
+intent_text = "前进：向玩家靠近最多 2 格"
+action_type = 2
+min_range = 4
+max_range = 99
+move_toward = 2
+base_priority = 100
+random_weight = 1.0
+
+[resource]
+script = ExtResource("2_profile")
+brain_type = 0
+enemy_id = &"boom"
+display_name = "boom"
+max_hp = 7
+initial_shield = 0
+start_cell = 6
+cell_count = 7
+actions = Array[ExtResource("1_action")]([SubResource("BoomAttack"), SubResource("BoomAdvanceOne"), SubResource("BoomAdvanceTwo")])
+reactive_damage_threshold = 10
+defensive_hp_ratio = 0.35
+random_seed = 1107
