@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://b4u6wmsfd4vhs"]
 
+[ext_resource type="Script" uid="uid://danf4bip5tn5e" path="res://Script/CS/mainscene.cs" id="1_b3e48"]
 [ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_ch5wo"]
 [ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_n3q8q"]
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
