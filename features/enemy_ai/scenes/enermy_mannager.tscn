@@ -1,0 +1,91 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://features/enemy_ai/scripts/enermy_mannager.gd" id="1_manager"]
+
+[sub_resource type="StyleBoxFlat" id="DebugPanelStyle"]
+bg_color = Color(0.0352941, 0.054902, 0.0705882, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.188235, 0.890196, 0.92549, 0.8)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(0, 0, 0, 0.45)
+shadow_size = 8
+
+[node name="EnermyMannager" type="Node"]
+script = ExtResource("1_manager")
+
+[node name="DebugPanel" type="PanelContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -370.0
+offset_top = 24.0
+offset_right = -24.0
+offset_bottom = 320.0
+grow_horizontal = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("DebugPanelStyle")
+
+[node name="Margin" type="MarginContainer" parent="DebugPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 14
+
+[node name="Rows" type="VBoxContainer" parent="DebugPanel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="DebugPanel/Margin/Rows"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.301961, 0.941176, 0.964706, 1)
+theme_override_font_sizes/font_size = 22
+text = "ENEMY AI DEBUG"
+
+[node name="Rule" type="HSeparator" parent="DebugPanel/Margin/Rows"]
+layout_mode = 2
+
+[node name="EnemyNameLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.956863, 0.823529, 0.396078, 1)
+theme_override_font_sizes/font_size = 18
+text = "敌人：未配置"
+
+[node name="HealthLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "生命：-- / --    护盾：--"
+
+[node name="PositionLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "位置：敌 -- / 玩家 -- / 距离 --"
+
+[node name="IntentLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 46)
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.494118, 0.360784, 1)
+text = "意图：等待状态快照"
+autowrap_mode = 2
+
+[node name="CooldownLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "冷却：无"
+autowrap_mode = 2
+
+[node name="StateLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.694118, 0.764706, 0.803922, 1)
+text = "状态：等待绑定战斗场景"
+autowrap_mode = 2
+

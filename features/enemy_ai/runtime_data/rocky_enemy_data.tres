@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_data.gd" id="1_enemy"]
+
+[resource]
+script = ExtResource("1_enemy")
+id = &"rocky"
+display_name = "rocky"
+subtitle = "齿轮钻头新手 Boss"
+glyph = "R"
+tint = Color(0.94902, 0.670588, 0.301961, 1)
+max_hp = 30
+initial_shield = 0
+

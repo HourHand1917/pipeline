@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_data.gd" id="1_enemy"]
+
+[resource]
+script = ExtResource("1_enemy")
+id = &"boom"
+display_name = "boom"
+subtitle = "爆冲小怪"
+glyph = "B"
+tint = Color(0.913725, 0.423529, 0.384314, 1)
+max_hp = 7
+initial_shield = 0
+

@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="DisabledBuff" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/buffs/buff_script/disabled_buff.gd" id="1_disabled"]
+
+[resource]
+script = ExtResource("1_disabled")
+id = "disabled"
+buff_name = "扬尘封锁"
+polarity = 1
+description = "下一玩家回合内，该未点亮格无法被点亮。配置为 2 回合是因为玩家回合开始会先 Tick 一次，保证效果不会在玩家行动前过期。"
+duration = 2
+stackable = false
+max_stacks = 1
