@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://b4u6wmsfd4vhs"]
 
-[ext_resource type="Script" uid="uid://danf4bip5tn5e" path="res://Script/CS/MainScene.cs" id="1_b3e48"]
 [ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_ch5wo"]
 [ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_n3q8q"]
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
@@ -36,13 +35,13 @@ script = ExtResource("6_ch5wo")
 Cards = [ExtResource("7_q0om0"), ExtResource("8_dmhrc"), ExtResource("9_om8ky"), ExtResource("10_ck04x")]
 
 [node name="buildscreen" parent="." unique_id=579545813 instance=ExtResource("5_dmhrc")]
-visible = false
 offset_left = 12.0
 offset_top = 58.0
 offset_right = 12.0
 offset_bottom = 58.0
 
 [node name="battlescreen" parent="." unique_id=1970829475 instance=ExtResource("6_om8ky")]
+visible = false
 offset_left = -180.0
 offset_top = 188.0
 offset_right = -180.0
