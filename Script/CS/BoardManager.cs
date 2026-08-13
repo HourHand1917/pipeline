@@ -379,6 +379,92 @@ public partial class BoardManager : Node
         ClearAllLights();
     }
 
+    /// <summary>Clears every runtime-card cooldown. Returns true only if something changed.</summary>
+    public bool ResetAllCooldowns()
+    {
+        bool changed = false;
+        foreach (var runtime in runtime_cards)
+        {
+            int instanceId = runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32();
+            if (runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32() <= 0)
+                continue;
+            runtime.Set(GDScriptKeys.CardRuntime.CooldownRemaining, 0);
+            runtime.Set(GDScriptKeys.CardRuntime.IsReady, CheckCardReady(runtime));
+            EmitSignal(SignalName.CooldownChanged, instanceId, 0);
+            changed = true;
+        }
+        if (changed) EmitSignal(SignalName.BoardChanged);
+        return changed;
+    }
+
+    /// <summary>
+    /// Resets a preferred card, or the cooling card with the largest remaining
+    /// cooldown when the UI has no selected runtime card yet.
+    /// </summary>
+    public bool ResetOneCardCooldown(int preferredInstanceId = -1)
+    {
+        GodotObject selected = preferredInstanceId >= 0 ? GetRuntimeCard(preferredInstanceId) : null;
+        if (selected == null || selected.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32() <= 0)
+        {
+            int highestCooldown = 0;
+            selected = null;
+            foreach (var runtime in runtime_cards)
+            {
+                int cooldown = runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32();
+                if (cooldown <= highestCooldown) continue;
+                highestCooldown = cooldown;
+                selected = runtime;
+            }
+        }
+
+        if (selected == null) return false;
+        int selectedId = selected.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32();
+        selected.Set(GDScriptKeys.CardRuntime.CooldownRemaining, 0);
+        selected.Set(GDScriptKeys.CardRuntime.IsReady, CheckCardReady(selected));
+        EmitSignal(SignalName.CooldownChanged, selectedId, 0);
+        EmitSignal(SignalName.BoardChanged);
+        return true;
+    }
+
+    /// <summary>
+    /// MVP cleanse contract.  The current combat prototype stores dust and
+    /// disabled debuffs on board cells, so both are removed from every cell.
+    /// </summary>
+    public bool ClearNegativeCellBuffs()
+    {
+        bool changed = false;
+        foreach (var row in cells)
+        {
+            foreach (var cell in row)
+            {
+                var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+                if (stats == null) continue;
+                foreach (string buffId in new[] { "dust", "disabled" })
+                {
+                    if (!stats.Call(GDScriptKeys.Stats.HasBuff, buffId).AsBool()) continue;
+                    stats.Call(GDScriptKeys.Stats.RemoveBuff, buffId);
+                    changed = true;
+                }
+            }
+        }
+        if (changed) EmitSignal(SignalName.BoardChanged);
+        return changed;
+    }
+
+    public bool HasAnyNegativeCellBuffs()
+    {
+        foreach (var row in cells)
+            foreach (var cell in row)
+            {
+                var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+                if (stats == null) continue;
+                if (stats.Call(GDScriptKeys.Stats.HasBuff, "dust").AsBool()
+                    || stats.Call(GDScriptKeys.Stats.HasBuff, "disabled").AsBool())
+                    return true;
+            }
+        return false;
+    }
+
     // ================================================================
     //  冷却
     // ================================================================

@@ -10,16 +10,24 @@ class_name RockyEnemyAI
 func select_action(context: EnemyAIContext) -> EnemyActionData:
 	_begin_decision(context)
 	if context.damage_taken_last_turn >= heavy_hit_threshold:
-		if random_chance(retreat_chance_after_heavy_hit):
-			var evade := first_available([&"rocky_retreat", &"rocky_defend"], context)
-			if evade != null:
-				return commit_action(evade, 2 if evade.id == &"rocky_defend" else 3)
+		var evade := weighted_ids(context, {
+			&"rocky_retreat": retreat_chance_after_heavy_hit,
+			&"rocky_defend": 1.0 - retreat_chance_after_heavy_hit,
+		})
+		if evade != null:
+			return commit_action(evade)
 	if context.distance == 1:
-		var close_attack := first_available([&"rocky_close_attack", &"rocky_defend", &"rocky_mid_attack"], context)
-		var close_cooldown := 0
-		if close_attack != null and close_attack.id in [&"rocky_close_attack", &"rocky_defend"]:
-			close_cooldown = 2
-		return commit_action(close_attack, close_cooldown)
-	if context.distance <= 3 and random_chance(midrange_attack_chance):
-		return commit_action(first_available([&"rocky_mid_attack", &"rocky_advance_1"], context))
-	return commit_action(first_available([&"rocky_advance_2", &"rocky_advance_1", &"rocky_mid_attack"], context))
+		return commit_action(weighted_ids(context, {
+			&"rocky_close_attack": 0.70,
+			&"rocky_defend": 0.30,
+		}))
+	if context.distance <= 3:
+		return commit_action(weighted_ids(context, {
+			&"rocky_mid_attack": midrange_attack_chance,
+			&"rocky_advance_1": 0.25,
+			&"rocky_defend": maxf(0.05, 0.75 - midrange_attack_chance),
+		}))
+	return commit_action(weighted_ids(context, {
+		&"rocky_advance_2": 0.70,
+		&"rocky_advance_1": 0.30,
+	}))

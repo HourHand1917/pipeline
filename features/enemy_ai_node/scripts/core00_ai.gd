@@ -55,21 +55,26 @@ func _select_body_action(context: EnemyAIContext) -> EnemyActionData:
 		if jam != null:
 			return _commit_body_action(jam)
 	if context.distance >= 6:
-		return _commit_body_action(first_available([&"core_body_sniper", &"core_body_advance_3"], context))
+		return _commit_body_action(weighted_ids(context, {
+			&"core_body_sniper": 0.75,
+			&"core_body_advance_3": 0.25,
+		}))
 	if context.distance == 1:
-		return _commit_body_action(first_available([&"core_body_gunstock", &"core_body_teleport_guard"], context))
-	if context.distance >= 3 and context.distance <= 4 and random_chance(phase_two_attack_chance):
-		return _commit_body_action(first_available([&"core_body_pulse", &"core_body_advance_3"], context))
-	return _commit_body_action(first_available([&"core_body_advance_3", &"core_body_pulse", &"core_body_gunstock"], context))
+		return _commit_body_action(weighted_ids(context, {
+			&"core_body_gunstock": 0.75,
+			&"core_body_teleport_guard": 0.25,
+		}))
+	if context.distance == 2:
+		return _commit_body_action(first_available([&"core_body_reposition", &"core_body_teleport_guard"], context))
+	if context.distance >= 3 and context.distance <= 4:
+		return _commit_body_action(weighted_ids(context, {
+			&"core_body_pulse": phase_two_attack_chance,
+			&"core_body_reposition": maxf(0.10, 1.0 - phase_two_attack_chance),
+		}))
+	return _commit_body_action(first_available([&"core_body_advance_3", &"core_body_pulse", &"core_body_reposition"], context))
 
 
 func _commit_body_action(action: EnemyActionData) -> EnemyActionData:
 	if action == null:
 		return null
-	var cooldown := 0
-	match action.id:
-		&"core_body_sniper": cooldown = 4
-		&"core_body_gunstock": cooldown = 1
-		&"core_body_pulse": cooldown = 2
-		&"core_body_teleport_guard", &"core_body_jam": cooldown = 3
-	return commit_action(action, cooldown)
+	return commit_action(action)

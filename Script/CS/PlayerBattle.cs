@@ -25,6 +25,11 @@ public partial class PlayerBattle : Node2D
     public int Energy { get; private set; }
     public int MaxEnergy { get; private set; }
     public int MapPosition { get; private set; }
+    /// <summary>
+    /// Flat bonus added once to the total damage of each attack card played in
+    /// the current player turn.  It is intentionally not added per hit.
+    /// </summary>
+    public int StrengthThisTurn { get; private set; }
     /// <summary>朝向：0=正方向（右），1=负方向（左）</summary>
     public int Facing { get; set; } = 0;
 
@@ -53,11 +58,40 @@ public partial class PlayerBattle : Node2D
         Shield = playerData.Get(GDScriptKeys.CharacterData.InitialShield).AsInt32();
         MaxEnergy = rules?.Get(GDScriptKeys.GameRules.EnergyPerTurn).AsInt32() ?? 3;
         Energy = MaxEnergy;
+        StrengthThisTurn = 0;
 
         DisplayName = playerData.Get(GDScriptKeys.CharacterData.DisplayName).AsString();
         Glyph = playerData.Get(GDScriptKeys.CharacterData.Glyph).AsString();
         Tint = playerData.Get(GDScriptKeys.CharacterData.Tint).AsColor();
         InstanceId = playerData.Get(GDScriptKeys.CharacterData.Id).AsString();
+        _stats = GD.Load<GDScript>("res://Script/GD/refcounted/stats.gd")?.New().As<GodotObject>();
+    }
+
+    /// <summary>
+    /// Reconfigures turn rules for a new wave without granting a free heal.
+    /// Used only for the Core-00 hands -> body transition.
+    /// </summary>
+    public void LoadForNextWave(GodotObject playerData, GodotObject rules, bool preserveVitals)
+    {
+        if (!preserveVitals || MaxHp <= 0)
+        {
+            LoadFromData(playerData, rules);
+            return;
+        }
+
+        int previousHp = CurrentHp;
+        int previousShield = Shield;
+        MaxHp = playerData.Get(GDScriptKeys.CharacterData.MaxHp).AsInt32();
+        CurrentHp = Mathf.Clamp(previousHp, 0, MaxHp);
+        Shield = Mathf.Max(0, previousShield);
+        MaxEnergy = rules?.Get(GDScriptKeys.GameRules.EnergyPerTurn).AsInt32() ?? MaxEnergy;
+        Energy = MaxEnergy;
+        StrengthThisTurn = 0;
+        DisplayName = playerData.Get(GDScriptKeys.CharacterData.DisplayName).AsString();
+        Glyph = playerData.Get(GDScriptKeys.CharacterData.Glyph).AsString();
+        Tint = playerData.Get(GDScriptKeys.CharacterData.Tint).AsColor();
+        InstanceId = playerData.Get(GDScriptKeys.CharacterData.Id).AsString();
+        EmitHealthChanged();
     }
 
     // ================================================================
@@ -142,6 +176,18 @@ public partial class PlayerBattle : Node2D
     {
         Energy = MaxEnergy;
         EmitSignal(SignalName.EnergyChanged, Energy, MaxEnergy);
+    }
+
+    public bool AddStrengthThisTurn(int amount)
+    {
+        if (amount <= 0) return false;
+        StrengthThisTurn += amount;
+        return true;
+    }
+
+    public void ClearTurnModifiers()
+    {
+        StrengthThisTurn = 0;
     }
 
     // ================================================================

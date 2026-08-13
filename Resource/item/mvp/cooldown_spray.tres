@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/itemdata.gd" id="1"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"cooldown_spray"
+display_name = "冷却喷雾"
+description = "指定1张已构筑卡牌，将其冷却归零。"
+icon = ExtResource("2")
+special_effects = Array[int]([5])
+runtime_contract = "BattleScreen 进入选卡模式；选中 runtime card 后 cooldown_remaining=0，并刷新 BoardManager ready/UI。取消选择时不消耗道具。"
+shop_price = 6
+mvp_stock = 2

@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://ny1vbenkauny"]
 
-[ext_resource type="Script" uid="uid://d4ascdbxkcu5p" path="res://Script/CS/TrackSlot.cs" id="1_ryyaf"]
+[ext_resource type="Script" path="res://Script/CS/TrackSlot.cs" id="1_ryyaf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mf0wf"]
 

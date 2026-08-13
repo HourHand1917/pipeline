@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://hpjtaqw16oae"]
 
-[ext_resource type="Script" uid="uid://ca6njk7qoo3bi" path="res://Script/CS/TooltipPanel.cs" id="1_script"]
+[ext_resource type="Script" path="res://Script/CS/TooltipPanel.cs" id="1_script"]
 
 [sub_resource type="Animation" id="Animation_kti28"]
 length = 0.001

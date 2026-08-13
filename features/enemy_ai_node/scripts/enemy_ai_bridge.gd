@@ -54,7 +54,7 @@ func refresh_runtime_contexts() -> void:
 		var enemy_position := int(_read_property(enemy, [&"MapPosition", &"map_position"], 1))
 		var player_position := int(_read_property(player, [&"MapPosition", &"map_position"], 1))
 		var current_enemy_hp := int(_read_property(enemy, [&"CurrentHp", &"current_hp"], data.max_hp))
-		var runtime_key := enemy.get_instance_id()
+		var runtime_key: int = enemy.get_instance_id()
 		if _previous_enemy_hp.has(runtime_key):
 			var hp_loss := maxi(0, int(_previous_enemy_hp[runtime_key]) - current_enemy_hp)
 			_damage_this_round[runtime_key] = int(_damage_this_round.get(runtime_key, 0)) + hp_loss
@@ -151,4 +151,3 @@ func _runtime_enemies(enemy_manager: Object) -> Array:
 	if enemy_manager is Node:
 		return enemy_manager.get_children()
 	return []
-

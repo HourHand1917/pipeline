@@ -10,4 +10,7 @@ priority = 20
 min_range = 1
 max_range = 99
 effects = Array[CombatEffectData]([ExtResource("2")])
-
+special_effect = &"heal_specific_enemy"
+effect_target_role = &"false_hand"
+special_value = 5
+special_replaces_effects = true

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/itemdata.gd" id="1"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"power_sunglasses"
+display_name = "强化墨镜"
+description = "本回合获得3点力量；力量对整张攻击卡只结算一次。"
+icon = ExtResource("2")
+special_effects = Array[int]([3])
+special_amount = 3
+runtime_contract = "BattleManager：设置本回合 player_strength=3；一张多段卡只给首个/合计伤害加一次。玩家回合结束清零。"
+shop_price = 10
+mvp_stock = 2

@@ -155,15 +155,34 @@ public static class GDScriptKeys
 
     public static class EnemyAction
     {
+        public static readonly StringName Id = "id";
         public static readonly StringName DisplayName = "display_name";
         public static readonly StringName MinRange = "min_range";
         public static readonly StringName MaxRange = "max_range";
         public static readonly StringName Effects = "effects";
         public static readonly StringName Priority = "priority";
+        public static readonly StringName Tags = "tags";
+        public static readonly StringName SpecialEffect = "special_effect";
+        public static readonly StringName EffectTargetRole = "effect_target_role";
+        public static readonly StringName SpecialValue = "special_value";
+        public static readonly StringName SpecialReplacesEffects = "special_replaces_effects";
 
         // 方法名
         public static readonly StringName IsAvailable = "is_available";
         public static readonly StringName GetActionForDistance = "get_action_for_distance";
+    }
+
+    // ================================================================
+    //  ItemData (itemdata.gd)
+    // ================================================================
+    public static class ItemData
+    {
+        public static readonly StringName Id = "id";
+        public static readonly StringName DisplayName = "display_name";
+        public static readonly StringName Effects = "effects";
+        public static readonly StringName SpecialEffects = "special_effects";
+        public static readonly StringName SpecialAmount = "special_amount";
+        public static readonly StringName ConsumeOnUse = "consume_on_use";
     }
 
     // ================================================================

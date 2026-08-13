@@ -27,6 +27,44 @@ public partial class DataManager : Node
     public Array<Resource> ItemBag { get; private set; } = new();
     public const int MaxItemSlots = 4;
 
+    /// <summary>完整道具图鉴：id → ItemData。与四格战斗携带栏分离。</summary>
+    public Dictionary<StringName, Resource> ItemData { get; private set; } = new();
+    /// <summary>仓库数量：id → 未携带/未消耗的数量。</summary>
+    public Dictionary<StringName, int> ItemCounts { get; private set; } = new();
+
+    private bool _mvpCatalogLoaded;
+    private bool _starterCurrencyGranted;
+
+    public static readonly string[] MvpCardPaths =
+    {
+        "res://card/cards/knuckle_striker.tres",
+        "res://card/cards/scrap_fist.tres",
+        "res://card/cards/hydraulic_fist.tres",
+        "res://card/cards/rocket_fist.tres",
+        "res://card/cards/quad_coil_gun.tres",
+        "res://card/cards/pea_gun.tres",
+        "res://card/cards/deadly_kiss.tres",
+        "res://card/cards/simple_cannon.tres",
+        "res://card/cards/military_power_pack.tres",
+        "res://card/cards/scrap_battery.tres",
+        "res://card/cards/hemostatic_pump.tres",
+        "res://card/cards/mechanical_shoes.tres",
+        "res://card/cards/tactical_armor.tres",
+        "res://card/cards/armored_shield.tres",
+    };
+
+    public static readonly string[] MvpItemPaths =
+    {
+        "res://Resource/item/mvp/universal_toolkit.tres",
+        "res://Resource/item/mvp/emergency_battery.tres",
+        "res://Resource/item/mvp/power_sunglasses.tres",
+        "res://Resource/item/mvp/teleport_insoles.tres",
+        "res://Resource/item/mvp/bandage.tres",
+        "res://Resource/item/mvp/blast_plate.tres",
+        "res://Resource/item/mvp/cooldown_spray.tres",
+        "res://Resource/item/mvp/smoke_grenade.tres",
+    };
+
     // ============ 金钱 ============
     public enum CurrencyType { BottleCap, Faucet }
     public int BottleCap { get; private set; } = 0;
@@ -39,6 +77,58 @@ public partial class DataManager : Node
     {
         if (Instance != null) GD.PushError("DataManager: 重复实例化");
         Instance = this;
+        EnsureMvpCatalogLoaded();
+    }
+
+    /// <summary>
+    /// 幂等加载 MVP 数据：14 张卡各 1 张；8 种道具按策划单次流程建议数量进入仓库。
+    /// 不会把 8 件道具直接塞进四格战斗携带栏。
+    /// </summary>
+    public void EnsureMvpCatalogLoaded()
+    {
+        if (_mvpCatalogLoaded) return;
+        _mvpCatalogLoaded = true;
+
+        foreach (string path in MvpCardPaths)
+        {
+            var card = GD.Load<Resource>(path);
+            if (card == null) { GD.PushError($"MVP 卡牌加载失败：{path}"); continue; }
+            var id = ((GodotObject)card).Get("id").AsStringName();
+            if (!CardData.ContainsKey(id)) CardData[id] = card;
+            if (!CardCounts.ContainsKey(id)) CardCounts[id] = 1;
+        }
+
+        foreach (string path in MvpItemPaths)
+        {
+            var item = GD.Load<Resource>(path);
+            if (item == null) { GD.PushError($"MVP 道具加载失败：{path}"); continue; }
+            var obj = (GodotObject)item;
+            var id = obj.Get("id").AsStringName();
+            if (string.IsNullOrEmpty(id)) { GD.PushError($"MVP 道具缺少 id：{path}"); continue; }
+            ItemData[id] = item;
+            if (!ItemCounts.ContainsKey(id)) ItemCounts[id] = obj.Get("mvp_stock").AsInt32();
+        }
+
+        EmitSignal(SignalName.CardCollectionChanged);
+        EmitSignal(SignalName.ItemBagChanged);
+    }
+
+    /// <summary>旧 StarterDeck 兼容入口：仅注册 Catalog 中不存在的旧卡，不增加现有数量。</summary>
+    public void RegisterLegacyCardIfMissing(Resource cardResource)
+    {
+        if (cardResource == null) return;
+        var id = ((GodotObject)cardResource).Get("id").AsStringName();
+        if (string.IsNullOrEmpty(id) || CardData.ContainsKey(id)) return;
+        CardData[id] = cardResource;
+        CardCounts[id] = 1;
+        EmitSignal(SignalName.CardCollectionChanged);
+    }
+
+    public void GrantStarterCurrencyOnce(CurrencyType type, int amount)
+    {
+        if (_starterCurrencyGranted) return;
+        _starterCurrencyGranted = true;
+        ModifyCurrency(type, amount);
     }
 
     // ================================================================
@@ -189,6 +279,48 @@ public partial class DataManager : Node
     //  道具
     // ================================================================
 
+    public Array<Resource> GetAllMvpItems()
+    {
+        EnsureMvpCatalogLoaded();
+        var result = new Array<Resource>();
+        foreach (string path in MvpItemPaths)
+        {
+            var item = GD.Load<Resource>(path);
+            if (item != null) result.Add(item);
+        }
+        return result;
+    }
+
+    public Resource GetItemData(StringName id) =>
+        ItemData.TryGetValue(id, out var item) ? item : null;
+
+    public int GetOwnedItemCount(StringName id) =>
+        ItemCounts.TryGetValue(id, out int count) ? count : 0;
+
+    /// <summary>从完整仓库挑一件放进四格战斗携带栏。</summary>
+    public bool EquipItem(StringName id)
+    {
+        if (ItemBag.Count >= MaxItemSlots) return false;
+        if (!ItemData.TryGetValue(id, out var item)) return false;
+        if (!ItemCounts.TryGetValue(id, out int count) || count <= 0) return false;
+        ItemCounts[id] = count - 1;
+        ItemBag.Add(item);
+        EmitSignal(SignalName.ItemBagChanged);
+        return true;
+    }
+
+    /// <summary>把携带栏中的一件道具退回完整仓库。</summary>
+    public bool UnequipItem(int index)
+    {
+        if (index < 0 || index >= ItemBag.Count) return false;
+        var item = ItemBag[index];
+        ItemBag.RemoveAt(index);
+        var id = ((GodotObject)item).Get("id").AsStringName();
+        ItemCounts[id] = ItemCounts.TryGetValue(id, out int count) ? count + 1 : 1;
+        EmitSignal(SignalName.ItemBagChanged);
+        return true;
+    }
+
     /// <summary>加入道具。失败返回 false（背包满）。</summary>
     public bool AddItem(Resource itemResource)
     {
@@ -199,6 +331,12 @@ public partial class DataManager : Node
             return false;
         }
 
+        var id = ((GodotObject)itemResource).Get("id").AsStringName();
+        if (!string.IsNullOrEmpty(id))
+        {
+            ItemData[id] = itemResource;
+            // 外部掉落直接进入携带栏，不从仓库扣除。
+        }
         ItemBag.Add(itemResource);
         EmitSignal(SignalName.ItemBagChanged);
         GD.Print($"获得道具：{((GodotObject)itemResource).Get("display_name").AsString()}");

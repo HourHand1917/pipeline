@@ -8,7 +8,9 @@ id = &"sharkk_sand_retreat"
 display_name = "扬尘后退"
 intent_text = "后退2格并施加蒙尘，冷却2"
 priority = 13
+base_weight = 1.0
+cooldown_turns = 2
+tags = PackedStringArray("movement", "debuff", "reaction", "charge_prepare")
 min_range = 1
 max_range = 99
 effects = Array[CombatEffectData]([ExtResource("2"), ExtResource("3")])
-

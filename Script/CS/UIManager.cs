@@ -1,6 +1,7 @@
 using Godot;
 using Godot.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 [GlobalClass]
 public partial class UIManager : Node
@@ -45,6 +46,12 @@ public partial class UIManager : Node
 
     private PlayerBattle _player;
     private EnemyManager _enemyManager;
+    private Node _dangerPredictor;
+    private Label _globalWarningLabel;
+
+    private static readonly Color AccentCyan = new("#74e8ec");
+    private static readonly Color AccentAmber = new("#f1c453");
+    private static readonly Color MutedText = new("#a9bbc1");
 
     public Texture2D BulbOn { get; set; }
     public Texture2D BulbOff { get; set; }
@@ -60,6 +67,8 @@ public partial class UIManager : Node
 
         boardManager = board;
         battleManager = battle;
+        EnsureDangerUi();
+        ApplyLightweightTheme();
 
         if (BattleGrid != null)
         {
@@ -138,6 +147,7 @@ public partial class UIManager : Node
         enemy.HealthChanged += (cur, max) => UpdateStatusLine();
         enemy.ShieldChanged += (_) => UpdateStatusLine();
         enemy.PositionChanged += (_) => RefreshDistanceTrack();
+        enemy.IntentChanged += (_) => RefreshDistanceTrack();
         enemy.Died += () => { if (StatusLabel != null) StatusLabel.Text += $"　｜　{enemy.DisplayName}倒下！"; RefreshDistanceTrack(); };
     }
 
@@ -227,7 +237,16 @@ public partial class UIManager : Node
         UpdateStatusLine();
         if (RoundLabel != null) RoundLabel.Text = $"回合 {battleManager.RoundNumber}";
         if (PhaseLabel != null) PhaseLabel.Text = PhaseText();
-        if (DistanceLabel != null) DistanceLabel.Text = $"玩家 {battleManager.PlayerMapPosition} · 怪物 {battleManager.EnemyMapPosition} · 距离 {battleManager.Distance} 格";
+        if (DistanceLabel != null)
+        {
+            var focusedEnemy = PlayerTV?.GetTrackedEnemy();
+            if (focusedEnemy == null || !focusedEnemy.IsAlive)
+                focusedEnemy = _enemyManager?.GetPrimaryEnemy();
+            int distance = focusedEnemy == null ? 0 : battleManager.GetDistanceTo(focusedEnemy);
+            DistanceLabel.Text = focusedEnemy == null
+                ? $"玩家 {battleManager.PlayerMapPosition} · 暂无目标"
+                : $"玩家 {battleManager.PlayerMapPosition} · {focusedEnemy.DisplayName} {focusedEnemy.MapPosition} · 距离 {distance} 格";
+        }
         if (MoveHint != null) { var rules = DataManager.Instance.GetRules(); int cost = rules?.Get(GDScriptKeys.GameRules.MoveEnergyCost).AsInt32() ?? 1; int step = rules?.Get(GDScriptKeys.GameRules.PlayerMoveStep).AsInt32() ?? 1; MoveHint.Text = $"移动{step}格消耗 {cost} ⚡"; }
 
         bool canAct = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
@@ -306,6 +325,9 @@ public partial class UIManager : Node
         else
             slot.Configure(cellNum, "", Colors.White, null);
     }
+
+    ApplyDangerPrediction(cellCount, slots);
+    RefreshTrackedEnemyPanel();
 }
 
         private void OnTrackSlotClicked(int cellNumber, GodotObject combatant)
@@ -323,15 +345,115 @@ public partial class UIManager : Node
             return;
         }
 
-        string actionName = "";
-        var enemyData = enemy.GetEnemyData();
-        if (enemyData != null)
+        ShowEnemyIntent(enemy);
+    }
+
+    /// <summary>
+    /// Read-only intent projection. The action has already been selected and cached by
+    /// BattleManager; UI refreshes must never call get_action_for_distance/select_action.
+    /// </summary>
+    private void ShowEnemyIntent(EnemyBattle enemy)
+    {
+        if (enemy == null || !enemy.IsAlive || battleManager == null) return;
+        var action = battleManager.GetPlannedAction(enemy);
+        string actionName = action?.Get("display_name").AsString() ?? "观察局势";
+        string intent = action?.Get("intent_text").AsString() ?? "尚未锁定攻击区域";
+        int distance = battleManager.GetDistanceTo(enemy);
+        PlayerTV?.UpdateEnemyPanel(enemy, actionName, $"距离 {distance} 格｜{intent}");
+    }
+
+    private void RefreshTrackedEnemyPanel()
+    {
+        var tracked = PlayerTV?.GetTrackedEnemy();
+        if (tracked == null) return;
+        if (!tracked.IsAlive)
         {
-            var action = enemyData.Call("get_action_for_distance", battleManager.Distance).As<GodotObject>();
-            actionName = action?.Get("display_name").AsString() ?? "";
+            PlayerTV.ClearEnemyPanel();
+            return;
+        }
+        ShowEnemyIntent(tracked);
+    }
+
+    private void EnsureDangerUi()
+    {
+        if (_dangerPredictor == null || !GodotObject.IsInstanceValid(_dangerPredictor))
+        {
+            var scene = GD.Load<PackedScene>("res://features/combat_prediction/scenes/danger_area_predictor.tscn");
+            if (scene != null)
+            {
+                _dangerPredictor = scene.Instantiate();
+                _dangerPredictor.Name = "DangerAreaPredictorUI";
+                AddChild(_dangerPredictor);
+            }
         }
 
-        PlayerTV?.UpdateEnemyPanel(enemy, actionName);
+        if (_globalWarningLabel == null && DistanceTrack?.GetParent() is Container parent)
+        {
+            _globalWarningLabel = new Label
+            {
+                Name = "DangerGlobalWarning",
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Visible = false,
+                Text = "",
+                CustomMinimumSize = new Vector2(0, 34),
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+            };
+            _globalWarningLabel.AddThemeFontSizeOverride("font_size", 21);
+            _globalWarningLabel.AddThemeColorOverride("font_color", AccentAmber);
+            _globalWarningLabel.AddThemeColorOverride("font_outline_color", new Color("#28150f"));
+            _globalWarningLabel.AddThemeConstantOverride("outline_size", 5);
+            parent.AddChild(_globalWarningLabel);
+            parent.MoveChild(_globalWarningLabel, DistanceTrack.GetIndex() + 1);
+        }
+    }
+
+    private void ApplyDangerPrediction(int cellCount, Godot.Collections.Array<Node> slots)
+    {
+        var currentCells = new HashSet<int>();
+        var futureCells = new HashSet<int>();
+        var warnings = new HashSet<string>();
+
+        if (_dangerPredictor != null && _enemyManager != null && _player != null)
+        {
+            int[] occupied = _enemyManager.Enemies
+                .Where(enemy => enemy != null && enemy.IsAlive)
+                .Select(enemy => enemy.MapPosition)
+                .Distinct()
+                .ToArray();
+
+            foreach (var enemy in _enemyManager.Enemies)
+            {
+                if (enemy == null || !enemy.IsAlive) continue;
+                var action = battleManager.GetPlannedAction(enemy);
+                if (action == null) continue;
+
+                var prediction = _dangerPredictor.Call(
+                    "predict_action", action, enemy.MapPosition, enemy.Facing,
+                    _player.MapPosition, cellCount, occupied).AsGodotDictionary();
+
+                if (prediction.ContainsKey("current_cells"))
+                    foreach (int cell in prediction["current_cells"].AsInt32Array()) currentCells.Add(cell);
+                if (prediction.ContainsKey("future_cells"))
+                    foreach (int cell in prediction["future_cells"].AsInt32Array()) futureCells.Add(cell);
+                if (prediction.ContainsKey("global_warning"))
+                {
+                    string warning = prediction["global_warning"].AsString();
+                    if (!string.IsNullOrWhiteSpace(warning)) warnings.Add(warning.Trim());
+                }
+            }
+        }
+
+        foreach (Node node in slots)
+        {
+            if (node is TrackSlot slot)
+                slot.SetDangerState(currentCells.Contains(slot.CellNumber), futureCells.Contains(slot.CellNumber));
+        }
+
+        if (_globalWarningLabel != null)
+        {
+            _globalWarningLabel.Text = warnings.Count == 0 ? "" : $"⚠ 全局危险：{string.Join(" ｜ ", warnings)}";
+            _globalWarningLabel.Visible = warnings.Count > 0;
+        }
     }
 
     private void RefreshActivationButtons()
@@ -348,6 +470,12 @@ public partial class UIManager : Node
             var button = new Button();
             button.Text = $"发动｜{data.Get(GDScriptKeys.CardData.DisplayName)}";
             button.Disabled = battleManager.CurrentPhase != BattleManager.Phase.PlayerTurn;
+            button.CustomMinimumSize = new Vector2(230, 44);
+            button.AddThemeFontSizeOverride("font_size", 19);
+            button.AddThemeColorOverride("font_color", AccentCyan);
+            button.AddThemeColorOverride("font_hover_color", Colors.White);
+            button.AddThemeStyleboxOverride("normal", MakeButtonStyle(new Color("#162c33"), new Color("#427c83"), 2));
+            button.AddThemeStyleboxOverride("hover", MakeButtonStyle(new Color("#24515a"), AccentCyan, 2));
             int id = runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32();
             button.Pressed += () => EmitSignal(SignalName.PlayCardRequested, id);
             ActivationBox.AddChild(button);
@@ -366,6 +494,46 @@ public partial class UIManager : Node
         BattleManager.Phase.BattleEnd => "战斗结束",
         _ => "状态切换"
     };
+
+    private void ApplyLightweightTheme()
+    {
+        RoundLabel?.AddThemeColorOverride("font_color", AccentAmber);
+        PhaseLabel?.AddThemeColorOverride("font_color", AccentCyan);
+        DistanceLabel?.AddThemeColorOverride("font_color", Colors.White);
+        MoveHint?.AddThemeColorOverride("font_color", MutedText);
+        ReadyLabel?.AddThemeColorOverride("font_color", AccentCyan);
+        StatusLabel?.AddThemeColorOverride("font_color", new Color("#d9f3f1"));
+
+        foreach (var button in new Button[] { MoveBackButton, MoveForwardButton, BackButton })
+        {
+            if (button == null) continue;
+            button.AddThemeColorOverride("font_color", Colors.White);
+            button.AddThemeColorOverride("font_hover_color", AccentCyan);
+            button.AddThemeStyleboxOverride("normal", MakeButtonStyle(new Color("#18262b"), new Color("#53666b"), 2));
+            button.AddThemeStyleboxOverride("hover", MakeButtonStyle(new Color("#27434a"), AccentCyan, 2));
+        }
+    }
+
+    private static StyleBoxFlat MakeButtonStyle(Color background, Color border, int borderWidth)
+    {
+        return new StyleBoxFlat
+        {
+            BgColor = background,
+            BorderColor = border,
+            BorderWidthLeft = borderWidth,
+            BorderWidthTop = borderWidth,
+            BorderWidthRight = borderWidth,
+            BorderWidthBottom = borderWidth,
+            CornerRadiusTopLeft = 5,
+            CornerRadiusTopRight = 5,
+            CornerRadiusBottomLeft = 5,
+            CornerRadiusBottomRight = 5,
+            ContentMarginLeft = 10,
+            ContentMarginRight = 10,
+            ContentMarginTop = 6,
+            ContentMarginBottom = 6,
+        };
+    }
 
     private void UpdateHeartbeat(int currentHp, int maxHp)
     {

@@ -15,6 +15,7 @@ public partial class EnemyBattle : Node2D
     [Signal] public delegate void PositionChangedEventHandler(int newPosition);
     [Signal] public delegate void BuffAppliedEventHandler(GodotObject buff, int stacks);
     [Signal] public delegate void BuffRemovedEventHandler(string buffId);
+    [Signal] public delegate void IntentChangedEventHandler(GodotObject action);
     [Signal] public delegate void DiedEventHandler();
 
     // ============ 运行时 Stats ============
@@ -33,6 +34,13 @@ public partial class EnemyBattle : Node2D
     public Color Tint { get; private set; } = new Color("#e66c62");
     /// <summary>敌人 ID</summary>
     public string EnemyId { get; private set; } = "enemy";
+    /// <summary>AI role, for example rocky, true_hand, false_hand or body.</summary>
+    public StringName Role { get; private set; } = new StringName();
+    /// <summary>Fixed enemies participate in combat but ignore movement effects.</summary>
+    public bool FixedPosition { get; private set; }
+    /// <summary>The intent selected during PlayerTurn and executed unchanged in EnemyTurn.</summary>
+    public GodotObject PlannedAction { get; private set; }
+    public int DamageTakenThisPlayerTurn { get; private set; }
 
     // GDScript 数据引用
     private GodotObject _enemyData;
@@ -55,6 +63,20 @@ public partial class EnemyBattle : Node2D
         Glyph = enemyData.Get(GDScriptKeys.CharacterData.Glyph).AsString();
         Tint = enemyData.Get(GDScriptKeys.CharacterData.Tint).AsColor();
         EnemyId = enemyData.Get(GDScriptKeys.CharacterData.Id).AsString();
+
+        Role = HasProperty(enemyData, "role")
+            ? enemyData.Get("role").AsStringName()
+            : new StringName(EnemyId);
+        FixedPosition = HasProperty(enemyData, "fixed_position")
+            && enemyData.Get("fixed_position").AsBool();
+
+        if (enemyData.HasMethod("clear_ai_runtime_context"))
+            enemyData.Call("clear_ai_runtime_context");
+        if (enemyData.HasMethod("reset_ai_provider"))
+            enemyData.Call("reset_ai_provider");
+        SetPlannedAction(null);
+        DamageTakenThisPlayerTurn = 0;
+        _stats = GD.Load<GDScript>("res://Script/GD/refcounted/stats.gd")?.New().As<GodotObject>();
     }
 
     // ================================================================
@@ -77,16 +99,27 @@ public partial class EnemyBattle : Node2D
         return _enemyData;
     }
 
+    public void SetPlannedAction(GodotObject action)
+    {
+        if (PlannedAction == action) return;
+        PlannedAction = action;
+        EmitSignal(SignalName.IntentChanged, action);
+    }
+
+    public void ClearPlannedAction() => SetPlannedAction(null);
+
     // ================================================================
     //  伤害 / 护盾 / 回复
     // ================================================================
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int amount, int minimumHp = 0)
     {
+        if (amount <= 0 || !IsAlive) return;
         int shieldDmg = Mathf.Min(Shield, amount);
         Shield -= shieldDmg;
         int hpDmg = amount - shieldDmg;
-        CurrentHp = Mathf.Max(0, CurrentHp - hpDmg);
+        CurrentHp = Mathf.Max(minimumHp, CurrentHp - hpDmg);
+        DamageTakenThisPlayerTurn += amount;
 
         EmitSignal(SignalName.ShieldChanged, Shield);
         EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
@@ -94,6 +127,8 @@ public partial class EnemyBattle : Node2D
         if (CurrentHp <= 0)
             EmitSignal(SignalName.Died);
     }
+
+    public void ResetTurnDamage() => DamageTakenThisPlayerTurn = 0;
 
     public void AddShield(int amount)
     {
@@ -142,4 +177,13 @@ public partial class EnemyBattle : Node2D
     // ================================================================
 
     public bool IsAlive => CurrentHp > 0;
+
+    private static bool HasProperty(GodotObject obj, StringName property)
+    {
+        if (obj == null) return false;
+        foreach (var descriptor in obj.GetPropertyList())
+            if (descriptor["name"].AsStringName() == property)
+                return true;
+        return false;
+    }
 }

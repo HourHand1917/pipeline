@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/itemdata.gd" id="1"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/effects/bandage_heal_6.tres" id="3"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"bandage"
+display_name = "绷带"
+description = "恢复6点生命，不超过上限。"
+icon = ExtResource("4")
+effects = Array[ExtResource("2")]([ExtResource("3")])
+shop_price = 8
+mvp_stock = 2

@@ -7,11 +7,23 @@ class_name EnemyDataNodeAdapter
 @export var ai_scene: PackedScene
 @export var provider_entry: StringName = &"select_action"
 @export var role: StringName = &""
+@export var fixed_position: bool = false
 
 var _provider: Node
 var _runtime_context: Dictionary = {}
 var _cached_signature: int = -1
 var _cached_action: EnemyActionData
+
+
+## Runtime owners may instantiate one provider per EnemyBattle.  This avoids
+## sharing cooldown/state when the same EnemyData resource is spawned twice.
+func instantiate_ai_provider() -> Node:
+	if ai_scene == null:
+		return null
+	var provider := ai_scene.instantiate()
+	if provider != null and provider.has_method("reset_ai"):
+		provider.call("reset_ai")
+	return provider
 
 
 func set_ai_runtime_context(values: Dictionary) -> void:

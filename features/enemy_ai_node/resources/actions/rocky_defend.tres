@@ -8,7 +8,9 @@ id = &"rocky_defend"
 display_name = "齿轮架盾"
 intent_text = "后退1格，获得7护盾，冷却2"
 priority = 9
+base_weight = 0.3
+cooldown_turns = 2
+tags = PackedStringArray("movement", "defence", "reaction")
 min_range = 1
 max_range = 99
 effects = Array[CombatEffectData]([ExtResource("2"), ExtResource("3")])
-

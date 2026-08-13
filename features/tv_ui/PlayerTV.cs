@@ -135,12 +135,9 @@ public partial class PlayerTV : Control
 
     public void UpdateEnemyPanel(EnemyBattle enemy, string actionName = "", string intentText = "")
     {
-        _enemyPanel?.TrackEnemy(enemy, actionName);
-        // EnemyMessage 需要加上 UpdateIntentText 方法
-        if (!string.IsNullOrEmpty(intentText))
-        {
-            _enemyPanel?.CallDeferred("UpdateIntentText", intentText);
-        }
+        if (_enemyPanel == null) return;
+        _enemyPanel.TrackEnemy(enemy, actionName);
+        _enemyPanel.UpdateIntentText(intentText);
     }
 
     public void ClearEnemyPanel()

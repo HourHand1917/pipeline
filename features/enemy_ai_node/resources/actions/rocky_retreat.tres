@@ -7,7 +7,9 @@ id = &"rocky_retreat"
 display_name = "紧急撤退"
 intent_text = "后退2格，冷却3"
 priority = 10
+base_weight = 0.65
+cooldown_turns = 3
+tags = PackedStringArray("movement", "reaction")
 min_range = 1
 max_range = 99
 effects = Array[CombatEffectData]([ExtResource("2")])
-

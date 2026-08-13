@@ -10,4 +10,7 @@ priority = 20
 min_range = 1
 max_range = 99
 effects = Array[CombatEffectData]([ExtResource("2")])
-
+special_effect = &"add_all_card_cooldown"
+effect_target_role = &"player"
+special_value = 1
+special_replaces_effects = true

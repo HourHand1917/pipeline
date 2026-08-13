@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://q1ojg1hovxf7"]
 
-[ext_resource type="Script" uid="uid://hgfer4mgvtcw" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
+[ext_resource type="Script" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
 [ext_resource type="Texture2D" uid="uid://cskgmyhh0il3a" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222046.png" id="2_rr40r"]
 [ext_resource type="Texture2D" uid="uid://cwpny65fl3r5u" path="res://features/exploration/art_assets/battlescreen/亮.png" id="2_t4udp"]
 [ext_resource type="Texture2D" uid="uid://cuuv2na4ij1cn" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220539.png" id="2_ycqhv"]

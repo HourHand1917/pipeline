@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://5umggsibdp5b"]
 
-[ext_resource type="Script" uid="uid://fmv0uf5griri" path="res://features/tv_ui/PlayerTV.cs" id="1_script"]
+[ext_resource type="Script" path="res://features/tv_ui/PlayerTV.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dxi4ygcn3eh1f" path="res://features/exploration/art_assets/battlescreen/合起来.png" id="2_butd8"]
-[ext_resource type="Script" uid="uid://nxmjqtd653en" path="res://features/tv_ui/MapPanel.cs" id="2_map"]
+[ext_resource type="Script" path="res://features/tv_ui/MapPanel.cs" id="2_map"]
 [ext_resource type="Texture2D" uid="uid://cu8ebna3j1xx2" path="res://features/exploration/art_assets/battlescreen/上.png" id="3_1tjra"]
-[ext_resource type="Script" uid="uid://doh04poco6wm7" path="res://features/tv_ui/InventoryPanel.cs" id="3_inv"]
+[ext_resource type="Script" path="res://features/tv_ui/InventoryPanel.cs" id="3_inv"]
 [ext_resource type="Texture2D" uid="uid://b0bicevu3twdc" path="res://features/exploration/art_assets/battlescreen/下.png" id="4_o0qei"]
 [ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="6_1tjra"]
 [ext_resource type="PackedScene" uid="uid://bkikddh345mfu" path="res://Scenes/resource_scene/enemymassage.tscn" id="7_butd8"]
-[ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="8_o0qei"]
+[ext_resource type="Script" path="res://Shaders/MaterialApplier.cs" id="8_o0qei"]
 
 [sub_resource type="Animation" id="Animation_5f3a5"]
 length = 0.001

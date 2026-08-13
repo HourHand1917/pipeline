@@ -11,14 +11,14 @@ config_version=5
 [application]
 
 config/name="Pipeline"
-config/features=PackedStringArray("4.6", "Forward Plus")
+run/main_scene="res://features/combat_campaign/scenes/combat_campaign.tscn"
+config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
-DataManager="*uid://6q55ge08isfy"
-GameState="*uid://coph3qe8cvhlr"
-MCPRuntimeProbe="*uid://bsg12huaf1u5i"
+DataManager="*res://Script/CS/DataManager.cs"
+GameState="*res://features/exploration/scripts/CS/GameState.cs"
 TooltipService="*res://Script/CS/TooltipService.cs"
 
 [display]
@@ -29,10 +29,6 @@ window/size/viewport_height=1080
 [dotnet]
 
 project/assembly_name="Pipeline"
-
-[editor_plugins]
-
-enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
 
 [physics]
 
