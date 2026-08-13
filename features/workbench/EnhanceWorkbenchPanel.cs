@@ -37,6 +37,12 @@ public partial class EnhanceWorkbenchPanel : Control
         DataManager.Instance.CurrencyChanged += Refresh;
     }
 
+    public override void _ExitTree()
+    {
+        DataManager.Instance.CardCollectionChanged -= Refresh;
+        DataManager.Instance.CurrencyChanged -= Refresh;
+    }
+
     public void Refresh()
     {
         InitStyles();
@@ -76,6 +82,8 @@ public partial class EnhanceWorkbenchPanel : Control
         foreach (Node child in _inventoryBox.GetChildren())
             child.QueueFree();
 
+        var cardScene = GD.Load<PackedScene>("res://features/workbench/CardButton.tscn");
+
         foreach (var card in DataManager.Instance.GetOwnedCards())
         {
             var obj = (GodotObject)card;
@@ -89,8 +97,12 @@ public partial class EnhanceWorkbenchPanel : Control
             int cost = obj.Get("enhance_cost").AsInt32();
             if (cost <= 0) cost = 1;
 
-            var btn = new Button();
-            btn.Text = $"{obj.Get(GDScriptKeys.CardData.IconText)}\n{obj.Get(GDScriptKeys.CardData.DisplayName)}\n×{count}  -{cost}💧";
+            var btn = cardScene.Instantiate<CardButton>();
+            btn.SetCard(
+                obj.Get(GDScriptKeys.CardData.IconText).AsString(),
+                obj.Get(GDScriptKeys.CardData.DisplayName).AsString(),
+                count,
+                cost);
             btn.CustomMinimumSize = _cardCellSize;
 
             if (_cardBgNormal != null)
@@ -108,7 +120,7 @@ public partial class EnhanceWorkbenchPanel : Control
 
     private void RefreshCurrency()
     {
-        _faucetLabel.Text = $"💧 {DataManager.Instance.Faucet}";
+        _faucetLabel.Text = DataManager.Instance.Faucet.ToString();
         UpdateEnhanceLabel();
     }
 
@@ -145,7 +157,7 @@ public partial class EnhanceWorkbenchPanel : Control
     private void UpdateEnhanceLabel()
     {
         if (_enhanceBtnLabel != null)
-            _enhanceBtnLabel.Text = $"升级！  -{_enhanceCost} 💧";
+            _enhanceBtnLabel.Text = $"升级！  -{_enhanceCost}";
     }
 
     private void OnEnhancePressed()

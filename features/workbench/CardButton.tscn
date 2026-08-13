@@ -1,0 +1,44 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://features/workbench/CardButton.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cgg0e51jlsa56" path="res://features/exploration/art_assets/货币/水龙头/显示屏版.png" id="2_faucet"]
+[ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="3_mat"]
+
+[node name="CardButton" type="Button" node_paths=PackedStringArray("_costLabel", "_iconLabel", "_nameLabel")]
+script = ExtResource("1_script")
+_iconLabel = NodePath("VBox/IconLabel")
+_nameLabel = NodePath("VBox/NameLabel")
+_costLabel = NodePath("VBox/CostRow/CostLabel")
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 2
+alignment = 1
+
+[node name="IconLabel" type="Label" parent="VBox"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="NameLabel" type="Label" parent="VBox"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="CostRow" type="HBoxContainer" parent="VBox"]
+layout_mode = 2
+alignment = 1
+
+[node name="FaucetIcon" type="TextureRect" parent="VBox/CostRow"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+texture = ExtResource("2_faucet")
+material = ExtResource("3_mat")
+
+[node name="CostLabel" type="Label" parent="VBox/CostRow"]
+layout_mode = 2

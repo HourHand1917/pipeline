@@ -16,5 +16,6 @@ public partial class StarterDeck : Node
             DataManager.Instance.AcquireCard(card, 3);
         DataManager.Instance.UpgradeCard("battery");
         DataManager.Instance.ModifyCurrency(Currency, 60);
+        DataManager.Instance.ModifyCurrency(DataManager.CurrencyType.Faucet, 5);
     }
 }

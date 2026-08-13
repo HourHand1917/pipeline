@@ -2,13 +2,11 @@
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_v1dgx"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="2_6soyk"]
+[ext_resource type="Texture2D" uid="uid://doip62gs1t5u2" path="res://features/exploration/art_assets/home_map/大门-打开-拉杆下.PNG" id="4_0bsqk"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_5g27p"]
-[ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="4_h6glm"]
-[ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="7_0wweh"]
-[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="7_k4n68"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nefgh"]
-size = Vector2(4000, 32)
+[ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_k4n68"]
+[ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="8_mapgate"]
+[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="9_spawn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_djeg3"]
 radius = 120.0
@@ -16,102 +14,47 @@ radius = 120.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4n68"]
 radius = 48.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_bidvr"]
-radius = 120.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_6soyk"]
-radius = 48.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_posh8"]
-radius = 120.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_dpqj4"]
-radius = 48.0
-
-[node name="ExplorationMap" type="Node2D" unique_id=27246427]
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input")]
 script = ExtResource("1_v1dgx")
+Player = NodePath("MapLayer/Player")
+Input = NodePath("InputRouter")
 MapId = "test_map"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 
-[node name="Background" type="ColorRect" parent="MapLayer" unique_id=578819890]
-offset_left = -2000.0
-offset_top = 100.0
-offset_right = 2000.0
-offset_bottom = 900.0
-mouse_filter = 2
-color = Color(0.15, 0.12, 0.1, 1)
-
-[node name="Ground" type="StaticBody2D" parent="MapLayer" unique_id=248095537]
-position = Vector2(0, 400)
-
-[node name="GroundShape" type="CollisionShape2D" parent="MapLayer/Ground" unique_id=963577622]
-shape = SubResource("RectangleShape2D_nefgh")
-
 [node name="Player" parent="MapLayer" unique_id=1138772278 instance=ExtResource("2_6soyk")]
 position = Vector2(200, 300)
 
-[node name="Workbench" type="Area2D" parent="MapLayer" unique_id=108437992 node_paths=PackedStringArray("_blink")]
-position = Vector2(500, 340)
-script = ExtResource("4_h6glm")
-DisplayName = "铁匠工作台"
+[node name="MapGate" type="Area2D" parent="MapLayer" unique_id=1846353689 node_paths=PackedStringArray("_blink")]
+position = Vector2(-198, 295)
+script = ExtResource("8_mapgate")
+TargetMapId = &"home"
+TargetSpawnId = &"home_entry"
+DisplayName = "返回"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Workbench" unique_id=644053544]
-modulate = Color(0.6, 0.4, 0.2, 1)
+[node name="Sprite" type="Sprite2D" parent="MapLayer/MapGate" unique_id=643853005]
+texture = ExtResource("4_0bsqk")
 
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Workbench" unique_id=1647047167]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/MapGate" unique_id=1084478666]
 shape = SubResource("CircleShape2D_djeg3")
 
-[node name="ClickZone" type="Area2D" parent="MapLayer/Workbench" unique_id=1830911937]
+[node name="ClickZone" type="Area2D" parent="MapLayer/MapGate" unique_id=611137191]
 collision_layer = 2
 collision_mask = 0
 
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Workbench/ClickZone" unique_id=164859093]
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/MapGate/ClickZone" unique_id=706340108]
 shape = SubResource("CircleShape2D_k4n68")
 
-[node name="Blink" type="Node" parent="MapLayer/Workbench" unique_id=714301005 node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="MapLayer/MapGate" unique_id=905268912 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("4_5g27p")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="Chest" type="Area2D" parent="MapLayer" unique_id=1157013061 node_paths=PackedStringArray("_blink")]
-position = Vector2(1700, 340)
-script = ExtResource("7_0wweh")
-DisplayName = "旧宝箱"
-_blink = NodePath("Blink")
+[node name="TestSpawn" type="Node2D" parent="MapLayer" unique_id=2084639007]
+position = Vector2(-207, 307)
+script = ExtResource("9_spawn")
+SpawnId = &"test_entry"
 
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Chest" unique_id=1524283300]
-modulate = Color(0.2, 0.45, 0.8, 1)
-
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Chest" unique_id=1091730595]
-shape = SubResource("CircleShape2D_bidvr")
-
-[node name="ClickZone" type="Area2D" parent="MapLayer/Chest" unique_id=472912609]
-collision_layer = 2
-collision_mask = 0
-
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Chest/ClickZone" unique_id=1410434977]
-shape = SubResource("CircleShape2D_6soyk")
-
-[node name="Blink" type="Node" parent="MapLayer/Chest" unique_id=1103344199 node_paths=PackedStringArray("_sprite", "_clickZone")]
-script = ExtResource("4_5g27p")
-_sprite = NodePath("../Sprite")
-_clickZone = NodePath("../ClickZone")
-
-[node name="EnemyPatrol" type="Area2D" parent="MapLayer" unique_id=422480220]
-position = Vector2(2100, 340)
+[node name="InputRouter" type="Node" parent="." unique_id=1263359550]
 script = ExtResource("7_k4n68")
-
-[node name="Sprite" type="Sprite2D" parent="MapLayer/EnemyPatrol" unique_id=1233133044]
-modulate = Color(0.85, 0.15, 0.15, 1)
-
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/EnemyPatrol" unique_id=920393440]
-shape = SubResource("CircleShape2D_posh8")
-
-[node name="ClickZone" type="Area2D" parent="MapLayer/EnemyPatrol" unique_id=530959081]
-collision_layer = 2
-collision_mask = 0
-
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/EnemyPatrol/ClickZone" unique_id=692005185]
-shape = SubResource("CircleShape2D_dpqj4")

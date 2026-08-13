@@ -27,6 +27,8 @@
 [ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="25_hp3pq"]
 [ext_resource type="PackedScene" uid="uid://5umggsibdp5b" path="res://features/tv_ui/PlayerTV.tscn" id="26_tv"]
 [ext_resource type="PackedScene" uid="uid://cbgyktrrxne4a" path="res://features/workbench/WorkbenchUI.tscn" id="27_wb"]
+[ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="28_mapgate"]
+[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="29_spawn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0vrv"]
 radius = 562.03204
@@ -140,6 +142,13 @@ MapId = "home"
 _playerTV = NodePath("UILayer/PlayerTV")
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
+
+[node name="Bounds" type="Node" parent="MapLayer" unique_id=351476092]
+script = ExtResource("7_n0vrv")
+PlayerLeft = -550
+PlayerRight = 2850
+CamLeft = -1050
+CamRight = 2925
 
 [node name="Room_Back" type="Node2D" parent="MapLayer" unique_id=1487059085]
 
@@ -302,12 +311,39 @@ script = ExtResource("14_c681v")
 ShopData = ExtResource("15_jir6r")
 PersistenceId = "shop_home"
 
-[node name="Bounds" type="Node" parent="MapLayer/Room_Front" unique_id=351476092]
-script = ExtResource("7_n0vrv")
-PlayerLeft = -550
-PlayerRight = 2850
-CamLeft = -1050
-CamRight = 2925
+[node name="MapGate" type="Area2D" parent="MapLayer/Room_Front" unique_id=1893995829 node_paths=PackedStringArray("_blink")]
+position = Vector2(2700, 420)
+script = ExtResource("28_mapgate")
+TargetMapId = &"test_map"
+TargetSpawnId = &"test_entry"
+DisplayName = "离开"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/MapGate" unique_id=997198461]
+position = Vector2(26, -4)
+texture = ExtResource("9_kwm3y")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Front/MapGate" unique_id=1416172483]
+position = Vector2(14.5, 24)
+shape = SubResource("RectangleShape2D_htdbx")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Front/MapGate" unique_id=434474604]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Front/MapGate/ClickZone" unique_id=94546785]
+position = Vector2(46, -1.5)
+shape = SubResource("RectangleShape2D_kwm3y")
+
+[node name="Blink" type="Node" parent="MapLayer/Room_Front/MapGate" unique_id=1942495249 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("4_kwm3y")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="HomeSpawn" type="Node2D" parent="MapLayer/Room_Front" unique_id=1284719890]
+position = Vector2(227, 603)
+script = ExtResource("29_spawn")
+SpawnId = &"home_entry"
 
 [node name="Player" parent="." unique_id=1138772278 instance=ExtResource("2_vdmol")]
 position = Vector2(227, 603)

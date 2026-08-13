@@ -27,6 +27,13 @@ public partial class ShopUI : Control
             _closeButton.Pressed += Close;
     }
 
+    public override void _ExitTree()
+    {
+        // 场景切换时断开全局信号，避免访问已销毁节点
+        // _shopManager 是同场景节点，一起销毁，无需断开
+        DataManager.Instance.CurrencyChanged -= Refresh;
+    }
+
     public void Open()
     {
         if (_shopManager?.ShopData == null) return;

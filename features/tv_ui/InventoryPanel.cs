@@ -45,6 +45,12 @@ public partial class InventoryPanel : Control
         Refresh();
     }
 
+    public override void _ExitTree()
+    {
+        DataManager.Instance.ItemBagChanged -= Refresh;
+        DataManager.Instance.CurrencyChanged -= Refresh;
+    }
+
     public void SetMode(int mode)
     {
         _isBattle = mode == 1;

@@ -19,6 +19,7 @@
 [ext_resource type="Texture2D" uid="uid://ogc6gp320j04" path="res://features/exploration/art_assets/workbenchUI/升级！.png" id="15_6w6mp"]
 [ext_resource type="Texture2D" uid="uid://mmv8ss1afxfb" path="res://features/exploration/art_assets/workbenchUI/升级!（亮）.png" id="16_vj5mj"]
 [ext_resource type="Texture2D" uid="uid://b1lnd7a1xrm3c" path="res://features/exploration/art_assets/workbenchUI/升级！（暗）.png" id="17_njf40"]
+[ext_resource type="Texture2D" uid="uid://cgg0e51jlsa56" path="res://features/exploration/art_assets/货币/水龙头/显示屏版.png" id="18_njf40"]
 
 [sub_resource type="Animation" id="anim_reset"]
 length = 0.001
@@ -526,9 +527,9 @@ script = ExtResource("3_upgrade")
 _inventoryBox = NodePath("inventorybox/ScrollContainer/inventorybox")
 _beforeText = NodePath("ShowCardUpgrade/beforecardbox/Label")
 _afterText = NodePath("ShowCardUpgrade/upgradecardbox/Label")
-_faucetLabel = NodePath("inventorybox/Label")
+_faucetLabel = NodePath("inventorybox/HBoxContainer/Label")
 _enhanceButton = NodePath("EnhanceButton")
-_enhanceBtnLabel = NodePath("EnhanceButton/Label")
+_enhanceBtnLabel = NodePath("EnhanceButton/HBoxContainer/Label")
 _cardBgNormalTex = ExtResource("5_hk37n")
 _cardBgDisabledTex = ExtResource("6_55txc")
 _cardCellSize = Vector2(120, 160)
@@ -634,16 +635,30 @@ texture_disabled = ExtResource("17_njf40")
 ignore_texture_size = true
 stretch_mode = 5
 
-[node name="Label" type="Label" parent="PanelStack/UpgradePage/EnhanceButton" unique_id=1068980225]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelStack/UpgradePage/EnhanceButton" unique_id=316140548]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.16163142
-anchor_top = 0.2652174
-anchor_right = 0.8412206
-anchor_bottom = 0.67813045
-offset_right = 0.111968994
-offset_bottom = 0.02999878
+anchor_left = 0.3983112
+anchor_top = 0.235
+anchor_right = 0.5541027
+anchor_bottom = 0.7173913
+offset_left = 0.31799316
+offset_top = -0.05000019
+offset_right = 0.18399048
 metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="PanelStack/UpgradePage/EnhanceButton/HBoxContainer" unique_id=1068980225]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "222"
+
+[node name="FaucetIcon" type="TextureRect" parent="PanelStack/UpgradePage/EnhanceButton/HBoxContainer" unique_id=339992825]
+material = ExtResource("7_55txc")
+custom_minimum_size = Vector2(71.86, 78.585)
+layout_mode = 2
+texture = ExtResource("18_njf40")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="inventorybox" type="Control" parent="PanelStack/UpgradePage" unique_id=1662925272]
 layout_mode = 1
@@ -698,15 +713,30 @@ columns = 4
 script = ExtResource("9_2gsrf")
 _material = ExtResource("7_55txc")
 
-[node name="Label" type="Label" parent="PanelStack/UpgradePage/inventorybox" unique_id=228186572]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelStack/UpgradePage/inventorybox" unique_id=1698304984]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.39972338
-anchor_top = 0.7243816
-anchor_right = 0.6004108
-anchor_bottom = 0.7875442
-offset_right = -0.09701538
-offset_bottom = 0.25
+anchor_left = 0.4495159
+anchor_top = 0.7208481
+anchor_right = 0.51452285
+anchor_bottom = 0.7526502
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_use_anchors_ = true
+
+[node name="FaucetIcon" type="TextureRect" parent="PanelStack/UpgradePage/inventorybox/HBoxContainer" unique_id=1481056876]
+material = ExtResource("7_55txc")
+custom_minimum_size = Vector2(50.49, 41.29)
+layout_mode = 2
+texture = ExtResource("18_njf40")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="PanelStack/UpgradePage/inventorybox/HBoxContainer" unique_id=228186572]
+layout_mode = 2
+theme_override_font_sizes/font_size = 34
+text = "1"
 metadata/_edit_use_anchors_ = true
 
 [node name="AIPage" parent="PanelStack" unique_id=247915953 instance=ExtResource("4_ai")]

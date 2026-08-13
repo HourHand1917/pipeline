@@ -20,6 +20,7 @@ DataManager="*uid://6q55ge08isfy"
 GameState="*uid://coph3qe8cvhlr"
 MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 TooltipService="*res://Script/CS/TooltipService.cs"
+MapManager="*res://features/exploration/scripts/CS/MapManager.cs"
 
 [display]
 

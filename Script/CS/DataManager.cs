@@ -14,6 +14,7 @@ public partial class DataManager : Node
     [Signal] public delegate void ItemBagChangedEventHandler();
     [Signal] public delegate void CurrencyChangedEventHandler();
     [Signal] public delegate void LevelChangedEventHandler(int newLevel);
+    [Signal] public delegate void HealthChangedEventHandler(int current, int max);
 
     public static DataManager Instance { get; private set; }
 
@@ -34,6 +35,10 @@ public partial class DataManager : Node
 
     // ============ 等级 ============
     public int Lv { get; private set; } = 1;
+
+    // ============ 血量（探索/战斗间继承） ============
+    public int PlayerHp { get; private set; } = 30;
+    public int MaxPlayerHp { get; private set; } = 30;
 
     public override void _Ready()
     {
@@ -274,5 +279,25 @@ public partial class DataManager : Node
         if (Lv < 1) Lv = 1;
         EmitSignal(SignalName.LevelChanged, Lv);
         GD.Print($"等级变化：{(amount >= 0 ? "+" : "")}{amount}，当前等级 {Lv}");
+    }
+
+    // ================================================================
+    //  血量
+    // ================================================================
+
+    /// <summary>修改血量。amount 可正可负，自动夹在 [0, max] 之间。</summary>
+    public void ModifyHp(int amount)
+    {
+        PlayerHp = Mathf.Clamp(PlayerHp + amount, 0, MaxPlayerHp);
+        EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
+    }
+
+    /// <summary>设置最大血量（并让当前血量跟随调整）。</summary>
+    public void SetMaxHp(int maxHp, bool fillToMax = true)
+    {
+        MaxPlayerHp = Mathf.Max(1, maxHp);
+        if (fillToMax) PlayerHp = MaxPlayerHp;
+        else PlayerHp = Mathf.Clamp(PlayerHp, 0, MaxPlayerHp);
+        EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
     }
 }

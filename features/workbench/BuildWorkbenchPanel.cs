@@ -46,6 +46,11 @@ public partial class BuildWorkbenchPanel : Control
         RefreshBoard();
     }
 
+    public override void _ExitTree()
+    {
+        DataManager.Instance.CardCollectionChanged -= RefreshAll;
+    }
+
     // ================================================================
     //  公共
     // ================================================================
