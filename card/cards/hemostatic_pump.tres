@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect"]
+[ext_resource type="Resource" path="res://card/effects/player_heal_4.tres" id="3_heal"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"hemostatic_pump"
+display_name = "止血泵"
+icon_text = "疗"
+glyph = "+4"
+category = "heal"
+description = "一次性止血装置，恢复4点生命；本场战斗基本只能使用一次。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0)])
+min_range = 0
+max_range = 0
+effect_type = "heal"
+effect_value = 4
+cooldown_turns = 99
+effects = Array[ExtResource("2_effect")]([ExtResource("3_heal")])
+tint = Color(0.28, 0.72, 0.48, 1)

@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://features/core00_ai/scripts/core00_enermy_mannager.gd" id="1_manager"]
+[ext_resource type="Resource" path="res://features/core00_ai/profiles/core00_profile.tres" id="2_profile"]
+
+[node name="Core00EnermyMannager" type="Node"]
+script = ExtResource("1_manager")
+profile = ExtResource("2_profile")
+
+[node name="DebugPanel" type="PanelContainer" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 760.0
+offset_bottom = 348.0
+
+[node name="Margin" type="MarginContainer" parent="DebugPanel"]
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Rows" type="VBoxContainer" parent="DebugPanel/Margin"]
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="DebugPanel/Margin/Rows"]
+theme_override_font_sizes/font_size = 24
+text = "Core-00 standalone AI debug"
+
+[node name="PhaseLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+text = "Phase"
+
+[node name="HandsLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+text = "Hands"
+
+[node name="BodyLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+text = "Body"
+
+[node name="PlayerLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+text = "Player"
+
+[node name="IntentLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+custom_minimum_size = Vector2(690, 42)
+autowrap_mode = 2
+text = "Intent"
+
+[node name="CooldownLabel" type="Label" parent="DebugPanel/Margin/Rows"]
+text = "Cooldowns"
+
+[node name="Buttons" type="HBoxContainer" parent="DebugPanel/Margin/Rows"]
+theme_override_constants/separation = 8
+
+[node name="Advance" type="Button" parent="DebugPanel/Margin/Rows/Buttons"]
+text = "执行回合"
+
+[node name="HitTrue" type="Button" parent="DebugPanel/Margin/Rows/Buttons"]
+text = "True -5"
+
+[node name="HitFalse" type="Button" parent="DebugPanel/Margin/Rows/Buttons"]
+text = "False -5"
+
+[node name="PhaseTwo" type="Button" parent="DebugPanel/Margin/Rows/Buttons"]
+text = "进入二阶段"
+
+[node name="HitBody" type="Button" parent="DebugPanel/Margin/Rows/Buttons"]
+text = "Body -5"
+
+[connection signal="pressed" from="DebugPanel/Margin/Rows/Buttons/Advance" to="." method="debug_advance_turn"]
+[connection signal="pressed" from="DebugPanel/Margin/Rows/Buttons/HitTrue" to="." method="debug_damage_true"]
+[connection signal="pressed" from="DebugPanel/Margin/Rows/Buttons/HitFalse" to="." method="debug_damage_false"]
+[connection signal="pressed" from="DebugPanel/Margin/Rows/Buttons/PhaseTwo" to="." method="debug_force_phase_two"]
+[connection signal="pressed" from="DebugPanel/Margin/Rows/Buttons/HitBody" to="." method="debug_damage_body"]

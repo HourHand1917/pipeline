@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect"]
+[ext_resource type="Resource" path="res://card/effects/player_energy_1.tres" id="3_energy"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"worn_battery"
+display_name = "废旧电池"
+icon_text = "电"
+glyph = "+1"
+category = "energy"
+description = "拼装电池，恢复1点能量。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0)])
+min_range = 0
+max_range = 0
+effect_type = "energy"
+effect_value = 1
+cooldown_turns = 2
+effects = Array[ExtResource("2_effect")]([ExtResource("3_energy")])
+tint = Color(0.26, 0.7, 0.72, 1)

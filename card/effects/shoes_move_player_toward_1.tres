@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatEffectData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "机械步进"
+description = "玩家向敌人前进1格。"
+type = 3
+target = 0
+amount = 1

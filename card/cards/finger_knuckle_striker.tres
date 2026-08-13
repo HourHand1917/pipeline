@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect"]
+[ext_resource type="Resource" path="res://card/effects/finger_knuckle_damage_3.tres" id="3_damage"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"finger_knuckle_striker"
+display_name = "指节撞针"
+icon_text = "拳"
+glyph = "◆"
+category = "attack"
+description = "贴身启动义肢撞针，造成3点伤害。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0)])
+min_range = 1
+max_range = 1
+effect_type = "damage"
+effect_value = 3
+cooldown_turns = 1
+effects = Array[ExtResource("2_effect")]([ExtResource("3_damage")])
+tint = Color(0.88, 0.36, 0.22, 1)

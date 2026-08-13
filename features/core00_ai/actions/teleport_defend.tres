@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="Core00ActionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/core00_ai/scripts/core00_action_data.gd" id="1_action"]
+
+[resource]
+script = ExtResource("1_action")
+action_id = &"core00_teleport_defend"
+display_name = "闪身"
+intent_text = "闪现到玩家身后并获得4点护盾"
+action_kind = 2
+min_range = 0
+max_range = 12
+shield = 4
+cooldown_turns = 3

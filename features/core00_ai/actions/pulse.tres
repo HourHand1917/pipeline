@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Core00ActionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/core00_ai/scripts/core00_action_data.gd" id="1_action"]
+
+[resource]
+script = ExtResource("1_action")
+action_id = &"core00_pulse"
+display_name = "连发脉冲"
+intent_text = "连续发射3次脉冲，每次造成2点伤害"
+action_kind = 0
+min_range = 3
+max_range = 4
+damage_per_hit = 2
+hit_count = 3
+cooldown_turns = 2

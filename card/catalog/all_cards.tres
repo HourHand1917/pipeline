@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="PipelineCardCatalog" load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://card/scripts/card_catalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://Script/GD/resource/card_data.gd" id="2_card"]
+[ext_resource type="Resource" path="res://card/cards/finger_knuckle_striker.tres" id="3_card"]
+[ext_resource type="Resource" path="res://card/cards/scrap_fist.tres" id="4_card"]
+[ext_resource type="Resource" path="res://card/cards/hydraulic_heavy_fist.tres" id="5_card"]
+[ext_resource type="Resource" path="res://card/cards/rocket_punch.tres" id="6_card"]
+[ext_resource type="Resource" path="res://card/cards/four_grip_coil_rifle.tres" id="7_card"]
+[ext_resource type="Resource" path="res://card/cards/pea_shooter.tres" id="8_card"]
+[ext_resource type="Resource" path="res://card/cards/deadly_kiss.tres" id="9_card"]
+[ext_resource type="Resource" path="res://card/cards/improvised_cannon.tres" id="10_card"]
+[ext_resource type="Resource" path="res://card/cards/military_power_cell.tres" id="11_card"]
+[ext_resource type="Resource" path="res://card/cards/worn_battery.tres" id="12_card"]
+[ext_resource type="Resource" path="res://card/cards/hemostatic_pump.tres" id="13_card"]
+[ext_resource type="Resource" path="res://card/cards/mechanical_shoes.tres" id="14_card"]
+[ext_resource type="Resource" path="res://card/cards/tactical_armor.tres" id="15_card"]
+[ext_resource type="Resource" path="res://card/cards/armored_shield.tres" id="16_card"]
+
+[resource]
+script = ExtResource("1_catalog")
+cards = Array[ExtResource("2_card")]([ExtResource("3_card"), ExtResource("4_card"), ExtResource("5_card"), ExtResource("6_card"), ExtResource("7_card"), ExtResource("8_card"), ExtResource("9_card"), ExtResource("10_card"), ExtResource("11_card"), ExtResource("12_card"), ExtResource("13_card"), ExtResource("14_card"), ExtResource("15_card"), ExtResource("16_card")])

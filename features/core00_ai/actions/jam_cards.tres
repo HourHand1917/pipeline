@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Core00ActionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/core00_ai/scripts/core00_action_data.gd" id="1_action"]
+
+[resource]
+script = ExtResource("1_action")
+action_id = &"core00_jam_cards"
+display_name = "过载干扰"
+intent_text = "令玩家所有卡牌在下一玩家回合至少冷却1回合"
+action_kind = 3
+min_range = 0
+max_range = 12
+cooldown_turns = 3

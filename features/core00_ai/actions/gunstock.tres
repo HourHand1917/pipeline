@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Core00ActionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/core00_ai/scripts/core00_action_data.gd" id="1_action"]
+
+[resource]
+script = ExtResource("1_action")
+action_id = &"core00_gunstock"
+display_name = "近身枪托"
+intent_text = "用枪托近身打击，造成9点伤害"
+action_kind = 0
+min_range = 1
+max_range = 1
+damage_per_hit = 9
+hit_count = 1
+cooldown_turns = 1

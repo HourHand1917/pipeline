@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect"]
+[ext_resource type="Resource" path="res://card/effects/shoes_move_player_toward_1.tres" id="3_move"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"mechanical_shoes"
+display_name = "机械鞋"
+icon_text = "移"
+glyph = "➜"
+category = "movement"
+description = "启动机械助力，向敌人前进1格。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0)])
+min_range = 0
+max_range = 0
+effect_type = "energy"
+effect_value = 0
+cooldown_turns = 1
+effects = Array[ExtResource("2_effect")]([ExtResource("3_move")])
+tint = Color(0.34, 0.66, 0.74, 1)

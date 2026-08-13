@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatEffectData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+display_name = "第二发"
+description = "第二发子弹造成5点伤害，独立结算。"
+type = 0
+target = 1
+amount = 5

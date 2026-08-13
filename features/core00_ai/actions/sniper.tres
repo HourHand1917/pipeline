@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="Core00ActionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/core00_ai/scripts/core00_action_data.gd" id="1_action"]
+
+[resource]
+script = ExtResource("1_action")
+action_id = &"core00_sniper"
+display_name = "蓄力狙击"
+intent_text = "锁定远距离目标，造成12点伤害"
+action_kind = 0
+min_range = 6
+max_range = 12
+damage_per_hit = 12
+hit_count = 1
+cooldown_turns = 4

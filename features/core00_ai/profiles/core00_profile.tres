@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="Core00Profile" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://features/core00_ai/scripts/core00_profile.gd" id="1_profile"]
+[ext_resource type="Resource" path="res://features/core00_ai/actions/sniper.tres" id="2_sniper"]
+[ext_resource type="Resource" path="res://features/core00_ai/actions/gunstock.tres" id="3_gunstock"]
+[ext_resource type="Resource" path="res://features/core00_ai/actions/pulse.tres" id="4_pulse"]
+[ext_resource type="Resource" path="res://features/core00_ai/actions/advance.tres" id="5_advance"]
+[ext_resource type="Resource" path="res://features/core00_ai/actions/teleport_defend.tres" id="6_teleport"]
+[ext_resource type="Resource" path="res://features/core00_ai/actions/jam_cards.tres" id="7_jam"]
+[ext_resource type="Script" path="res://features/core00_ai/scripts/core00_action_data.gd" id="8_action_script"]
+
+[resource]
+script = ExtResource("1_profile")
+boss_id = &"core00"
+display_name = "Core-00"
+cell_count = 12
+player_start_cell = 6
+true_hand_start_cell = 1
+false_hand_start_cell = 12
+hand_max_health = 21
+phase_one_beam_damage = 6
+phase_one_shield_gain = 4
+phase_one_shield_cap = 8
+phase_one_heal_amount = 5
+body_start_cell = 10
+body_max_health = 50
+teleport_reaction_damage = 8
+body_shield_cap = 12
+jam_every_n_rounds = 4
+jammed_card_turns = 1
+phase_two_actions = Array[ExtResource("8_action_script")]([ExtResource("2_sniper"), ExtResource("3_gunstock"), ExtResource("4_pulse"), ExtResource("5_advance"), ExtResource("6_teleport"), ExtResource("7_jam")])

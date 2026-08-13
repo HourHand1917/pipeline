@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect"]
+[ext_resource type="Resource" path="res://card/effects/player_energy_3.tres" id="3_energy"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"military_power_cell"
+display_name = "军用动力匣"
+icon_text = "能"
+glyph = "+3"
+category = "energy"
+description = "军规储能模块，恢复3点能量。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0)])
+min_range = 0
+max_range = 0
+effect_type = "energy"
+effect_value = 3
+cooldown_turns = 2
+effects = Array[ExtResource("2_effect")]([ExtResource("3_energy")])
+tint = Color(0.2, 0.75, 0.8, 1)
