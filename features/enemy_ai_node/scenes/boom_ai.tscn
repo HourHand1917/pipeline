@@ -1,0 +1,9 @@
+[gd_scene load_steps=5 format=3]
+[ext_resource type="Script" path="res://features/enemy_ai_node/scripts/boom_ai.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/boom_attack.tres" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/boom_advance_1.tres" id="3"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/boom_advance_2.tres" id="4"]
+[node name="BoomAI" type="Node"]
+script = ExtResource("1")
+actions = Array[EnemyActionData]([ExtResource("2"), ExtResource("3"), ExtResource("4")])
+

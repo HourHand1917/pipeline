@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BattleMapData" format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/battle_map_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/enemy_data/rocky.tres" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/enemy_data/boom.tres" id="3"]
+[resource]
+script = ExtResource("1")
+cell_count = 9
+player_start_cell = 2
+enemy_data_list = Array[EnemyData]([ExtResource("2"), ExtResource("3")])
+enemy_start_cells = Array[int]([8, 6])
+include_occupied_cells_in_distance = false
+

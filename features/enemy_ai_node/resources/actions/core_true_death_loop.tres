@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyActionData" format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/shield_7_enemy.tres" id="2"]
+[resource]
+script = ExtResource("1")
+id = &"core_true_death_loop"
+display_name = "死亡循环"
+intent_text = "为自己增加格挡"
+priority = 20
+min_range = 1
+max_range = 99
+effects = Array[CombatEffectData]([ExtResource("2")])
+

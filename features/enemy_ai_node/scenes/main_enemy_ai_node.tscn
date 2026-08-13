@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3]
+[ext_resource type="PackedScene" path="res://Scenes/game_scene/game.tscn" id="1"]
+[ext_resource type="Script" path="res://features/enemy_ai_node/scripts/enemy_ai_bridge.gd" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/boom_rules.tres" id="3"]
+[node name="MainEnemyAINode" instance=ExtResource("1")]
+_testGameRules = ExtResource("3")
+[node name="EnemyAINodeBridge" type="Node" parent="."]
+script = ExtResource("2")
+battle_manager_path = NodePath("../battlemanager")
+enemy_manager_path = NodePath("../EnemyManager")
+player_path = NodePath("../PlayerBattle")

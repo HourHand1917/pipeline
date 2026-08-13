@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_script"]
+[ext_resource type="Resource" path="res://card/effects/hydraulic_fist_damage_9.tres" id="3_effect"]
+
+[resource]
+script = ExtResource("1_card")
+id = &"hydraulic_fist"
+display_name = "液压重拳"
+icon_text = "压"
+glyph = "拳"
+category = "attack"
+description = "点亮2格后，只能在距离1发动，造成9点伤害。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0), Vector2i(1, 0)])
+min_range = 1
+max_range = 1
+effect_type = "damage"
+effect_value = 9
+cooldown_turns = 3
+effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])
+tint = Color(0.88, 0.2, 0.14, 1)
+

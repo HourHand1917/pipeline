@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="EnemyActionData" format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/move_enemy_away_2.tres" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/dust_player_cells.tres" id="3"]
+[resource]
+script = ExtResource("1")
+id = &"sharkk_sand_retreat"
+display_name = "扬尘后退"
+intent_text = "后退2格并施加蒙尘，冷却2"
+priority = 13
+min_range = 1
+max_range = 99
+effects = Array[CombatEffectData]([ExtResource("2"), ExtResource("3")])
+

@@ -1,0 +1,12 @@
+[gd_scene load_steps=7 format=3]
+[ext_resource type="Script" path="res://features/enemy_ai_node/scripts/rocky_ai.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/rocky_mid_attack.tres" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/rocky_close_attack.tres" id="3"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/rocky_advance_1.tres" id="4"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/rocky_advance_2.tres" id="5"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/rocky_defend.tres" id="6"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/rocky_retreat.tres" id="7"]
+[node name="RockyAI" type="Node"]
+script = ExtResource("1")
+actions = Array[EnemyActionData]([ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7")])
+

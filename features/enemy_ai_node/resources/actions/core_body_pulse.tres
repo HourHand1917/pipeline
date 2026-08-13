@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="EnemyActionData" format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/damage_2_player.tres" id="2"]
+[resource]
+script = ExtResource("1")
+id = &"core_body_pulse"
+display_name = "连续脉冲"
+intent_text = "距离3-4：2×3伤害，冷却2"
+priority = 12
+min_range = 3
+max_range = 4
+effects = Array[CombatEffectData]([ExtResource("2"), ExtResource("2"), ExtResource("2")])

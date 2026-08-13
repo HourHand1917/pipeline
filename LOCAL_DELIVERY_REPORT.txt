@@ -1,0 +1,51 @@
+Pipeline2 本地交付报告
+生成日期：2026-08-13
+
+一、范围与安全边界
+- 项目：D:\Godot\Pipeline2\pipeline
+- 只新增 card/ 与 features/enemy_ai_node/。
+- 原有 462 个 Git 跟踪文件逐一核对，工作区内容 0 处变化。
+- 未 commit、未 push、未上传 GitHub 或其他网络服务。
+- C:\Users\Pa\Downloads\card_data.gd 是旧版，未覆盖项目当前 CardData。
+
+二、敌人节点
+- Boom：8 HP，3 个可编辑 Action。
+- Rocky：20 HP，6 个可编辑 Action。
+- Sharkk：40 HP，6 个可编辑 Action。
+- Core-00：True/False 手各 21 HP，本体 50 HP，17 个可编辑 Action。
+- EnemyDataNodeAdapter 用 PackedScene 保存 AI Node，兼容旧 BattleManager 的
+  get_action_for_distance 接口。
+- UI 预览采用状态缓存；只有 EnemyTurn 才确认冷却与蓄力状态。
+- Bridge 自动读取 HP、盾、位置、回合，并监听玩家伤害来源以区分枪/近战。
+
+三、可直接打开的新增 Main 场景
+- res://features/enemy_ai_node/scenes/main_enemy_ai_node.tscn（Boom）
+- res://features/enemy_ai_node/scenes/main_rocky_boom.tscn（Rocky + Boom）
+- res://features/enemy_ai_node/scenes/main_sharkk.tscn（Sharkk）
+- res://features/enemy_ai_node/scenes/main_core00_phase_one.tscn（双手）
+- res://features/enemy_ai_node/scenes/main_core00_phase_two.tscn（本体）
+
+四、卡牌
+- card/cards/：14 张 CardData。
+- card/effects/：17 个独立 CombatEffectData。
+- 复合效果顺序已验证：火箭冲拳先移动后伤害；致命亲亲 5+5；
+  简易火炮先击退后伤害。
+
+五、测试结果
+- ENEMY_AI_NODE_TEST_PASS checks=89
+- CARD_CONFIG_TEST PASS (19537 checks, 100 rounds, 14 cards, 17 effects)
+- dotnet build：0 警告、0 错误
+
+六、旧框架限制（没有隐瞒）
+- 旧 BattleManager/EffectResolver 的敌人位移、护盾、治疗默认指向 PrimaryEnemy。
+  因此 Rocky+Boom 和 Core 双手的“各自位移/跨手治疗”需要程序员以后给旧执行器
+  增加 acting-enemy hook；本包没有违反要求去修改旧文件。
+- Core-00 双手阶段与 50 HP 本体阶段目前提供两个独立可运行入口；自动换阶段、
+  精确闪到玩家背后、全卡统一冷却仍需要旧战斗生命周期/Board 回调。
+- 标准版 Godot 无头运行会报告项目原有 Autoload UID/C# loader 噪声；新增测试
+  均返回 0，C# 由 dotnet 独立构建通过。
+
+七、程序员接入
+先阅读：features/enemy_ai_node/README.md 与 card/README.md。
+AI 调参：打开四个 *_ai.tscn，选根 Node，在 Inspector 编辑 Actions 与概率/阈值。
+敌人数据：在 EnemyDataNodeAdapter 的 Ai Scene 槽中拖入对应 AI Scene。
