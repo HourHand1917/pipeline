@@ -1,0 +1,5 @@
+[gd_scene load_steps=3 format=3]
+[ext_resource type="PackedScene" path="res://features/enemy_ai_node/scenes/main_enemy_ai_node.tscn" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/sharkk_rules.tres" id="2"]
+[node name="MainSharkk" instance=ExtResource("1")]
+_testGameRules = ExtResource("2")

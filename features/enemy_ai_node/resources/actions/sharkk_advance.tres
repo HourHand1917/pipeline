@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="EnemyActionData" format=3 uid="uid://2o8004wdw1wv"]
+
+[ext_resource type="Script" uid="uid://7hwav6op8h01" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_finah"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/move_enemy_toward_1.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"sharkk_advance"
+display_name = "逼近"
+intent_text = "前进1格"
+priority = 5
+effects = Array[ExtResource("1_finah")]([ExtResource("2")])
