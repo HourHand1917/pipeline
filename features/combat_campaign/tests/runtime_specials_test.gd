@@ -42,7 +42,6 @@ func _test_enemy_special_contracts() -> void:
 		"sharkk_stunned": "wait",
 		"core_body_teleport_guard": "move_behind_player",
 		"core_body_jam": "add_all_card_cooldown",
-		"core_true_send_heal": "heal_specific_enemy",
 		"core_true_death_loop": "set_death_loop",
 		"core_false_break_beam": "clear_true_death_loop",
 	}
@@ -55,6 +54,24 @@ func _test_enemy_special_contracts() -> void:
 	_check(charge != null and charge.special_replaces_effects, "charge must replace legacy effects")
 	_check(charge != null and charge.special_value == 10, "charge damage must be 10")
 
+	var heal := load("res://features/enemy_ai_node/resources/actions/core_true_send_heal.tres") as EnemyActionData
+	_check(heal != null and heal.effect_target_role == &"false_hand", "Core heal must target False hand")
+	_check(heal != null and heal.deferred_role_effects.size() == 1,
+		"Core heal must carry one deferred role effect")
+	if heal != null and heal.deferred_role_effects.size() == 1:
+		var effect := heal.deferred_role_effects[0]
+		_check(effect.type == CombatEffectData.Type.APPLY_BUFF,
+			"Core heal package must be an APPLY_BUFF effect")
+		_check(effect.buff != null and effect.buff.id == &"deployed_medkit",
+			"Core heal package must mount deployed_medkit")
+
+	var stun := load("res://features/enemy_ai_node/resources/actions/core_false_stun.tres") as EnemyActionData
+	_check(stun != null and stun.effects.size() == 1,
+		"Core disable action must carry one effect")
+	if stun != null and stun.effects.size() == 1:
+		_check(stun.effects[0].buff != null and stun.effects[0].buff.id == &"disabled",
+			"Core disable action must mount disabled Buff")
+
 
 func _test_campaign_preserve_flag() -> void:
 	var campaign := load("res://features/combat_campaign/data/default_combat_campaign.tres")
@@ -63,4 +80,3 @@ func _test_campaign_preserve_flag() -> void:
 		var body = campaign.waves[4]
 		_check(body.preserve_player_state, "Core body must preserve player state")
 		_check(body.preserve_board_runtime_state, "Core body must preserve card state")
-

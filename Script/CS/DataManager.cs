@@ -55,14 +55,16 @@ public partial class DataManager : Node
 
     public static readonly string[] MvpItemPaths =
     {
-        "res://Resource/item/mvp/universal_toolkit.tres",
-        "res://Resource/item/mvp/emergency_battery.tres",
-        "res://Resource/item/mvp/power_sunglasses.tres",
-        "res://Resource/item/mvp/teleport_insoles.tres",
-        "res://Resource/item/mvp/bandage.tres",
-        "res://Resource/item/mvp/blast_plate.tres",
-        "res://Resource/item/mvp/cooldown_spray.tres",
-        "res://Resource/item/mvp/smoke_grenade.tres",
+        "res://Resource/item/mvp/coolant.tres",
+        "res://Resource/item/mvp/spare_battery.tres",
+        "res://Resource/item/mvp/spinach_powerups.tres",
+        "res://Resource/item/mvp/gasoline.tres",
+        "res://Resource/item/mvp/roller_shoes.tres",
+        "res://Resource/item/mvp/grenade.tres",
+        "res://Resource/item/mvp/bulletproof_vest.tres",
+        "res://Resource/item/mvp/particle_wall.tres",
+        "res://Resource/item/mvp/ice_cream.tres",
+        "res://Resource/item/mvp/medkit.tres",
     };
 
     // ============ 金钱 ============
@@ -80,9 +82,23 @@ public partial class DataManager : Node
         EnsureMvpCatalogLoaded();
     }
 
+    public override void _ExitTree()
+    {
+        // Release managed references before Godot clears the Resource cache.
+        // This keeps headless tests and exported-game shutdown free of false
+        // Resource-leak reports without changing any persisted run data.
+        ItemBag.Clear();
+        ItemData.Clear();
+        ItemCounts.Clear();
+        CardData.Clear();
+        CardCounts.Clear();
+        _savedBuild.Clear();
+        if (ReferenceEquals(Instance, this)) Instance = null;
+    }
+
     /// <summary>
-    /// 幂等加载 MVP 数据：14 张卡各 1 张；8 种道具按策划单次流程建议数量进入仓库。
-    /// 不会把 8 件道具直接塞进四格战斗携带栏。
+    /// 幂等加载 MVP 数据：14 张卡各 1 张；10 种道具各 1 件进入仓库。
+    /// 不会把 10 件道具直接塞进四格战斗携带栏。
     /// </summary>
     public void EnsureMvpCatalogLoaded()
     {

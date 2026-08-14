@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="DesignedBuffCatalog" load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/designed_buff_catalog.gd" id="1_catalog"]
+[ext_resource type="Script" path="res://Script/GD/resource/buff_data.gd" id="2_buff_base"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/strength.tres" id="3_strength"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/temporary_strength.tres" id="4_temporary"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/dust.tres" id="5_dust"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/deployed_medkit.tres" id="6_medkit"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/disabled.tres" id="7_disabled"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/anneal.tres" id="8_anneal"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/true.tres" id="9_true"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/false.tres" id="10_false"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/holographic.tres" id="11_holographic"]
+
+[resource]
+script = ExtResource("1_catalog")
+buffs = Array[ExtResource("2_buff_base")]([ExtResource("3_strength"), ExtResource("4_temporary"), ExtResource("5_dust"), ExtResource("6_medkit"), ExtResource("7_disabled"), ExtResource("8_anneal"), ExtResource("9_true"), ExtResource("10_false"), ExtResource("11_holographic")])

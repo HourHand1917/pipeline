@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DeployedMedkitBuff" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/behaviors/deployed_medkit_buff.gd" id="1_buff"]
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="2_effect_script"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/effects/medkit_heal_owner_by_stacks.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/deployed_medkit.svg" id="4_icon"]
+
+[resource]
+script = ExtResource("1_buff")
+id = "deployed_medkit"
+buff_name = "部署治疗包"
+polarity = 0
+description = "持有者下回合开始恢复等同层数的生命；结算后移除。"
+duration = 0
+stackable = true
+max_stacks = 99
+icon = ExtResource("4_icon")
+turn_start_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])

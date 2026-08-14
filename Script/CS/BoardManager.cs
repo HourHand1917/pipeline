@@ -426,10 +426,7 @@ public partial class BoardManager : Node
         return true;
     }
 
-    /// <summary>
-    /// MVP cleanse contract.  The current combat prototype stores dust and
-    /// disabled debuffs on board cells, so both are removed from every cell.
-    /// </summary>
+    /// <summary>Removes every negative Buff from every board cell.</summary>
     public bool ClearNegativeCellBuffs()
     {
         bool changed = false;
@@ -439,12 +436,8 @@ public partial class BoardManager : Node
             {
                 var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
                 if (stats == null) continue;
-                foreach (string buffId in new[] { "dust", "disabled" })
-                {
-                    if (!stats.Call(GDScriptKeys.Stats.HasBuff, buffId).AsBool()) continue;
-                    stats.Call(GDScriptKeys.Stats.RemoveBuff, buffId);
-                    changed = true;
-                }
+                if (!stats.HasMethod(GDScriptKeys.Stats.ClearNegativeBuffs)) continue;
+                changed |= stats.Call(GDScriptKeys.Stats.ClearNegativeBuffs).AsInt32() > 0;
             }
         }
         if (changed) EmitSignal(SignalName.BoardChanged);
@@ -458,8 +451,8 @@ public partial class BoardManager : Node
             {
                 var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
                 if (stats == null) continue;
-                if (stats.Call(GDScriptKeys.Stats.HasBuff, "dust").AsBool()
-                    || stats.Call(GDScriptKeys.Stats.HasBuff, "disabled").AsBool())
+                if (stats.HasMethod("has_negative_buff")
+                    && stats.Call("has_negative_buff").AsBool())
                     return true;
             }
         return false;
@@ -485,28 +478,27 @@ public partial class BoardManager : Node
         EmitSignal(SignalName.BoardChanged);
     }
 
-public void TickCellBuffs()
-{
-    foreach (var row in cells)
+    public void TickCellBuffs() => TickCellBuffsAtStart();
+
+    public void TickCellBuffsAtStart() => TickCellBuffsForPhase(true);
+
+    public void TickCellBuffsAtEnd() => TickCellBuffsForPhase(false);
+
+    private void TickCellBuffsForPhase(bool atStart)
     {
-        foreach (var cell in row)
+        foreach (var row in cells)
         {
-            var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
-            if (stats != null)
+            foreach (var cell in row)
             {
-                // 调试：检查格子 (1,1) 的蒙尘状态
-                var pos = cell.Get(GDScriptKeys.CellRuntime.Position).AsVector2I();
-                if (pos.X == 1 && pos.Y == 1)
-                {
-                    bool hasDust = stats.Call(GDScriptKeys.Stats.HasBuff, "dust").AsBool();
-                    int dustStacks = stats.Call(GDScriptKeys.Stats.GetBuffStacks, "dust").AsInt32();
-                    GD.Print($"[调试] 格子(1,1) 蒙尘：has={hasDust}, stacks={dustStacks}");
-                }
-                stats.Call(GDScriptKeys.Stats.TickTurnStart);
+                var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+                if (stats == null) continue;
+                stats.Call(atStart
+                    ? GDScriptKeys.Stats.TickTurnStart
+                    : GDScriptKeys.Stats.TickTurnEnd);
             }
         }
+        EmitSignal(SignalName.BoardChanged);
     }
-}
 
     // ================================================================
     //  存档

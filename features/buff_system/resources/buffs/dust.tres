@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="DustBuff" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/buffs/buff_script/dust_buff.gd" id="1_buff"]
+[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/dust.svg" id="2_icon"]
+
+[resource]
+script = ExtResource("1_buff")
+id = "dust"
+buff_name = "蒙尘"
+polarity = 1
+description = "点亮附着格额外消耗等同层数的能量；玩家回合结束减少1层。"
+duration = 0
+stackable = true
+max_stacks = 99
+icon = ExtResource("2_icon")

@@ -74,11 +74,16 @@ public static class GDScriptKeys
     {
         public static readonly StringName HasBuff = "has_buff";
         public static readonly StringName GetBuffStacks = "get_buff_stacks";
+        public static readonly StringName GetBuffDuration = "get_buff_duration";
         public static readonly StringName AddBuff = "add_buff";
         public static readonly StringName RemoveBuff = "remove_buff";
         public static readonly StringName TickTurnStart = "tick_turn_start";
         public static readonly StringName TickTurnEnd = "tick_turn_end";
         public static readonly StringName ClearBuffs = "clear_buffs";
+        public static readonly StringName ClearNegativeBuffs = "clear_negative_buffs";
+        public static readonly StringName CanLight = "can_light";
+        public static readonly StringName BeforeLight = "before_light";
+        public static readonly StringName AfterLight = "after_light";
         public static readonly StringName Buffs = "buffs";
     }
 
@@ -160,6 +165,8 @@ public static class GDScriptKeys
         public static readonly StringName MinRange = "min_range";
         public static readonly StringName MaxRange = "max_range";
         public static readonly StringName Effects = "effects";
+        public static readonly StringName PatternHitEffects = "pattern_hit_effects";
+        public static readonly StringName DeferredRoleEffects = "deferred_role_effects";
         public static readonly StringName Priority = "priority";
         public static readonly StringName Tags = "tags";
         public static readonly StringName SpecialEffect = "special_effect";

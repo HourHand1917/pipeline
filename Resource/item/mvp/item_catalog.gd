@@ -2,14 +2,16 @@ extends RefCounted
 class_name PipelineItemCatalog
 
 const ITEM_PATHS: Array[String] = [
-	"res://Resource/item/mvp/universal_toolkit.tres",
-	"res://Resource/item/mvp/emergency_battery.tres",
-	"res://Resource/item/mvp/power_sunglasses.tres",
-	"res://Resource/item/mvp/teleport_insoles.tres",
-	"res://Resource/item/mvp/bandage.tres",
-	"res://Resource/item/mvp/blast_plate.tres",
-	"res://Resource/item/mvp/cooldown_spray.tres",
-	"res://Resource/item/mvp/smoke_grenade.tres",
+	"res://Resource/item/mvp/coolant.tres",
+	"res://Resource/item/mvp/spare_battery.tres",
+	"res://Resource/item/mvp/spinach_powerups.tres",
+	"res://Resource/item/mvp/gasoline.tres",
+	"res://Resource/item/mvp/roller_shoes.tres",
+	"res://Resource/item/mvp/grenade.tres",
+	"res://Resource/item/mvp/bulletproof_vest.tres",
+	"res://Resource/item/mvp/particle_wall.tres",
+	"res://Resource/item/mvp/ice_cream.tres",
+	"res://Resource/item/mvp/medkit.tres",
 ]
 
 

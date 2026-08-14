@@ -28,21 +28,28 @@ public partial class RuntimeCampaignSmoke : Node
 
         if (IsInstanceValid(_host))
             _host.QueueFree();
+        GetNodeOrNull("/root/DataManager")?.QueueFree();
+        GetNodeOrNull("/root/GameState")?.QueueFree();
+        GetNodeOrNull("/root/TooltipService")?.QueueFree();
+        _campaign = null;
+        _host = null;
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
         if (_failures.Count == 0)
         {
-            GD.Print($"RUNTIME_CAMPAIGN_SMOKE_PASS checks={_checks} cards=14 items=8 battles=4 waves=5");
-            GetTree().Quit(0);
+            GD.Print($"RUNTIME_CAMPAIGN_SMOKE_PASS checks={_checks} cards=14 items=10 battles=4 waves=5");
+            CallDeferred(nameof(FinishAndQuit), 0);
             return;
         }
 
         foreach (string failure in _failures)
             GD.PushError($"RUNTIME_CAMPAIGN_SMOKE: {failure}");
         GD.Print($"RUNTIME_CAMPAIGN_SMOKE_FAIL failures={_failures.Count} checks={_checks}");
-        GetTree().Quit(1);
+        CallDeferred(nameof(FinishAndQuit), 1);
     }
+
+    public void FinishAndQuit(int exitCode) => GetTree().Quit(exitCode);
 
     private async Task RunAcceptance()
     {
@@ -103,6 +110,7 @@ public partial class RuntimeCampaignSmoke : Node
         // Battle 4 phase one: two fixed hands.
         StartPreparedWave();
         CheckWave(3, 4, 1, ("true_hand", 21), ("false_hand", 21));
+        ValidateCoreBuffActionIntegration();
         int hpBeforePhaseChange = _host.Player.CurrentHp;
         int positionBeforePhaseChange = _host.Player.MapPosition;
         KillCurrentWave();
@@ -135,15 +143,15 @@ public partial class RuntimeCampaignSmoke : Node
         Check(data.CardData.Count == 14, $"MVP card catalog must contain exactly 14 cards, got {data.CardData.Count}");
         Check(data.CardCounts.Count == 14, $"MVP card inventory must contain exactly 14 card IDs, got {data.CardCounts.Count}");
         Check(data.GetOwnedCards().Count == 14, "all 14 MVP cards must be selectable in the inventory");
-        Check(data.ItemData.Count == 8, $"MVP item catalog must contain exactly 8 items, got {data.ItemData.Count}");
-        Check(data.ItemCounts.Count == 8, $"MVP item inventory must contain exactly 8 item IDs, got {data.ItemCounts.Count}");
+        Check(data.ItemData.Count == 10, $"MVP item catalog must contain exactly 10 items, got {data.ItemData.Count}");
+        Check(data.ItemCounts.Count == 10, $"MVP item inventory must contain exactly 10 item IDs, got {data.ItemCounts.Count}");
         int totalItemStock = 0;
         foreach (var pair in data.ItemCounts)
         {
             Check(pair.Value > 0, $"item {pair.Key} must have positive stock");
             totalItemStock += pair.Value;
         }
-        Check(totalItemStock == 14, $"configured item stock total must be 14, got {totalItemStock}");
+        Check(totalItemStock == 10, $"configured item stock total must be 10, got {totalItemStock}");
     }
 
     private void StartPreparedWave()
@@ -234,6 +242,65 @@ public partial class RuntimeCampaignSmoke : Node
             $"Sharkk charge must deal 10 damage, HP {hpBeforeCharge} -> {_host.Player.CurrentHp}");
         Check(ActionId(sharkk) == "sharkk_stunned",
             $"post-charge Sharkk must expose the hard-recovery intent, got {ActionId(sharkk)}");
+    }
+
+    private void ValidateCoreBuffActionIntegration()
+    {
+        var resolver = _host.EffectResolver;
+        var battle = _host.BattleManager;
+        var playerStats = _host.Player.GetStats();
+        var trueHand = _host.EnemyManager.GetAliveByRole("true_hand");
+        var falseHand = _host.EnemyManager.GetAliveByRole("false_hand");
+        Check(resolver != null && trueHand != null && falseHand != null,
+            "Core Buff integration requires resolver and both hands");
+        if (resolver == null || trueHand == null || falseHand == null) return;
+
+        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+        _host.Player.SetMapPosition(4);
+        var trueBeam = GD.Load<Resource>(
+            "res://features/enemy_ai_node/resources/actions/core_true_guard_beam.tres");
+        Check(resolver.ExecuteEnemyPatternHitEffects(trueBeam, battle, trueHand),
+            "True beam even-cell hit must execute its mounted Buff effect");
+        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "true").AsInt32() == 3,
+            "True beam must apply three True layers");
+
+        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+        var falseBeam = GD.Load<Resource>(
+            "res://features/enemy_ai_node/resources/actions/core_false_break_beam.tres");
+        Check(resolver.ExecuteEnemyPatternHitEffects(falseBeam, battle, falseHand),
+            "False beam even-cell hit must execute its mounted Buff effect");
+        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "false").AsInt32() == 3,
+            "False beam must apply three False layers");
+
+        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+        var disable = GD.Load<Resource>(
+            "res://features/enemy_ai_node/resources/actions/core_false_stun.tres");
+        Check(resolver.ExecuteEnemyAction(disable, battle, falseHand),
+            "Core disable action must execute through CombatEffectData");
+        resolver.ResolvePendingBuffApplications(battle);
+        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "disabled").AsInt32() == 1,
+            "Core disable action must apply one Disabled layer");
+        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+
+        falseHand.TakeDamage(5);
+        int wounded = falseHand.CurrentHp;
+        var healPackage = GD.Load<Resource>(
+            "res://features/enemy_ai_node/resources/actions/core_true_send_heal.tres");
+        Check(resolver.HasDeferredEnemyRoleEffects(healPackage),
+            "Core heal action must expose a deferred role effect");
+        Check(resolver.ExecuteDeferredEnemyRoleEffects(healPackage, battle),
+            "Core heal package must target False hand through EffectResolver");
+        Check(falseHand.CurrentHp == wounded,
+            "deployed medkit must not heal before the recipient turn starts");
+        Check(falseHand.GetStats().Call(GDScriptKeys.Stats.GetBuffStacks,
+            "deployed_medkit").AsInt32() == 5,
+            "False hand must hold a five-point deployed medkit");
+        resolver.TickActorBuffs(falseHand, battle, true);
+        Check(falseHand.CurrentHp == falseHand.MaxHp,
+            "deployed medkit must heal False hand at its next turn start");
+
+        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+        _host.Player.SetMapPosition(6);
     }
 
     private static string ActionId(EnemyBattle enemy) =>

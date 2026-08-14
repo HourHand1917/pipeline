@@ -103,6 +103,11 @@ public partial class BattleManager : Node
             BoardManager.ResetAllCardStates();
         SetPhase(Phase.PlayerTurn);
         Player.ResetEnergy();
+        // A preserved boss phase is a real new player turn. Resolve start
+        // triggers after energy reset so False/medkit/holographic keep their
+        // documented timing across the Core hands -> body transition.
+        if (preservePlayerState)
+            EffectResolver?.TickActorBuffs(Player, this, true);
         Player.EmitHealthChanged();
 
         PlanEnemyTurns();
@@ -111,14 +116,24 @@ public partial class BattleManager : Node
         EmitSignal(SignalName.BattleStateChanged);
     }
 
-    public void ReturnToBuild() { turnTransitionLocked = false; usedCardIds.Clear(); SetPhase(Phase.Build); EmitSignal(SignalName.BattleStateChanged); }
+    public void ReturnToBuild()
+    {
+        turnTransitionLocked = false;
+        usedCardIds.Clear();
+        EffectResolver?.ClearActorBuffs(Player?.GetStats());
+        SetPhase(Phase.Build);
+        EmitSignal(SignalName.BattleStateChanged);
+    }
 
     private void StartPlayerTurn()
     {
         bool preserve = rules.Get(GDScriptKeys.GameRules.PreservePartialCharge).AsBool();
         if (!preserve) BoardManager.ClearAllLights();
-        BoardManager.TickCooldowns(); BoardManager.TickCellBuffs();
-        Player.ResetEnergy(); Player.ClearTurnModifiers(); usedCardIds.Clear(); SetPhase(Phase.PlayerTurn);
+        BoardManager.TickCooldowns();
+        BoardManager.TickCellBuffsAtStart();
+        Player.ResetEnergy();
+        EffectResolver?.TickActorBuffs(Player, this, true);
+        Player.ClearTurnModifiers(); usedCardIds.Clear(); SetPhase(Phase.PlayerTurn);
         _lastPlayerDamage = 0;
         _lastPlayerActionType = new StringName();
         foreach (var enemy in EnemyManager.Enemies) enemy?.ResetTurnDamage();
@@ -137,15 +152,17 @@ public partial class BattleManager : Node
         int cooldown = runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32();
         if (cooldown > 0) { var cdData = runtime.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>(); Log($"{cdData.Get(GDScriptKeys.CardData.DisplayName)}仍在冷却：{cooldown}回合。"); return; }
         var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
-        if (stats != null && stats.Call(GDScriptKeys.Stats.HasBuff, "disabled").AsBool()) { Log("该格子已失效，无法点亮。"); return; }
+        if (EffectResolver != null && !EffectResolver.CanLightCell(stats, cell))
+        { Log("该格子已失效，无法点亮。"); return; }
         int chargeCost = rules.Get(GDScriptKeys.GameRules.ChargeEnergyCost).AsInt32();
-        int dustExtra = stats != null ? stats.Call(GDScriptKeys.Stats.GetBuffStacks, "dust").AsInt32() : 0;
+        int dustExtra = EffectResolver?.GetLightExtraCost(stats, cell) ?? 0;
         int totalCost = chargeCost + dustExtra;
         if (!Player.SpendEnergy(totalCost)) { Log($"能量不足，点亮需要{totalCost}点能量。"); return; }
         var cardData = runtime.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
         if (cardData.Get(GDScriptKeys.CardData.OncePerTurn).AsBool() && usedCardIds.ContainsKey(runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32()))
         { Log($"{cardData.Get(GDScriptKeys.CardData.DisplayName)}本回合已经发动过。"); return; }
         BoardManager.SetCellLit(position, true);
+        EffectResolver?.NotifyCellLit(stats, cell);
         PlanEnemyTurns();
         EmitSignal(SignalName.BattleStateChanged);
     }
@@ -174,6 +191,7 @@ public partial class BattleManager : Node
         }
         turnTransitionLocked = true;
         if (!EffectResolver.ExecuteCard(runtime, this)) { turnTransitionLocked = false; Log($"{data.Get(GDScriptKeys.CardData.DisplayName)}效果执行失败。"); return; }
+        EffectResolver.ResolvePendingBuffApplications(this);
         _lastPlayedCardInstanceId = instanceId;
         RecordPlayerCardMetadata(data);
         if (data.Get(GDScriptKeys.CardData.OncePerTurn).AsBool()) usedCardIds[instanceId] = true;
@@ -312,6 +330,8 @@ public partial class BattleManager : Node
         SetPhase(Phase.EnemyTurn);
         bool preserve = rules.Get(GDScriptKeys.GameRules.PreservePartialCharge).AsBool();
         if (!preserve) BoardManager.ClearAllLights();
+        EffectResolver?.TickActorBuffs(Player, this, false);
+        BoardManager.TickCellBuffsAtEnd();
         Player.ClearTurnModifiers();
         Log("玩家结束回合。");
         EmitSignal(SignalName.BattleStateChanged);
@@ -329,28 +349,46 @@ public partial class BattleManager : Node
 
     private void ResolveEnemyTurn()
     {
+        var deferredRoleActions = new System.Collections.Generic.List<GodotObject>();
         foreach (var enemy in EnemyManager.Enemies)
         {
             if (enemy == null || !enemy.IsAlive) continue;
             ActingEnemy = enemy;
+            EffectResolver?.TickActorBuffs(enemy, this, true);
+            if (!enemy.IsAlive) continue;
             int dist = GetDistanceTo(enemy);
             var action = enemy.PlannedAction ?? SelectActionForEnemy(enemy, dist);
-            if (action == null) continue;
+            if (action == null)
+            {
+                EffectResolver?.TickActorBuffs(enemy, this, false);
+                continue;
+            }
             ConfirmPlannedAction(enemy, dist);
             if (_cancelLockedIntent && enemy == _smokeCancelledEnemy && CanSmokeCancel(action))
             {
                 Log($"烟雾弹取消了{enemy.DisplayName}的锁定攻击。");
                 enemy.ClearPlannedAction();
+                EffectResolver?.TickActorBuffs(enemy, this, false);
                 continue;
             }
             if (!IsInRange(enemy.MapPosition, Player.MapPosition, enemy.Facing,
                 action.Get(GDScriptKeys.EnemyAction.MinRange).AsInt32(),
                 action.Get(GDScriptKeys.EnemyAction.MaxRange).AsInt32()))
+            {
+                EffectResolver?.TickActorBuffs(enemy, this, false);
                 continue;
+            }
             Log($"{enemy.DisplayName}使用「{action.Get(GDScriptKeys.EnemyAction.DisplayName)}」。");
             EffectResolver.ExecuteEnemyAction(action, this, enemy);
+            EffectResolver.ExecuteEnemyPatternHitEffects(action, this, enemy);
+            if (EffectResolver.HasDeferredEnemyRoleEffects(action))
+                deferredRoleActions.Add(action);
+            EffectResolver.ResolvePendingBuffApplications(this);
             enemy.ClearPlannedAction();
+            EffectResolver?.TickActorBuffs(enemy, this, false);
         }
+        foreach (var action in deferredRoleActions)
+            EffectResolver.ExecuteDeferredEnemyRoleEffects(action, this);
         _cancelLockedIntent = false;
         _smokeCancelledEnemy = null;
         ActingEnemy = null;
@@ -455,14 +493,26 @@ public partial class BattleManager : Node
         var e = explicitTarget ?? _targetEnemy ?? ActingEnemy ?? EnemyManager.GetPrimaryEnemy();
         if (e != null)
         {
+            int resolvedAmount = EffectResolver?.ResolveDamageWithBuffs(
+                amount,
+                Player?.GetStats(),
+                e.GetStats()) ?? amount;
             int minimumHp = _trueDeathLoopActive && e.Role == "true_hand" ? 1 : 0;
-            e.TakeDamage(amount, minimumHp);
-            Log($"{e.DisplayName}受到{amount}点伤害。");
+            e.TakeDamage(resolvedAmount, minimumHp);
+            Log($"{e.DisplayName}受到{resolvedAmount}点伤害。");
         }
         _targetEnemy = null;
         EnsureDeathLoopCanResolve();
     }
-    public void DamagePlayer(int amount) { Player?.TakeDamage(amount); Log($"玩家受到{amount}点伤害。"); }
+    public void DamagePlayer(int amount)
+    {
+        int resolvedAmount = EffectResolver?.ResolveDamageWithBuffs(
+            amount,
+            ActingEnemy?.GetStats(),
+            Player?.GetStats()) ?? amount;
+        Player?.TakeDamage(resolvedAmount);
+        Log($"玩家受到{resolvedAmount}点伤害。");
+    }
     public void AddPlayerShield(int amount) { Player?.AddShield(amount); Log($"玩家获得{amount}点护盾。"); }
     public void AddEnemyShield(int amount) => AddEnemyShield(amount, null);
     public void AddEnemyShield(int amount, EnemyBattle explicitTarget)
@@ -581,6 +631,95 @@ public partial class BattleManager : Node
         EmitSignal(SignalName.BattleStateChanged);
     }
 
+    /// <summary>Sets every equipped card to at least the requested cooldown.</summary>
+    public bool SetAllCardCooldownAtLeast(int amount)
+    {
+        if (BoardManager == null || amount <= 0 || BoardManager.runtime_cards.Count == 0)
+            return false;
+        bool changed = false;
+        foreach (var runtime in BoardManager.runtime_cards)
+        {
+            int current = runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32();
+            int next = Mathf.Max(current, amount);
+            if (next == current && !runtime.Get(GDScriptKeys.CardRuntime.IsReady).AsBool())
+                continue;
+            runtime.Set(GDScriptKeys.CardRuntime.CooldownRemaining, next);
+            runtime.Set(GDScriptKeys.CardRuntime.IsReady, false);
+            BoardManager.EmitSignal(BoardManager.SignalName.CooldownChanged,
+                runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32(), next);
+            changed = true;
+        }
+        if (changed)
+        {
+            BoardManager.EmitSignal(BoardManager.SignalName.BoardChanged);
+            EmitSignal(SignalName.BattleStateChanged);
+        }
+        return changed;
+    }
+
+    public bool DrainPlayerEnergy(int amount)
+    {
+        if (Player == null || amount <= 0 || Player.Energy <= 0) return false;
+        int drained = Mathf.Min(Player.Energy, amount);
+        bool result = Player.SpendEnergy(drained);
+        if (result) Log($"False干扰：玩家失去{drained}点能量。");
+        return result;
+    }
+
+    public bool HealBuffOwner(EnemyBattle actor, int amount)
+    {
+        if (amount <= 0) return false;
+        if (actor != null)
+        {
+            if (!actor.IsAlive || actor.CurrentHp >= actor.MaxHp) return false;
+            int old = actor.CurrentHp;
+            actor.Heal(amount);
+            Log($"{actor.DisplayName}的治疗包恢复{actor.CurrentHp - old}点生命。");
+            return actor.CurrentHp > old;
+        }
+        if (Player == null || Player.CurrentHp >= Player.MaxHp) return false;
+        int playerOld = Player.CurrentHp;
+        Player.Heal(amount);
+        Log($"部署治疗包恢复{Player.CurrentHp - playerOld}点生命。");
+        return Player.CurrentHp > playerOld;
+    }
+
+    /// <summary>Moves one legal cell in the player's current forward direction.</summary>
+    public bool MovePlayerForwardFreeOne()
+    {
+        if (Player == null || rules == null) return false;
+        var map = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
+        int direction = Player.Facing == FacingPositive ? 1 : -1;
+        int destination = Player.MapPosition + direction;
+        if (!map.Call(GDScriptKeys.BattleMap.IsValidCell, destination).AsBool()
+            || EnemyManager.IsCellOccupiedByEnemy(destination))
+            return false;
+        int old = Player.MapPosition;
+        Player.SetMapPosition(destination);
+        UpdateAllFacings();
+        Log($"滑轮鞋：{old} → {destination}。");
+        return true;
+    }
+
+    /// <summary>Deals item damage to the farthest living enemy, ties by stable spawn order.</summary>
+    public bool DamageFarthestEnemy(int amount)
+    {
+        if (EnemyManager == null || Player == null || amount <= 0) return false;
+        EnemyBattle farthest = null;
+        int farthestDistance = -1;
+        foreach (var enemy in EnemyManager.Enemies)
+        {
+            if (enemy == null || !enemy.IsAlive) continue;
+            int distance = Mathf.Abs(enemy.MapPosition - Player.MapPosition);
+            if (distance <= farthestDistance) continue;
+            farthest = enemy;
+            farthestDistance = distance;
+        }
+        if (farthest == null) return false;
+        DamageEnemy(amount, farthest);
+        return true;
+    }
+
     public bool UseItem(int itemIndex)
     {
         if (!CanAcceptPlayerAction() || DataManager.Instance == null) return false;
@@ -598,7 +737,7 @@ public partial class BattleManager : Node
             return false;
         }
         bool executed = !specialMovement && effects != null && effects.Count > 0
-            && EffectResolver.ExecuteEffects(obj.Get(GDScriptKeys.ItemData.DisplayName).AsString(), effects, this);
+            && EffectResolver.ExecuteItemEffects(obj.Get(GDScriptKeys.ItemData.DisplayName).AsString(), effects, this);
         if (specials != null)
         {
             foreach (Variant special in specials)

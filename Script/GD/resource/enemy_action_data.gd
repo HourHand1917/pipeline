@@ -23,6 +23,13 @@ class_name EnemyActionData
 
 @export_group("Effects")
 @export var effects: Array[CombatEffectData] = []
+## Effects that are resolved only when a patterned attack (for example a
+## Core-00 even-cell beam) actually hits its board condition.
+@export var pattern_hit_effects: Array[CombatEffectData] = []
+## Effects resolved against `effect_target_role` after every enemy has acted.
+## This keeps cross-enemy packages deterministic and prevents them from
+## triggering during the recipient's current turn-start window.
+@export var deferred_role_effects: Array[CombatEffectData] = []
 
 @export_group("Runtime Contract")
 ## Optional semantic hook consumed by the C# battle executor.  Ordinary

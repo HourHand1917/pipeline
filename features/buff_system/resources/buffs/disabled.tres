@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="DisabledBuff" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/buffs/buff_script/disabled_buff.gd" id="1_buff"]
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="2_effect_script"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/effects/disabled_set_all_cooldown.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/disabled.svg" id="4_icon"]
+
+[resource]
+script = ExtResource("1_buff")
+id = "disabled"
+buff_name = "禁用"
+polarity = 1
+description = "玩家回合开始时令全部卡牌进入冷却；回合结束减少1层。"
+duration = 0
+stackable = true
+max_stacks = 99
+icon = ExtResource("4_icon")
+turn_start_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PipelineCombatEffectData" format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "退火"
+description = "解除所有已构筑卡牌的冷却。"
+type = 0
+target = 0
+amount = 0
+pipeline_operation = 5

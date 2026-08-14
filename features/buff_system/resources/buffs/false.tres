@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="FalseBuff" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/behaviors/false_buff.gd" id="1_buff"]
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="2_effect_script"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/effects/false_add_half_damage_ceil.tres" id="3_damage"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/effects/false_drain_energy_one.tres" id="4_energy"]
+[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/false.svg" id="5_icon"]
+
+[resource]
+script = ExtResource("1_buff")
+id = "false"
+buff_name = "False"
+polarity = 1
+description = "伤害增加原值向上取整的一半；每回合少1能量；3次回合结束后移除。"
+duration = 0
+stackable = false
+max_stacks = 3
+icon = ExtResource("5_icon")
+outgoing_damage_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_damage")])
+incoming_damage_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_damage")])
+turn_start_effects = Array[ExtResource("2_effect_script")]([ExtResource("4_energy")])

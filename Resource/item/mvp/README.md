@@ -1,16 +1,30 @@
-# MVP 道具目录
+# MVP 道具目录（策划图 10 件版）
 
-`DataManager.EnsureMvpCatalogLoaded()` 会幂等注册全部 8 种道具，并按 `mvp_stock` 建立完整仓库；战斗携带栏仍限制为 4 格。调用 `EquipItem(id)` 从仓库挑选，调用 `UnequipItem(index)` 放回。
+`DataManager.EnsureMvpCatalogLoaded()` 会幂等注册下表 10 种道具，每种默认库存 1 件；
+战斗携带栏仍限制为 4 格。策划图未给出价格，因此本批资源的 `shop_price` 统一为 0，
+仅用于战斗配置验证，不代表正式商店售价。
 
-| ID | 道具 | 数量 | 价格 | 执行方式 |
-|---|---|---:|---:|---|
-| universal_toolkit | 万能工具包 | 1 | 18 | special：全冷却归零 + 清全部 Debuff |
-| emergency_battery | 应急电池 | 2 | 8 | 标准 effect：能量 +2 |
-| power_sunglasses | 强化墨镜 | 2 | 10 | special：本回合力量 +3 |
-| teleport_insoles | 瞬移鞋垫 | 2 | 10 | 标准移动 + special 跨越/翻转 |
-| bandage | 绷带 | 2 | 8 | 标准 effect：治疗 6 |
-| blast_plate | 防爆板 | 2 | 9 | 标准 effect：护盾 8 |
-| cooldown_spray | 冷却喷雾 | 2 | 6 | special：选择一卡冷却归零 |
-| smoke_grenade | 烟雾弹 | 1 | 14 | special：取消锁定攻击；Boss 激光免疫 |
+每件道具都有独立的 `ItemData` 子脚本和原创 SVG 图标。运行时行为不写在物品脚本中：
+物品只按顺序触发自身 `effects`，再由 `EffectResolver` 统一结算。
 
-每个 special 道具的 `.tres` 里都带 `runtime_contract`，这是 `BattleManager` / `EffectResolver` 应执行的明确契约。
+| ID | 道具 | 库存 | 挂载效果 | 结算结果 |
+|---|---|---:|---|---|
+| `coolant` | 冷却剂 | 1 | `APPLY_BUFF: anneal ×1` | 解除全部已构筑卡牌冷却 |
+| `spare_battery` | 备用电池 | 1 | `ENERGY 2` | 玩家能量 +2 |
+| `spinach_powerups` | 菠菜罐头 Power-Ups | 1 | `APPLY_BUFF: temporary_strength ×3` | 本回合力量 +3 |
+| `gasoline` | 汽油 | 1 | `APPLY_BUFF: strength ×1` | 本场战斗力量 +1 |
+| `roller_shoes` | 滑轮鞋 | 1 | 两条 `MOVE_PLAYER_FORWARD_ONE` | 分两次判定，各前进 1 格 |
+| `grenade` | 手雷 | 1 | `DAMAGE_FARTHEST_ENEMY 5` | 无视距离伤害最远存活敌人 |
+| `bulletproof_vest` | 防弹衣 | 1 | `SHIELD 7` | 玩家护盾 +7 |
+| `particle_wall` | 粒子墙 | 1 | `APPLY_BUFF: holographic ×1` | 本回合每次受伤按 1 点结算 |
+| `ice_cream` | 冰淇淋 | 1 | 无 | 暂无战斗作用且不会消耗 |
+| `medkit` | 医疗箱 | 1 | `HEAL 5` | 玩家生命 +5，不超过上限 |
+
+## 关键契约
+
+- 滑轮鞋不是瞬移：两个独立 effect 依次重新检查地图边界和敌人占位。
+- 手雷不是当前目标攻击：由 `DAMAGE_FARTHEST_ENEMY` 选择距玩家最远的存活敌人。
+- 力量对每个 `damage` effect 分别增加层数；多段伤害会逐段获得加成。
+- 冷却剂、两种力量与粒子墙均先通过 `APPLY_BUFF` 进入 Buff 系统。
+- 冰淇淋保留策划图中的占位语义，`effects` 为空且 `consume_on_use=false`。
+- 旧版 8 件道具资源仍保留在目录中供历史引用，但不再进入 MVP Catalog。

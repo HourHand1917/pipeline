@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="SpinachPowerupsItemData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Resource/item/mvp/scripts/spinach_powerups_item.gd" id="1_item"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_type"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/effects/spinach_apply_temporary_strength_3.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://Resource/item/mvp/icons/spinach_powerups.svg" id="4_icon"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"spinach_powerups"
+display_name = "菠菜罐头 Power-Ups"
+description = "本回合获得3点力量；每个伤害 effect 分别增加3点伤害。"
+icon = ExtResource("4_icon")
+effects = Array[ExtResource("2_effect_type")]([ExtResource("3_effect")])
+shop_price = 0
+mvp_stock = 1

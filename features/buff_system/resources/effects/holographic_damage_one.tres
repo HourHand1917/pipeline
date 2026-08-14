@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PipelineCombatEffectData" format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "全息偏转"
+description = "本次受到的伤害固定为1。"
+type = 0
+target = 0
+amount = 1
+pipeline_operation = 4
