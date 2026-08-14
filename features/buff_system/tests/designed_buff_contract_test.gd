@@ -105,7 +105,7 @@ func _test_stack_and_phase_contracts() -> void:
 	var disabled := catalog.get_buff(&"disabled")
 	var disabled_stats := Stats.new()
 	disabled_stats.add_buff(disabled, 1)
-	_check(not disabled_stats.can_light(cell), "禁用仍须兼容旧格子禁止点亮契约")
+	_check(disabled_stats.can_light(cell), "禁用只设置卡牌冷却，不额外禁止格子点亮")
 	disabled_stats.tick_turn_end()
 	_check(not disabled_stats.has_buff("disabled"), "禁用1层应在回合结束移除")
 

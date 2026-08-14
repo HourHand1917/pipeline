@@ -13,7 +13,7 @@ func _init() -> void:
 
 
 func can_light(_cell: CellRuntime) -> bool:
-	return false
+	return true
 
 
 func on_before_light(_cell: CellRuntime, _stacks: int) -> int:

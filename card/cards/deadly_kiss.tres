@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="CardData" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="CardData" format=3]
 
-[ext_resource type="Script" path="res://Script/GD/resource/card_data.gd" id="1_card"]
-[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_script"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_script"]
 [ext_resource type="Resource" path="res://card/effects/deadly_kiss_damage_5_a.tres" id="3_damage_a"]
 [ext_resource type="Resource" path="res://card/effects/deadly_kiss_damage_5_b.tres" id="4_damage_b"]
 
