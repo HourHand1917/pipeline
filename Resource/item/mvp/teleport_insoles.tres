@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/itemdata.gd" id="1"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/effects/teleport_insoles_move_2.tres" id="3"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"teleport_insoles"
+display_name = "瞬移鞋垫"
+description = "免费移动2格，可跨越敌人；越过后双方自动翻转朝向。"
+icon = ExtResource("4")
+effects = Array[ExtResource("2")]([ExtResource("3")])
+special_effects = Array[int]([4])
+special_amount = 2
+runtime_contract = "BattleManager：移动2格时允许穿过敌人格；落到敌人身后后 Player/Enemy Facing 重新计算。"
+shop_price = 10
+mvp_stock = 2

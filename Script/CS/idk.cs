@@ -12,6 +12,7 @@ public partial class idk : Node2D
     [Export] public BattleScreen BattleScreen { get; set; }
 
     [Export] private Resource _testGameRules;
+    [Export] public CombatCampaignController CampaignController { get; set; }
 
     public PlayerBattle Player { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
@@ -19,37 +20,29 @@ public partial class idk : Node2D
     private int currentGridWidth = 3;
     private int currentGridHeight = 2;
     private GodotObject _rules;
+    private bool _pendingPreservePlayerState;
+    private bool _pendingPreserveBoardRuntimeState;
+    private Label _campaignBanner;
 
     public override void _Ready()
     {
-        if (_testGameRules != null)
+        // In inherited scenes Godot can occasionally lose a NodePath-exported C#
+        // reference while the child node itself is still present. Resolve the
+        // campaign controller by its stable scene name so the production entry
+        // always starts the four-battle campaign instead of the legacy test rule.
+        CampaignController ??= GetNodeOrNull<CombatCampaignController>("CombatCampaignController");
+
+        if (CampaignController != null && CampaignController.PeekInitialRules() != null)
+            _rules = CampaignController.PeekInitialRules() as GodotObject;
+        else if (_testGameRules != null)
             _rules = _testGameRules as GodotObject;
         else
             _rules = DataManager.Instance.GetRules();
 
         if (_rules == null) return;
 
-        // ============ 调试 ============
-        GD.Print($"[调试] _testGameRules: {_testGameRules != null}");
-        GD.Print($"[调试] _rules: {_rules != null}");
-
         var boardSizes = _rules.Get(GDScriptKeys.GameRules.BoardSizes).As<Godot.Collections.Array<Vector2I>>();
-        GD.Print($"[调试] boardSizes.Count: {boardSizes.Count}");
-
         var battleMap = _rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
-        GD.Print($"[调试] battleMap: {battleMap != null}");
-
-        if (battleMap != null)
-        {
-            GD.Print($"[调试] cell_count: {battleMap.Get(GDScriptKeys.BattleMap.CellCount).AsInt32()}");
-            var enemyList = battleMap.Get("enemy_data_list").As<Godot.Collections.Array>();
-            GD.Print($"[调试] enemy_data_list.Count: {enemyList.Count}");
-            var startCells = battleMap.Get("enemy_start_cells").As<Godot.Collections.Array<int>>();
-            GD.Print($"[调试] enemy_start_cells.Count: {startCells.Count}");
-            for (int i = 0; i < startCells.Count; i++)
-                GD.Print($"[调试] startCells[{i}]: {startCells[i]}");
-        }
-        // ============ 调试结束 ============
 
         Vector2I defaultSize = boardSizes[0];
         currentGridWidth = defaultSize.X;
@@ -62,7 +55,7 @@ public partial class idk : Node2D
         BattleManager.EnemyManager = EnemyManager;
         BattleManager.BoardManager = BoardManager;
         BattleManager.EffectResolver = EffectResolver;
-        BattleManager.GameRules = _testGameRules;
+        BattleManager.GameRules = _rules as Resource;
         BattleManager.Setup();
 
         BuildScreen.Setup(BoardManager);
@@ -89,7 +82,17 @@ public partial class idk : Node2D
         BattleManager.LogMessage += (string text) => BattleScreen.AppendLog(text);
         BattleManager.BattleEnded += OnBattleEnded;
 
-        ShowBuild();
+        if (CampaignController != null)
+        {
+            CampaignController.Bind(this);
+            CampaignController.WaveChanged += (_, _, _) => RefreshCampaignBanner();
+            CampaignController.CampaignStateChanged += (_) => RefreshCampaignBanner();
+            CampaignController.InitializeCampaign();
+            EnsureCampaignBanner();
+            RefreshCampaignBanner();
+        }
+        else
+            ShowBuild();
     }
 
     public void ReadyWithBattleId(string battleId)
@@ -167,12 +170,112 @@ public partial class idk : Node2D
 
         BattleScreen.ClearLog();
         ShowBattle();
-        BattleManager.StartBattle();
+        BattleManager.StartBattle(_pendingPreservePlayerState, _pendingPreserveBoardRuntimeState);
+        _pendingPreservePlayerState = false;
+        _pendingPreserveBoardRuntimeState = false;
+        CampaignController?.NotifyWaveStarted();
     }
 
     private void OnBattleEnded(bool playerWon)
     {
         BattleScreen.AppendLog(playerWon ? "战斗胜利！" : "战斗失败。");
+        CampaignController?.HandleBattleEnded(playerWon);
+    }
+
+    public void PrepareCampaignWave(
+        Resource gameRules,
+        bool preservePlayerState,
+        bool preserveBoardRuntimeState,
+        bool startImmediately,
+        string message)
+    {
+        if (gameRules == null) return;
+        _testGameRules = gameRules;
+        _rules = gameRules as GodotObject;
+        BattleManager.GameRules = gameRules;
+        _pendingPreservePlayerState = preservePlayerState;
+        _pendingPreserveBoardRuntimeState = preserveBoardRuntimeState;
+        EnsureCampaignBanner();
+        RefreshCampaignBanner();
+
+        var boardSizes = _rules.Get(GDScriptKeys.GameRules.BoardSizes).As<Godot.Collections.Array<Vector2I>>();
+        if (boardSizes.Count > 0 && !preserveBoardRuntimeState)
+        {
+            currentGridWidth = boardSizes[0].X;
+            currentGridHeight = boardSizes[0].Y;
+            BoardManager.ConfigureBoard(boardSizes[0], true);
+            BuildScreen.ApplyBoardSize(currentGridWidth, currentGridHeight);
+        }
+
+        if (startImmediately)
+        {
+            BattleScreen.ClearLog();
+            BattleScreen.AppendLog(message);
+            ShowBattle();
+            BattleManager.StartBattle(preservePlayerState, preserveBoardRuntimeState);
+            _pendingPreservePlayerState = false;
+            _pendingPreserveBoardRuntimeState = false;
+            CampaignController?.NotifyWaveStarted();
+        }
+        else
+        {
+            ShowBuild();
+            BuildScreen.ShowMessage(message);
+        }
+    }
+
+    public void ShowCampaignCompletion(string message)
+    {
+        BattleScreen.AppendLog(message);
+        BuildScreen.ShowMessage(message);
+        ShowBuild();
+        RefreshCampaignBanner();
+    }
+
+    private void EnsureCampaignBanner()
+    {
+        if (_campaignBanner != null || CampaignController == null) return;
+        var layer = new CanvasLayer { Name = "CampaignProgressLayer", Layer = 96 };
+        AddChild(layer);
+        var panel = new PanelContainer
+        {
+            Name = "CampaignProgressPanel",
+            OffsetLeft = 24,
+            OffsetTop = 18,
+            OffsetRight = 730,
+            OffsetBottom = 64,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        var style = new StyleBoxFlat
+        {
+            BgColor = new Color("#101b20e6"),
+            BorderColor = new Color("#5ed7dc"),
+            BorderWidthLeft = 2,
+            BorderWidthTop = 2,
+            BorderWidthRight = 2,
+            BorderWidthBottom = 2,
+            CornerRadiusTopLeft = 8,
+            CornerRadiusTopRight = 8,
+            CornerRadiusBottomLeft = 8,
+            CornerRadiusBottomRight = 8,
+        };
+        panel.AddThemeStyleboxOverride("panel", style);
+        _campaignBanner = new Label
+        {
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+        _campaignBanner.AddThemeFontSizeOverride("font_size", 21);
+        _campaignBanner.AddThemeColorOverride("font_color", new Color("#8ff4f1"));
+        panel.AddChild(_campaignBanner);
+        layer.AddChild(panel);
+    }
+
+    private void RefreshCampaignBanner()
+    {
+        if (_campaignBanner == null || CampaignController == null) return;
+        _campaignBanner.Text = $"PIPELINE 战斗演示　｜　{CampaignController.ProgressText}";
     }
 
     private void OnClearBuildRequested()

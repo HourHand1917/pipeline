@@ -1,0 +1,60 @@
+[gd_resource type="Resource" script_class="CombatCampaignData" load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://features/combat_campaign/data/combat_campaign_data.gd" id="1"]
+[ext_resource type="Script" path="res://features/combat_campaign/data/combat_campaign_wave_data.gd" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/boom_rules.tres" id="3"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/rocky_boom_rules.tres" id="4"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/sharkk_rules.tres" id="5"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/core00_phase_one_rules.tres" id="6"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/core00_phase_two_rules.tres" id="7"]
+
+[sub_resource type="Resource" id="Wave_boom"]
+script = ExtResource("2")
+battle_number = 1
+wave_number = 1
+id = &"boom"
+display_name = "第一战：boom"
+game_rules = ExtResource("3")
+
+[sub_resource type="Resource" id="Wave_rocky"]
+script = ExtResource("2")
+battle_number = 2
+wave_number = 1
+id = &"rocky_and_boom"
+display_name = "第二战：rocky + boom"
+game_rules = ExtResource("4")
+
+[sub_resource type="Resource" id="Wave_sharkk"]
+script = ExtResource("2")
+battle_number = 3
+wave_number = 1
+id = &"sharkk"
+display_name = "第三战：sharkk"
+game_rules = ExtResource("5")
+
+[sub_resource type="Resource" id="Wave_core_hands"]
+script = ExtResource("2")
+battle_number = 4
+wave_number = 1
+id = &"core00_hands"
+display_name = "最终战·第一阶段：Core-00 双手"
+game_rules = ExtResource("6")
+
+[sub_resource type="Resource" id="Wave_core_body"]
+script = ExtResource("2")
+battle_number = 4
+wave_number = 2
+id = &"core00_body"
+display_name = "最终战·第二阶段：Core-00 本体"
+game_rules = ExtResource("7")
+show_build_before = false
+preserve_player_state = true
+preserve_board_runtime_state = true
+
+[resource]
+script = ExtResource("1")
+id = &"pipeline_four_battle_campaign"
+display_name = "Pipeline 四战演示"
+battle_count = 4
+waves = Array[CombatCampaignWaveData]([SubResource("Wave_boom"), SubResource("Wave_rocky"), SubResource("Wave_sharkk"), SubResource("Wave_core_hands"), SubResource("Wave_core_body")])
+

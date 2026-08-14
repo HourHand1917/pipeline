@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PipelineCombatEffectData" format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "治疗包结算"
+description = "为Buff持有者恢复等同Buff层数的生命。"
+type = 2
+target = 0
+amount = 0
+pipeline_operation = 8

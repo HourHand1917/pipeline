@@ -8,6 +8,8 @@ public partial class BattleScreen : Control
     [Signal] public delegate void MoveRequestedEventHandler(int action);
     [Signal] public delegate void EndTurnRequestedEventHandler();
     [Signal] public delegate void BackToBuildRequestedEventHandler();
+    [Signal] public delegate void ItemUsedEventHandler(int index);
+    [Signal] public delegate void ItemDiscardedEventHandler(int index);
 
     public UIManager UIManager { get; private set; }
     public PlayerBattle Player { get; set; }
@@ -38,6 +40,9 @@ public partial class BattleScreen : Control
     [Export] private AnimatedSprite2D rubberheart;
     [Export] private PackedScene trackSlotScene;
     [Export] private PlayerTV playerTV;
+    [Export] private GridContainer playerBuffGrid;
+    [Export] private PackedScene buffShowScene;
+
 
     public void Setup(BoardManager board, BattleManager battle)
     {
@@ -84,12 +89,38 @@ public partial class BattleScreen : Control
         UIManager.PlayerTV = playerTV;
 
         itemPanel?.Refresh();
+        if (itemPanel != null)
+        {
+            itemPanel.ItemUsed += (int index) =>
+            {
+                battleManager.UseItem(index);
+                EmitSignal(SignalName.ItemUsed, index);
+                itemPanel.Refresh();
+            };
+            itemPanel.ItemDiscarded += (int index) =>
+            {
+                battleManager.DiscardItem(index);
+                EmitSignal(SignalName.ItemDiscarded, index);
+                itemPanel.Refresh();
+            };
+        }
 
         // PlayerTV 设为战斗模式
         if (playerTV != null)
         {
             playerTV.SetMode(PlayerTV.TVMode.Battle);
             playerTV.ShowTV();
+            var inventory = playerTV.GetNodeOrNull<InventoryPanel>("PanelStack/InventoryPanel");
+            if (inventory != null)
+            {
+                inventory.ItemUsed += (int index) =>
+                {
+                    battleManager.UseItem(index);
+                    EmitSignal(SignalName.ItemUsed, index);
+                };
+                // InventoryPanel 自己已经执行 DiscardItem，这里只向外广播。
+                inventory.ItemDiscarded += (int index) => EmitSignal(SignalName.ItemDiscarded, index);
+            }
         }
     }
 

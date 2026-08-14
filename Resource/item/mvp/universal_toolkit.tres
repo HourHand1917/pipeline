@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/itemdata.gd" id="1"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"universal_toolkit"
+display_name = "万能工具包"
+description = "解除全部卡牌冷却，并移除玩家全部Debuff。"
+icon = ExtResource("2")
+special_effects = Array[int]([1, 2])
+runtime_contract = "BattleManager：BoardManager.ResetAllCooldowns()；Player.Stats 清除 polarity=NEGATIVE 的 Buff。"
+shop_price = 18
+mvp_stock = 1

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="BulletproofVestItemData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Resource/item/mvp/scripts/bulletproof_vest_item.gd" id="1_item"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_type"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/effects/bulletproof_vest_shield_7.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://Resource/item/mvp/icons/bulletproof_vest.svg" id="4_icon"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"bulletproof_vest"
+display_name = "防弹衣"
+description = "立即获得7点护盾。"
+icon = ExtResource("4_icon")
+effects = Array[ExtResource("2_effect_type")]([ExtResource("3_effect")])
+shop_price = 0
+mvp_stock = 1

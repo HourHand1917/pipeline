@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="PipelineCombatEffectData" format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="1_effect"]
+
+[resource]
+script = ExtResource("1_effect")
+display_name = "滑行第一步"
+description = "向角色面朝方向免费移动1格；遇边界或敌人停止。"
+type = 3
+target = 0
+amount = 1
+pipeline_operation = 9

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ParticleWallItemData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Resource/item/mvp/scripts/particle_wall_item.gd" id="1_item"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_type"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/effects/particle_wall_apply_holographic_1.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://Resource/item/mvp/icons/particle_wall.svg" id="4_icon"]
+
+[resource]
+script = ExtResource("1_item")
+id = &"particle_wall"
+display_name = "粒子墙"
+description = "本回合获得全息化：受到的每次伤害按1点结算。"
+icon = ExtResource("4_icon")
+effects = Array[ExtResource("2_effect_type")]([ExtResource("3_effect")])
+shop_price = 0
+mvp_stock = 1

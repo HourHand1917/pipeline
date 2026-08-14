@@ -379,6 +379,85 @@ public partial class BoardManager : Node
         ClearAllLights();
     }
 
+    /// <summary>Clears every runtime-card cooldown. Returns true only if something changed.</summary>
+    public bool ResetAllCooldowns()
+    {
+        bool changed = false;
+        foreach (var runtime in runtime_cards)
+        {
+            int instanceId = runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32();
+            if (runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32() <= 0)
+                continue;
+            runtime.Set(GDScriptKeys.CardRuntime.CooldownRemaining, 0);
+            runtime.Set(GDScriptKeys.CardRuntime.IsReady, CheckCardReady(runtime));
+            EmitSignal(SignalName.CooldownChanged, instanceId, 0);
+            changed = true;
+        }
+        if (changed) EmitSignal(SignalName.BoardChanged);
+        return changed;
+    }
+
+    /// <summary>
+    /// Resets a preferred card, or the cooling card with the largest remaining
+    /// cooldown when the UI has no selected runtime card yet.
+    /// </summary>
+    public bool ResetOneCardCooldown(int preferredInstanceId = -1)
+    {
+        GodotObject selected = preferredInstanceId >= 0 ? GetRuntimeCard(preferredInstanceId) : null;
+        if (selected == null || selected.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32() <= 0)
+        {
+            int highestCooldown = 0;
+            selected = null;
+            foreach (var runtime in runtime_cards)
+            {
+                int cooldown = runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32();
+                if (cooldown <= highestCooldown) continue;
+                highestCooldown = cooldown;
+                selected = runtime;
+            }
+        }
+
+        if (selected == null) return false;
+        int selectedId = selected.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32();
+        selected.Set(GDScriptKeys.CardRuntime.CooldownRemaining, 0);
+        selected.Set(GDScriptKeys.CardRuntime.IsReady, CheckCardReady(selected));
+        EmitSignal(SignalName.CooldownChanged, selectedId, 0);
+        EmitSignal(SignalName.BoardChanged);
+        return true;
+    }
+
+    /// <summary>Removes every negative Buff from every board cell.</summary>
+    public bool ClearNegativeCellBuffs()
+    {
+        bool changed = false;
+        foreach (var row in cells)
+        {
+            foreach (var cell in row)
+            {
+                var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+                if (stats == null) continue;
+                if (!stats.HasMethod(GDScriptKeys.Stats.ClearNegativeBuffs)) continue;
+                changed |= stats.Call(GDScriptKeys.Stats.ClearNegativeBuffs).AsInt32() > 0;
+            }
+        }
+        if (changed) EmitSignal(SignalName.BoardChanged);
+        return changed;
+    }
+
+    public bool HasAnyNegativeCellBuffs()
+    {
+        foreach (var row in cells)
+            foreach (var cell in row)
+            {
+                var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+                if (stats == null) continue;
+                if (stats.HasMethod("has_negative_buff")
+                    && stats.Call("has_negative_buff").AsBool())
+                    return true;
+            }
+        return false;
+    }
+
     // ================================================================
     //  冷却
     // ================================================================
@@ -399,28 +478,27 @@ public partial class BoardManager : Node
         EmitSignal(SignalName.BoardChanged);
     }
 
-public void TickCellBuffs()
-{
-    foreach (var row in cells)
+    public void TickCellBuffs() => TickCellBuffsAtStart();
+
+    public void TickCellBuffsAtStart() => TickCellBuffsForPhase(true);
+
+    public void TickCellBuffsAtEnd() => TickCellBuffsForPhase(false);
+
+    private void TickCellBuffsForPhase(bool atStart)
     {
-        foreach (var cell in row)
+        foreach (var row in cells)
         {
-            var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
-            if (stats != null)
+            foreach (var cell in row)
             {
-                // 调试：检查格子 (1,1) 的蒙尘状态
-                var pos = cell.Get(GDScriptKeys.CellRuntime.Position).AsVector2I();
-                if (pos.X == 1 && pos.Y == 1)
-                {
-                    bool hasDust = stats.Call(GDScriptKeys.Stats.HasBuff, "dust").AsBool();
-                    int dustStacks = stats.Call(GDScriptKeys.Stats.GetBuffStacks, "dust").AsInt32();
-                    GD.Print($"[调试] 格子(1,1) 蒙尘：has={hasDust}, stacks={dustStacks}");
-                }
-                stats.Call(GDScriptKeys.Stats.TickTurnStart);
+                var stats = cell.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+                if (stats == null) continue;
+                stats.Call(atStart
+                    ? GDScriptKeys.Stats.TickTurnStart
+                    : GDScriptKeys.Stats.TickTurnEnd);
             }
         }
+        EmitSignal(SignalName.BoardChanged);
     }
-}
 
     // ================================================================
     //  存档

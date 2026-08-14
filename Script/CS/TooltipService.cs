@@ -37,13 +37,25 @@ public partial class TooltipService : CanvasLayer
         Layer = 128;
 
         var scene = GD.Load<PackedScene>("res://Scenes/resource_scene/tooltip_panel.tscn");
+        if (scene == null)
+        {
+            GD.PushWarning("TooltipService: tooltip_panel.tscn 加载失败，已关闭悬浮提示。 ");
+            return;
+        }
         _panel = scene.Instantiate<TooltipPanel>();
+        if (_panel == null)
+        {
+            GD.PushWarning("TooltipService: TooltipPanel 实例化失败，已关闭悬浮提示。 ");
+            return;
+        }
         _anim = _panel.Anim;
         AddChild(_panel);
     }
 
     public override void _Process(double delta)
     {
+        if (_panel == null) return;
+
         if (_pendingData != null)
         {
             _hoverTimer += (float)delta;

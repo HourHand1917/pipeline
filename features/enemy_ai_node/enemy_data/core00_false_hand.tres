@@ -13,4 +13,4 @@ initial_shield = 0
 ai_scene = ExtResource("2")
 provider_entry = &"select_action"
 role = &"false_hand"
-
+fixed_position = true

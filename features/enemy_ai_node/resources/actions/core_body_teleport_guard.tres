@@ -8,7 +8,11 @@ id = &"core_body_teleport_guard"
 display_name = "闪身防御"
 intent_text = "闪到安全位并获得4盾，冷却3"
 priority = 14
+base_weight = 0.25
+cooldown_turns = 3
+tags = PackedStringArray("movement", "defence", "reaction")
 min_range = 1
 max_range = 99
 effects = Array[CombatEffectData]([ExtResource("2"), ExtResource("3")])
-
+special_effect = &"move_behind_player"
+effect_target_role = &"self"

@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "包扎"
+description = "恢复6点生命，不超过上限。"
+type = 2
+target = 0
+amount = 6

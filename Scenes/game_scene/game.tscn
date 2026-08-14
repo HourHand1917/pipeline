@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://b4u6wmsfd4vhs"]
 
 [ext_resource type="Script" uid="uid://l0gv0bq2sst3" path="res://Script/CS/idk.cs" id="1_ck04x"]
+[ext_resource type="Resource" uid="uid://7xcxpk1gllam" path="res://Resource/gamerules/gamerules.tres" id="2_bpyof"]
 [ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_ch5wo"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/rocky_boom_rules.tres" id="2_ojuqk"]
 [ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_n3q8q"]
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
 [ext_resource type="PackedScene" uid="uid://e53m086153iv" path="res://Scenes/game_scene/buildscreen.tscn" id="5_dmhrc"]
@@ -13,8 +13,6 @@
 [ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="9_om8ky"]
 [ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="10_ck04x"]
 [ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="11_ck04x"]
-[ext_resource type="Resource" uid="uid://k0c1qhtd0tr2" path="res://card/cards/armored_shield.tres" id="12_ojuqk"]
-[ext_resource type="Resource" path="res://card/cards/deadly_kiss.tres" id="13_urtqm"]
 
 [node name="mainscene" type="Node2D" unique_id=157704710 node_paths=PackedStringArray("BoardManager", "EffectResolver", "BattleManager", "BuildScreen", "BattleScreen")]
 script = ExtResource("1_ck04x")
@@ -23,7 +21,7 @@ EffectResolver = NodePath("effectresolver")
 BattleManager = NodePath("battlemanager")
 BuildScreen = NodePath("buildscreen")
 BattleScreen = NodePath("battlescreen")
-_testGameRules = ExtResource("2_ojuqk")
+_testGameRules = ExtResource("2_bpyof")
 
 [node name="boardmanager" type="Node" parent="." unique_id=2022755514]
 script = ExtResource("2_ch5wo")
@@ -36,7 +34,8 @@ script = ExtResource("4_qa4rf")
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=184738653]
 script = ExtResource("6_ch5wo")
-Cards = [ExtResource("7_q0om0"), ExtResource("8_dmhrc"), ExtResource("9_om8ky"), ExtResource("10_ck04x"), ExtResource("11_ck04x"), ExtResource("12_ojuqk"), ExtResource("13_urtqm")]
+Cards = [ExtResource("7_q0om0"), ExtResource("8_dmhrc"), ExtResource("9_om8ky"), ExtResource("10_ck04x"), ExtResource("11_ck04x")]
+Currency = 1
 
 [node name="buildscreen" parent="." unique_id=579545813 instance=ExtResource("5_dmhrc")]
 offset_left = 12.0

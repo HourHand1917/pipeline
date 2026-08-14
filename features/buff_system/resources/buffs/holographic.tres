@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="HolographicBuff" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/behaviors/holographic_buff.gd" id="1_buff"]
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="2_effect_script"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/effects/holographic_damage_one.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/holographic.svg" id="4_icon"]
+
+[resource]
+script = ExtResource("1_buff")
+id = "holographic"
+buff_name = "全息化"
+polarity = 0
+description = "受到的每次伤害固定结算为1；下次玩家回合开始时移除。"
+duration = 0
+stackable = false
+max_stacks = 1
+icon = ExtResource("4_icon")
+incoming_damage_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])

@@ -1,236 +1,269 @@
 using Godot;
 using Godot.Collections;
 
+/// <summary>
+/// Resolves data-only combat effects. Enemy effects always receive the explicit
+/// acting enemy, so multi-enemy encounters never accidentally target slot zero.
+/// </summary>
 public partial class EffectResolver : Node
 {
     [Signal] public delegate void EffectExecutedEventHandler(string sourceName, string effectType, int value);
 
     private BoardManager boardManager;
 
-    public void SetBoardManager(BoardManager board)
-    {
-        boardManager = board;
-    }
+    public void SetBoardManager(BoardManager board) => boardManager = board;
 
     public bool ExecuteCard(GodotObject card, BattleManager battleManager)
     {
-        if (card == null || battleManager == null)
-        {
-            GD.PushWarning("卡牌效果执行失败：缺少卡牌或战斗管理器。");
-            return false;
-        }
+        if (card == null || battleManager == null) return false;
+        var data = card.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
+        if (data == null) return false;
 
-        var data = card.Get("data").As<GodotObject>();
-        if (data == null)
-        {
-            GD.PushWarning("卡牌效果执行失败：缺少 data。");
-            return false;
-        }
-
-        string displayName = data.Get("display_name").AsString();
-
-        var effects = data.Get("effects").As<Array>();
+        string displayName = data.Get(GDScriptKeys.CardData.DisplayName).AsString();
+        var effects = data.Get(GDScriptKeys.CardData.Effects).As<Array>();
         if (effects != null && effects.Count > 0)
         {
-            return ExecuteEffects(displayName, effects, battleManager);
+            // Strength is one flat bonus to the card, not to every hit.
+            int strength = data.Call(GDScriptKeys.CardData.HasDamageEffect).AsBool()
+                ? battleManager.Player?.StrengthThisTurn ?? 0
+                : 0;
+            return ExecuteEffects(displayName, effects, battleManager, battleManager.GetCurrentTargetEnemy(), strength);
         }
 
-        string effectType = data.Get("effect_type").AsString();
-        int effectValue = data.Get("effect_value").AsInt32();
-
-        if (string.IsNullOrEmpty(effectType))
-        {
-            GD.PushWarning($"{displayName}没有配置任何效果。");
+        string type = data.Get(GDScriptKeys.CardData.EffectType).AsString();
+        int value = data.Get(GDScriptKeys.CardData.EffectValue).AsInt32();
+        int legacyValue = type == "damage" ? value + (battleManager.Player?.StrengthThisTurn ?? 0) : value;
+        if (type == "heal" && (battleManager.Player == null || battleManager.Player.CurrentHp >= battleManager.Player.MaxHp))
             return false;
-        }
-
-        bool executed = ExecuteLegacyEffect(effectType, effectValue, battleManager);
-        if (executed)
-            EmitSignal(SignalName.EffectExecuted, displayName, effectType, effectValue);
+        bool executed = ExecuteLegacyEffect(type, legacyValue, battleManager);
+        if (executed) EmitSignal(SignalName.EffectExecuted, displayName, type, legacyValue);
         return executed;
     }
 
     public bool ExecuteEnemyAction(GodotObject action, BattleManager battleManager)
+        => ExecuteEnemyAction(action, battleManager, battleManager?.ActingEnemy);
+
+    public bool ExecuteEnemyAction(GodotObject action, BattleManager battleManager, EnemyBattle actor)
     {
-        if (action == null || battleManager == null)
+        if (action == null || battleManager == null || actor == null) return false;
+
+        string id = action.Get(GDScriptKeys.EnemyAction.Id).AsString();
+        string displayName = action.Get(GDScriptKeys.EnemyAction.DisplayName).AsString();
+        string special = action.Get(GDScriptKeys.EnemyAction.SpecialEffect).AsString();
+        StringName targetRole = action.Get(GDScriptKeys.EnemyAction.EffectTargetRole).AsStringName();
+        int specialValue = action.Get(GDScriptKeys.EnemyAction.SpecialValue).AsInt32();
+        bool replacesEffects = action.Get(GDScriptKeys.EnemyAction.SpecialReplacesEffects).AsBool();
+        var effects = action.Get(GDScriptKeys.EnemyAction.Effects).As<Array>();
+
+        // Core's beams have a board pattern rather than a normal range check.
+        bool evenBeam = id == "core_true_guard_beam" || id == "core_false_break_beam";
+        bool patternedHit = !evenBeam || battleManager.IsPlayerOnEvenCell();
+        bool specialExecuted = ExecuteEnemySpecial(
+            special, specialValue, targetRole, id, patternedHit, battleManager, actor);
+        // Pattern miss is still a successfully resolved telegraphed action: its
+        // non-damage effects (for example True hand's guard) may still execute.
+        if (special == "clear_true_death_loop" && !patternedHit)
+            specialExecuted = true;
+
+        bool effectsExecuted = false;
+        if (!replacesEffects && effects != null && effects.Count > 0)
         {
-            GD.PushWarning("怪物行动执行失败：缺少行动或战斗管理器。");
-            return false;
+            effectsExecuted = ExecuteEffects(
+                displayName,
+                effects,
+                battleManager,
+                actor,
+                0,
+                skipMovement: special == "move_behind_player",
+                skipDamage: evenBeam && !patternedHit);
         }
 
-        var effects = action.Get("effects").As<Array>();
-        if (effects == null || effects.Count == 0)
-        {
-            string displayName = action.Get("display_name").AsString();
-            GD.PushWarning($"{displayName}没有配置任何效果。");
-            return false;
-        }
-
-        return ExecuteEffects(action.Get("display_name").AsString(), effects, battleManager);
+        return specialExecuted || effectsExecuted;
     }
 
     public bool ExecuteEffects(string sourceName, Array effects, BattleManager battleManager)
+        => ExecuteEffects(sourceName, effects, battleManager, null, 0, false, false, false);
+
+    private bool ExecuteEffects(
+        string sourceName,
+        Array effects,
+        BattleManager battleManager,
+        EnemyBattle actor,
+        int firstDamageBonus = 0,
+        bool skipMovement = false,
+        bool skipDamage = false,
+        bool requireStateChange = false)
     {
-        bool executedAny = false;
-        foreach (var effect in effects)
+        if (effects == null) return false;
+        bool any = false;
+        bool bonusConsumed = false;
+        foreach (Variant effect in effects)
         {
             if (effect.Obj == null) continue;
-            var eff = effect.As<GodotObject>();
-            string typeKey = eff.Call("type_key").AsString();
+            var data = effect.As<GodotObject>();
+            string type = data.Call(GDScriptKeys.CombatEffect.TypeKey).AsString();
+            if (skipMovement && (type == "move_toward_opponent" || type == "move_away_from_opponent")) continue;
+            if (skipDamage && type == "damage") continue;
 
-            if (ExecuteEffect(eff, battleManager))
-            {
-                executedAny = true;
-                EmitSignal(SignalName.EffectExecuted,
-                    sourceName,
-                    typeKey,
-                    eff.Get("amount").AsInt32());
-            }
+            int bonus = type == "damage" && !bonusConsumed ? firstDamageBonus : 0;
+            if (!ExecuteEffect(data, battleManager, actor, bonus, requireStateChange)) continue;
+            any = true;
+            if (type == "damage") bonusConsumed = true;
+            EmitSignal(SignalName.EffectExecuted,
+                sourceName, type, data.Get(GDScriptKeys.CombatEffect.Amount).AsInt32() + bonus);
         }
-        return executedAny;
+        return any;
     }
 
-    private bool ExecuteEffect(GodotObject effect, BattleManager battleManager)
+    private bool ExecuteEffect(GodotObject effect, BattleManager battleManager, EnemyBattle actor, int damageBonus, bool requireStateChange)
     {
-        string typeKey = effect.Call("type_key").AsString();
-        int amount = effect.Get("amount").AsInt32();
-        int target = effect.Get("target").AsInt32();
-
-        switch (typeKey)
+        string type = effect.Call(GDScriptKeys.CombatEffect.TypeKey).AsString();
+        int amount = effect.Get(GDScriptKeys.CombatEffect.Amount).AsInt32();
+        int target = effect.Get(GDScriptKeys.CombatEffect.Target).AsInt32();
+        switch (type)
         {
             case "damage":
-                if (target == 0)
-                    battleManager.DamagePlayer(amount);
-                else
-                    battleManager.DamageEnemy(amount);
+                if (target == 0) battleManager.DamagePlayer(amount + damageBonus);
+                else battleManager.DamageEnemy(amount + damageBonus, actor);
                 return true;
-
             case "shield":
-                if (target == 0)
-                    battleManager.AddPlayerShield(amount);
-                else
-                    battleManager.AddEnemyShield(amount);
+                if (target == 0) battleManager.AddPlayerShield(amount);
+                else battleManager.AddEnemyShield(amount, actor);
                 return true;
-
             case "heal":
                 if (target == 0)
+                {
+                    if (battleManager.Player == null || battleManager.Player.CurrentHp >= battleManager.Player.MaxHp) return false;
                     battleManager.HealPlayer(amount);
-                else
-                    battleManager.HealEnemy(amount);
+                    return true;
+                }
+                if (actor == null || !actor.IsAlive || actor.CurrentHp >= actor.MaxHp) return false;
+                battleManager.HealEnemy(amount, actor);
                 return true;
-
             case "move_toward_opponent":
-                battleManager.MoveCombatantTowardOpponent(target, amount);
+                if (target == 0) battleManager.MoveCombatantTowardOpponent(target, amount);
+                else if (actor != null) battleManager.MoveEnemyToward(actor, amount);
+                else battleManager.MoveCombatantTowardOpponent(target, amount);
                 return true;
-
             case "move_away_from_opponent":
-                battleManager.MoveCombatantAwayFromOpponent(target, amount);
+                if (target == 0) battleManager.MoveCombatantAwayFromOpponent(target, amount);
+                else if (actor != null) battleManager.MoveEnemyAway(actor, amount);
+                else battleManager.MoveCombatantAwayFromOpponent(target, amount);
                 return true;
-
             case "swap_position":
                 battleManager.SwapPosition();
                 return true;
-
             case "energy":
-                if (target != 0)
-                {
-                    GD.PushWarning("当前原型只有玩家拥有能量，敌人能量效果已忽略。");
-                    return false;
-                }
+                if (target != 0) return false;
+                if (requireStateChange && amount <= 0) return false;
                 battleManager.AddPlayerEnergy(amount);
                 return true;
-
             case "apply_buff":
-            {
-                var buffResource = effect.Get("buff").As<GodotObject>();
-                if (buffResource == null) return false;
-
-                int stacks = effect.Get("buff_stacks").AsInt32();
-                int buffTarget = effect.Get("buff_target").AsInt32();
-                var targetCell = effect.Get("buff_target_cell").AsVector2I();
-
-                switch (buffTarget)
-                {
-                    case 0: ApplyBuffToPlayerStats(buffResource, stacks); break;
-                    case 1: ApplyBuffToEnemyStats(buffResource, stacks); break;
-                    case 2: ApplyBuffToPlayerCells(buffResource, stacks, targetCell); break;
-                }
-                return true;
-            }
-
+                return ApplyBuff(effect, battleManager, actor);
             case "remove_buff":
-            {
-                var buffObj = effect.Get("buff").As<GodotObject>();
-                string buffId = "";
-                if (buffObj != null)
-                    buffId = buffObj.Get("id").AsString();
-                if (string.IsNullOrEmpty(buffId)) return false;
-
-                if (target == 0)
-                    RemoveBuffFromPlayerCells(buffId);
-                else
-                    RemoveBuffFromEnemyCells(buffId);
-                return true;
-            }
-
+                return RemoveBuff(effect, target, actor);
             default:
-                GD.PushWarning($"未知效果类型：{typeKey}");
+                GD.PushWarning($"Unknown combat effect type: {type}");
                 return false;
         }
     }
 
-    private bool ExecuteLegacyEffect(string effectType, int effectValue, BattleManager battleManager)
+    private bool ExecuteEnemySpecial(
+        string special,
+        int value,
+        StringName targetRole,
+        string actionId,
+        bool patternedHit,
+        BattleManager battleManager,
+        EnemyBattle actor)
     {
-        switch (effectType)
+        switch (special)
         {
-            case "damage": battleManager.DamageEnemy(effectValue); return true;
-            case "shield": battleManager.AddPlayerShield(effectValue); return true;
-            case "energy": battleManager.AddPlayerEnergy(effectValue); return true;
-            case "heal": battleManager.HealPlayer(effectValue); return true;
-            default: GD.PushWarning($"未知效果类型：{effectType}"); return false;
+            case "": return false;
+            case "wait": return true;
+            case "push_player_to_edge": return battleManager.ExecuteChargePush(actor, value > 0 ? value : 10);
+            case "move_behind_player": return battleManager.MoveEnemyBehindPlayer(actor);
+            case "add_all_card_cooldown":
+                battleManager.AddAllCardCooldown(Mathf.Max(1, value));
+                return true;
+            case "heal_specific_enemy": return battleManager.HealEnemyByRole(targetRole, value);
+            case "set_death_loop":
+                battleManager.SetTrueDeathLoop(true);
+                return true;
+            case "clear_true_death_loop":
+                if (!patternedHit) return false;
+                battleManager.SetTrueDeathLoop(false);
+                return true;
+            default:
+                GD.PushWarning($"Unknown enemy special effect: {special} ({actionId})");
+                return false;
         }
     }
 
-    private void ApplyBuffToPlayerCells(GodotObject buffResource, int stacks, Vector2I targetCell)
+    private bool ExecuteLegacyEffect(string type, int value, BattleManager battleManager)
     {
+        switch (type)
+        {
+            case "damage": battleManager.DamageEnemy(value); return true;
+            case "shield": battleManager.AddPlayerShield(value); return true;
+            case "energy": battleManager.AddPlayerEnergy(value); return true;
+            case "heal": battleManager.HealPlayer(value); return true;
+            default: return false;
+        }
+    }
+
+    private bool ApplyBuff(GodotObject effect, BattleManager battleManager, EnemyBattle actor)
+    {
+        var buff = effect.Get(GDScriptKeys.CombatEffect.Buff).As<GodotObject>();
+        if (buff == null) return false;
+        int stacks = effect.Get(GDScriptKeys.CombatEffect.BuffStacks).AsInt32();
+        int target = effect.Get(GDScriptKeys.CombatEffect.BuffTarget).AsInt32();
+        Vector2I cell = effect.Get(GDScriptKeys.CombatEffect.BuffTargetCell).AsVector2I();
+        switch (target)
+        {
+            case 0: battleManager.Player?.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks); break;
+            case 1: actor?.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks); break;
+            case 2: ApplyBuffToPlayerCells(buff, stacks, cell); break;
+            default: return false;
+        }
+        return true;
+    }
+
+    private bool RemoveBuff(GodotObject effect, int target, EnemyBattle actor)
+    {
+        var buff = effect.Get(GDScriptKeys.CombatEffect.Buff).As<GodotObject>();
+        string id = buff?.Get(GDScriptKeys.Buff.Id).AsString() ?? "";
+        if (string.IsNullOrEmpty(id)) return false;
+        if (target == 0) RemoveBuffFromPlayerCells(id);
+        else actor?.GetStats()?.Call(GDScriptKeys.Stats.RemoveBuff, id);
+        return true;
+    }
+
+    private void ApplyBuffToPlayerCells(GodotObject buff, int stacks, Vector2I targetCell)
+    {
+        if (boardManager == null) return;
         if (targetCell.X >= 0 && targetCell.Y >= 0)
         {
-            var cell = boardManager.GetCell(targetCell);
-            if (cell == null) return;
-            var stats = cell.Get("stats").As<GodotObject>();
-            stats?.Call("add_buff", buffResource, stacks);
+            boardManager.GetCell(targetCell)?.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>()
+                ?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks);
+            return;
         }
-        else
-        {
-            foreach (var runtime in boardManager.runtime_cards)
-            {
-                var cells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
-                foreach (var pos in cells)
-                {
-                    var cell = boardManager.GetCell(pos);
-                    var stats = cell?.Get("stats").As<GodotObject>();
-                    stats?.Call("add_buff", buffResource, stacks);
-                }
-            }
-        }
-    }
-
-    private void ApplyBuffToPlayerStats(GodotObject buffResource, int stacks) { }
-    private void ApplyBuffToEnemyStats(GodotObject buffResource, int stacks) { }
-
-    private void RemoveBuffFromPlayerCells(string buffId)
-    {
         foreach (var runtime in boardManager.runtime_cards)
         {
-            var cells = runtime.Get("occupied_cells").As<Array<Vector2I>>();
-            foreach (var pos in cells)
-            {
-                var cell = boardManager.GetCell(pos);
-                var stats = cell?.Get("stats").As<GodotObject>();
-                stats?.Call("remove_buff", buffId);
-            }
+            foreach (Vector2I pos in runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>())
+                boardManager.GetCell(pos)?.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>()
+                    ?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks);
         }
     }
 
-    private void RemoveBuffFromEnemyCells(string buffId) { }
+    private void RemoveBuffFromPlayerCells(string id)
+    {
+        if (boardManager == null) return;
+        foreach (var runtime in boardManager.runtime_cards)
+        {
+            foreach (Vector2I pos in runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>())
+                boardManager.GetCell(pos)?.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>()
+                    ?.Call(GDScriptKeys.Stats.RemoveBuff, id);
+        }
+    }
 }

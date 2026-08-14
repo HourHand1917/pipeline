@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/combat_campaign/tests/runtime_specials_test.gd" id="1"]
+
+[node name="RuntimeSpecialsTest" type="Node"]
+script = ExtResource("1")

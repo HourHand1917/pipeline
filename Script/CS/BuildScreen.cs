@@ -85,6 +85,7 @@ public partial class BuildScreen : Control
         grid4x3button.Pressed += () => RequestBoardSize(4, 3);
 
         UpdateGridState();
+        DataManager.Instance.ItemBagChanged += RefreshAll;
     }
 
     // ================================================================
@@ -183,6 +184,9 @@ public partial class BuildScreen : Control
         foreach (Node child in inventorybox.GetChildren())
             child.QueueFree();
 
+        var cardTitle = new Label { Text = "—— 14张卡牌仓库 ——" };
+        inventorybox.AddChild(cardTitle);
+
         foreach (var card in DataManager.Instance.GetOwnedCards())
         {
             var cardObj = (GodotObject)card;
@@ -199,6 +203,46 @@ public partial class BuildScreen : Control
             button.Pressed += () => OnInventoryCardPressed(cardId);
             inventorybox.AddChild(button);
         }
+
+        var itemTitle = new Label { Text = $"—— 道具仓库（已携带 {DataManager.Instance.ItemBag.Count}/{DataManager.MaxItemSlots}）——" };
+        inventorybox.AddChild(itemTitle);
+
+        foreach (var item in DataManager.Instance.GetAllMvpItems())
+        {
+            var itemObj = (GodotObject)item;
+            var itemId = itemObj.Get("id").AsStringName();
+            int stock = DataManager.Instance.GetOwnedItemCount(itemId);
+            int equipped = CountEquippedItem(itemId);
+            var itemButton = new Button
+            {
+                Text = $"{itemObj.Get("display_name").AsString()}  仓库×{stock}｜携带×{equipped}\n{itemObj.Get("description").AsString()}",
+                CustomMinimumSize = new Vector2(0, 66),
+                Disabled = stock <= 0 || DataManager.Instance.ItemBag.Count >= DataManager.MaxItemSlots,
+            };
+            itemButton.Pressed += () => { DataManager.Instance.EquipItem(itemId); RefreshInventory(); };
+            inventorybox.AddChild(itemButton);
+        }
+
+        for (int i = 0; i < DataManager.Instance.ItemBag.Count; i++)
+        {
+            int slotIndex = i;
+            var equippedItem = (GodotObject)DataManager.Instance.GetItem(i);
+            var removeButton = new Button
+            {
+                Text = $"卸下槽位{i + 1}：{equippedItem.Get("display_name").AsString()}",
+                CustomMinimumSize = new Vector2(0, 42),
+            };
+            removeButton.Pressed += () => { DataManager.Instance.UnequipItem(slotIndex); RefreshInventory(); };
+            inventorybox.AddChild(removeButton);
+        }
+    }
+
+    private int CountEquippedItem(StringName itemId)
+    {
+        int count = 0;
+        foreach (var item in DataManager.Instance.ItemBag)
+            if (((GodotObject)item).Get("id").AsStringName() == itemId) count++;
+        return count;
     }
 
     private int CountPlacedOnBoard(StringName cardId)

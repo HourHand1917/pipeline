@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ItemData" format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/itemdata.gd" id="1"]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="2"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/effects/blast_plate_shield_8.tres" id="3"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"blast_plate"
+display_name = "防爆板"
+description = "立即获得8点护盾。"
+icon = ExtResource("4")
+effects = Array[ExtResource("2")]([ExtResource("3")])
+shop_price = 9
+mvp_stock = 2

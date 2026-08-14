@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "跨越移动"
+description = "向敌人方向免费移动2格；特殊契约允许跨越敌人。"
+type = 3
+target = 0
+amount = 2

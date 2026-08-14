@@ -1,0 +1,13 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" path="res://features/enemy_ai_node/scenes/main_enemy_ai_node.tscn" id="1"]
+[ext_resource type="Script" path="res://features/combat_campaign/scripts/CombatCampaignController.cs" id="2"]
+[ext_resource type="Resource" path="res://features/combat_campaign/data/default_combat_campaign.tres" id="3"]
+
+[node name="CombatCampaign" instance=ExtResource("1")]
+CampaignController = NodePath("CombatCampaignController")
+
+[node name="CombatCampaignController" type="Node" parent="."]
+script = ExtResource("2")
+CampaignData = ExtResource("3")
+

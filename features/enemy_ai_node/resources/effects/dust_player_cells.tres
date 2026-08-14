@@ -1,14 +1,11 @@
-[gd_resource type="Resource" script_class="CombatEffectData" format=3]
-[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="1"]
-[ext_resource type="Resource" path="res://Script/GD/resource/buffs/dust_buff.tres" id="2"]
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://b145q53xfm4cl"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/dust.tres" id="1_3h5a4"]
+
 [resource]
 script = ExtResource("1")
 display_name = "施加蒙尘"
 type = 6
 target = 0
-amount = 1
-buff = ExtResource("2")
-buff_stacks = 1
-buff_target = 2
-buff_target_cell = Vector2i(-1, -1)
-
+buff = ExtResource("1_3h5a4")

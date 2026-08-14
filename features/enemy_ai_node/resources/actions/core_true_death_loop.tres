@@ -10,4 +10,5 @@ priority = 20
 min_range = 1
 max_range = 99
 effects = Array[CombatEffectData]([ExtResource("2")])
-
+special_effect = &"set_death_loop"
+effect_target_role = &"self"

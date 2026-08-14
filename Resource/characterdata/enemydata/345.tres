@@ -11,6 +11,7 @@ id = &"打击"
 display_name = "打击"
 intent_text = "就是打你"
 priority = 1
+tags = null
 min_range = 1
 effects = Array[ExtResource("2_yyrub")]([ExtResource("3_00fsf")])
 metadata/_custom_type_script = "uid://7hwav6op8h01"

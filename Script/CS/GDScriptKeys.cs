@@ -74,11 +74,16 @@ public static class GDScriptKeys
     {
         public static readonly StringName HasBuff = "has_buff";
         public static readonly StringName GetBuffStacks = "get_buff_stacks";
+        public static readonly StringName GetBuffDuration = "get_buff_duration";
         public static readonly StringName AddBuff = "add_buff";
         public static readonly StringName RemoveBuff = "remove_buff";
         public static readonly StringName TickTurnStart = "tick_turn_start";
         public static readonly StringName TickTurnEnd = "tick_turn_end";
         public static readonly StringName ClearBuffs = "clear_buffs";
+        public static readonly StringName ClearNegativeBuffs = "clear_negative_buffs";
+        public static readonly StringName CanLight = "can_light";
+        public static readonly StringName BeforeLight = "before_light";
+        public static readonly StringName AfterLight = "after_light";
         public static readonly StringName Buffs = "buffs";
     }
 
@@ -155,15 +160,36 @@ public static class GDScriptKeys
 
     public static class EnemyAction
     {
+        public static readonly StringName Id = "id";
         public static readonly StringName DisplayName = "display_name";
         public static readonly StringName MinRange = "min_range";
         public static readonly StringName MaxRange = "max_range";
         public static readonly StringName Effects = "effects";
+        public static readonly StringName PatternHitEffects = "pattern_hit_effects";
+        public static readonly StringName DeferredRoleEffects = "deferred_role_effects";
         public static readonly StringName Priority = "priority";
+        public static readonly StringName Tags = "tags";
+        public static readonly StringName SpecialEffect = "special_effect";
+        public static readonly StringName EffectTargetRole = "effect_target_role";
+        public static readonly StringName SpecialValue = "special_value";
+        public static readonly StringName SpecialReplacesEffects = "special_replaces_effects";
 
         // 方法名
         public static readonly StringName IsAvailable = "is_available";
         public static readonly StringName GetActionForDistance = "get_action_for_distance";
+    }
+
+    // ================================================================
+    //  ItemData (itemdata.gd)
+    // ================================================================
+    public static class ItemData
+    {
+        public static readonly StringName Id = "id";
+        public static readonly StringName DisplayName = "display_name";
+        public static readonly StringName Effects = "effects";
+        public static readonly StringName SpecialEffects = "special_effects";
+        public static readonly StringName SpecialAmount = "special_amount";
+        public static readonly StringName ConsumeOnUse = "consume_on_use";
     }
 
     // ================================================================

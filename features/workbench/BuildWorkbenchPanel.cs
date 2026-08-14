@@ -43,6 +43,7 @@ public partial class BuildWorkbenchPanel : Control
 
         _boardManager.BoardChanged += RefreshBoard;
         DataManager.Instance.CardCollectionChanged += RefreshAll;
+        DataManager.Instance.ItemBagChanged += RefreshAll;
         RefreshBoard();
     }
 
@@ -135,6 +136,57 @@ public partial class BuildWorkbenchPanel : Control
             if (cd > 0) data.Details["冷却"] = $"{cd} 回合";
             TooltipService.Instance.ShowFor(btn, data);
         }
+
+        var itemTitle = new Button
+        {
+            Text = $"道具携带 {DataManager.Instance.ItemBag.Count}/{DataManager.MaxItemSlots}（点击道具加入携带栏）",
+            Disabled = true,
+            CustomMinimumSize = _cardCellSize,
+        };
+        _inventoryBox.AddChild(itemTitle);
+
+        foreach (var item in DataManager.Instance.GetAllMvpItems())
+        {
+            var obj = (GodotObject)item;
+            var itemId = obj.Get("id").AsStringName();
+            int stock = DataManager.Instance.GetOwnedItemCount(itemId);
+            int equipped = CountEquippedItem(itemId);
+            var btn = new Button
+            {
+                Text = $"{obj.Get("display_name").AsString()}\n仓库×{stock}｜携带×{equipped}",
+                Disabled = stock <= 0 || DataManager.Instance.ItemBag.Count >= DataManager.MaxItemSlots,
+                CustomMinimumSize = _cardCellSize,
+            };
+            btn.Pressed += () => DataManager.Instance.EquipItem(itemId);
+            _inventoryBox.AddChild(btn);
+            TooltipService.Instance.ShowFor(btn, new TooltipData
+            {
+                Title = obj.Get("display_name").AsString(),
+                Description = obj.Get("description").AsString(),
+                Icon = obj.Get("icon").As<Texture2D>(),
+            });
+        }
+
+        for (int i = 0; i < DataManager.Instance.ItemBag.Count; i++)
+        {
+            int slotIndex = i;
+            var item = (GodotObject)DataManager.Instance.GetItem(i);
+            var btn = new Button
+            {
+                Text = $"卸下{i + 1}\n{item.Get("display_name").AsString()}",
+                CustomMinimumSize = _cardCellSize,
+            };
+            btn.Pressed += () => DataManager.Instance.UnequipItem(slotIndex);
+            _inventoryBox.AddChild(btn);
+        }
+    }
+
+    private static int CountEquippedItem(StringName itemId)
+    {
+        int count = 0;
+        foreach (var item in DataManager.Instance.ItemBag)
+            if (((GodotObject)item).Get("id").AsStringName() == itemId) count++;
+        return count;
     }
 
     private int CountPlaced(StringName cardId)

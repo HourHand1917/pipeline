@@ -14,6 +14,17 @@ public partial class EnemyMessage : PanelContainer
 
     private EnemyBattle _trackedEnemy;
     private string _currentActionName = "";
+    private string _currentIntentText = "";
+
+    public override void _Ready()
+    {
+        infoLabel?.AddThemeColorOverride("font_color", new Color("#78e8eb"));
+        intentLabel?.AddThemeColorOverride("font_color", new Color("#f1c453"));
+        intentLabel?.AddThemeColorOverride("font_outline_color", new Color("#25120d"));
+        intentLabel?.AddThemeConstantOverride("outline_size", 5);
+        if (healthBar != null) healthBar.TintProgress = new Color("#e35b56");
+        if (shieldBar != null) shieldBar.TintProgress = new Color("#63d7e4");
+    }
 
     // ================================================================
     //  开始跟踪敌人实例
@@ -21,6 +32,11 @@ public partial class EnemyMessage : PanelContainer
 
     public void TrackEnemy(EnemyBattle enemy, string actionName = "")
     {
+        if (_trackedEnemy == enemy)
+        {
+            UpdateActionName(actionName);
+            return;
+        }
         StopTracking();
 
         if (enemy == null) return;
@@ -32,7 +48,11 @@ public partial class EnemyMessage : PanelContainer
 
         _trackedEnemy.HealthChanged += OnHealthChanged;
         _trackedEnemy.ShieldChanged += OnShieldChanged;
+        _trackedEnemy.IntentChanged += OnIntentChanged;
         _trackedEnemy.Died += OnDied;
+
+        if (_trackedEnemy.PlannedAction != null)
+            ApplyPlannedAction(_trackedEnemy.PlannedAction, string.IsNullOrWhiteSpace(actionName));
 
         RefreshAll();
     }
@@ -47,6 +67,7 @@ public partial class EnemyMessage : PanelContainer
 
         _trackedEnemy.HealthChanged -= OnHealthChanged;
         _trackedEnemy.ShieldChanged -= OnShieldChanged;
+        _trackedEnemy.IntentChanged -= OnIntentChanged;
         _trackedEnemy.Died -= OnDied;
         _trackedEnemy = null;
 
@@ -65,6 +86,12 @@ public partial class EnemyMessage : PanelContainer
             RefreshInfoLabel();
             RefreshIntentLabel();
         }
+    }
+
+    public void UpdateIntentText(string intentText)
+    {
+        _currentIntentText = intentText ?? "";
+        if (_trackedEnemy != null) RefreshIntentLabel();
     }
 
     // ================================================================
@@ -100,10 +127,9 @@ public partial class EnemyMessage : PanelContainer
     {
         if (intentLabel == null || _trackedEnemy == null) return;
 
-        if (string.IsNullOrEmpty(_currentActionName))
-        {
-            intentLabel.Text = "";
-        }
+        intentLabel.Text = string.IsNullOrWhiteSpace(_currentIntentText)
+            ? "◇ 意图：等待 / 调整位置"
+            : $"⚠ 下回合：{_currentIntentText}";
     }
 
     // ================================================================
@@ -121,6 +147,28 @@ public partial class EnemyMessage : PanelContainer
     {
         shieldBar.Value = current;
         shieldLabel.Text = $"{current}";
+    }
+
+    private void OnIntentChanged(GodotObject action)
+    {
+        ApplyPlannedAction(action, true);
+        RefreshInfoLabel();
+        RefreshIntentLabel();
+    }
+
+    private void ApplyPlannedAction(GodotObject action, bool updateName)
+    {
+        if (action == null)
+        {
+            if (updateName) _currentActionName = "观察局势";
+            _currentIntentText = "尚未锁定攻击区域";
+            return;
+        }
+        if (updateName)
+            _currentActionName = action.Get("display_name").AsString();
+        _currentIntentText = action.Get("intent_text").AsString();
+        if (string.IsNullOrWhiteSpace(_currentIntentText))
+            _currentIntentText = _currentActionName;
     }
 
     private void OnDied()
@@ -165,6 +213,8 @@ public partial class EnemyMessage : PanelContainer
 
     private void ClearDisplay()
     {
+        _currentActionName = "";
+        _currentIntentText = "";
         healthBar.Value = 0;
         healthLabel.Text = "-- / --";
         shieldBar.Value = 0;
