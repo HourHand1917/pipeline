@@ -26,7 +26,7 @@ BattleDirector="*res://Script/CS/BattleDirector.cs"
 
 [display]
 
-window/size/viewport_width=1920
+window/size/viewport_width=1440
 window/size/viewport_height=1080
 
 [dotnet]
