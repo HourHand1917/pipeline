@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://q1ojg1hovxf7"]
 
-[ext_resource type="Script" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
+[ext_resource type="Script" uid="uid://hgfer4mgvtcw" path="res://Script/CS/BattleScreen.cs" id="1_tb4nm"]
 [ext_resource type="Texture2D" uid="uid://cskgmyhh0il3a" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222046.png" id="2_rr40r"]
 [ext_resource type="Texture2D" uid="uid://cwpny65fl3r5u" path="res://features/exploration/art_assets/battlescreen/亮.png" id="2_t4udp"]
 [ext_resource type="Texture2D" uid="uid://cuuv2na4ij1cn" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220539.png" id="2_ycqhv"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ny1vbenkauny" path="res://Scenes/resource_scene/trackslot.tscn" id="4_aadoi"]
 [ext_resource type="Texture2D" uid="uid://qj5h8gvcg7ro" path="res://features/exploration/art_assets/battlescreen/填充.png" id="4_brapn"]
 [ext_resource type="Texture2D" uid="uid://5tdy6psvnu3k" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0001_0.png" id="5_7le68"]
+[ext_resource type="PackedScene" uid="uid://cakkkpr20nspa" path="res://Scenes/resource_scene/buffshow.tscn" id="5_vn3ql"]
 [ext_resource type="Texture2D" uid="uid://ds5perm7gmcjw" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0002_18.png" id="6_brapn"]
 [ext_resource type="Texture2D" uid="uid://mmr4d3xnpmlc" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0003_19.png" id="7_26bt4"]
 [ext_resource type="Texture2D" uid="uid://cp48k8wkx70uy" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0004_19.png" id="8_aadoi"]
@@ -61,7 +62,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4udp"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar", "rubberheart", "playerTV")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar", "rubberheart", "playerTV", "playerBuffGrid")]
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 3
 anchors_preset = 15
@@ -98,6 +99,8 @@ bulbOff = ExtResource("3_vn3ql")
 rubberheart = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/rubberheart")
 trackSlotScene = ExtResource("4_aadoi")
 playerTV = NodePath("PlayerTV")
+playerBuffGrid = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/buffgrid_player")
+buffShowScene = ExtResource("5_vn3ql")
 
 [node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
 layout_mode = 1
@@ -149,6 +152,14 @@ sprite_frames = SubResource("SpriteFrames_vn3ql")
 animation = &"idel"
 autoplay = "idel"
 frame_progress = 0.8514717
+
+[node name="buffgrid_player" type="GridContainer" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=137671753]
+layout_mode = 0
+offset_left = 195.0
+offset_top = 114.0
+offset_right = 659.0
+offset_bottom = 187.0
+columns = 5
 
 [node name="infobar" type="HBoxContainer" parent="battleVbox" unique_id=54570403]
 layout_mode = 2

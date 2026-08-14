@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://b4u6wmsfd4vhs"]
 
-[ext_resource type="Script" path="res://Script/CS/idk.cs" id="1_ck04x"]
+[ext_resource type="Script" uid="uid://l0gv0bq2sst3" path="res://Script/CS/idk.cs" id="1_ck04x"]
 [ext_resource type="Resource" uid="uid://7xcxpk1gllam" path="res://Resource/gamerules/gamerules.tres" id="2_bpyof"]
-[ext_resource type="Script" path="res://Script/CS/BoardManager.cs" id="2_ch5wo"]
-[ext_resource type="Script" path="res://Script/CS/EffectResolver.cs" id="3_n3q8q"]
-[ext_resource type="Script" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
+[ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_ch5wo"]
+[ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_n3q8q"]
+[ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_qa4rf"]
 [ext_resource type="PackedScene" uid="uid://e53m086153iv" path="res://Scenes/game_scene/buildscreen.tscn" id="5_dmhrc"]
-[ext_resource type="Script" path="res://Script/CS/StarterDeck.cs" id="6_ch5wo"]
+[ext_resource type="Script" uid="uid://cjyj7g4diq8ih" path="res://Script/CS/StarterDeck.cs" id="6_ch5wo"]
 [ext_resource type="PackedScene" uid="uid://q1ojg1hovxf7" path="res://Scenes/game_scene/battlescreen.tscn" id="6_om8ky"]
 [ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="7_q0om0"]
 [ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="8_dmhrc"]
@@ -35,6 +35,7 @@ script = ExtResource("4_qa4rf")
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=184738653]
 script = ExtResource("6_ch5wo")
 Cards = [ExtResource("7_q0om0"), ExtResource("8_dmhrc"), ExtResource("9_om8ky"), ExtResource("10_ck04x"), ExtResource("11_ck04x")]
+Currency = 1
 
 [node name="buildscreen" parent="." unique_id=579545813 instance=ExtResource("5_dmhrc")]
 offset_left = 12.0

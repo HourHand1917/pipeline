@@ -36,6 +36,8 @@ public partial class UIManager : Node
     public TextureProgressBar HealthBar { get; set; }
     public PackedScene TrackSlotScene { get; set; }
     public PlayerTV PlayerTV { get; set; }
+    public GridContainer PlayerBuffGrid { get; set; }
+    public PackedScene BuffShowScene { get; set; }
 
     private List<GridCellButton> battleButtons = new();
     private List<TextureRect> energyBulbs = new();
@@ -126,8 +128,8 @@ public partial class UIManager : Node
         player.ShieldChanged += (_) => UpdateStatusLine();
         player.EnergyChanged += (cur, max) => RefreshEnergyBulbs(cur, max);
         player.PositionChanged += (_) => RefreshDistanceTrack();
-        player.BuffApplied += (buff, stacks) => GD.Print($"[UIManager] 玩家获得 Buff：{buff.Get("buff_name")} ×{stacks}");
-        player.BuffRemoved += (buffId) => GD.Print($"[UIManager] 玩家移除 Buff：{buffId}");
+        player.BuffApplied += (buff, stacks) => RefreshPlayerBuffs();
+        player.BuffRemoved += (buffId) => RefreshPlayerBuffs();
         player.Died += () => { if (StatusLabel != null) StatusLabel.Text = "玩家阵亡！"; };
     }
 
@@ -558,5 +560,35 @@ public partial class UIManager : Node
         RubberHeart.SpeedScale = fps / 8f;
         if (!RubberHeart.IsPlaying())
             RubberHeart.Play("idle");
+    }
+
+        private void RefreshPlayerBuffs()
+    {
+        if (PlayerBuffGrid == null || BuffShowScene == null || _player == null) return;
+
+        // 清空旧显示
+        foreach (Node child in PlayerBuffGrid.GetChildren())
+        {
+            PlayerBuffGrid.RemoveChild(child);
+            child.QueueFree();
+        }
+
+        // 读取玩家 Stats 中的 buffs
+        var stats = _player.GetStats();
+        if (stats == null) return;
+
+        var buffs = stats.Get("buffs").As<Godot.Collections.Array>();
+        foreach (var bi in buffs)
+        {
+            if (bi.Obj == null) continue;
+            var instance = bi.As<GodotObject>();
+            var buff = instance.Get("buff").As<GodotObject>();
+            int stacks = instance.Get("stacks").AsInt32();
+            var icon = buff.Get("icon").As<Texture2D>();
+
+            var slot = BuffShowScene.Instantiate<BuffShow>();
+            slot.Setup(icon, stacks);
+            PlayerBuffGrid.AddChild(slot);
+        }
     }
 }

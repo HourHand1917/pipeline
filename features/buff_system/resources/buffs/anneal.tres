@@ -1,18 +1,17 @@
-[gd_resource type="Resource" script_class="AnnealBuff" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="AnnealBuff" format=3 uid="uid://c8f0kyb6ts2pl"]
 
-[ext_resource type="Script" path="res://features/buff_system/behaviors/anneal_buff.gd" id="1_buff"]
-[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="2_effect_script"]
-[ext_resource type="Resource" path="res://features/buff_system/resources/effects/anneal_reset_all_cooldowns.tres" id="3_effect"]
-[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/anneal.svg" id="4_icon"]
+[ext_resource type="Script" uid="uid://bf5eyvdauhn26" path="res://features/buff_system/behaviors/anneal_buff.gd" id="1_buff"]
+[ext_resource type="Script" uid="uid://dl41n44kfs1vw" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="2_effect_script"]
+[ext_resource type="Resource" uid="uid://brrv5qml8ofxs" path="res://features/buff_system/resources/effects/anneal_reset_all_cooldowns.tres" id="3_effect"]
+[ext_resource type="Texture2D" uid="uid://bq3nd00ixkr8g" path="res://features/buff_system/resources/buffs/anneal.svg" id="4_icon"]
 
 [resource]
 script = ExtResource("1_buff")
+apply_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])
 id = "anneal"
 buff_name = "退火"
-polarity = 0
 description = "施加时解除全部卡牌冷却；执行完成后立即移除。"
 duration = 0
 stackable = false
 max_stacks = 1
 icon = ExtResource("4_icon")
-apply_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])

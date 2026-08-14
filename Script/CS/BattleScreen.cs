@@ -40,6 +40,9 @@ public partial class BattleScreen : Control
     [Export] private AnimatedSprite2D rubberheart;
     [Export] private PackedScene trackSlotScene;
     [Export] private PlayerTV playerTV;
+    [Export] private GridContainer playerBuffGrid;
+    [Export] private PackedScene buffShowScene;
+
 
     public void Setup(BoardManager board, BattleManager battle)
     {

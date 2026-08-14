@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://cakkkpr20nspa"]
+
+[ext_resource type="Script" uid="uid://dgeo4fn86r588" path="res://Scenes/resource_scene/BuffShow.cs" id="1_5yl6b"]
+[ext_resource type="Texture2D" uid="uid://57do7yjs5pqh" path="res://features/exploration/art_assets/battlescreen/框.png" id="1_d2q5c"]
+
+[node name="buffshow" type="Control" unique_id=1899568816 node_paths=PackedStringArray("iconRect", "stacksLabel")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5yl6b")
+iconRect = NodePath("PanelContainer/edge/icon")
+stacksLabel = NodePath("PanelContainer/edge/stacks")
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=215337802]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="edge" type="Sprite2D" parent="PanelContainer" unique_id=545579594]
+position = Vector2(952.75, 540)
+scale = Vector2(4.159341, 4.439834)
+texture = ExtResource("1_d2q5c")
+
+[node name="icon" type="TextureRect" parent="PanelContainer/edge" unique_id=1222034617]
+offset_left = -169.67833
+offset_top = -58.335514
+offset_right = -55.71797
+offset_bottom = 48.65048
+
+[node name="stacks" type="Label" parent="PanelContainer/edge" unique_id=1888539742]
+offset_left = 16.168427
+offset_top = -59.46168
+offset_right = 186.86853
+offset_bottom = 30.856998
+theme_override_font_sizes/font_size = 70
+text = "3"
+horizontal_alignment = 1
+vertical_alignment = 1

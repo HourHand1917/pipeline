@@ -1,7 +1,7 @@
-[gd_resource type="Resource" script_class="DustBuff" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="DustBuff" format=3 uid="uid://dik8cidbqcqpp"]
 
-[ext_resource type="Script" path="res://Script/GD/resource/buffs/buff_script/dust_buff.gd" id="1_buff"]
-[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/dust.svg" id="2_icon"]
+[ext_resource type="Script" uid="uid://qj7xl2y5asv8" path="res://Script/GD/resource/buffs/buff_script/dust_buff.gd" id="1_buff"]
+[ext_resource type="Texture2D" uid="uid://d37bkyxod0f3y" path="res://features/buff_system/resources/buffs/dust.svg" id="2_icon"]
 
 [resource]
 script = ExtResource("1_buff")
@@ -10,6 +10,4 @@ buff_name = "蒙尘"
 polarity = 1
 description = "点亮附着格额外消耗等同层数的能量；玩家回合结束减少1层。"
 duration = 0
-stackable = true
-max_stacks = 99
 icon = ExtResource("2_icon")

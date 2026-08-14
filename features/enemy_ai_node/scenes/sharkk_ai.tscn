@@ -1,12 +1,15 @@
-[gd_scene load_steps=8 format=3]
-[ext_resource type="Script" path="res://features/enemy_ai_node/scripts/sharkk_ai.gd" id="1"]
+[gd_scene format=3 uid="uid://c58567nt302ef"]
+
+[ext_resource type="Script" uid="uid://dvolqvbwv4ej2" path="res://features/enemy_ai_node/scripts/sharkk_ai.gd" id="1"]
 [ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/sharkk_attack.tres" id="2"]
+[ext_resource type="Script" uid="uid://7hwav6op8h01" path="res://Script/GD/resource/enemy_action_data.gd" id="2_8pc6f"]
 [ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/sharkk_punch.tres" id="3"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/sharkk_advance.tres" id="4"]
+[ext_resource type="Resource" uid="uid://2o8004wdw1wv" path="res://features/enemy_ai_node/resources/actions/sharkk_advance.tres" id="4"]
 [ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/sharkk_prepare_charge.tres" id="5"]
 [ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/sharkk_charge.tres" id="6"]
 [ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/sharkk_sand_retreat.tres" id="7"]
 [ext_resource type="Resource" path="res://features/enemy_ai_node/resources/actions/sharkk_stunned.tres" id="8"]
-[node name="SharkkAI" type="Node"]
+
+[node name="SharkkAI" type="Node" unique_id=1550367896]
 script = ExtResource("1")
-actions = Array[EnemyActionData]([ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8")])
+actions = Array[ExtResource("2_8pc6f")]([ExtResource("2"), ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8")])

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cpc2ir5v0p8hl" path="res://features/enemy_ai_node/scripts/enemy_data_node_adapter.gd" id="1"]
 [ext_resource type="Script" uid="uid://7hwav6op8h01" path="res://Script/GD/resource/enemy_action_data.gd" id="1_tfr2v"]
-[ext_resource type="PackedScene" path="res://features/enemy_ai_node/scenes/sharkk_ai.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://c58567nt302ef" path="res://features/enemy_ai_node/scenes/sharkk_ai.tscn" id="2"]
 
 [resource]
 script = ExtResource("1")
