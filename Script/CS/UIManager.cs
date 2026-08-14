@@ -234,7 +234,7 @@ public partial class UIManager : Node
         }
     }
 
-    private void RefreshStatus()
+        private void RefreshStatus()
     {
         UpdateStatusLine();
         if (RoundLabel != null) RoundLabel.Text = $"回合 {battleManager.RoundNumber}";
@@ -249,7 +249,13 @@ public partial class UIManager : Node
                 ? $"玩家 {battleManager.PlayerMapPosition} · 暂无目标"
                 : $"玩家 {battleManager.PlayerMapPosition} · {focusedEnemy.DisplayName} {focusedEnemy.MapPosition} · 距离 {distance} 格";
         }
-        if (MoveHint != null) { var rules = DataManager.Instance.GetRules(); int cost = rules?.Get(GDScriptKeys.GameRules.MoveEnergyCost).AsInt32() ?? 1; int step = rules?.Get(GDScriptKeys.GameRules.PlayerMoveStep).AsInt32() ?? 1; MoveHint.Text = $"移动{step}格消耗 {cost} ⚡"; }
+        if (MoveHint != null)
+        {
+            var rules = battleManager.GetRules();
+            int cost = rules?.Get(GDScriptKeys.GameRules.MoveEnergyCost).AsInt32() ?? 1;
+            int step = rules?.Get(GDScriptKeys.GameRules.PlayerMoveStep).AsInt32() ?? 1;
+            MoveHint.Text = $"移动{step}格消耗 {cost} ⚡";
+        }
 
         bool canAct = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
         if (MoveBackButton != null) { MoveBackButton.Text = "← 后退"; MoveBackButton.Disabled = !canAct || !battleManager.CanPlayerMove((int)BattleManager.MoveAction.Backward); }
@@ -562,33 +568,44 @@ public partial class UIManager : Node
             RubberHeart.Play("idle");
     }
 
-        private void RefreshPlayerBuffs()
+private void RefreshPlayerBuffs()
+{
+    if (PlayerBuffGrid == null || BuffShowScene == null || _player == null) return;
+
+    foreach (Node child in PlayerBuffGrid.GetChildren())
     {
-        if (PlayerBuffGrid == null || BuffShowScene == null || _player == null) return;
-
-        // 清空旧显示
-        foreach (Node child in PlayerBuffGrid.GetChildren())
-        {
-            PlayerBuffGrid.RemoveChild(child);
-            child.QueueFree();
-        }
-
-        // 读取玩家 Stats 中的 buffs
-        var stats = _player.GetStats();
-        if (stats == null) return;
-
-        var buffs = stats.Get("buffs").As<Godot.Collections.Array>();
-        foreach (var bi in buffs)
-        {
-            if (bi.Obj == null) continue;
-            var instance = bi.As<GodotObject>();
-            var buff = instance.Get("buff").As<GodotObject>();
-            int stacks = instance.Get("stacks").AsInt32();
-            var icon = buff.Get("icon").As<Texture2D>();
-
-            var slot = BuffShowScene.Instantiate<BuffShow>();
-            slot.Setup(icon, stacks);
-            PlayerBuffGrid.AddChild(slot);
-        }
+        PlayerBuffGrid.RemoveChild(child);
+        child.QueueFree();
     }
+
+    var stats = _player.GetStats();
+    if (stats == null) return;
+
+    var buffs = stats.Get("buffs").As<Godot.Collections.Array>();
+
+    // ============ 调试 ============
+    GD.Print($"[调试] 玩家 Buff 刷新，共 {buffs.Count} 个：");
+    foreach (var bi in buffs)
+    {
+        if (bi.Obj == null) continue;
+        var instance = bi.As<GodotObject>();
+        var buff = instance.Get("buff").As<GodotObject>();
+        int stacks = instance.Get("stacks").AsInt32();
+        GD.Print($"  - {buff.Get("buff_name")} ×{stacks}（剩余 {instance.Get("remaining_duration")} 回合）");
+    }
+    // ============ 调试结束 ============
+
+    foreach (var bi in buffs)
+    {
+        if (bi.Obj == null) continue;
+        var instance = bi.As<GodotObject>();
+        var buff = instance.Get("buff").As<GodotObject>();
+        int stacks = instance.Get("stacks").AsInt32();
+        var icon = buff.Get("icon").As<Texture2D>();
+
+        var slot = BuffShowScene.Instantiate<BuffShow>();
+        slot.Setup(icon, stacks);
+        PlayerBuffGrid.AddChild(slot);
+    }
+}
 }
