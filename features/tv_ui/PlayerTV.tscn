@@ -158,7 +158,7 @@ grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
-[node name="MapPanel" type="Control" parent="PanelStack" unique_id=1345310407 node_paths=PackedStringArray("_routeButtons")]
+[node name="MapPanel" type="Control" parent="PanelStack" unique_id=1345310407 node_paths=PackedStringArray("_mapContainer")]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -167,7 +167,13 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_map")
-_routeButtons = []
+_mapContainer = NodePath("MapGrid")
+
+[node name="MapGrid" type="GridContainer" parent="PanelStack/MapPanel" unique_id=1068947898]
+layout_mode = 0
+theme_override_constants/h_separation = 8
+theme_override_constants/v_separation = 8
+columns = 3
 
 [node name="InventoryPanel" type="Control" parent="PanelStack" unique_id=668771736 node_paths=PackedStringArray("_itemRow", "_useButton", "_discardButton", "_bottleCapLabel", "_faucetLabel")]
 material = ExtResource("6_1tjra")

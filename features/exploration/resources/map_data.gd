@@ -15,3 +15,6 @@ extends Resource
 
 ## 在 MapPanel 网格里的位置
 @export var grid_position: Vector2i = Vector2i.ZERO
+
+## 进入此地图的默认生成点
+@export var default_spawn_id: StringName = &""

@@ -119,6 +119,13 @@ public partial class PlayerBattle : Node2D
         EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
     }
 
+    /// <summary>从外部（DataManager）同步血量，用于探索/战斗间的继承。</summary>
+    public void SetCurrentHp(int hp)
+    {
+        CurrentHp = Mathf.Clamp(hp, 0, MaxHp);
+        EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
+    }
+
     // ================================================================
     //  能量
     // ================================================================

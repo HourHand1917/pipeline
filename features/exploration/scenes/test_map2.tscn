@@ -1,0 +1,69 @@
+[gd_scene format=3 uid="uid://bxeg836t71sti"]
+
+[ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_v1dgx"]
+[ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="2_6soyk"]
+[ext_resource type="Texture2D" uid="uid://doip62gs1t5u2" path="res://features/exploration/art_assets/home_map/大门-打开-拉杆下.PNG" id="4_0bsqk"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_5g27p"]
+[ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_k4n68"]
+[ext_resource type="PackedScene" uid="uid://5umggsibdp5b" path="res://features/tv_ui/PlayerTV.tscn" id="8_5g27p"]
+[ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="8_mapgate"]
+[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="9_spawn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_djeg3"]
+radius = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_k4n68"]
+radius = 48.0
+
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_playerTV")]
+script = ExtResource("1_v1dgx")
+Player = NodePath("MapLayer/Player")
+Input = NodePath("InputRouter")
+MapId = "test_map2"
+_playerTV = NodePath("PlayerTV")
+
+[node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
+
+[node name="Player" parent="MapLayer" unique_id=1138772278 instance=ExtResource("2_6soyk")]
+position = Vector2(200, 300)
+
+[node name="MapGate" type="Area2D" parent="MapLayer" unique_id=1846353689 node_paths=PackedStringArray("_blink")]
+position = Vector2(-198, 295)
+script = ExtResource("8_mapgate")
+TargetMapId = &"test_map"
+TargetSpawnId = &"test_entry2"
+DisplayName = "返回地图1"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/MapGate" unique_id=643853005]
+texture = ExtResource("4_0bsqk")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/MapGate" unique_id=1084478666]
+shape = SubResource("CircleShape2D_djeg3")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/MapGate" unique_id=611137191]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/MapGate/ClickZone" unique_id=706340108]
+shape = SubResource("CircleShape2D_k4n68")
+
+[node name="Blink" type="Node" parent="MapLayer/MapGate" unique_id=905268912 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("4_5g27p")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="Test2Spawn" type="Node2D" parent="MapLayer" unique_id=2084639007]
+position = Vector2(-207, 307)
+script = ExtResource("9_spawn")
+SpawnId = &"test2_entry"
+
+[node name="InputRouter" type="Node" parent="." unique_id=1263359550]
+script = ExtResource("7_k4n68")
+
+[node name="PlayerTV" parent="." unique_id=2129627915 instance=ExtResource("8_5g27p")]
+offset_left = 1100.0
+offset_top = 543.0
+offset_right = 2503.0
+offset_bottom = 542.83997
+scale = Vector2(0.575, 0.575)

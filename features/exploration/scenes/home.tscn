@@ -29,6 +29,7 @@
 [ext_resource type="PackedScene" uid="uid://cbgyktrrxne4a" path="res://features/workbench/WorkbenchUI.tscn" id="27_wb"]
 [ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="28_mapgate"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="29_spawn"]
+[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="30_hp3pq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_n0vrv"]
 radius = 562.03204
@@ -414,4 +415,4 @@ scale = Vector2(0.575, 0.575)
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")
-Cards = [ExtResource("21_awyto"), ExtResource("22_fxped"), ExtResource("23_tis6c"), ExtResource("24_w2wh5"), ExtResource("25_hp3pq")]
+Cards = [ExtResource("21_awyto"), ExtResource("22_fxped"), ExtResource("23_tis6c"), ExtResource("24_w2wh5"), ExtResource("25_hp3pq"), ExtResource("30_hp3pq")]

@@ -30,7 +30,7 @@ public partial class MainMenu : Control
 
 	private void OnStartPressed()
 	{
-		GD.Print("Start Pressed");
+		SceneTransition.Instance.ChangeScene("res://features/exploration/scenes/home.tscn");
 	}
 
 	private void OnLoadPressed()

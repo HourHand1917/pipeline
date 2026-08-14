@@ -300,4 +300,11 @@ public partial class DataManager : Node
         else PlayerHp = Mathf.Clamp(PlayerHp, 0, MaxPlayerHp);
         EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
     }
+
+    /// <summary>直接设置当前血量（战斗结束写回用）。</summary>
+    public void SetHp(int hp)
+    {
+        PlayerHp = Mathf.Clamp(hp, 0, MaxPlayerHp);
+        EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
+    }
 }

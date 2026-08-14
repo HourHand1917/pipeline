@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="CombatEffectData" format=3 uid="uid://t45w07qyf482"]
+
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_04qtp"]
+
+[resource]
+script = ExtResource("1_04qtp")
+display_name = "攻击"
+description = "对指定距离上的敌人造成伤害"
+amount = 9999
+metadata/_custom_type_script = "uid://d6txs258a48w"

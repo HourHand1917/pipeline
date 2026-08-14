@@ -2,11 +2,11 @@ using Godot;
 using Godot.Collections;
 
 /// <summary>
-/// 地图管理器（CanvasLayer Autoload）。负责跨地图场景切换 + 淡入淡出。
+/// 地图管理器（Autoload）。负责跨地图场景切换，转场效果交给 SceneTransition。
 /// 门调用 TravelTo，新场景的 ExplorationManager 读当前位置和生成点。
 /// </summary>
 [GlobalClass]
-public partial class MapManager : CanvasLayer
+public partial class MapManager : Node
 {
     [Signal] public delegate void MapChangedEventHandler(StringName mapId);
 
@@ -18,9 +18,7 @@ public partial class MapManager : CanvasLayer
     public StringName CurrentSpawnId { get; private set; } = "";
 
     [Export] private string _registryPath = "res://features/exploration/resources/map_registry.tres";
-    [Export] private float _fadeDuration = 0.5f;
 
-    private ColorRect _fadeRect;
     private StringName _pendingSpawnId = "";
     private bool _traveling;
 
@@ -31,21 +29,7 @@ public partial class MapManager : CanvasLayer
     {
         if (Instance != null) { GD.PushError("MapManager: 重复实例化"); return; }
         Instance = this;
-        Layer = 100;
-
-        BuildFadeRect();
         LoadRegistry();
-    }
-
-    private void BuildFadeRect()
-    {
-        _fadeRect = new ColorRect
-        {
-            Color = new Color(0, 0, 0, 0),
-            MouseFilter = Control.MouseFilterEnum.Ignore,
-        };
-        _fadeRect.SetAnchorsPreset(Control.LayoutPreset.FullRect);
-        AddChild(_fadeRect);
     }
 
     private void LoadRegistry()
@@ -68,7 +52,7 @@ public partial class MapManager : CanvasLayer
 
     /// <summary>
     /// 切到目标地图，在指定生成点出现。
-    /// 流程：淡入 → 切场景 → 淡出。
+    /// 流程：圈缩到中央 → 切场景 → 圈放大露出。
     /// </summary>
     public async void TravelTo(StringName targetMapId, StringName spawnId)
     {
@@ -87,19 +71,14 @@ public partial class MapManager : CanvasLayer
         CurrentSpawnId = spawnId;
         _pendingSpawnId = spawnId;
 
-        // 淡入
-        await FadeTo(1f);
-
-        // 切场景
+        // 猫和老鼠转场
+        await SceneTransition.Instance.IrisClose();
         GetTree().ChangeSceneToFile(scenePath);
-
-        // 等一帧，让新场景 _Ready 执行完
         await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
         EmitSignal(SignalName.MapChanged, CurrentMapId);
 
-        // 淡出
-        await FadeTo(0f);
+        await SceneTransition.Instance.IrisOpen();
 
         _traveling = false;
     }
@@ -114,10 +93,13 @@ public partial class MapManager : CanvasLayer
         return s;
     }
 
-    private async System.Threading.Tasks.Task FadeTo(float alpha)
+    /// <summary>
+    /// 首次进入地图（非 TravelTo）时由 ExplorationManager 调用，注册当前地图。
+    /// </summary>
+    public void SetCurrentMap(StringName mapId)
     {
-        var tween = CreateTween();
-        tween.TweenProperty(_fadeRect, "color:a", alpha, _fadeDuration);
-        await ToSignal(tween, Tween.SignalName.Finished);
+        if (CurrentMapId == mapId) return;
+        CurrentMapId = mapId;
+        EmitSignal(SignalName.MapChanged, CurrentMapId);
     }
 }

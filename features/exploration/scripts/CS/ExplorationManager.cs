@@ -20,8 +20,13 @@ public partial class ExplorationManager : Node2D
     public override void _Ready()
     {
         // 从 MapManager 读当前地图（覆盖场景里写死的 MapId）
-        if (MapManager.Instance != null && !string.IsNullOrEmpty(MapManager.Instance.CurrentMapId))
-            MapId = MapManager.Instance.CurrentMapId.ToString();
+        if (MapManager.Instance != null)
+        {
+            if (string.IsNullOrEmpty(MapManager.Instance.CurrentMapId))
+                MapManager.Instance.SetCurrentMap(MapId);  // 首次进入，注册当前地图
+            else
+                MapId = MapManager.Instance.CurrentMapId.ToString();
+        }
 
         // 定位玩家到生成点（跨场景穿梭时）
         if (MapManager.Instance != null)
