@@ -87,6 +87,8 @@ public partial class BattleScreen : Control
         UIManager.EndTurnRequested += () => EmitSignal(SignalName.EndTurnRequested);
         UIManager.BackToBuildRequested += () => EmitSignal(SignalName.BackToBuildRequested);
         UIManager.PlayerTV = playerTV;
+        UIManager.PlayerBuffGrid = playerBuffGrid;
+        UIManager.BuffShowScene = buffShowScene;
 
         itemPanel?.Refresh();
         if (itemPanel != null)

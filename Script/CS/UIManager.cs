@@ -177,6 +177,7 @@ public partial class UIManager : Node
         RefreshStatus();
         RefreshDistanceTrack();
         RefreshActivationButtons();
+        RefreshPlayerBuffs();
     }
 
     private void RefreshBoard(int gridWidth, int gridHeight)
@@ -570,18 +571,18 @@ public partial class UIManager : Node
 
 private void RefreshPlayerBuffs()
 {
+    GD.Print($"[调试] RefreshPlayerBuffs 被调用");
+    GD.Print($"  PlayerBuffGrid={PlayerBuffGrid != null}, BuffShowScene={BuffShowScene != null}, _player={_player != null}");
+
     if (PlayerBuffGrid == null || BuffShowScene == null || _player == null) return;
 
-    foreach (Node child in PlayerBuffGrid.GetChildren())
-    {
-        PlayerBuffGrid.RemoveChild(child);
-        child.QueueFree();
-    }
-
     var stats = _player.GetStats();
+    GD.Print($"  stats={stats != null}");
+
     if (stats == null) return;
 
     var buffs = stats.Get("buffs").As<Godot.Collections.Array>();
+    GD.Print($"  buffs.Count={buffs.Count}");
 
     // ============ 调试 ============
     GD.Print($"[调试] 玩家 Buff 刷新，共 {buffs.Count} 个：");
