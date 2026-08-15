@@ -6,7 +6,7 @@ public partial class ExplorationManager : Node2D
     [Export] public PlayerController Player { get; set; }
     [Export] public InputRouter Input { get; set; }
     [Export] public string MapId { get; set; } = "";
-    [Export] private PlayerTV _playerTV;
+    [Export] private ExplorationHUD _hud;
 
     [ExportGroup("玩家边界")]
     [Export] public int PlayerLeft { get; set; } = -2000;
@@ -62,7 +62,7 @@ public partial class ExplorationManager : Node2D
 
         GD.Print("探索场景已就绪。A/D 移动，鼠标靠近交互物变亮。");
 
-        _playerTV?.SetMode(PlayerTV.TVMode.Exploration);
+        _hud?.SetMode(PlayerTV.TVMode.Exploration);
     }
 
     private static void InitPersistence(Node node, string mapId)

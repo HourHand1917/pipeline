@@ -28,9 +28,13 @@ public partial class WorkbenchUI : Control
     [Export] private Control _aiPage;
     [Export] private Button _closeButton;
 
+    /// <summary>选中 tab 升起的高度（像素）</summary>
+    [Export] private float _tabRaiseOffset = 12f;
+
     private TextureButton[] _tabs;
     private Texture2D[] _activeTextures;
     private Texture2D[] _normalTextures;
+    private Vector2[] _tabBasePositions;
     private Control[] _pages;
     private string[] _showAnims;
     private string[] _hideAnims;
@@ -38,12 +42,14 @@ public partial class WorkbenchUI : Control
     private int _pendingIndex;
     private bool _switching;
     private int? _queuedIndex;
+    private Tween _tabTween;
 
-    public override void _Ready()
+    public override async void _Ready()
     {
         _tabs = new[] { _buildTab, _upgradeTab, _aiTab };
         _activeTextures = new[] { _buildTabActive, _upgradeTabActive, _aiTabActive };
         _normalTextures = new Texture2D[_tabs.Length];
+        _tabBasePositions = new Vector2[_tabs.Length];
         _pages = new Control[] { _buildPage, _upgradePage, _aiPage };
         _showAnims = new[] { "build_show", "upgrade_show", "ai_show" };
         _hideAnims = new[] { "build_hide", "upgrade_hide", "ai_hide" };
@@ -61,6 +67,11 @@ public partial class WorkbenchUI : Control
         if (_closeButton != null)
             _closeButton.Pressed += Close;
 
+        // 等 HBoxContainer 完成首次布局后再捕获基准位置并显示首页。
+        // _Ready 里直接 ShowPage(0) 时 position 还没布局，tween 会被布局覆盖，导致首次打开按钮不升起。
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        for (int i = 0; i < _tabs.Length; i++)
+            if (_tabs[i] != null) _tabBasePositions[i] = _tabs[i].Position;
         ShowPage(0);
     }
 
@@ -71,6 +82,9 @@ public partial class WorkbenchUI : Control
     private void SwitchToPage(int index)
     {
         if (_pages == null || index == _currentIndex) return;
+
+        // 点击立即升起目标 tab，不等旧页退场动画播完
+        UpdateTabVisuals(index);
 
         if (_switching)
         {
@@ -107,15 +121,30 @@ public partial class WorkbenchUI : Control
         for (int i = 0; i < _pages.Length; i++)
             if (_pages[i] != null) _pages[i].Visible = i == index;
 
+        UpdateTabVisuals(index);
+
+        _currentIndex = index;
+        RefreshCurrentPage();
+    }
+
+    /// <summary>更新 tab 按钮贴图与升降（选中升起、其他降回）。可重复调用，幂等。</summary>
+    private void UpdateTabVisuals(int index)
+    {
+        _tabTween?.Kill();
+        _tabTween = CreateTween();
+
         for (int i = 0; i < _tabs.Length; i++)
         {
             if (_tabs[i] == null) continue;
             _tabs[i].TextureNormal = i == index && _activeTextures[i] != null
                 ? _activeTextures[i] : _normalTextures[i];
-        }
 
-        _currentIndex = index;
-        RefreshCurrentPage();
+            float targetY = i == index
+                ? _tabBasePositions[i].Y - _tabRaiseOffset
+                : _tabBasePositions[i].Y;
+            _tabTween.TweenProperty(_tabs[i], "position:y", targetY, 0.2f)
+                .SetTrans(Tween.TransitionType.Sine).SetEase(Tween.EaseType.Out);
+        }
     }
 
     private void RefreshCurrentPage()
@@ -138,8 +167,22 @@ public partial class WorkbenchUI : Control
 
     public void Close()
     {
+        CancelPendingSwitch();
         _anim?.Play("hide_workbench");
         EmitSignal(SignalName.Closed);
+    }
+
+    /// <summary>
+    /// 关闭时取消进行中的页切换。页切换动画被 hide_workbench 打断后，
+    /// OnPanelHidden / OnPanelShown 不会触发，必须手动复位状态并同步页面可见性，
+    /// 否则 _switching 会永久卡在 true，重新打开后点 tab 无响应。
+    /// </summary>
+    private void CancelPendingSwitch()
+    {
+        _switching = false;
+        _queuedIndex = null;
+        _pendingIndex = 0;
+        ShowPage(_currentIndex);
     }
 
     public void EnableTabs(bool enable)

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 DataManager="*res://Script/CS/DataManager.cs"
 GameState="*res://features/exploration/scripts/CS/GameState.cs"
+MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 TooltipService="*res://Script/CS/TooltipService.cs"
 MapManager="*res://features/exploration/scripts/CS/MapManager.cs"
 SceneTransition="*res://Script/CS/SceneTransition.cs"
@@ -32,6 +33,10 @@ window/size/viewport_height=1080
 [dotnet]
 
 project/assembly_name="Pipeline"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
 
 [physics]
 

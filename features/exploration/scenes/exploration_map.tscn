@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_5g27p"]
 [ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="4_6soyk"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_k4n68"]
-[ext_resource type="PackedScene" uid="uid://5umggsibdp5b" path="res://features/tv_ui/PlayerTV.tscn" id="8_5g27p"]
+[ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_5g27p"]
 [ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="8_mapgate"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="9_spawn"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="10_npc"]
@@ -17,12 +17,12 @@ radius = 120.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4n68"]
 radius = 48.0
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_playerTV")]
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_v1dgx")
 Player = NodePath("MapLayer/Player")
 Input = NodePath("InputRouter")
 MapId = "test_map"
-_playerTV = NodePath("PlayerTV")
+_hud = NodePath("HUD")
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 
@@ -128,7 +128,7 @@ SpawnId = &"test_entry2"
 [node name="InputRouter" type="Node" parent="." unique_id=1263359550]
 script = ExtResource("7_k4n68")
 
-[node name="PlayerTV" parent="." unique_id=2129627915 instance=ExtResource("8_5g27p")]
+[node name="HUD" parent="." unique_id=2129627915 instance=ExtResource("8_5g27p")]
 offset_left = 1100.0
 offset_top = 543.0
 offset_right = 2503.0

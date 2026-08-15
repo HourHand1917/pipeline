@@ -1,0 +1,379 @@
+[gd_scene format=3 uid="uid://bsqqn6756hjhv"]
+
+[ext_resource type="Texture2D" uid="uid://d2luylgljdv72" path="res://features/exploration/art_assets/battlescreen/battlegrid.png" id="1_s7gbp"]
+[ext_resource type="Texture2D" uid="uid://cuuv2na4ij1cn" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802220539.png" id="2_44wxd"]
+[ext_resource type="PackedScene" uid="uid://5umggsibdp5b" path="res://features/tv_ui/PlayerTV.tscn" id="3_ikp3g"]
+[ext_resource type="Texture2D" uid="uid://b8t0ee2utaod5" path="res://features/exploration/art_assets/battlescreen/底板.png" id="4_under"]
+[ext_resource type="Texture2D" uid="uid://cskgmyhh0il3a" path="res://features/exploration/art_assets/battlescreen/Untitled_Artwork4_20260802222046.png" id="5_ag7v5"]
+[ext_resource type="Texture2D" uid="uid://qj5h8gvcg7ro" path="res://features/exploration/art_assets/battlescreen/填充.png" id="5_fill"]
+[ext_resource type="Script" uid="uid://cmpb878fwrvji" path="res://features/tv_ui/ExplorationHUD.cs" id="6_script"]
+[ext_resource type="Texture2D" uid="uid://5tdy6psvnu3k" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0001_0.png" id="8_vkmv4"]
+[ext_resource type="Texture2D" uid="uid://ds5perm7gmcjw" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0002_18.png" id="9_u4o1a"]
+[ext_resource type="Texture2D" uid="uid://mmr4d3xnpmlc" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0003_19.png" id="10_u7rgl"]
+[ext_resource type="Texture2D" uid="uid://cp48k8wkx70uy" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0004_19.png" id="11_4barp"]
+[ext_resource type="Texture2D" uid="uid://de5vtsfc3bori" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0005_19.png" id="12_kr7n1"]
+[ext_resource type="Texture2D" uid="uid://c8bupt3myowf0" path="res://features/exploration/art_assets/battlescreen/rubber-heart/0006_18.png" id="13_t5nbc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q61mi"]
+texture = ExtResource("5_ag7v5")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rsb7d"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_uhltk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_vkmv4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_u4o1a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_u7rgl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_4barp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_kr7n1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_t5nbc")
+}],
+"loop": true,
+"name": &"idel",
+"speed": 8.0
+}]
+
+[sub_resource type="Animation" id="Animation_ag7v5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Board:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-77.999985, 841.00006)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerTV:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(750, 629)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("statsbarcontainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("statsbarcontainer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerTV:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Board:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_vkmv4"]
+resource_name = "hide_hud"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Board:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(-77.999985, 841.00006), Vector2(-77.999985, 1242)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerTV:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(750, 629), Vector2(750, 1103)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("statsbarcontainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -225)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("statsbarcontainer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerTV:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Board:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_u4o1a"]
+resource_name = "show_hud"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Board:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(-77.999985, 1242), Vector2(-77.999985, 841.00006)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("PlayerTV:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(750, 1103), Vector2(750, 629)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("statsbarcontainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, -225), Vector2(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("statsbarcontainer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("PlayerTV:visible")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Board:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_u7rgl"]
+_data = {
+&"RESET": SubResource("Animation_ag7v5"),
+&"hide_hud": SubResource("Animation_vkmv4"),
+&"show_hud": SubResource("Animation_u4o1a")
+}
+
+[node name="ExplorationHUD" type="Control" unique_id=653107426 node_paths=PackedStringArray("_healthBar", "_anim", "_playerTV")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("6_script")
+_healthBar = NodePath("statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
+_anim = NodePath("Anim")
+_playerTV = NodePath("PlayerTV")
+
+[node name="Board" type="Control" parent="." unique_id=1993773280]
+layout_mode = 1
+anchor_left = -0.05399999
+anchor_top = 1.15
+anchor_right = 0.47033665
+anchor_bottom = 1.638819
+offset_left = -0.23999786
+offset_top = -400.99994
+offset_right = 384.91992
+offset_bottom = -135.31702
+rotation = -0.2617994
+scale = Vector2(0.68, 0.68)
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect2" type="TextureRect" parent="Board" unique_id=941838963]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.12464638
+anchor_top = 0.16185895
+anchor_right = 0.7665746
+anchor_bottom = 0.7476136
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_s7gbp")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="Board" unique_id=1776515209]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_44wxd")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PlayerTV" parent="." unique_id=2129627915 instance=ExtResource("3_ikp3g")]
+layout_mode = 1
+offset_left = 750.0
+offset_top = 629.0
+offset_right = 2153.0
+offset_bottom = 631.8518
+scale = Vector2(0.485, 0.485)
+
+[node name="statsbarcontainer" type="HBoxContainer" parent="." unique_id=999796624]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 0
+offset_bottom = 150.0
+mouse_filter = 2
+
+[node name="statsbarcontrol" type="Control" parent="statsbarcontainer" unique_id=1236462962]
+layout_mode = 2
+
+[node name="statsbarboard" type="PanelContainer" parent="statsbarcontainer/statsbarcontrol" unique_id=54629921]
+layout_mode = 0
+offset_right = 642.0
+offset_bottom = 187.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_q61mi")
+
+[node name="statsbarholder" type="PanelContainer" parent="statsbarcontainer/statsbarcontrol" unique_id=2121816178]
+layout_mode = 0
+offset_left = 201.99998
+offset_top = 51.0
+offset_right = 1570.0
+offset_bottom = 262.0
+scale = Vector2(0.31534487, 0.1934245)
+theme_override_styles/panel = SubResource("StyleBoxFlat_rsb7d")
+
+[node name="healthbar" type="TextureProgressBar" parent="statsbarcontainer/statsbarcontrol/statsbarholder" unique_id=587836775]
+layout_mode = 2
+texture_under = ExtResource("4_under")
+texture_progress = ExtResource("5_fill")
+
+[node name="rubberheart" type="AnimatedSprite2D" parent="statsbarcontainer/statsbarcontrol" unique_id=827892657]
+position = Vector2(133, 84)
+scale = Vector2(0.16782407, 0.16226853)
+sprite_frames = SubResource("SpriteFrames_uhltk")
+animation = &"idel"
+autoplay = "idel"
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=119234607]
+libraries/ = SubResource("AnimationLibrary_u7rgl")
