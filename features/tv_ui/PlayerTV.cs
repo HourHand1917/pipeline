@@ -15,6 +15,7 @@ public partial class PlayerTV : Control
     [Export] private MapPanel _mapPanel;
     [Export] private InventoryPanel _inventoryPanel;
     [Export] private EnemyMessage _enemyPanel;
+    [Export] private RewardPage _rewardPage;
 
     private Control[] _panels;
     private int _currentIndex;
@@ -29,6 +30,9 @@ public partial class PlayerTV : Control
             _upButton.Pressed += () => SwitchPanel(-1);
         if (_downButton != null)
             _downButton.Pressed += () => SwitchPanel(1);
+
+        if (_rewardPage != null)
+            _rewardPage.RewardOpened += SwitchToInventory;
 
         for (int i = 0; i < _panels.Length; i++)
             if (_panels[i] != null) _panels[i].Visible = i == 0;
@@ -78,6 +82,30 @@ public partial class PlayerTV : Control
             _queuedDirection = null;
             SwitchPanel(dir);
         }
+    }
+
+    /// <summary>切到背包面板（战利品弹出时展示刚领到的东西）。</summary>
+    public void SwitchToInventory()
+    {
+        if (_panels == null || _inventoryPanel == null) return;
+
+        int target = -1;
+        for (int i = 0; i < _panels.Length; i++)
+            if (_panels[i] == _inventoryPanel) { target = i; break; }
+
+        if (target < 0 || target == _currentIndex) return;
+
+        int count = _panels.Length;
+        int delta = ((target - _currentIndex) % count + count) % count;
+        if (delta > count / 2) delta -= count; // 走更近的一侧
+
+        SwitchPanel(delta);
+    }
+
+    /// <summary>打开战利品页（HUD 转调）。RewardOpened 信号会触发切到背包面板。</summary>
+    public void OpenReward(ILootSource source)
+    {
+        _rewardPage?.Open(source);
     }
 
     // ================================================================

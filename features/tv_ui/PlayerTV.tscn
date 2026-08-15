@@ -12,6 +12,125 @@
 [ext_resource type="Script" uid="uid://ciw3cgy08xxfo" path="res://features/tv_ui/RewardPage.cs" id="10_4701r"]
 [ext_resource type="Texture2D" uid="uid://seunnoggcflu" path="res://features/exploration/art_assets/battlescreen/清单.png" id="11_3rkpp"]
 
+[sub_resource type="Animation" id="Animation_reward_reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(537, 62.5)]
+}
+
+[sub_resource type="Animation" id="Animation_reward_hide"]
+resource_name = "hide_reward"
+length = 0.5
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [false],
+"method": &"EnableButtons"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(537, -779.5), Vector2(537, 62.5)]
+}
+
+[sub_resource type="Animation" id="Animation_reward_show"]
+resource_name = "show_reward"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"EnableButtons"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(537, 62.5), Vector2(537, -779.5)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_reward"]
+_data = {
+&"RESET": SubResource("Animation_reward_reset"),
+&"hide_reward": SubResource("Animation_reward_hide"),
+&"show_reward": SubResource("Animation_reward_show")
+}
+
 [sub_resource type="Animation" id="Animation_5f3a5"]
 length = 0.001
 tracks/0/type = "value"
@@ -88,7 +207,7 @@ _data = {
 &"switch_panel": SubResource("Animation_butd8")
 }
 
-[node name="PlayerTV" type="Control" unique_id=2129627915 node_paths=PackedStringArray("_anim", "_upButton", "_downButton", "_mapPanel", "_inventoryPanel", "_enemyPanel")]
+[node name="PlayerTV" type="Control" unique_id=2129627915 node_paths=PackedStringArray("_anim", "_upButton", "_downButton", "_mapPanel", "_inventoryPanel", "_enemyPanel", "_rewardPage")]
 custom_minimum_size = Vector2(1402, 896)
 layout_mode = 3
 anchor_bottom = 0.827
@@ -105,8 +224,75 @@ _downButton = NodePath("DownBtn")
 _mapPanel = NodePath("PanelStack/MapPanel")
 _inventoryPanel = NodePath("PanelStack/InventoryPanel")
 _enemyPanel = NodePath("PanelStack/EnemyPanel")
+_rewardPage = NodePath("RewardPage")
 
-[node name="TextureRect" type="TextureRect" parent="." unique_id=1611279294]
+[node name="RewardPage" type="Control" parent="." unique_id=962686128 node_paths=PackedStringArray("_anim", "_lootList", "_closeButton")]
+visible = false
+layout_mode = 1
+anchor_left = 0.38307488
+anchor_top = 0.9666165
+anchor_right = 0.9857584
+anchor_bottom = 2.2140255
+offset_left = -0.45404053
+offset_top = -803.59784
+offset_right = -0.019042969
+offset_bottom = -804.213
+script = ExtResource("10_4701r")
+_anim = NodePath("Anim")
+_lootList = NodePath("LootList")
+_closeButton = NodePath("CloseBtn")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect2" type="TextureRect" parent="RewardPage" unique_id=1912452012]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("11_3rkpp")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="RewardPage" unique_id=2046933998]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 48.0
+theme_override_font_sizes/font_size = 24
+text = "战利品"
+horizontal_alignment = 1
+
+[node name="LootList" type="VBoxContainer" parent="RewardPage" unique_id=810260516]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = 56.0
+offset_right = -20.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 4
+
+[node name="CloseBtn" type="Button" parent="RewardPage" unique_id=188051910]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -76.0
+offset_top = 6.0
+offset_right = -12.0
+offset_bottom = 46.0
+text = "关闭"
+
+[node name="Anim" type="AnimationPlayer" parent="RewardPage" unique_id=94734242]
+libraries/ = SubResource("AnimationLibrary_reward")
+
+[node name="BackGround" type="TextureRect" parent="." unique_id=1611279294]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -284,20 +470,6 @@ offset_top = 0.10021973
 offset_right = 910.0
 offset_bottom = 517.97034
 scale = Vector2(0.5714649, 0.5394293)
-
-[node name="RewardPage" type="Control" parent="PanelStack" unique_id=962686128]
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-script = ExtResource("10_4701r")
-
-[node name="TextureRect2" type="TextureRect" parent="PanelStack/RewardPage" unique_id=1912452012]
-layout_mode = 0
-offset_left = -74.0
-offset_top = -119.401085
-offset_right = 1057.0
-offset_bottom = 1365.5989
-texture = ExtResource("11_3rkpp")
 
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=610337759]
 libraries/ = SubResource("AnimationLibrary_1tjra")

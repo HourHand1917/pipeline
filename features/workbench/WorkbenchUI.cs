@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 /// <summary>
 /// 工作台 UI 容器。三个 tab 按钮切换三个页面。
@@ -6,8 +7,8 @@ using Godot;
 ///
 /// 动画（Anim 里）：
 ///   RESET           → WorkbenchUI + 三个页面 visible=false
-///   show_workbench  → 入场，frame 0 method→EnableTabs(true)
-///   hide_workbench  → 退场，frame 0 method→EnableTabs(false)
+///   show_workbench  → 入场，末尾 method→EnableAllButtons(true)
+///   hide_workbench  → 退场，开头 method→EnableAllButtons(false)
 ///   build_show/hide, upgrade_show/hide, ai_show/hide
 ///     frame 0 设页面 visible，frame 0.5 method→OnPanelHidden / OnPanelShown
 /// </summary>
@@ -43,8 +44,11 @@ public partial class WorkbenchUI : Control
     private bool _switching;
     private int? _queuedIndex;
     private Tween _tabTween;
+    private bool _basePositionsCaptured;
+    private Dictionary<BaseButton, bool> _savedDisabledStates;
+    private bool _buttonsDisabled;
 
-    public override async void _Ready()
+    public override void _Ready()
     {
         _tabs = new[] { _buildTab, _upgradeTab, _aiTab };
         _activeTextures = new[] { _buildTabActive, _upgradeTabActive, _aiTabActive };
@@ -67,12 +71,9 @@ public partial class WorkbenchUI : Control
         if (_closeButton != null)
             _closeButton.Pressed += Close;
 
-        // 等 HBoxContainer 完成首次布局后再捕获基准位置并显示首页。
-        // _Ready 里直接 ShowPage(0) 时 position 还没布局，tween 会被布局覆盖，导致首次打开按钮不升起。
-        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-        for (int i = 0; i < _tabs.Length; i++)
-            if (_tabs[i] != null) _tabBasePositions[i] = _tabs[i].Position;
-        ShowPage(0);
+        // 页面可见性和 tab 升起都推迟到 Open() 时做。
+        // HBoxContainer 的首次排序是 call_deferred 触发的，比 process_frame 还晚，
+        // 在 _Ready 里（哪怕延迟一帧）做 tween 仍会被布局覆盖，导致首次打开不升起。
     }
 
     // ================================================================
@@ -95,6 +96,7 @@ public partial class WorkbenchUI : Control
         _pendingIndex = index;
         _queuedIndex = null;
         _switching = true;
+        EnableAllButtons(false);
         _anim?.Play(_hideAnims[_currentIndex]);
     }
 
@@ -114,6 +116,10 @@ public partial class WorkbenchUI : Control
             _queuedIndex = null;
             SwitchToPage(idx);
         }
+        else
+        {
+            EnableAllButtons(true);
+        }
     }
 
     private void ShowPage(int index)
@@ -130,8 +136,19 @@ public partial class WorkbenchUI : Control
     /// <summary>更新 tab 按钮贴图与升降（选中升起、其他降回）。可重复调用，幂等。</summary>
     private void UpdateTabVisuals(int index)
     {
+        // 惰性捕获基准位置：只在第一次真正用到时抓取（此时必已布局完成），且只抓一次，
+        // 避免把已经升起的位置误当成基准。
+        if (!_basePositionsCaptured)
+        {
+            for (int i = 0; i < _tabs.Length; i++)
+                if (_tabs[i] != null) _tabBasePositions[i] = _tabs[i].Position;
+            _basePositionsCaptured = true;
+        }
+
         _tabTween?.Kill();
         _tabTween = CreateTween();
+        // 并行播放，让「选中升起」和「其他降下」同时进行，而不是逐个顺序播放
+        _tabTween.SetParallel(true);
 
         for (int i = 0; i < _tabs.Length; i++)
         {
@@ -162,6 +179,9 @@ public partial class WorkbenchUI : Control
     public void Open()
     {
         Visible = true;
+        // 首次打开在这里初始化：ShowPage 会设置页面可见性 + 升起当前 tab。
+        // 此时布局早已完成，基准位置正确，不会被容器重排覆盖。
+        ShowPage(_currentIndex);
         _anim?.Play("show_workbench");
     }
 
@@ -185,9 +205,45 @@ public partial class WorkbenchUI : Control
         ShowPage(_currentIndex);
     }
 
-    public void EnableTabs(bool enable)
+    /// <summary>
+    /// 禁用/启用工作台内所有按钮（递归查找 BaseButton 子节点）。供动画轨道 method 调用，
+    /// 也用于页切换期间。禁用前会记住每个按钮原有的 Disabled 状态，启用时恢复，避免把
+    /// 逻辑上本就该禁用的按钮（如棋盘越界格、库存为 0 的卡牌）误开启。
+    /// 幂等：重复调用 false / true 不会重复保存或覆盖原始状态。
+    /// </summary>
+    public void EnableAllButtons(bool enable)
     {
-        foreach (var t in _tabs)
-            if (t != null) t.Disabled = !enable;
+        if (enable)
+        {
+            if (!_buttonsDisabled) return;
+            foreach (var pair in _savedDisabledStates)
+            {
+                if (GodotObject.IsInstanceValid(pair.Key))
+                    pair.Key.Disabled = pair.Value;
+            }
+            _savedDisabledStates = null;
+            _buttonsDisabled = false;
+        }
+        else
+        {
+            if (_buttonsDisabled) return;
+            _savedDisabledStates = new Dictionary<BaseButton, bool>();
+            var buttons = new List<BaseButton>();
+            CollectButtons(this, buttons);
+            foreach (var btn in buttons)
+            {
+                _savedDisabledStates[btn] = btn.Disabled;
+                btn.Disabled = true;
+            }
+            _buttonsDisabled = true;
+        }
+    }
+
+    private static void CollectButtons(Node node, List<BaseButton> result)
+    {
+        if (node is BaseButton btn)
+            result.Add(btn);
+        foreach (Node child in node.GetChildren())
+            CollectButtons(child, result);
     }
 }

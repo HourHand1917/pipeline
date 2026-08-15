@@ -165,7 +165,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"show",
-"speed": 18.0
+"speed": 14.0
 }]
 
 [sub_resource type="Animation" id="anim_reset"]
@@ -185,46 +185,10 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("PanelStack/BuildPage:visible")
+tracks/1/path = NodePath(".:position")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("PanelStack/UpgradePage:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("PanelStack/AIPage:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -241,10 +205,10 @@ tracks/0/path = NodePath("PanelStack/AIPage:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [true, false]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -259,6 +223,18 @@ tracks/1/keys = {
 "args": [],
 "method": &"OnPanelHidden"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelStack/AIPage:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1387, 0)]
 }
 
 [sub_resource type="Animation" id="anim_ai_show"]
@@ -290,6 +266,18 @@ tracks/1/keys = {
 "method": &"OnPanelShown"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelStack/AIPage:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(1395, 0), Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="anim_build_hide"]
 resource_name = "build_hide"
@@ -301,10 +289,10 @@ tracks/0/path = NodePath("PanelStack/BuildPage:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [true, false]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -319,6 +307,18 @@ tracks/1/keys = {
 "args": [],
 "method": &"OnPanelHidden"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelStack/BuildPage:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1414, 0)]
 }
 
 [sub_resource type="Animation" id="anim_build_show"]
@@ -350,6 +350,18 @@ tracks/1/keys = {
 "method": &"OnPanelShown"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelStack/BuildPage:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(1390, 0), Vector2(0, 0)]
+}
 
 [sub_resource type="Animation" id="anim_hide_wb"]
 resource_name = "hide_workbench"
@@ -364,7 +376,7 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [false],
-"method": &"EnableTabs"
+"method": &"EnableAllButtons"
 }]
 }
 tracks/1/type = "value"
@@ -431,7 +443,7 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [true],
-"method": &"EnableTabs"
+"method": &"EnableAllButtons"
 }]
 }
 tracks/2/type = "method"
@@ -441,7 +453,7 @@ tracks/2/path = NodePath("AnimatedSprite2D")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.43333334),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": ["show"],
@@ -471,10 +483,10 @@ tracks/0/path = NodePath("PanelStack/UpgradePage:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [true, false]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -489,6 +501,18 @@ tracks/1/keys = {
 "args": [],
 "method": &"OnPanelHidden"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelStack/UpgradePage:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-1388, 0)]
 }
 
 [sub_resource type="Animation" id="anim_upgrade_show"]
@@ -519,6 +543,18 @@ tracks/1/keys = {
 "args": [],
 "method": &"OnPanelShown"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("PanelStack/UpgradePage:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(1406, 0), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5f42w"]
@@ -588,7 +624,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="BuildPage" type="Control" parent="PanelStack" unique_id=1969213508 node_paths=PackedStringArray("_boardManager", "_buildGrid", "_inventoryBox")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -737,6 +772,8 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = -1388.0
+offset_right = -1388.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_upgrade")
@@ -978,6 +1015,8 @@ metadata/_edit_use_anchors_ = true
 [node name="AIPage" parent="PanelStack" unique_id=247915953 instance=ExtResource("4_ai")]
 visible = false
 layout_mode = 1
+offset_left = 1395.0
+offset_right = 1395.0
 
 [node name="TabBar" type="HBoxContainer" parent="." unique_id=125854586]
 z_index = -1
@@ -1013,9 +1052,7 @@ stretch_mode = 5
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1048984163]
 position = Vector2(720, 540)
 sprite_frames = SubResource("SpriteFrames_f11c3")
-animation = &"hide"
-frame = 13
-frame_progress = 1.0
+animation = &"show"
 
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=1887714940]
 libraries/ = SubResource("AnimationLibrary_5f42w")
