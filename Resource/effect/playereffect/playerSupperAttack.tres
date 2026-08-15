@@ -6,5 +6,5 @@
 script = ExtResource("1_04qtp")
 display_name = "攻击"
 description = "对指定距离上的敌人造成伤害"
-amount = 9999
+amount = 30
 metadata/_custom_type_script = "uid://d6txs258a48w"

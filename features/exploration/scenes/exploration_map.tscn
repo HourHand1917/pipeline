@@ -32,8 +32,8 @@ position = Vector2(200, 300)
 [node name="EnemyRocky" type="Area2D" parent="MapLayer" unique_id=508683534 node_paths=PackedStringArray("_blink")]
 position = Vector2(-711, 300)
 script = ExtResource("10_npc")
-BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
-ReturnSpawnId = &"RockyReturnSpawn"
+BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
+ReturnSpawnId = &"sharrk"
 AggroRadius = 100.0
 NpcName = "岩石怪"
 PersistenceId = "enemy_rocky_test"
