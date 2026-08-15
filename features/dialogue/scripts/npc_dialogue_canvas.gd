@@ -13,7 +13,7 @@ const CANVAS_GROUP := &"npc_dialogue_canvas"
 
 @onready var root: Control = %Root
 @onready var bubble_stack: Control = %BubbleStack
-@onready var choice_panel: PanelContainer = %ChoicePanel
+@onready var choice_list: VBoxContainer = %ChoiceList
 
 var _dialogic: Node
 var _anchor: Node2D
@@ -21,13 +21,14 @@ var _active_bubble: NPCDialogueBubble
 var _bubbles: Array[Control] = []
 var _stack_height := 0.0
 var _layout_tween: Tween
+var _choice_tween: Tween
 var _connected := false
 
 
 func _ready() -> void:
 	add_to_group(CANVAS_GROUP)
 	root.hide()
-	_set_choice_panel_active(false)
+	_set_choice_list_active(false)
 	call_deferred("_connect_dialogic")
 	set_process(true)
 
@@ -81,13 +82,13 @@ func _disconnect_dialogic() -> void:
 
 func _on_timeline_started() -> void:
 	_clear_bubbles()
-	_set_choice_panel_active(false)
+	_set_choice_list_active(false)
 	root.show()
 	_update_anchor_position()
 
 
 func _on_timeline_ended() -> void:
-	_set_choice_panel_active(false)
+	_set_choice_list_active(false)
 	root.hide()
 	_clear_bubbles()
 	_anchor = null
@@ -121,18 +122,26 @@ func _on_about_to_show_text(info: Dictionary) -> void:
 
 
 func _on_question_shown(info: Dictionary) -> void:
-	_set_choice_panel_active(not bool(info.get("invalid", false)))
+	_set_choice_list_active(not bool(info.get("invalid", false)))
 
 
 func _on_choice_selected(_info: Dictionary) -> void:
-	_set_choice_panel_active(false)
+	_set_choice_list_active(false)
 
 
-func _set_choice_panel_active(active: bool) -> void:
-	if not is_instance_valid(choice_panel):
+func _set_choice_list_active(active: bool) -> void:
+	if not is_instance_valid(choice_list):
 		return
-	choice_panel.modulate.a = 1.0 if active else 0.0
-	choice_panel.mouse_filter = Control.MOUSE_FILTER_STOP if active else Control.MOUSE_FILTER_IGNORE
+	if is_instance_valid(_choice_tween):
+		_choice_tween.kill()
+	choice_list.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if not active:
+		choice_list.modulate.a = 0.0
+		return
+	choice_list.modulate.a = 0.0
+	_choice_tween = create_tween()
+	_choice_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	_choice_tween.tween_property(choice_list, "modulate:a", 1.0, 0.14)
 
 
 func _layout_bubbles(animated := false) -> void:

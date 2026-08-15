@@ -14,17 +14,33 @@ func _ready() -> void:
 
 	var canvas_scene := load("res://features/dialogue/scenes/npc_dialogue_canvas.tscn") as PackedScene
 	var npc_scene := load("res://features/dialogue/scenes/npc_interactables.tscn") as PackedScene
+	var choice_scene := load("res://features/dialogue/scenes/dialogue_choice_bubble.tscn") as PackedScene
+	var wasteland_theme := load("res://features/dialogue/themes/wasteland_industrial_dialogue_theme.tres") as Theme
 	_check(canvas_scene != null, "canvas scene loads")
 	_check(npc_scene != null, "npc scene loads")
-	if canvas_scene == null or npc_scene == null:
+	_check(choice_scene != null, "choice bubble scene loads")
+	_check(wasteland_theme != null, "wasteland industrial theme loads")
+	if canvas_scene == null or npc_scene == null or choice_scene == null:
 		_finish()
 		return
+
+	var reusable_choice := choice_scene.instantiate()
+	_check(reusable_choice is DialogicNode_ChoiceButton, "choice bubble inherits official DialogicNode_ChoiceButton")
+	_check(reusable_choice is NPCDialogueChoiceBubble, "choice bubble uses the project visual subclass")
+	reusable_choice.queue_free()
 
 	var canvas := canvas_scene.instantiate()
 	add_child(canvas)
 	await get_tree().process_frame
 	_check(canvas.is_in_group("npc_dialogue_canvas"), "canvas registers discovery group")
-	_check(get_tree().get_nodes_in_group("dialogic_choice_button").size() == 8, "eight official choice buttons")
+	_check(canvas.get_node_or_null("Root/ChoicePanel") == null, "choices have no outer panel")
+	var choice_list := canvas.get_node("Root/ChoiceList") as VBoxContainer
+	_check(choice_list != null, "choice list exists directly under the canvas")
+	var official_choices := get_tree().get_nodes_in_group("dialogic_choice_button")
+	_check(official_choices.size() == 8, "eight official choice buttons")
+	_check(official_choices.all(func(button: Node) -> bool: return button is NPCDialogueChoiceBubble), "all choices use independent bubble scenes")
+	_check(official_choices.all(func(button: Node) -> bool: return button.get_parent() == choice_list), "every choice bubble is a direct list item")
+	_check(official_choices.all(func(button: Node) -> bool: return (button as Control).theme == wasteland_theme), "all choice bubbles reuse the wasteland theme")
 
 	var npc := npc_scene.instantiate()
 	add_child(npc)
@@ -72,7 +88,9 @@ func _ready() -> void:
 		func(button: Node) -> bool: return button.visible
 	)
 	_check(visible_choices.size() == 2, "Dialogic populates the two configured choices")
-	_check(canvas.get_node("Root/ChoicePanel").modulate.a > 0.9, "large choice panel is shown")
+	_check(choice_list.modulate.a > 0.9, "independent choice bubbles are shown")
+	_check(visible_choices.all(func(button: Node) -> bool: return button.get_node_or_null("Content/Row/ChoiceText") != null), "each choice owns its complete text bubble")
+	_check(visible_choices[0].get_node("Content/Row/ChoiceText").text == "选择左边", "Dialogic writes text into the custom bubble")
 	if not visible_choices.is_empty():
 		visible_choices[0].call("_pressed")
 		await get_tree().process_frame

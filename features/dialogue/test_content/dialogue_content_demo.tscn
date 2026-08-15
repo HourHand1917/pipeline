@@ -1,0 +1,105 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="PackedScene" path="res://features/dialogue/scenes/npc_interactables.tscn" id="1_npc"]
+[ext_resource type="PackedScene" path="res://features/dialogue/scenes/npc_dialogue_canvas.tscn" id="2_canvas"]
+[ext_resource type="PackedScene" path="res://features/exploration/scenes/player.tscn" id="3_player"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/timelines/水龙头与上层工程师.dtl" id="4_timeline"]
+[ext_resource type="Script" path="res://features/dialogue/test_content/dialogue_content_demo.gd" id="5_demo"]
+
+[sub_resource type="StyleBoxFlat" id="StyleInstructions"]
+bg_color = Color(0.055, 0.065, 0.075, 0.92)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.31, 0.78, 0.84, 0.85)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 8
+
+[node name="DialogueContentDemo" type="Node2D"]
+script = ExtResource("5_demo")
+
+[node name="Backdrop" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-1600, -1200, 1600, -1200, 1600, 1200, -1600, 1200)
+color = Color(0.075, 0.085, 0.09, 1)
+
+[node name="FloorLine" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(-720, 116, 720, 116, 720, 122, -720, 122)
+color = Color(0.31, 0.78, 0.84, 0.55)
+
+[node name="NPC" parent="." instance=ExtResource("1_npc")]
+position = Vector2(0, -40)
+DisplayName = "鼠鼠"
+Timeline = ExtResource("4_timeline")
+
+[node name="MouseGlyph" type="Label" parent="."]
+offset_left = -43.0
+offset_top = -102.0
+offset_right = 43.0
+offset_bottom = -18.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.86, 0.7, 0.35, 1)
+theme_override_colors/font_outline_color = Color(0.03, 0.035, 0.04, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 66
+text = "鼠"
+horizontal_alignment = 1
+
+[node name="NpcCaption" type="Label" parent="."]
+offset_left = -120.0
+offset_top = -14.0
+offset_right = 120.0
+offset_bottom = 48.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.94, 0.9, 0.79, 1)
+theme_override_colors/font_outline_color = Color(0.03, 0.035, 0.04, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 22
+text = "鼠鼠\n按 E 或点击鼠鼠"
+horizontal_alignment = 1
+
+[node name="Player" parent="." instance=ExtResource("3_player")]
+position = Vector2(0, 58)
+
+[node name="PlayerGlyph" type="Label" parent="."]
+offset_left = -33.0
+offset_top = 18.0
+offset_right = 33.0
+offset_bottom = 92.0
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.31, 0.78, 0.84, 1)
+theme_override_colors/font_outline_color = Color(0.03, 0.035, 0.04, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 58
+text = "R"
+horizontal_alignment = 1
+
+[node name="NPCDialogueCanvas" parent="." instance=ExtResource("2_canvas")]
+
+[node name="Instructions" type="CanvasLayer" parent="."]
+layer = 30
+
+[node name="Panel" type="PanelContainer" parent="Instructions"]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 430.0
+offset_bottom = 142.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleInstructions")
+
+[node name="Margin" type="MarginContainer" parent="Instructions/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="Text" type="Label" parent="Instructions/Panel/Margin"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.9, 0.79, 1)
+theme_override_font_sizes/font_size = 20
+text = "NPC 对话 UI 测试\n靠近鼠鼠后按 E，或用鼠标点击鼠鼠。\n对话中按空格/点击继续。"
