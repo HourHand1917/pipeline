@@ -59,4 +59,10 @@ public partial class ExplorationHUD : Control
     {
         // 预留：动画里需要禁用交互时，在这里处理子节点按钮
     }
+
+    /// <summary>触发战利品领取页（宝箱/敌人等交互物调用）。路由到 TV 内的 RewardPage。</summary>
+    public void ShowReward(ILootSource source)
+    {
+        _playerTV?.OpenReward(source);
+    }
 }

@@ -18,7 +18,7 @@ MainScene                          MainScene
 ├─ BoardManager                    │  └─ UIManager (新增：UI管理器)
 ├─ BattleManager                   ├─ BoardManager
 └─ EffectResolver                  ├─ BattleManager (主循环纯净)
-                                   └─ EffectResolver
+								   └─ EffectResolver
 ```
 
 ### Layer Cake 分层
@@ -116,21 +116,21 @@ data.Get(GDScriptKeys.CardData.DisplayName)
 ## 4. 信号连接图
 
 ```
-                    MainScene
-                        │
-        ┌───────────────┼───────────────┐
-        ▼               ▼               ▼
+					MainScene
+						│
+		┌───────────────┼───────────────┐
+		▼               ▼               ▼
    BuildScreen    BattleScreen    BoardManager
    (构筑Canvas)   (协调层)        (桌面管理)
-        │               │               │
-        │               ▼               │
-        │          UIManager            │
-        │          (UI管理)             │
-        │               │               │
-        ▼               ▼               ▼
+		│               │               │
+		│               ▼               │
+		│          UIManager            │
+		│          (UI管理)             │
+		│               │               │
+		▼               ▼               ▼
    ─────────── DataManager (Autoload) ───────────
-        │                                    │
-        ▼                                    ▼
+		│                                    │
+		▼                                    ▼
    SaveBuildWithSize                  LoadBuild
 ```
 

@@ -186,6 +186,8 @@ public static class GDScriptKeys
     {
         public static readonly StringName Id = "id";
         public static readonly StringName DisplayName = "display_name";
+        public static readonly StringName Description = "description";
+        public static readonly StringName Icon = "icon";
         public static readonly StringName Effects = "effects";
         public static readonly StringName SpecialEffects = "special_effects";
         public static readonly StringName SpecialAmount = "special_amount";
@@ -206,5 +208,25 @@ public static class GDScriptKeys
         // 方法名
         public static readonly StringName IsValidCell = "is_valid_cell";
         public static readonly StringName CombatDistance = "combat_distance";
+    }
+
+    // ================================================================
+    //  LootTable (loot_table.gd)
+    // ================================================================
+    public static class LootTable
+    {
+        public static readonly StringName BottleCap = "bottle_cap";
+        public static readonly StringName Faucet = "faucet";
+        public static readonly StringName Cards = "cards";
+        public static readonly StringName Items = "items";
+
+        // 方法名
+        public static readonly StringName IsEmpty = "is_empty";
+        public static readonly StringName TakeBottleCap = "take_bottle_cap";
+        public static readonly StringName TakeFaucet = "take_faucet";
+        public static readonly StringName TakeCard = "take_card";
+        public static readonly StringName TakeItem = "take_item";
+        public static readonly StringName ToDict = "to_dict";
+        public static readonly StringName FromDict = "from_dict";
     }
 }
