@@ -1,0 +1,278 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/scripts/npc_dialogue_canvas.gd" id="1_canvas"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Choice/node_choice_button.gd" id="2_choice"]
+
+[sub_resource type="StyleBoxFlat" id="StyleChoicePanel"]
+bg_color = Color(0.055, 0.065, 0.075, 0.96)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.31, 0.78, 0.84, 0.9)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.38)
+shadow_size = 12
+shadow_offset = Vector2(0, 6)
+
+[sub_resource type="StyleBoxFlat" id="StyleChoiceNormal"]
+bg_color = Color(0.13, 0.15, 0.17, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.33, 0.38, 0.41, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+content_margin_left = 20.0
+content_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleChoiceHover"]
+bg_color = Color(0.12, 0.35, 0.39, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.42, 0.95, 1, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+content_margin_left = 20.0
+content_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleChoicePressed"]
+bg_color = Color(0.09, 0.54, 0.58, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.72, 1, 1, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+content_margin_left = 20.0
+content_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleChoiceFocus"]
+bg_color = Color(0.13, 0.15, 0.17, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.92, 0.73, 0.28, 1)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+content_margin_left = 20.0
+content_margin_right = 20.0
+
+[sub_resource type="StyleBoxFlat" id="StyleChoiceDisabled"]
+bg_color = Color(0.1, 0.1, 0.11, 0.75)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.24, 0.25, 0.26, 0.7)
+corner_radius_top_left = 11
+corner_radius_top_right = 11
+corner_radius_bottom_right = 11
+corner_radius_bottom_left = 11
+content_margin_left = 20.0
+content_margin_right = 20.0
+
+[node name="NPCDialogueCanvas" type="CanvasLayer"]
+layer = 24
+script = ExtResource("1_canvas")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BubbleStack" type="Control" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 0
+mouse_filter = 2
+
+[node name="ChoicePanel" type="PanelContainer" parent="Root"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -320.0
+offset_top = -394.0
+offset_right = 320.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleChoicePanel")
+
+[node name="ChoiceMargin" type="MarginContainer" parent="Root/ChoicePanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 18
+
+[node name="ChoiceList" type="VBoxContainer" parent="Root/ChoicePanel/ChoiceMargin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ChoiceTitle" type="Label" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.42, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "选择回应"
+horizontal_alignment = 1
+
+[node name="Choice01" type="Button" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.48, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleChoiceNormal")
+theme_override_styles/hover = SubResource("StyleChoiceHover")
+theme_override_styles/pressed = SubResource("StyleChoicePressed")
+theme_override_styles/focus = SubResource("StyleChoiceFocus")
+theme_override_styles/disabled = SubResource("StyleChoiceDisabled")
+text = "选项一"
+alignment = 0
+script = ExtResource("2_choice")
+
+[node name="Choice02" type="Button" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_colors/font_hover_color = Color(1, 1, 1, 1)
+theme_override_colors/font_focus_color = Color(1, 1, 1, 1)
+theme_override_colors/font_disabled_color = Color(0.48, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleChoiceNormal")
+theme_override_styles/hover = SubResource("StyleChoiceHover")
+theme_override_styles/pressed = SubResource("StyleChoicePressed")
+theme_override_styles/focus = SubResource("StyleChoiceFocus")
+theme_override_styles/disabled = SubResource("StyleChoiceDisabled")
+text = "选项二"
+alignment = 0
+script = ExtResource("2_choice")
+
+[node name="Choice03" type="Button" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleChoiceNormal")
+theme_override_styles/hover = SubResource("StyleChoiceHover")
+theme_override_styles/pressed = SubResource("StyleChoicePressed")
+theme_override_styles/focus = SubResource("StyleChoiceFocus")
+theme_override_styles/disabled = SubResource("StyleChoiceDisabled")
+text = "选项三"
+alignment = 0
+script = ExtResource("2_choice")
+
+[node name="Choice04" type="Button" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleChoiceNormal")
+theme_override_styles/hover = SubResource("StyleChoiceHover")
+theme_override_styles/pressed = SubResource("StyleChoicePressed")
+theme_override_styles/focus = SubResource("StyleChoiceFocus")
+theme_override_styles/disabled = SubResource("StyleChoiceDisabled")
+text = "选项四"
+alignment = 0
+script = ExtResource("2_choice")
+
+[node name="Choice05" type="Button" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleChoiceNormal")
+theme_override_styles/hover = SubResource("StyleChoiceHover")
+theme_override_styles/pressed = SubResource("StyleChoicePressed")
+theme_override_styles/focus = SubResource("StyleChoiceFocus")
+theme_override_styles/disabled = SubResource("StyleChoiceDisabled")
+text = "选项五"
+alignment = 0
+script = ExtResource("2_choice")
+
+[node name="Choice06" type="Button" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleChoiceNormal")
+theme_override_styles/hover = SubResource("StyleChoiceHover")
+theme_override_styles/pressed = SubResource("StyleChoicePressed")
+theme_override_styles/focus = SubResource("StyleChoiceFocus")
+theme_override_styles/disabled = SubResource("StyleChoiceDisabled")
+text = "选项六"
+alignment = 0
+script = ExtResource("2_choice")
+
+[node name="Choice07" type="Button" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleChoiceNormal")
+theme_override_styles/hover = SubResource("StyleChoiceHover")
+theme_override_styles/pressed = SubResource("StyleChoicePressed")
+theme_override_styles/focus = SubResource("StyleChoiceFocus")
+theme_override_styles/disabled = SubResource("StyleChoiceDisabled")
+text = "选项七"
+alignment = 0
+script = ExtResource("2_choice")
+
+[node name="Choice08" type="Button" parent="Root/ChoicePanel/ChoiceMargin/ChoiceList"]
+custom_minimum_size = Vector2(0, 62)
+layout_mode = 2
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 0.94, 1)
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("StyleChoiceNormal")
+theme_override_styles/hover = SubResource("StyleChoiceHover")
+theme_override_styles/pressed = SubResource("StyleChoicePressed")
+theme_override_styles/focus = SubResource("StyleChoiceFocus")
+theme_override_styles/disabled = SubResource("StyleChoiceDisabled")
+text = "选项八"
+alignment = 0
+script = ExtResource("2_choice")
