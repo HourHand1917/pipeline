@@ -286,6 +286,7 @@ offset_bottom = 517.97034
 scale = Vector2(0.5714649, 0.5394293)
 
 [node name="RewardPage" type="Control" parent="PanelStack" unique_id=962686128]
+visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

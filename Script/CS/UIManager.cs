@@ -571,42 +571,62 @@ public partial class UIManager : Node
 
 private void RefreshPlayerBuffs()
 {
-    GD.Print($"[调试] RefreshPlayerBuffs 被调用");
-    GD.Print($"  PlayerBuffGrid={PlayerBuffGrid != null}, BuffShowScene={BuffShowScene != null}, _player={_player != null}");
-
     if (PlayerBuffGrid == null || BuffShowScene == null || _player == null) return;
 
-    var stats = _player.GetStats();
-    GD.Print($"  stats={stats != null}");
-
-    if (stats == null) return;
-
-    var buffs = stats.Get("buffs").As<Godot.Collections.Array>();
-    GD.Print($"  buffs.Count={buffs.Count}");
-
-    // ============ 调试 ============
-    GD.Print($"[调试] 玩家 Buff 刷新，共 {buffs.Count} 个：");
-    foreach (var bi in buffs)
+    foreach (Node child in PlayerBuffGrid.GetChildren())
     {
-        if (bi.Obj == null) continue;
-        var instance = bi.As<GodotObject>();
-        var buff = instance.Get("buff").As<GodotObject>();
-        int stacks = instance.Get("stacks").AsInt32();
-        GD.Print($"  - {buff.Get("buff_name")} ×{stacks}（剩余 {instance.Get("remaining_duration")} 回合）");
+        PlayerBuffGrid.RemoveChild(child);
+        child.QueueFree();
     }
-    // ============ 调试结束 ============
 
+    var collectedBuffs = new System.Collections.Generic.Dictionary<string, (GodotObject buff, int stacks)>();
+
+    var playerStats = _player.GetStats();
+    if (playerStats != null)
+    {
+        var buffs = playerStats.Get("buffs").As<Array>();
+        CollectBuffs(buffs, collectedBuffs);
+    }
+
+    if (boardManager != null)
+    {
+        foreach (var runtime in boardManager.runtime_cards)
+        {
+            var cells = runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>();
+            foreach (Vector2I pos in cells)
+            {
+                var cell = boardManager.GetCell(pos);
+                var cellStats = cell?.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+                if (cellStats == null) continue;
+                var buffs = cellStats.Get("buffs").As<Array>();
+                CollectBuffs(buffs, collectedBuffs);
+            }
+        }
+    }
+
+    foreach (var pair in collectedBuffs.Values)
+    {
+        var icon = pair.buff.Get("icon").As<Texture2D>();
+        var slot = BuffShowScene.Instantiate<BuffShow>();
+        slot.Setup(icon, pair.stacks);
+        PlayerBuffGrid.AddChild(slot);
+    }
+}
+
+private void CollectBuffs(Array buffs, System.Collections.Generic.Dictionary<string, (GodotObject buff, int stacks)> collected)
+{
     foreach (var bi in buffs)
     {
         if (bi.Obj == null) continue;
         var instance = bi.As<GodotObject>();
         var buff = instance.Get("buff").As<GodotObject>();
+        string id = buff.Get(GDScriptKeys.Buff.Id).AsString();
         int stacks = instance.Get("stacks").AsInt32();
-        var icon = buff.Get("icon").As<Texture2D>();
 
-        var slot = BuffShowScene.Instantiate<BuffShow>();
-        slot.Setup(icon, stacks);
-        PlayerBuffGrid.AddChild(slot);
+        if (collected.ContainsKey(id))
+            collected[id] = (buff, collected[id].stacks + stacks);
+        else
+            collected[id] = (buff, stacks);
     }
 }
 }

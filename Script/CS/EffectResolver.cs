@@ -221,7 +221,7 @@ public partial class EffectResolver : Node
         Vector2I cell = effect.Get(GDScriptKeys.CombatEffect.BuffTargetCell).AsVector2I();
         switch (target)
         {
-            case 0: battleManager.Player?.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks); break;
+            case 0: battleManager.Player?.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks); battleManager.Player?.ApplyBuff(buff, stacks);break;
             case 1: actor?.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks); break;
             case 2: ApplyBuffToPlayerCells(buff, stacks, cell); break;
             default: return false;

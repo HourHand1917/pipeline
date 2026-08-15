@@ -204,11 +204,10 @@ metadata/_edit_lock_ = true
 position = Vector2(921, 563)
 texture = ExtResource("3_htdbx")
 
-[node name="Workbench" type="Area2D" parent="MapLayer/Room_Front" unique_id=809413683 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
+[node name="Workbench" type="Area2D" parent="MapLayer/Room_Front" unique_id=809413683 node_paths=PackedStringArray("WorkbenchUI", "_blink")]
 position = Vector2(-100, 304)
 script = ExtResource("3_3atb7")
 WorkbenchUI = NodePath("../../../UILayer/WorkbenchUI")
-Hud = NodePath("../../../UILayer/HUD")
 DisplayName = "工作台"
 _blink = NodePath("Blink")
 
@@ -279,11 +278,10 @@ script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="Store" type="Area2D" parent="MapLayer/Room_Front" unique_id=474505502 node_paths=PackedStringArray("ShopUI", "Hud")]
+[node name="Store" type="Area2D" parent="MapLayer/Room_Front" unique_id=474505502 node_paths=PackedStringArray("ShopUI")]
 position = Vector2(2436, 343)
 script = ExtResource("12_epj53")
 ShopUI = NodePath("../../../UILayer/ShopUI")
-Hud = NodePath("../../../UILayer/HUD")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/Store" unique_id=467649211]
 position = Vector2(47, -7)
@@ -409,7 +407,6 @@ text = "关闭"
 libraries/ = SubResource("AnimationLibrary_tis6c")
 
 [node name="WorkbenchUI" parent="UILayer" unique_id=495580737 instance=ExtResource("27_wb")]
-_tabRaiseOffset = 30.0
 
 [node name="HUD" parent="UILayer" unique_id=2129627915 instance=ExtResource("26_tv")]
 offset_bottom = 1.3399658
