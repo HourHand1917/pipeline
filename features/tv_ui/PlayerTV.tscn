@@ -1,14 +1,16 @@
 [gd_scene format=3 uid="uid://5umggsibdp5b"]
 
-[ext_resource type="Script" path="res://features/tv_ui/PlayerTV.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://fmv0uf5griri" path="res://features/tv_ui/PlayerTV.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dxi4ygcn3eh1f" path="res://features/exploration/art_assets/battlescreen/合起来.png" id="2_butd8"]
-[ext_resource type="Script" path="res://features/tv_ui/MapPanel.cs" id="2_map"]
+[ext_resource type="Script" uid="uid://nxmjqtd653en" path="res://features/tv_ui/MapPanel.cs" id="2_map"]
 [ext_resource type="Texture2D" uid="uid://cu8ebna3j1xx2" path="res://features/exploration/art_assets/battlescreen/上.png" id="3_1tjra"]
-[ext_resource type="Script" path="res://features/tv_ui/InventoryPanel.cs" id="3_inv"]
+[ext_resource type="Script" uid="uid://doh04poco6wm7" path="res://features/tv_ui/InventoryPanel.cs" id="3_inv"]
 [ext_resource type="Texture2D" uid="uid://b0bicevu3twdc" path="res://features/exploration/art_assets/battlescreen/下.png" id="4_o0qei"]
 [ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="6_1tjra"]
 [ext_resource type="PackedScene" uid="uid://bkikddh345mfu" path="res://Scenes/resource_scene/enemymassage.tscn" id="7_butd8"]
-[ext_resource type="Script" path="res://Shaders/MaterialApplier.cs" id="8_o0qei"]
+[ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="8_o0qei"]
+[ext_resource type="Script" uid="uid://ciw3cgy08xxfo" path="res://features/tv_ui/RewardPage.cs" id="10_4701r"]
+[ext_resource type="Texture2D" uid="uid://seunnoggcflu" path="res://features/exploration/art_assets/battlescreen/清单.png" id="11_3rkpp"]
 
 [sub_resource type="Animation" id="Animation_5f3a5"]
 length = 0.001
@@ -27,6 +29,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_h3ujh"]
 resource_name = "hide_tv"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -34,7 +37,7 @@ tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.5),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
@@ -42,6 +45,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_yfoog"]
 resource_name = "show_tv"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -57,6 +61,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_butd8"]
 resource_name = "switch_panel"
+length = 0.5
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -64,7 +69,7 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.43333334, 1),
+"times": PackedFloat32Array(0.23333333, 0.5),
 "transitions": PackedFloat32Array(1, 1),
 "values": [{
 "args": [],
@@ -87,10 +92,12 @@ _data = {
 custom_minimum_size = Vector2(1402, 896)
 layout_mode = 3
 anchor_bottom = 0.827
+offset_top = -1.5
 offset_right = 1403.0
-offset_bottom = -0.16003418
+offset_bottom = 1.3497314
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_script")
 _anim = NodePath("Anim")
 _upButton = NodePath("UpBtn")
@@ -277,6 +284,20 @@ offset_top = 0.10021973
 offset_right = 910.0
 offset_bottom = 517.97034
 scale = Vector2(0.5714649, 0.5394293)
+
+[node name="RewardPage" type="Control" parent="PanelStack" unique_id=962686128]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_4701r")
+
+[node name="TextureRect2" type="TextureRect" parent="PanelStack/RewardPage" unique_id=1912452012]
+layout_mode = 0
+offset_left = -74.0
+offset_top = -119.401085
+offset_right = 1057.0
+offset_bottom = 1365.5989
+texture = ExtResource("11_3rkpp")
 
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=610337759]
 libraries/ = SubResource("AnimationLibrary_1tjra")

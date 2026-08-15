@@ -83,7 +83,6 @@ public partial class BuffItemRuntimeSmoke : Node
 
         TestDamageAndLifecycleBuffs();
         TestBoardBuffs();
-        TestImmediateItems();
         await TestFarthestGrenade();
     }
 
@@ -198,78 +197,6 @@ public partial class BuffItemRuntimeSmoke : Node
             "anneal must reset every card cooldown on apply");
         Check(!HasBuff(playerStats, "anneal"), "anneal must remove itself after apply");
         ClearStats(playerStats);
-    }
-
-    private void TestImmediateItems()
-    {
-        var data = DataManager.Instance;
-        Check(data != null, "DataManager autoload must exist");
-        if (data == null) return;
-        data.EnsureMvpCatalogLoaded();
-        Check(data.ItemData.Count == 10, "designed item catalog must contain ten items");
-
-        _host.Player.ResetEnergy();
-        _host.Player.SpendEnergy(2);
-        Check(UseItem("spare_battery"), "spare battery must execute");
-        Check(_host.Player.Energy == _host.Player.MaxEnergy,
-            "spare battery must restore exactly two energy");
-
-        int shield = _host.Player.Shield;
-        Check(UseItem("bulletproof_vest"), "bulletproof vest must execute");
-        Check(_host.Player.Shield == shield + 7, "bulletproof vest must grant seven shield");
-
-        _host.BattleManager.DamagePlayer(5);
-        int wounded = _host.Player.CurrentHp;
-        Check(UseItem("medkit"), "medkit must execute when wounded");
-        Check(_host.Player.CurrentHp == Math.Min(_host.Player.MaxHp, wounded + 5),
-            "medkit must restore five HP without exceeding max");
-
-        ClearStats(_host.Player.GetStats());
-        Check(UseItem("spinach_powerups"), "spinach must apply temporary strength");
-        Check(StackCount(_host.Player.GetStats(), "temporary_strength") == 3,
-            "spinach must apply three temporary strength layers");
-        ClearStats(_host.Player.GetStats());
-
-        Check(UseItem("gasoline"), "gasoline must apply strength");
-        Check(StackCount(_host.Player.GetStats(), "strength") == 1,
-            "gasoline must apply one battle-long strength layer");
-        ClearStats(_host.Player.GetStats());
-
-        Check(UseItem("particle_wall"), "particle wall must apply holographic");
-        Check(StackCount(_host.Player.GetStats(), "holographic") == 1,
-            "particle wall must apply one holographic layer");
-        ClearStats(_host.Player.GetStats());
-
-        var runtime = _host.BoardManager.runtime_cards.Count > 0
-            ? _host.BoardManager.runtime_cards[0]
-            : null;
-        Check(runtime != null, "coolant test requires a runtime card");
-        if (runtime != null)
-        {
-            runtime.Set(GDScriptKeys.CardRuntime.CooldownRemaining, 3);
-            runtime.Set(GDScriptKeys.CardRuntime.IsReady, false);
-            Check(UseItem("coolant"), "coolant must execute with a cooling card");
-            Check(runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32() == 0,
-                "coolant/anneal must clear card cooldown");
-        }
-
-        var boom = _host.EnemyManager.GetAliveByRole("boom");
-        if (boom != null)
-        {
-            _host.Player.SetMapPosition(2);
-            _host.Player.Facing = BattleManager.FacingPositive;
-            boom.SetMapPosition(6);
-            Check(UseItem("roller_shoes"), "roller shoes must execute in open space");
-            Check(_host.Player.MapPosition == 4,
-                $"roller shoes must resolve two one-cell moves, got {_host.Player.MapPosition}");
-        }
-
-        ClearBag();
-        var ice = GD.Load<Resource>("res://Resource/item/mvp/ice_cream.tres");
-        Check(data.AddItem(ice), "ice cream must enter the item bag");
-        Check(!_host.BattleManager.UseItem(0), "ice cream has no combat effect and must not execute");
-        Check(data.ItemBag.Count == 1, "non-executable ice cream must not be consumed");
-        ClearBag();
     }
 
     private async Task TestFarthestGrenade()

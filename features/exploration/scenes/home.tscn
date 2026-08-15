@@ -25,7 +25,7 @@
 [ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="23_tis6c"]
 [ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="24_w2wh5"]
 [ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="25_hp3pq"]
-[ext_resource type="PackedScene" uid="uid://5umggsibdp5b" path="res://features/tv_ui/PlayerTV.tscn" id="26_tv"]
+[ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="26_tv"]
 [ext_resource type="PackedScene" uid="uid://cbgyktrrxne4a" path="res://features/workbench/WorkbenchUI.tscn" id="27_wb"]
 [ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="28_mapgate"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="29_spawn"]
@@ -135,14 +135,16 @@ _data = {
 &"show_shopUI": SubResource("Animation_fxped")
 }
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_playerTV")]
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_lk0dn")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "home"
-_playerTV = NodePath("UILayer/PlayerTV")
+_hud = NodePath("UILayer/HUD")
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
+position = Vector2(-218, 194)
+scale = Vector2(0.6, 0.6)
 
 [node name="Bounds" type="Node" parent="MapLayer" unique_id=351476092]
 script = ExtResource("7_n0vrv")
@@ -202,10 +204,11 @@ metadata/_edit_lock_ = true
 position = Vector2(921, 563)
 texture = ExtResource("3_htdbx")
 
-[node name="Workbench" type="Area2D" parent="MapLayer/Room_Front" unique_id=809413683 node_paths=PackedStringArray("WorkbenchUI", "_blink")]
+[node name="Workbench" type="Area2D" parent="MapLayer/Room_Front" unique_id=809413683 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
 position = Vector2(-100, 304)
 script = ExtResource("3_3atb7")
 WorkbenchUI = NodePath("../../../UILayer/WorkbenchUI")
+Hud = NodePath("../../../UILayer/HUD")
 DisplayName = "工作台"
 _blink = NodePath("Blink")
 
@@ -276,10 +279,11 @@ script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="Store" type="Area2D" parent="MapLayer/Room_Front" unique_id=474505502 node_paths=PackedStringArray("ShopUI")]
+[node name="Store" type="Area2D" parent="MapLayer/Room_Front" unique_id=474505502 node_paths=PackedStringArray("ShopUI", "Hud")]
 position = Vector2(2436, 343)
 script = ExtResource("12_epj53")
 ShopUI = NodePath("../../../UILayer/ShopUI")
+Hud = NodePath("../../../UILayer/HUD")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/Store" unique_id=467649211]
 position = Vector2(47, -7)
@@ -404,14 +408,11 @@ text = "关闭"
 [node name="Anim" type="AnimationPlayer" parent="UILayer/ShopUI" unique_id=403436577]
 libraries/ = SubResource("AnimationLibrary_tis6c")
 
-[node name="PlayerTV" parent="UILayer" unique_id=2129627915 instance=ExtResource("26_tv")]
-offset_left = 1100.0
-offset_top = 543.0
-offset_right = 2503.0
-offset_bottom = 542.83997
-scale = Vector2(0.575, 0.575)
-
 [node name="WorkbenchUI" parent="UILayer" unique_id=495580737 instance=ExtResource("27_wb")]
+_tabRaiseOffset = 30.0
+
+[node name="HUD" parent="UILayer" unique_id=2129627915 instance=ExtResource("26_tv")]
+offset_bottom = 1.3399658
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")

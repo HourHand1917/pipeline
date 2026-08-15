@@ -20,6 +20,153 @@
 [ext_resource type="Texture2D" uid="uid://mmv8ss1afxfb" path="res://features/exploration/art_assets/workbenchUI/升级!（亮）.png" id="16_vj5mj"]
 [ext_resource type="Texture2D" uid="uid://b1lnd7a1xrm3c" path="res://features/exploration/art_assets/workbenchUI/升级！（暗）.png" id="17_njf40"]
 [ext_resource type="Texture2D" uid="uid://cgg0e51jlsa56" path="res://features/exploration/art_assets/货币/水龙头/显示屏版.png" id="18_njf40"]
+[ext_resource type="Texture2D" uid="uid://uyyss17pv6dw" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0023_8.png" id="21_hobfm"]
+[ext_resource type="Texture2D" uid="uid://ch67vanwlqv2v" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0022_9.png" id="22_ua4g3"]
+[ext_resource type="Texture2D" uid="uid://btuclcxq8rwv" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0021_8.png" id="23_dh1jv"]
+[ext_resource type="Texture2D" uid="uid://ch7bekscer7xy" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0020_8.png" id="24_mcjyr"]
+[ext_resource type="Texture2D" uid="uid://be0fdrpc0awfg" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0019_9.png" id="25_rq21t"]
+[ext_resource type="Texture2D" uid="uid://c0ot7gdmxcfn4" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0018_8.png" id="26_8wlkw"]
+[ext_resource type="Texture2D" uid="uid://cbw6f7ay762y" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0017_8.png" id="27_eawb0"]
+[ext_resource type="Texture2D" uid="uid://vxbpasnt4okd" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0016_9.png" id="28_0lfar"]
+[ext_resource type="Texture2D" uid="uid://dtca4650ssvqx" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0015_8.png" id="29_xbte0"]
+[ext_resource type="Texture2D" uid="uid://cmv015k5bm2ju" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0014_8.png" id="30_ril8v"]
+[ext_resource type="Texture2D" uid="uid://dr2blap3d45dy" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0013_9.png" id="31_fj7fe"]
+[ext_resource type="Texture2D" uid="uid://cgbw7htvfrfjs" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0012_8.png" id="32_ylk2o"]
+[ext_resource type="Texture2D" uid="uid://gv2x38bydlwi" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0011_8.png" id="33_sgufh"]
+[ext_resource type="Texture2D" uid="uid://ddc7rswr6g0es" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0010_9.png" id="34_r7fjl"]
+[ext_resource type="Texture2D" uid="uid://bwwoe6h6qcybb" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0009_8.png" id="35_3sqln"]
+[ext_resource type="Texture2D" uid="uid://b1j8am2rd53s8" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0008_8.png" id="36_fi640"]
+[ext_resource type="Texture2D" uid="uid://bsrg4jw0bdjdv" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0007_9.png" id="37_evttn"]
+[ext_resource type="Texture2D" uid="uid://cyvjh4fqyooex" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0006_8.png" id="38_skb28"]
+[ext_resource type="Texture2D" uid="uid://dpvi7i2n41xxp" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0005_8.png" id="39_rjrdm"]
+[ext_resource type="Texture2D" uid="uid://cx22rb8wtb67u" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0004_9.png" id="40_cphrn"]
+[ext_resource type="Texture2D" uid="uid://u3ui15p3xj2f" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0003_8.png" id="41_iugdj"]
+[ext_resource type="Texture2D" uid="uid://rhfx1l1dmssp" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0002_8.png" id="42_gbkr2"]
+[ext_resource type="Texture2D" uid="uid://drwhlxbpt4oyh" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0001_0.png" id="43_5ne73"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f11c3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("30_ril8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_fj7fe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_ylk2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_sgufh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_r7fjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_3sqln")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_fi640")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_evttn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_skb28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_rjrdm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_cphrn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_iugdj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_gbkr2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_5ne73")
+}],
+"loop": false,
+"name": &"hide",
+"speed": 18.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("43_5ne73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_gbkr2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_iugdj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_cphrn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_rjrdm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_skb28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_evttn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_fi640")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_3sqln")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_r7fjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_sgufh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_ylk2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_fj7fe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_ril8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_xbte0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_0lfar")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_eawb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_8wlkw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_rq21t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_mcjyr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_dh1jv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_ua4g3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_hobfm")
+}],
+"loop": false,
+"name": &"show",
+"speed": 18.0
+}]
 
 [sub_resource type="Animation" id="anim_reset"]
 length = 0.001
@@ -70,6 +217,18 @@ tracks/3/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1138)]
 }
 
 [sub_resource type="Animation" id="anim_ai_hide"]
@@ -194,7 +353,6 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="anim_hide_wb"]
 resource_name = "hide_workbench"
-length = 0.5
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -216,15 +374,40 @@ tracks/1/path = NodePath(".:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [true, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["hide"],
+"method": &"play"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2, 2),
+"update": 0,
+"values": [Vector2(0, 28), Vector2(0, 1138)]
 }
 
 [sub_resource type="Animation" id="anim_show_wb"]
 resource_name = "show_workbench"
-length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -244,12 +427,38 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.5),
+"times": PackedFloat32Array(1),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [true],
 "method": &"EnableTabs"
 }]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["show"],
+"method": &"play"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, 1138), Vector2(0, 28)]
 }
 
 [sub_resource type="Animation" id="anim_upgrade_hide"]
@@ -331,6 +540,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 1138.0
+offset_bottom = 1137.9995
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
@@ -348,9 +559,9 @@ _closeButton = NodePath("CloseBtn")
 
 [node name="background" type="TextureRect" parent="." unique_id=797324562]
 layout_mode = 0
-offset_top = -41.0
-offset_right = 4571.4287
-offset_bottom = 2739.9524
+offset_top = -44.0
+offset_right = 3428.5713
+offset_bottom = 2632.1904
 scale = Vector2(0.42, 0.42)
 texture = ExtResource("2_qkk36")
 expand_mode = 1
@@ -368,35 +579,39 @@ text = "X"
 
 [node name="PanelStack" type="Control" parent="." unique_id=1042558203]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 72.0
+anchor_left = 0.04375
+anchor_top = 0.18518518
+anchor_right = 0.95416665
+anchor_bottom = 0.8212963
 grow_horizontal = 2
 grow_vertical = 2
+metadata/_edit_use_anchors_ = true
 
 [node name="BuildPage" type="Control" parent="PanelStack" unique_id=1969213508 node_paths=PackedStringArray("_boardManager", "_buildGrid", "_inventoryBox")]
 visible = false
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("4_wrosw")
 _boardManager = NodePath("BoardManager")
 _buildGrid = NodePath("build/buildgrid")
 _inventoryBox = NodePath("inventorybox/ScrollContainer/inventorybox")
 _cardBgNormalTex = ExtResource("5_hk37n")
 _cardBgDisabledTex = ExtResource("6_55txc")
-_cardCellSize = Vector2(120, 160)
+_cardCellSize = Vector2(120, 158)
 
 [node name="BoardManager" type="Node" parent="PanelStack/BuildPage" unique_id=556445515]
 script = ExtResource("8_bm")
 
 [node name="inventorybox" type="Control" parent="PanelStack/BuildPage" unique_id=1187437606]
 layout_mode = 1
-anchor_left = 23.0
-anchor_top = 4.425
-anchor_right = 40.9
-anchor_bottom = 19.525
+anchor_left = 0.48665142
+anchor_top = 0.03202329
+anchor_right = 0.9984744
+anchor_bottom = 0.88500726
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
@@ -422,8 +637,8 @@ metadata/_edit_use_anchors_ = true
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelStack/BuildPage/inventorybox" unique_id=823456789]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.1603575
-anchor_top = 0.13236757
+anchor_left = 0.1383249
+anchor_top = 0.11766215
 anchor_right = 0.8842123
 anchor_bottom = 0.6691391
 offset_left = 0.18399811
@@ -446,30 +661,31 @@ _material = ExtResource("7_55txc")
 
 [node name="build" type="Control" parent="PanelStack/BuildPage" unique_id=247130625]
 layout_mode = 1
-anchor_left = 6.075
-anchor_top = 3.1
-anchor_right = 24.075
-anchor_bottom = 22.475
+anchor_left = 0.0022883294
+anchor_top = -0.06259097
+anchor_right = 0.539283
+anchor_bottom = 1.1411936
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="buildBackground" type="TextureRect" parent="PanelStack/BuildPage/build" unique_id=210631211]
-layout_mode = 0
-offset_left = 24.0
-offset_top = 13.0
-offset_right = 751.0
-offset_bottom = 787.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("6_nslom")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="buildgrid" type="GridContainer" parent="PanelStack/BuildPage/build" unique_id=1375349207]
 layout_mode = 0
-offset_left = 130.99997
-offset_top = 112.999985
-offset_right = 999.0
-offset_bottom = 773.0
+offset_left = 97.99999
+offset_top = 132.1
+offset_right = 966.0
+offset_bottom = 792.1
 scale = Vector2(0.565, 0.565)
 theme_override_constants/h_separation = 0
 theme_override_constants/v_separation = 0
@@ -532,14 +748,14 @@ _enhanceButton = NodePath("EnhanceButton")
 _enhanceBtnLabel = NodePath("EnhanceButton/HBoxContainer/Label")
 _cardBgNormalTex = ExtResource("5_hk37n")
 _cardBgDisabledTex = ExtResource("6_55txc")
-_cardCellSize = Vector2(120, 160)
+_cardCellSize = Vector2(120, 158)
 
 [node name="ShowCardUpgrade" type="Control" parent="PanelStack/UpgradePage" unique_id=1529671374]
 layout_mode = 1
-anchor_left = 0.187
-anchor_top = 0.18779364
-anchor_right = 0.4865
-anchor_bottom = 0.6938413
+anchor_left = 0.0068955063
+anchor_top = -0.025770029
+anchor_right = 0.5301907
+anchor_bottom = 0.81716454
 offset_left = -0.040008545
 offset_top = -0.29599
 offset_right = -0.08001709
@@ -548,34 +764,39 @@ metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="PanelStack/UpgradePage/ShowCardUpgrade" unique_id=287953589]
 layout_mode = 1
-anchors_preset = -1
-anchor_left = -0.12556173
-anchor_top = -0.19830394
-anchor_right = 1.0814574
-anchor_bottom = 1.0882353
-offset_left = 0.19799042
-offset_top = 0.13500977
-offset_right = 0.1619873
-offset_bottom = 1.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("14_y6632")
 expand_mode = 1
 stretch_mode = 5
-metadata/_edit_use_anchors_ = true
 
 [node name="upgradecardbox" type="Control" parent="PanelStack/UpgradePage/ShowCardUpgrade" unique_id=1153931455]
 custom_minimum_size = Vector2(200, 200)
-anchors_preset = 0
-offset_left = 316.0
-offset_top = 23.0
-offset_right = 516.0
-offset_bottom = 268.0
+layout_mode = 1
+anchor_left = 0.54117495
+anchor_top = 0.16435236
+anchor_right = 0.83217496
+anchor_bottom = 0.57008123
+offset_left = -0.2460022
+offset_top = -0.16000175
+offset_right = 0.12799072
+offset_bottom = -0.07702637
+metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="PanelStack/UpgradePage/ShowCardUpgrade/upgradecardbox" unique_id=272401873]
-layout_mode = 0
-offset_left = 21.0
-offset_top = 15.0
-offset_right = 177.0
-offset_bottom = 229.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.125
+anchor_top = 0.055489365
+anchor_right = 0.87500006
+anchor_bottom = 0.94421285
+offset_top = -0.040000916
+offset_right = -1.5258789e-05
+offset_bottom = 0.10998535
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="PanelStack/UpgradePage/ShowCardUpgrade/upgradecardbox" unique_id=530072076]
 layout_mode = 1
@@ -596,39 +817,54 @@ _material = ExtResource("7_55txc")
 [node name="beforecardbox" type="Control" parent="PanelStack/UpgradePage/ShowCardUpgrade" unique_id=1175308386]
 custom_minimum_size = Vector2(200, 200)
 layout_mode = 1
-anchor_left = 0.052
-anchor_top = 0.08800001
-anchor_right = 0.4
-anchor_bottom = 0.54300004
+anchor_left = 0.1558309
+anchor_top = 0.20877378
+anchor_right = 0.44752187
+anchor_bottom = 0.5560104
 offset_left = 0.099998474
 offset_top = 0.11999512
 offset_bottom = 0.06997681
+metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="PanelStack/UpgradePage/ShowCardUpgrade/beforecardbox" unique_id=611616704]
-layout_mode = 0
-offset_left = 26.0
-offset_top = 12.0
-offset_right = 174.0
-offset_bottom = 219.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.18
+anchor_top = 0.060000002
+anchor_right = 0.82000005
+anchor_bottom = 0.94500005
+offset_top = -0.059999466
+offset_right = -1.5258789e-05
+offset_bottom = 0.055007935
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="PanelStack/UpgradePage/ShowCardUpgrade/beforecardbox" unique_id=1232191514]
-layout_mode = 0
-offset_right = 200.0
-offset_bottom = 232.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("5_hk37n")
 expand_mode = 1
 stretch_mode = 5
+metadata/_edit_use_anchors_ = true
 
 [node name="MaterialApplier" type="Node" parent="PanelStack/UpgradePage/ShowCardUpgrade/beforecardbox" unique_id=1189795414]
 script = ExtResource("9_2gsrf")
 _material = ExtResource("7_55txc")
 
 [node name="EnhanceButton" type="TextureButton" parent="PanelStack/UpgradePage" unique_id=1335575207]
-layout_mode = 0
-offset_left = 295.0
-offset_top = 463.0
-offset_right = 957.0
-offset_bottom = 693.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.059000004
+anchor_top = 0.437
+anchor_right = 0.46500003
+anchor_bottom = 0.79
+offset_left = -0.34900665
+offset_top = -0.21899414
+offset_right = 0.38494873
+offset_bottom = 0.2699585
 texture_normal = ExtResource("15_6w6mp")
 texture_hover = ExtResource("16_vj5mj")
 texture_disabled = ExtResource("17_njf40")
@@ -662,10 +898,10 @@ stretch_mode = 5
 
 [node name="inventorybox" type="Control" parent="PanelStack/UpgradePage" unique_id=1662925272]
 layout_mode = 1
-anchor_left = 0.47916666
-anchor_top = 0.19246031
-anchor_right = 0.85572916
-anchor_bottom = 0.75396824
+anchor_left = 0.467582
+anchor_top = 0.074235804
+anchor_right = 1.0183066
+anchor_bottom = 0.83260554
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_use_anchors_ = true
@@ -691,10 +927,10 @@ metadata/_edit_use_anchors_ = true
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelStack/UpgradePage/inventorybox" unique_id=520619884]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.1603575
-anchor_top = 0.111219116
-anchor_right = 0.8842123
-anchor_bottom = 0.67519426
+anchor_left = 0.15209977
+anchor_top = 0.09203457
+anchor_right = 0.88421243
+anchor_bottom = 0.71239924
 offset_left = 0.18399811
 offset_top = 0.049995422
 offset_right = -0.0960083
@@ -717,7 +953,7 @@ _material = ExtResource("7_55txc")
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.4495159
-anchor_top = 0.7208481
+anchor_top = 0.7389635
 anchor_right = 0.51452285
 anchor_bottom = 0.7526502
 offset_right = 40.0
@@ -773,6 +1009,13 @@ custom_minimum_size = Vector2(180, 56)
 layout_mode = 2
 texture_normal = ExtResource("3_5f42w")
 stretch_mode = 5
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1048984163]
+position = Vector2(720, 540)
+sprite_frames = SubResource("SpriteFrames_f11c3")
+animation = &"hide"
+frame = 13
+frame_progress = 1.0
 
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=1887714940]
 libraries/ = SubResource("AnimationLibrary_5f42w")

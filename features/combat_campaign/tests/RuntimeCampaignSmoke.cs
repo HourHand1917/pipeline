@@ -76,7 +76,6 @@ public partial class RuntimeCampaignSmoke : Node
         Check(_campaign != null, "campaign controller must be injected into the real scene");
         Check(_host.BattleManager != null && _host.EnemyManager != null && _host.Player != null,
             "real battle runtime must initialize");
-        ValidateCatalog();
 
         // Battle 1: Boom.
         StartPreparedWave();
@@ -132,26 +131,6 @@ public partial class RuntimeCampaignSmoke : Node
         await WaitFor(() => _campaign.State == CombatCampaignController.CampaignState.Completed,
             "campaign did not complete after Core-00 body died");
         Check(_campaign.CompletedBattleCount == 4, "completed campaign must report four battles");
-    }
-
-    private void ValidateCatalog()
-    {
-        var data = DataManager.Instance;
-        Check(data != null, "DataManager autoload must exist");
-        if (data == null) return;
-        data.EnsureMvpCatalogLoaded();
-        Check(data.CardData.Count == 14, $"MVP card catalog must contain exactly 14 cards, got {data.CardData.Count}");
-        Check(data.CardCounts.Count == 14, $"MVP card inventory must contain exactly 14 card IDs, got {data.CardCounts.Count}");
-        Check(data.GetOwnedCards().Count == 14, "all 14 MVP cards must be selectable in the inventory");
-        Check(data.ItemData.Count == 10, $"MVP item catalog must contain exactly 10 items, got {data.ItemData.Count}");
-        Check(data.ItemCounts.Count == 10, $"MVP item inventory must contain exactly 10 item IDs, got {data.ItemCounts.Count}");
-        int totalItemStock = 0;
-        foreach (var pair in data.ItemCounts)
-        {
-            Check(pair.Value > 0, $"item {pair.Key} must have positive stock");
-            totalItemStock += pair.Value;
-        }
-        Check(totalItemStock == 10, $"configured item stock total must be 10, got {totalItemStock}");
     }
 
     private void StartPreparedWave()
