@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/scripts/dialogue_choice_bubble.gd" id="1_choice"]
+[ext_resource type="Theme" path="res://features/dialogue/themes/wasteland_industrial_dialogue_theme.tres" id="2_theme"]
+
+[node name="DialogueChoiceBubble" type="Button" node_paths=PackedStringArray("text_node")]
+custom_minimum_size = Vector2(680, 82)
+focus_mode = 2
+mouse_default_cursor_shape = 2
+theme = ExtResource("2_theme")
+clip_contents = false
+script = ExtResource("1_choice")
+text_node = NodePath("Content/Row/ChoiceText")
+
+[node name="BubbleTail" type="Polygon2D" parent="."]
+position = Vector2(30, 80)
+polygon = PackedVector2Array(0, 0, 19, 0, 5, 12)
+color = Color(0.105, 0.118, 0.125, 0.98)
+
+[node name="Content" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 10
+
+[node name="Row" type="HBoxContainer" parent="Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 14
+
+[node name="StateMarker" type="ColorRect" parent="Content/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(6, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.36, 0.78, 0.75, 1)
+
+[node name="ChoiceNumber" type="Label" parent="Content/Row"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(42, 0)
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.91, 0.58, 0.25, 1)
+theme_override_font_sizes/font_size = 18
+text = "01"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Divider" type="ColorRect" parent="Content/Row"]
+custom_minimum_size = Vector2(1, 0)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0.43, 0.4, 0.32, 0.75)
+
+[node name="ChoiceText" type="RichTextLabel" parent="Content/Row"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 3
+vertical_alignment = 1
+text = "选择回应"

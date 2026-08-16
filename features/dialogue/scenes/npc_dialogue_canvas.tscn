@@ -1,0 +1,66 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/scripts/npc_dialogue_canvas.gd" id="1_canvas"]
+[ext_resource type="PackedScene" path="res://features/dialogue/scenes/dialogue_choice_bubble.tscn" id="2_choice"]
+
+[node name="NPCDialogueCanvas" type="CanvasLayer"]
+layer = 24
+script = ExtResource("1_canvas")
+
+[node name="Root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="BubbleStack" type="Control" parent="Root"]
+unique_name_in_owner = true
+layout_mode = 0
+mouse_filter = 2
+
+[node name="ChoiceList" type="VBoxContainer" parent="Root"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -340.0
+offset_top = -782.0
+offset_right = 340.0
+offset_bottom = -34.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+theme_override_constants/separation = 12
+alignment = 2
+
+[node name="Choice01" parent="Root/ChoiceList" instance=ExtResource("2_choice")]
+layout_mode = 2
+
+[node name="Choice02" parent="Root/ChoiceList" instance=ExtResource("2_choice")]
+layout_mode = 2
+
+[node name="Choice03" parent="Root/ChoiceList" instance=ExtResource("2_choice")]
+layout_mode = 2
+
+[node name="Choice04" parent="Root/ChoiceList" instance=ExtResource("2_choice")]
+layout_mode = 2
+
+[node name="Choice05" parent="Root/ChoiceList" instance=ExtResource("2_choice")]
+layout_mode = 2
+
+[node name="Choice06" parent="Root/ChoiceList" instance=ExtResource("2_choice")]
+layout_mode = 2
+
+[node name="Choice07" parent="Root/ChoiceList" instance=ExtResource("2_choice")]
+layout_mode = 2
+
+[node name="Choice08" parent="Root/ChoiceList" instance=ExtResource("2_choice")]
+layout_mode = 2

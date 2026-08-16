@@ -135,12 +135,11 @@ _data = {
 &"show_shopUI": SubResource("Animation_fxped")
 }
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input")]
 script = ExtResource("1_lk0dn")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "home"
-_hud = NodePath("UILayer/HUD")
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 position = Vector2(-218, 194)
