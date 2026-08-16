@@ -11,14 +11,8 @@
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="9_djeg3"]
 [ext_resource type="Texture2D" uid="uid://b3bkcqnm8g00i" path="res://features/exploration/art_assets/battlescreen/Untitled18_20260802221135.jpg" id="9_dpqj4"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="9_spawn"]
-[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="10_ng1om"]
+[ext_resource type="Resource" uid="uid://b3wo3y8k5vxe2" path="res://Resource/loot/testloot.tres" id="10_jrhl4"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="10_npc"]
-[ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="11_uengo"]
-[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="12_bidvr"]
-[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="13_posh8"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/bandage.tres" id="14_m5tv0"]
-[ext_resource type="Resource" uid="uid://dmk3a7ohv1eub" path="res://Resource/item/healthmed.tres" id="15_ni0nd"]
-[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="16_evqba"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_djeg3"]
 radius = 120.0
@@ -26,18 +20,13 @@ radius = 120.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4n68"]
 radius = 48.0
 
-[sub_resource type="Resource" id="Resource_i8rg3"]
-script = ExtResource("16_evqba")
-bottle_cap = 3
-faucet = 4
-cards = Array[ExtResource("10_ng1om")]([ExtResource("11_uengo"), ExtResource("12_bidvr")])
-items = Array[ExtResource("13_posh8")]([ExtResource("14_m5tv0"), ExtResource("15_ni0nd")])
-
-[node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input")]
+[node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+position = Vector2(0, -1)
 script = ExtResource("1_v1dgx")
 Player = NodePath("MapLayer/Player")
 Input = NodePath("InputRouter")
 MapId = "test_map"
+_hud = NodePath("UILayer/HUD")
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 
@@ -47,7 +36,7 @@ position = Vector2(200, 300)
 [node name="EnemyRocky" type="Area2D" parent="MapLayer" unique_id=508683534 node_paths=PackedStringArray("_blink")]
 position = Vector2(-711, 300)
 script = ExtResource("10_npc")
-BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
+BattleRulesPath = "res://features/enemy_ai_node/rules/core00_phase_one_rules.tres"
 ReturnSpawnId = &"sharrk"
 AggroRadius = 100.0
 NpcName = "岩石怪"
@@ -143,7 +132,7 @@ SpawnId = &"test_entry2"
 [node name="Chest" type="Area2D" parent="MapLayer" unique_id=617273607 node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(1247, 309)
 script = ExtResource("9_djeg3")
-Loot = SubResource("Resource_i8rg3")
+Loot = ExtResource("10_jrhl4")
 Hud = NodePath("../../UILayer/HUD")
 DisplayName = "宝箱"
 PersistenceId = "chest1"

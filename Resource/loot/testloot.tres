@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="LootTable" format=3 uid="uid://b3wo3y8k5vxe2"]
+
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_y4cd6"]
+[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="2_g2mb3"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="2_y5pp3"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="3_ndntl"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/bandage.tres" id="4_qikvx"]
+[ext_resource type="Resource" uid="uid://bhlasp6ctvfcd" path="res://Resource/item/mvp/emergency_battery.tres" id="5_3x2ei"]
+
+[resource]
+script = ExtResource("3_ndntl")
+cards = Array[ExtResource("1_y4cd6")]([ExtResource("2_g2mb3")])
+items = Array[ExtResource("2_y5pp3")]([ExtResource("4_qikvx"), ExtResource("5_3x2ei")])
+metadata/_custom_type_script = "uid://48j6ej4rld81"

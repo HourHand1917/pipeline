@@ -2,8 +2,16 @@
 
 [ext_resource type="Script" uid="uid://dgeo4fn86r588" path="res://Scenes/resource_scene/BuffShow.cs" id="1_5yl6b"]
 [ext_resource type="Texture2D" uid="uid://57do7yjs5pqh" path="res://features/exploration/art_assets/battlescreen/框.png" id="1_d2q5c"]
+[ext_resource type="Texture2D" uid="uid://d3jhv48lo1sek" path="res://features/buff_system/resources/buffs/false.svg" id="3_wusj6"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wusj6"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p6wlu"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
 
 [node name="buffshow" type="Control" unique_id=1899568816 node_paths=PackedStringArray("iconRect", "stacksLabel")]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -11,34 +19,52 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_5yl6b")
-iconRect = NodePath("PanelContainer/edge/icon")
-stacksLabel = NodePath("PanelContainer/edge/stacks")
+iconRect = NodePath("PanelContainer2/icon")
+stacksLabel = NodePath("PanelContainer3/stacks")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=215337802]
+custom_minimum_size = Vector2(114, 60)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wusj6")
 
-[node name="edge" type="Sprite2D" parent="PanelContainer" unique_id=545579594]
-position = Vector2(952.75, 540)
-scale = Vector2(4.159341, 4.439834)
+[node name="TextureRect" type="TextureRect" parent="PanelContainer" unique_id=1424266023]
+custom_minimum_size = Vector2(114, 60)
+layout_mode = 2
 texture = ExtResource("1_d2q5c")
+expand_mode = 1
 
-[node name="icon" type="TextureRect" parent="PanelContainer/edge" unique_id=1222034617]
-offset_left = -169.67833
-offset_top = -58.335514
-offset_right = -55.71797
-offset_bottom = 48.65048
+[node name="PanelContainer2" type="PanelContainer" parent="." unique_id=1057724579]
+custom_minimum_size = Vector2(512, 512)
+layout_mode = 0
+offset_left = 93.0
+offset_top = 247.0
+offset_right = 605.0
+offset_bottom = 759.0
 
-[node name="stacks" type="Label" parent="PanelContainer/edge" unique_id=1888539742]
-offset_left = 16.168427
-offset_top = -59.46168
-offset_right = 186.86853
-offset_bottom = 30.856998
-theme_override_font_sizes/font_size = 70
+[node name="icon" type="TextureRect" parent="PanelContainer2" unique_id=1222034617]
+custom_minimum_size = Vector2(512, 512)
+layout_mode = 2
+texture = ExtResource("3_wusj6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PanelContainer3" type="PanelContainer" parent="." unique_id=419385664]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 0
+offset_left = 760.0
+offset_top = 226.0
+offset_right = 1272.0
+offset_bottom = 738.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_p6wlu")
+
+[node name="stacks" type="Label" parent="PanelContainer3" unique_id=1888539742]
+layout_mode = 2
+theme_override_font_sizes/font_size = 256
 text = "3"
 horizontal_alignment = 1
 vertical_alignment = 1
