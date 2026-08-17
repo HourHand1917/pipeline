@@ -235,7 +235,7 @@ public partial class UIManager : Node
         }
     }
 
-        private void RefreshStatus()
+    private void RefreshStatus()
     {
         UpdateStatusLine();
         if (RoundLabel != null) RoundLabel.Text = $"回合 {battleManager.RoundNumber}";
@@ -274,72 +274,72 @@ public partial class UIManager : Node
     }
 
     private void RefreshDistanceTrack()
-{
-    if (DistanceTrack == null || battleManager == null || TrackSlotScene == null) return;
-
-    var rules = battleManager.GetRules();
-    if (rules == null) return;
-
-    var battleMap = rules?.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
-    int cellCount = battleMap?.Get(GDScriptKeys.BattleMap.CellCount).AsInt32() ?? 7;
-
-    if (cellCount != _lastCellCount)
     {
-        _lastCellCount = cellCount;
+        if (DistanceTrack == null || battleManager == null || TrackSlotScene == null) return;
 
-        foreach (Node child in DistanceTrack.GetChildren())
+        var rules = battleManager.GetRules();
+        if (rules == null) return;
+
+        var battleMap = rules?.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
+        int cellCount = battleMap?.Get(GDScriptKeys.BattleMap.CellCount).AsInt32() ?? 7;
+
+        if (cellCount != _lastCellCount)
         {
-            DistanceTrack.RemoveChild(child);
-            child.QueueFree();
-        }
+            _lastCellCount = cellCount;
 
-        for (int i = 1; i <= cellCount; i++)
-        {
-            var slot = TrackSlotScene.Instantiate<TrackSlot>();
-            slot.CustomMinimumSize = new Vector2(144, 144);
-            slot.Configure(i, "", Colors.White, null);
-            slot.SlotClicked += OnTrackSlotClicked;
-            DistanceTrack.AddChild(slot);
-        }
-    }
-
-    string playerGlyph = _player?.Glyph ?? "旅";
-    Color playerTint = _player?.Tint ?? new Color("#f4cf61");
-
-    var slots = DistanceTrack.GetChildren();
-    for (int i = 0; i < slots.Count; i++)
-    {
-        var slot = slots[i] as TrackSlot;
-        if (slot == null) continue;
-        int cellNum = i + 1;
-
-        bool isPlayer = cellNum == battleManager.PlayerMapPosition;
-        EnemyBattle enemyHere = null;
-        if (_enemyManager != null)
-        {
-            foreach (var enemy in _enemyManager.Enemies)
+            foreach (Node child in DistanceTrack.GetChildren())
             {
-                if (enemy != null && enemy.IsAlive && enemy.MapPosition == cellNum)
-                { enemyHere = enemy; break; }
+                DistanceTrack.RemoveChild(child);
+                child.QueueFree();
+            }
+
+            for (int i = 1; i <= cellCount; i++)
+            {
+                var slot = TrackSlotScene.Instantiate<TrackSlot>();
+                slot.CustomMinimumSize = new Vector2(144, 144);
+                slot.Configure(i, "", Colors.White, null);
+                slot.SlotClicked += OnTrackSlotClicked;
+                DistanceTrack.AddChild(slot);
             }
         }
-        bool isEnemy = enemyHere != null;
 
-        if (isPlayer && isEnemy)
-            slot.Configure(cellNum, $"{playerGlyph}/{enemyHere.Glyph}", Colors.White, enemyHere as GodotObject);
-        else if (isPlayer)
-            slot.Configure(cellNum, playerGlyph, playerTint, _player as GodotObject);
-        else if (isEnemy)
-            slot.Configure(cellNum, enemyHere.Glyph, enemyHere.Tint, enemyHere as GodotObject);
-        else
-            slot.Configure(cellNum, "", Colors.White, null);
+        string playerGlyph = _player?.Glyph ?? "旅";
+        Color playerTint = _player?.Tint ?? new Color("#f4cf61");
+
+        var slots = DistanceTrack.GetChildren();
+        for (int i = 0; i < slots.Count; i++)
+        {
+            var slot = slots[i] as TrackSlot;
+            if (slot == null) continue;
+            int cellNum = i + 1;
+
+            bool isPlayer = cellNum == battleManager.PlayerMapPosition;
+            EnemyBattle enemyHere = null;
+            if (_enemyManager != null)
+            {
+                foreach (var enemy in _enemyManager.Enemies)
+                {
+                    if (enemy != null && enemy.IsAlive && enemy.MapPosition == cellNum)
+                    { enemyHere = enemy; break; }
+                }
+            }
+            bool isEnemy = enemyHere != null;
+
+            if (isPlayer && isEnemy)
+                slot.Configure(cellNum, $"{playerGlyph}/{enemyHere.Glyph}", Colors.White, enemyHere as GodotObject);
+            else if (isPlayer)
+                slot.Configure(cellNum, playerGlyph, playerTint, _player as GodotObject);
+            else if (isEnemy)
+                slot.Configure(cellNum, enemyHere.Glyph, enemyHere.Tint, enemyHere as GodotObject);
+            else
+                slot.Configure(cellNum, "", Colors.White, null);
+        }
+
+        ApplyDangerPrediction(cellCount, slots);
+        RefreshTrackedEnemyPanel();
     }
 
-    ApplyDangerPrediction(cellCount, slots);
-    RefreshTrackedEnemyPanel();
-}
-
-        private void OnTrackSlotClicked(int cellNumber, GodotObject combatant)
+    private void OnTrackSlotClicked(int cellNumber, GodotObject combatant)
     {
         if (combatant == null)
         {
@@ -355,12 +355,9 @@ public partial class UIManager : Node
         }
 
         ShowEnemyIntent(enemy);
+        PlayerTV?.RefreshEnemyBuffGrid();
     }
 
-    /// <summary>
-    /// Read-only intent projection. The action has already been selected and cached by
-    /// BattleManager; UI refreshes must never call get_action_for_distance/select_action.
-    /// </summary>
     private void ShowEnemyIntent(EnemyBattle enemy)
     {
         if (enemy == null || !enemy.IsAlive || battleManager == null) return;
@@ -381,6 +378,7 @@ public partial class UIManager : Node
             return;
         }
         ShowEnemyIntent(tracked);
+        PlayerTV?.RefreshEnemyBuffGrid();
     }
 
     private void EnsureDangerUi()
@@ -569,66 +567,66 @@ public partial class UIManager : Node
             RubberHeart.Play("idle");
     }
 
-private void RefreshPlayerBuffs()
-{
-    if (PlayerBuffGrid == null || BuffShowScene == null || _player == null) return;
-
-    foreach (Node child in PlayerBuffGrid.GetChildren())
+    private void RefreshPlayerBuffs()
     {
-        PlayerBuffGrid.RemoveChild(child);
-        child.QueueFree();
-    }
+        if (PlayerBuffGrid == null || BuffShowScene == null || _player == null) return;
 
-    var collectedBuffs = new System.Collections.Generic.Dictionary<string, (GodotObject buff, int stacks)>();
-
-    var playerStats = _player.GetStats();
-    if (playerStats != null)
-    {
-        var buffs = playerStats.Get("buffs").As<Array>();
-        CollectBuffs(buffs, collectedBuffs);
-    }
-
-    if (boardManager != null)
-    {
-        foreach (var runtime in boardManager.runtime_cards)
+        foreach (Node child in PlayerBuffGrid.GetChildren())
         {
-            var cells = runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>();
-            foreach (Vector2I pos in cells)
+            PlayerBuffGrid.RemoveChild(child);
+            child.QueueFree();
+        }
+
+         var collectedBuffs = new System.Collections.Generic.Dictionary<string, (GodotObject buff, int stacks)>();
+
+        var playerStats = _player.GetStats();
+        if (playerStats != null)
+        {
+            var buffs = playerStats.Get("buffs").As<Array>();
+            CollectBuffs(buffs, collectedBuffs);
+        }
+
+        if (boardManager != null)
+        {
+            foreach (var runtime in boardManager.runtime_cards)
             {
-                var cell = boardManager.GetCell(pos);
-                var cellStats = cell?.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
-                if (cellStats == null) continue;
-                var buffs = cellStats.Get("buffs").As<Array>();
-                CollectBuffs(buffs, collectedBuffs);
+                var cells = runtime.Get(GDScriptKeys.CardRuntime.OccupiedCells).As<Array<Vector2I>>();
+                foreach (Vector2I pos in cells)
+                {
+                    var cell = boardManager.GetCell(pos);
+                    var cellStats = cell?.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+                    if (cellStats == null) continue;
+                    var buffs = cellStats.Get("buffs").As<Array>();
+                    CollectBuffs(buffs, collectedBuffs);
+                }
             }
+        }
+
+        foreach (var pair in collectedBuffs.Values)
+        {
+            var icon = pair.buff.Get(GDScriptKeys.Buff.Icon).As<Texture2D>();
+            var buffName = pair.buff.Get(GDScriptKeys.Buff.BuffName).AsString();
+            var description = pair.buff.Get(GDScriptKeys.Buff.Description).AsString();
+            var slot = BuffShowScene.Instantiate<BuffShow>();
+            slot.Setup(icon, pair.stacks, buffName, description);
+            PlayerBuffGrid.AddChild(slot);
         }
     }
 
-    foreach (var pair in collectedBuffs.Values)
+    private void CollectBuffs(Array buffs, System.Collections.Generic.Dictionary<string, (GodotObject buff, int stacks)> collected)
     {
-        var icon = pair.buff.Get(GDScriptKeys.Buff.Icon).As<Texture2D>();
-        var buffName = pair.buff.Get(GDScriptKeys.Buff.BuffName).AsString();
-        var description = pair.buff.Get(GDScriptKeys.Buff.Description).AsString();
-        var slot = BuffShowScene.Instantiate<BuffShow>();
-        slot.Setup(icon, pair.stacks, buffName, description);
-        PlayerBuffGrid.AddChild(slot);
-    }
-}
+        foreach (var bi in buffs)
+        {
+            if (bi.Obj == null) continue;
+            var instance = bi.As<GodotObject>();
+            var buff = instance.Get("buff").As<GodotObject>();
+            string id = buff.Get(GDScriptKeys.Buff.Id).AsString();
+            int stacks = instance.Get("stacks").AsInt32();
 
-private void CollectBuffs(Array buffs, System.Collections.Generic.Dictionary<string, (GodotObject buff, int stacks)> collected)
-{
-    foreach (var bi in buffs)
-    {
-        if (bi.Obj == null) continue;
-        var instance = bi.As<GodotObject>();
-        var buff = instance.Get("buff").As<GodotObject>();
-        string id = buff.Get(GDScriptKeys.Buff.Id).AsString();
-        int stacks = instance.Get("stacks").AsInt32();
-
-        if (collected.ContainsKey(id))
-            collected[id] = (buff, collected[id].stacks + stacks);
-        else
-            collected[id] = (buff, stacks);
+            if (collected.ContainsKey(id))
+                collected[id] = (buff, collected[id].stacks + stacks);
+            else
+                collected[id] = (buff, stacks);
+        }
     }
-}
 }

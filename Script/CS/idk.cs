@@ -14,6 +14,9 @@ public partial class idk : Node2D
     [Export] private Resource _testGameRules;
     [Export] public CombatCampaignController CampaignController { get; set; }
 
+    [ExportGroup("音乐")]
+    [Export] public AudioStream BattleMusic { get; set; }
+
     public PlayerBattle Player { get; private set; }
     public EnemyManager EnemyManager { get; private set; }
 
@@ -93,6 +96,7 @@ public partial class idk : Node2D
         }
         else
             ShowBuild();
+        PlayBattleMusic();
     }
 
     public void ReadyWithBattleId(string battleId)
@@ -306,4 +310,12 @@ public partial class idk : Node2D
         BuildScreen.RefreshAll();
         BattleScreen.RefreshAll(currentGridWidth, currentGridHeight);
     }
+
+    private void PlayBattleMusic()
+{
+    if (BattleMusic == null) return;
+
+    var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+    audio?.PlayMusic(BattleMusic);
+}
 }

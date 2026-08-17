@@ -28,9 +28,8 @@
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="29_spawn"]
 [ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="30_hp3pq"]
 [ext_resource type="Script" uid="uid://cqaav03k6hg6q" path="res://features/exploration/scripts/CS/interactables/GateInteractable.cs" id="31_gate"]
-[ext_resource type="Script" uid="uid://dq8q6f6remj3d" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="32_mapselect"]
 [ext_resource type="AudioStream" uid="uid://c8gvr0gwm7lh5" path="res://tileset/music_resource/MUS_Home_Mp3.mp3" id="31_vmofw"]
-[ext_resource type="Resource" uid="uid://cusnq01be0yyp" path="res://Resource/item/mvp/particle_wall.tres" id="33_particle_wall"]
+[ext_resource type="Script" uid="uid://dq8q6f6remj3d" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="32_mapselect"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -136,6 +135,7 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "home"
 _hud = NodePath("UILayer/HUD")
+MapMusic = ExtResource("31_vmofw")
 PlayerLeft = -550
 PlayerRight = 2850
 CamLeft = -1050
@@ -396,18 +396,7 @@ text = "关闭"
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")
 Cards = [ExtResource("21_awyto"), ExtResource("22_fxped"), ExtResource("23_tis6c"), ExtResource("24_w2wh5"), ExtResource("25_hp3pq"), ExtResource("30_hp3pq")]
-Items = [ExtResource("33_particle_wall")]
 
 [node name="RadioStream2D" type="AudioStreamPlayer2D" parent="." unique_id=2064125179]
 position = Vector2(331, 571)
 stream = ExtResource("31_vmofw")
-
-[node name="Music" type="AudioStreamPlayer" parent="." unique_id=1025060921]
-stream = ExtResource("31_vmofw")
-autoplay = true
-bus = &"Music"
-
-[node name="SFX" type="AudioStreamPlayer" parent="." unique_id=1213714361]
-stream = ExtResource("31_vmofw")
-autoplay = true
-bus = &"Music"

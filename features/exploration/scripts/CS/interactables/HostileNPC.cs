@@ -17,6 +17,9 @@ public partial class HostileNPC : NPCBase
     /// <summary>自动触发战斗的距离阈值</summary>
     [Export] public float AggroRadius { get; set; } = 80.0f;
 
+    [ExportGroup("音乐")]
+[Export] public AudioStream BattleMusic { get; set; }
+
     private bool _defeated;   // 持久化：战斗胜利后变尸体
     private bool _triggered;  // 防重复触发（不持久化）
 
@@ -48,6 +51,13 @@ public partial class HostileNPC : NPCBase
             GD.PrintErr($"HostileNPC「{NpcName}」未设置 BattleRulesPath");
             return;
         }
+
+        if (BattleMusic != null)
+    {
+        var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+        audio?.PlayMusicWithFade(BattleMusic);
+    }
+    
         BattleDirector.Instance?.StartBattle(BattleScenePath, BattleRulesPath, PersistenceId, _mapId, ReturnSpawnId);
     }
 
@@ -78,4 +88,6 @@ public partial class HostileNPC : NPCBase
         if (detectionShape != null) detectionShape.Disabled = true;
         if (clickShape != null) clickShape.Disabled = true;
     }
+
+    
 }

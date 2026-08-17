@@ -233,4 +233,9 @@ public partial class EnemyMessage : PanelContainer
     {
         return _trackedEnemy;
     }
+
+    public void RefreshBuffGridPublic()
+{
+    RefreshBuffGrid();
+}
 }

@@ -177,4 +177,9 @@ public partial class PlayerTV : Control
     {
         return _enemyPanel?.GetTrackedEnemy();
     }
+
+    public void RefreshEnemyBuffGrid()
+{
+    _enemyPanel?.RefreshBuffGridPublic();
+}
 }
