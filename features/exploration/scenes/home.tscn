@@ -29,6 +29,7 @@
 [ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="30_hp3pq"]
 [ext_resource type="Script" uid="uid://cqaav03k6hg6q" path="res://features/exploration/scripts/CS/interactables/GateInteractable.cs" id="31_gate"]
 [ext_resource type="Script" uid="uid://dq8q6f6remj3d" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="32_mapselect"]
+[ext_resource type="Resource" uid="uid://cusnq01be0yyp" path="res://Resource/item/mvp/particle_wall.tres" id="33_particle_wall"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -394,3 +395,4 @@ text = "关闭"
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")
 Cards = [ExtResource("21_awyto"), ExtResource("22_fxped"), ExtResource("23_tis6c"), ExtResource("24_w2wh5"), ExtResource("25_hp3pq"), ExtResource("30_hp3pq")]
+Items = [ExtResource("33_particle_wall")]
