@@ -606,9 +606,11 @@ private void RefreshPlayerBuffs()
 
     foreach (var pair in collectedBuffs.Values)
     {
-        var icon = pair.buff.Get("icon").As<Texture2D>();
+        var icon = pair.buff.Get(GDScriptKeys.Buff.Icon).As<Texture2D>();
+        var buffName = pair.buff.Get(GDScriptKeys.Buff.BuffName).AsString();
+        var description = pair.buff.Get(GDScriptKeys.Buff.Description).AsString();
         var slot = BuffShowScene.Instantiate<BuffShow>();
-        slot.Setup(icon, pair.stacks);
+        slot.Setup(icon, pair.stacks, buffName, description);
         PlayerBuffGrid.AddChild(slot);
     }
 }

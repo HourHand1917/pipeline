@@ -8,12 +8,17 @@ using Godot;
 public partial class StarterDeck : Node
 {
     [Export] public Resource[] Cards { get; set; } = System.Array.Empty<Resource>();
+    [Export] public Resource[] Items { get; set; } = System.Array.Empty<Resource>();
     [Export] public DataManager.CurrencyType Currency { get; set; } = DataManager.CurrencyType.BottleCap;
 
     public override void _Ready()
     {
         foreach (var card in Cards)
             DataManager.Instance.AcquireCard(card, 3);
+
+        foreach (var item in Items)
+            DataManager.Instance.AddItem(item);
+
         DataManager.Instance.UpgradeCard("battery");
         DataManager.Instance.ModifyCurrency(Currency, 60);
         DataManager.Instance.ModifyCurrency(DataManager.CurrencyType.Faucet, 5);

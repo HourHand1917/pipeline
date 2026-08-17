@@ -37,6 +37,9 @@ radius = 562.03204
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w8jpk"]
 size = Vector2(200, 300)
+[ext_resource type="Script" uid="uid://cqaav03k6hg6q" path="res://features/exploration/scripts/CS/interactables/GateInteractable.cs" id="31_gate"]
+[ext_resource type="Script" uid="uid://dq8q6f6remj3d" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="32_mapselect"]
+[ext_resource type="Resource" uid="uid://cusnq01be0yyp" path="res://Resource/item/mvp/particle_wall.tres" id="33_particle_wall"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -429,3 +432,4 @@ bus = &"Music"
 stream = ExtResource("31_vmofw")
 autoplay = true
 bus = &"Music"
+Items = [ExtResource("33_particle_wall")]
