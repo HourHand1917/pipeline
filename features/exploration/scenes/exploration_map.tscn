@@ -11,7 +11,6 @@
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="9_djeg3"]
 [ext_resource type="Texture2D" uid="uid://b3bkcqnm8g00i" path="res://features/exploration/art_assets/battlescreen/Untitled18_20260802221135.jpg" id="9_dpqj4"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="9_spawn"]
-[ext_resource type="Resource" uid="uid://b3wo3y8k5vxe2" path="res://Resource/loot/testloot.tres" id="10_jrhl4"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="10_npc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_djeg3"]
@@ -20,8 +19,7 @@ radius = 120.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4n68"]
 radius = 48.0
 
-[node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
-position = Vector2(0, -1)
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_v1dgx")
 Player = NodePath("MapLayer/Player")
 Input = NodePath("InputRouter")
@@ -129,11 +127,9 @@ position = Vector2(10, 19)
 script = ExtResource("9_spawn")
 SpawnId = &"test_entry2"
 
-[node name="Chest" type="Area2D" parent="MapLayer" unique_id=617273607 node_paths=PackedStringArray("Hud", "_blink")]
+[node name="Chest" type="Area2D" parent="MapLayer" unique_id=617273607 node_paths=PackedStringArray("_blink")]
 position = Vector2(1247, 309)
 script = ExtResource("9_djeg3")
-Loot = ExtResource("10_jrhl4")
-Hud = NodePath("../../UILayer/HUD")
 DisplayName = "宝箱"
 PersistenceId = "chest1"
 _blink = NodePath("Blink")

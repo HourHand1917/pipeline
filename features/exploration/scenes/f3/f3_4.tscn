@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://ceulcsa5wy7wy"]
+
+[ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
+[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
+[ext_resource type="Texture2D" uid="uid://c07ax2805mw6w" path="res://features/exploration/art_assets/maps/f3/f3-4_影院-背景.png" id="3_bg"]
+[ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
+[ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="8_gate"]
+[ext_resource type="Texture2D" uid="uid://doip62gs1t5u2" path="res://features/exploration/art_assets/home_map/大门-打开-拉杆下.PNG" id="9_door"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="10_blink"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_click"]
+radius = 48.0
+
+[node name="ExplorationMap" type="Node2D" unique_id=743711232 node_paths=PackedStringArray("Player", "Input", "_hud")]
+script = ExtResource("1_explore")
+Player = NodePath("Player")
+Input = NodePath("InputRouter")
+MapId = "f3_4"
+_hud = NodePath("UILayer/HUD")
+PlayerLeft = 0
+PlayerRight = 1680
+CamLeft = 0
+CamRight = 1680
+
+[node name="f3_4entry" type="Node2D" parent="." unique_id=963143550]
+position = Vector2(200, 530)
+script = ExtResource("2_spawn")
+SpawnId = &"f3_4entry"
+
+[node name="MapLayer" type="Node2D" parent="." unique_id=2009699377]
+
+[node name="影院背景" type="Sprite2D" parent="MapLayer" unique_id=1096517371]
+position = Vector2(840, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("3_bg")
+
+[node name="出口门" type="Area2D" parent="MapLayer" unique_id=173756451 node_paths=PackedStringArray("_blink")]
+position = Vector2(1400, 450)
+script = ExtResource("8_gate")
+TargetMapId = &"f3_2"
+TargetSpawnId = &"f3_2cinemadoor"
+DisplayName = "离开"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/出口门" unique_id=1589655872]
+texture = ExtResource("9_door")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/出口门" unique_id=759083704]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/出口门" unique_id=915753555]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/出口门/ClickZone" unique_id=1269227157]
+shape = SubResource("CircleShape2D_click")
+
+[node name="Blink" type="Node" parent="MapLayer/出口门" unique_id=710046219 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("10_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="Player" parent="." unique_id=1707277897 instance=ExtResource("5_player")]
+position = Vector2(840, 530)
+
+[node name="InputRouter" type="Node" parent="." unique_id=70337105]
+script = ExtResource("6_input")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=666278577]
+
+[node name="HUD" parent="UILayer" unique_id=981680451 instance=ExtResource("7_hud")]
+offset_bottom = 1.3399658

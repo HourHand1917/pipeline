@@ -8,14 +8,12 @@
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_kwm3y"]
 [ext_resource type="Texture2D" uid="uid://bfwqqe85jy6sn" path="res://features/exploration/art_assets/home_map/家-工作台.png" id="4_sh4v1"]
 [ext_resource type="Texture2D" uid="uid://bko2p4vl6k2t5" path="res://features/exploration/art_assets/home_map/休眠舱.png" id="6_tbw4g"]
-[ext_resource type="Script" uid="uid://dya0c2snh75vx" path="res://features/exploration/scripts/CS/RoomBounds.cs" id="7_n0vrv"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="8_vmofw"]
 [ext_resource type="Texture2D" uid="uid://gyf4guem0231" path="res://features/exploration/art_assets/home_map/柜子.png" id="9_3atb7"]
 [ext_resource type="Texture2D" uid="uid://cpygny8grlept" path="res://features/exploration/art_assets/home_map/大门-关闭-拉杆上.PNG" id="9_kwm3y"]
 [ext_resource type="Texture2D" uid="uid://pb802r7ji65u" path="res://features/exploration/art_assets/home_map/商店.png" id="10_kwm3y"]
-[ext_resource type="Script" uid="uid://dci7bqwtky2sp" path="res://features/exploration/scripts/CS/interactables/RoomGateInteractable.cs" id="10_rtki2"]
 [ext_resource type="Script" uid="uid://brldldukiq5i5" path="res://features/exploration/scripts/CS/interactables/StoreInteractable.cs" id="12_epj53"]
 [ext_resource type="Script" uid="uid://cnkxsvpsj36u4" path="res://features/shop/ShopManager.cs" id="14_c681v"]
-[ext_resource type="Script" uid="uid://bju6uaedyndmv" path="res://features/exploration/scripts/CS/RoomTransitionManager.cs" id="14_htdbx"]
 [ext_resource type="Resource" uid="uid://3fm7weqvvkxh" path="res://features/shop/resources/default_shop.tres" id="15_jir6r"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="16_w8jpk"]
 [ext_resource type="Script" uid="uid://unxmpcudbtks" path="res://features/shop/ShopUI.cs" id="19_s6d8i"]
@@ -27,15 +25,10 @@
 [ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="25_hp3pq"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="26_tv"]
 [ext_resource type="PackedScene" uid="uid://cbgyktrrxne4a" path="res://features/workbench/WorkbenchUI.tscn" id="27_wb"]
-[ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="28_mapgate"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="29_spawn"]
 [ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="30_hp3pq"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_n0vrv"]
-radius = 562.03204
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w8jpk"]
-size = Vector2(200, 300)
+[ext_resource type="Script" uid="uid://cqaav03k6hg6q" path="res://features/exploration/scripts/CS/interactables/GateInteractable.cs" id="31_gate"]
+[ext_resource type="Script" uid="uid://dq8q6f6remj3d" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="32_mapselect"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -135,223 +128,156 @@ _data = {
 &"show_shopUI": SubResource("Animation_fxped")
 }
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input")]
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_lk0dn")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "home"
-
-[node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
-position = Vector2(-218, 194)
-scale = Vector2(0.6, 0.6)
-
-[node name="Bounds" type="Node" parent="MapLayer" unique_id=351476092]
-script = ExtResource("7_n0vrv")
+_hud = NodePath("UILayer/HUD")
 PlayerLeft = -550
 PlayerRight = 2850
 CamLeft = -1050
 CamRight = 2925
 
-[node name="Room_Back" type="Node2D" parent="MapLayer" unique_id=1487059085]
+[node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
+position = Vector2(-251.00002, 159.00002)
+scale = Vector2(0.65, 0.65)
 
-[node name="BackBg" type="Sprite2D" parent="MapLayer/Room_Back" unique_id=996783503]
-position = Vector2(921, 305)
-texture = ExtResource("2_1g70h")
-
-[node name="BackGround" type="Sprite2D" parent="MapLayer/Room_Back" unique_id=1922385659]
-position = Vector2(921, 563)
-texture = ExtResource("3_htdbx")
-
-[node name="ReturnGate" type="Area2D" parent="MapLayer/Room_Back" unique_id=1049730411 node_paths=PackedStringArray("Manager", "_blink")]
-position = Vector2(1200, 350)
-script = ExtResource("10_rtki2")
-TargetRoomId = "Room_Front"
-Manager = NodePath("../../../RoomManager")
-DisplayName = "返回"
-_blink = NodePath("Blink")
-
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Back/ReturnGate" unique_id=484329127]
-position = Vector2(0, -40)
-texture = ExtResource("9_kwm3y")
-
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Back/ReturnGate" unique_id=386856533]
-shape = SubResource("CircleShape2D_n0vrv")
-
-[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Back/ReturnGate" unique_id=1089658154]
-collision_layer = 2
-collision_mask = 0
-
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Back/ReturnGate/ClickZone" unique_id=2038351665]
-shape = SubResource("RectangleShape2D_w8jpk")
-
-[node name="Blink" type="Node" parent="MapLayer/Room_Back/ReturnGate" unique_id=2145145497 node_paths=PackedStringArray("_sprite", "_clickZone")]
-script = ExtResource("4_kwm3y")
-_sprite = NodePath("../Sprite")
-_clickZone = NodePath("../ClickZone")
-
-[node name="Bounds" type="Node" parent="MapLayer/Room_Back" unique_id=1493581626]
-script = ExtResource("7_n0vrv")
-
-[node name="Room_Front" type="Node2D" parent="MapLayer" unique_id=878096115]
-
-[node name="Background" type="Sprite2D" parent="MapLayer/Room_Front" unique_id=1587293715]
+[node name="Background" type="Sprite2D" parent="MapLayer" unique_id=1587293715]
 position = Vector2(921, 305)
 texture = ExtResource("2_1g70h")
 metadata/_edit_lock_ = true
 
-[node name="Ground" type="Sprite2D" parent="MapLayer/Room_Front" unique_id=1444523972]
+[node name="Ground" type="Sprite2D" parent="MapLayer" unique_id=1444523972]
 position = Vector2(921, 563)
 texture = ExtResource("3_htdbx")
 
-[node name="Workbench" type="Area2D" parent="MapLayer/Room_Front" unique_id=809413683 node_paths=PackedStringArray("WorkbenchUI", "_blink")]
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=1560915694]
+position = Vector2(736.6666, 1591.6667)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("8_vmofw")
+
+[node name="Workbench" type="Area2D" parent="MapLayer" unique_id=809413683 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
 position = Vector2(-100, 304)
 script = ExtResource("3_3atb7")
-WorkbenchUI = NodePath("../../../UILayer/WorkbenchUI")
+WorkbenchUI = NodePath("../../UILayer/WorkbenchUI")
+Hud = NodePath("../../UILayer/HUD")
 DisplayName = "工作台"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/Workbench" unique_id=294010778]
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Workbench" unique_id=294010778]
 position = Vector2(-47, -9)
 texture = ExtResource("4_sh4v1")
 metadata/_edit_lock_ = true
 
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Front/Workbench" unique_id=1955874991]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Workbench" unique_id=1955874991]
 shape = SubResource("CircleShape2D_kvlmm")
 debug_color = Color(0, 0.6, 0.69803923, 0.11764706)
 metadata/_edit_lock_ = true
 
-[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Front/Workbench" unique_id=1861536368]
+[node name="ClickZone" type="Area2D" parent="MapLayer/Workbench" unique_id=1861536368]
 collision_layer = 2
 collision_mask = 0
 metadata/_edit_lock_ = true
 
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Front/Workbench/ClickZone" unique_id=1058590106]
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Workbench/ClickZone" unique_id=1058590106]
 position = Vector2(7, -14)
 shape = SubResource("RectangleShape2D_vnm0p")
 debug_color = Color(0, 0.6, 0.69803923, 0.101960786)
 metadata/_edit_lock_ = true
 
-[node name="Blink" type="Node" parent="MapLayer/Room_Front/Workbench" unique_id=958635977 node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="MapLayer/Workbench" unique_id=958635977 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="Bed" type="Sprite2D" parent="MapLayer/Room_Front" unique_id=353226478]
+[node name="Bed" type="Sprite2D" parent="MapLayer" unique_id=353226478]
 position = Vector2(-746, 298)
 texture = ExtResource("6_tbw4g")
 
-[node name="Cabinet" type="Sprite2D" parent="MapLayer/Room_Front" unique_id=1889417335]
+[node name="Cabinet" type="Sprite2D" parent="MapLayer" unique_id=1889417335]
 position = Vector2(755, 239)
 texture = ExtResource("9_3atb7")
 
-[node name="Gate" type="Area2D" parent="MapLayer/Room_Front" unique_id=736867306 node_paths=PackedStringArray("Manager", "_blink")]
+[node name="Gate" type="Area2D" parent="MapLayer" unique_id=736867306 node_paths=PackedStringArray("MapSelectUI", "Hud", "_blink")]
 position = Vector2(1581, 420)
-script = ExtResource("10_rtki2")
-Manager = NodePath("../../../RoomManager")
+script = ExtResource("31_gate")
+MapSelectUI = NodePath("../../UILayer/MapSelectUI")
+Hud = NodePath("../../UILayer/HUD")
 DisplayName = "大门"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/Gate" unique_id=636622233]
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Gate" unique_id=636622233]
 position = Vector2(26, -4)
 texture = ExtResource("9_kwm3y")
 
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Front/Gate" unique_id=51334078]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Gate" unique_id=51334078]
 position = Vector2(14.5, 24)
 shape = SubResource("RectangleShape2D_htdbx")
 debug_color = Color(0, 0.6, 0.69803923, 0.11764706)
 metadata/_edit_lock_ = true
 
-[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Front/Gate" unique_id=163474655]
+[node name="ClickZone" type="Area2D" parent="MapLayer/Gate" unique_id=163474655]
 collision_layer = 2
 collision_mask = 0
 metadata/_edit_lock_ = true
 
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Front/Gate/ClickZone" unique_id=754869354]
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Gate/ClickZone" unique_id=754869354]
 position = Vector2(46, -1.5)
 shape = SubResource("RectangleShape2D_kwm3y")
 debug_color = Color(0, 0.6, 0.69803923, 0.101960786)
 metadata/_edit_lock_ = true
 
-[node name="Blink" type="Node" parent="MapLayer/Room_Front/Gate" unique_id=17275868 node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="MapLayer/Gate" unique_id=17275868 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="Store" type="Area2D" parent="MapLayer/Room_Front" unique_id=474505502 node_paths=PackedStringArray("ShopUI")]
+[node name="Store" type="Area2D" parent="MapLayer" unique_id=474505502 node_paths=PackedStringArray("ShopUI", "Hud", "_blink")]
 position = Vector2(2436, 343)
 script = ExtResource("12_epj53")
-ShopUI = NodePath("../../../UILayer/ShopUI")
+ShopUI = NodePath("../../UILayer/ShopUI")
+Hud = NodePath("../../UILayer/HUD")
+_blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/Store" unique_id=467649211]
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Store" unique_id=467649211]
 position = Vector2(47, -7)
 texture = ExtResource("10_kwm3y")
 metadata/_edit_lock_ = true
 
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Front/Store" unique_id=1253918945]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Store" unique_id=1253918945]
 shape = SubResource("CircleShape2D_tbw4g")
 debug_color = Color(0, 0.6, 0.69803923, 0.11764706)
 metadata/_edit_lock_ = true
 
-[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Front/Store" unique_id=1550856136]
+[node name="ClickZone" type="Area2D" parent="MapLayer/Store" unique_id=1550856136]
 collision_layer = 2
 collision_mask = 0
 metadata/_edit_lock_ = true
 
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Front/Store/ClickZone" unique_id=2014010310]
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Store/ClickZone" unique_id=2014010310]
 position = Vector2(-3.5, -11)
 shape = SubResource("RectangleShape2D_kvlmm")
 debug_color = Color(0, 0.6, 0.69803923, 0.101960786)
 metadata/_edit_lock_ = true
 
-[node name="Blink" type="Node" parent="MapLayer/Room_Front/Store" unique_id=963315539 node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="MapLayer/Store" unique_id=963315539 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="ShopManager" type="Node" parent="MapLayer/Room_Front/Store" unique_id=576738288]
+[node name="ShopManager" type="Node" parent="MapLayer/Store" unique_id=576738288]
 script = ExtResource("14_c681v")
 ShopData = ExtResource("15_jir6r")
 PersistenceId = "shop_home"
 
-[node name="MapGate" type="Area2D" parent="MapLayer/Room_Front" unique_id=1893995829 node_paths=PackedStringArray("_blink")]
-position = Vector2(2700, 420)
-script = ExtResource("28_mapgate")
-TargetMapId = &"test_map"
-TargetSpawnId = &"test_entry"
-DisplayName = "离开"
-_blink = NodePath("Blink")
-
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/MapGate" unique_id=997198461]
-position = Vector2(26, -4)
-texture = ExtResource("9_kwm3y")
-
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Front/MapGate" unique_id=1416172483]
-position = Vector2(14.5, 24)
-shape = SubResource("RectangleShape2D_htdbx")
-
-[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Front/MapGate" unique_id=434474604]
-collision_layer = 2
-collision_mask = 0
-
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Front/MapGate/ClickZone" unique_id=94546785]
-position = Vector2(46, -1.5)
-shape = SubResource("RectangleShape2D_kwm3y")
-
-[node name="Blink" type="Node" parent="MapLayer/Room_Front/MapGate" unique_id=1942495249 node_paths=PackedStringArray("_sprite", "_clickZone")]
-script = ExtResource("4_kwm3y")
-_sprite = NodePath("../Sprite")
-_clickZone = NodePath("../ClickZone")
-
-[node name="HomeSpawn" type="Node2D" parent="MapLayer/Room_Front" unique_id=1284719890]
+[node name="HomeSpawn" type="Node2D" parent="MapLayer" unique_id=1284719890]
 position = Vector2(227, 603)
 script = ExtResource("29_spawn")
 SpawnId = &"home_entry"
 
 [node name="Player" parent="." unique_id=1138772278 instance=ExtResource("2_vdmol")]
-position = Vector2(227, 603)
-
-[node name="RoomManager" type="Node2D" parent="." unique_id=4622047]
-script = ExtResource("14_htdbx")
+position = Vector2(806, 529)
 
 [node name="InputRouter" type="Node" parent="." unique_id=853271568]
 script = ExtResource("16_w8jpk")
@@ -367,7 +293,7 @@ _anim = NodePath("Anim")
 _itemList = NodePath("Panel/ItemList")
 _goldLabel = NodePath("GoldLabel")
 _closeButton = NodePath("CloseButton")
-_shopManager = NodePath("../../MapLayer/Room_Front/Store/ShopManager")
+_shopManager = NodePath("../../MapLayer/Store/ShopManager")
 
 [node name="Background" type="ColorRect" parent="UILayer/ShopUI" unique_id=810003862]
 layout_mode = 0
@@ -406,9 +332,64 @@ text = "关闭"
 libraries/ = SubResource("AnimationLibrary_tis6c")
 
 [node name="WorkbenchUI" parent="UILayer" unique_id=495580737 instance=ExtResource("27_wb")]
+_tabRaiseOffset = 30.0
 
 [node name="HUD" parent="UILayer" unique_id=2129627915 instance=ExtResource("26_tv")]
 offset_bottom = 1.3399658
+
+[node name="MapSelectUI" type="Control" parent="UILayer" unique_id=184537201 node_paths=PackedStringArray("_f2Button", "_f3Button", "_f4Button", "_closeButton")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("32_mapselect")
+_f2Button = NodePath("Panel/VBox/F2Button")
+_f3Button = NodePath("Panel/VBox/F3Button")
+_f4Button = NodePath("Panel/VBox/F4Button")
+_closeButton = NodePath("Panel/VBox/CloseButton")
+
+[node name="Background" type="ColorRect" parent="UILayer/MapSelectUI" unique_id=1131667860]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.7)
+
+[node name="Panel" type="PanelContainer" parent="UILayer/MapSelectUI" unique_id=1124273715]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 240.0
+offset_right = 1360.0
+offset_bottom = 640.0
+
+[node name="VBox" type="VBoxContainer" parent="UILayer/MapSelectUI/Panel" unique_id=174853641]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="UILayer/MapSelectUI/Panel/VBox" unique_id=366561812]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "选择目的地"
+horizontal_alignment = 1
+
+[node name="F2Button" type="Button" parent="UILayer/MapSelectUI/Panel/VBox" unique_id=1471869422]
+layout_mode = 2
+text = "f2 · 荒地"
+
+[node name="F3Button" type="Button" parent="UILayer/MapSelectUI/Panel/VBox" unique_id=1187262364]
+layout_mode = 2
+text = "f3 · 管道"
+
+[node name="F4Button" type="Button" parent="UILayer/MapSelectUI/Panel/VBox" unique_id=1989541479]
+layout_mode = 2
+text = "f4 · Boss关"
+
+[node name="CloseButton" type="Button" parent="UILayer/MapSelectUI/Panel/VBox" unique_id=1446721579]
+layout_mode = 2
+text = "关闭"
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")

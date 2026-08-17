@@ -6,6 +6,7 @@ public partial class PlayerIdleState : PlayerStateBase
     public override void Enter()
     {
         player.SetVelocityX(0);
+        player.PlayAnimation(PlayerController.AnimIdle);
     }
 
     public override void Exit()

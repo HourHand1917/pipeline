@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://v0dj2dxny8f4"]
+
+[ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_xurlq"]
+[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_y52xo"]
+[ext_resource type="Texture2D" uid="uid://bepos7d7gjdmn" path="res://features/exploration/art_assets/maps/f1/教程-2.png" id="3_63mp5"]
+[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="5_2p0fj"]
+[ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="5_tqldu"]
+[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="6_8e2fl"]
+[ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="6_qhe7u"]
+[ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_aojsd"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_tqldu"]
+[ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
+size = Vector2(643, 374)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qhe7u"]
+radius = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aojsd"]
+radius = 48.0
+
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+script = ExtResource("1_xurlq")
+Player = NodePath("Player")
+Input = NodePath("InputRouter")
+MapId = "f1_2"
+_hud = NodePath("UILayer/HUD")
+PlayerLeft = -250
+PlayerRight = 3400
+CamLeft = 0
+CamRight = 3400
+
+[node name="f1_2rightSpawn" type="Node2D" parent="." unique_id=2084639007]
+position = Vector2(2854, 530)
+script = ExtResource("2_y52xo")
+SpawnId = &"f1_2right"
+
+[node name="f1_2leftSpawn" type="Node2D" parent="." unique_id=96734078]
+position = Vector2(-46, 530)
+script = ExtResource("2_y52xo")
+SpawnId = &"f1_2left"
+
+[node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
+position = Vector2(489, 265)
+
+[node name="教程2" type="Sprite2D" parent="MapLayer" unique_id=1236278224]
+position = Vector2(999, 180)
+scale = Vector2(0.805, 0.805)
+texture = ExtResource("3_63mp5")
+
+[node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1919059850]
+position = Vector2(-436, 197)
+script = ExtResource("5_tqldu")
+TargetMapId = &"f1_1"
+TargetSpawnId = &"f1_1right"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge" unique_id=173999208]
+position = Vector2(-529, 11)
+shape = SubResource("RectangleShape2D_mnw6t")
+
+[node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1919059851]
+position = Vector2(2434, 197)
+script = ExtResource("5_tqldu")
+TargetMapId = &"home"
+TargetSpawnId = &"home_entry"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/right_edge" unique_id=173999209]
+position = Vector2(529, 11)
+shape = SubResource("RectangleShape2D_mnw6t")
+
+[node name="EnemyRocky" type="Area2D" parent="MapLayer" unique_id=27718393 node_paths=PackedStringArray("_blink")]
+position = Vector2(1703, 256)
+script = ExtResource("5_2p0fj")
+BattleScenePath = "res://Scenes/game_scene/rocky_battle_scene.tscn"
+BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
+ReturnSpawnId = &"RockyReturnSpawn"
+AggroRadius = 100.0
+NpcName = "岩石怪"
+PersistenceId = "enemy_rocky_f1_2"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/EnemyRocky" unique_id=768182115]
+modulate = Color(0.85, 0.3, 0.3, 1)
+texture = ExtResource("6_8e2fl")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/EnemyRocky" unique_id=1140056792]
+shape = SubResource("CircleShape2D_qhe7u")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/EnemyRocky" unique_id=1199201406]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/EnemyRocky/ClickZone" unique_id=1098492634]
+shape = SubResource("CircleShape2D_aojsd")
+
+[node name="Blink" type="Node" parent="MapLayer/EnemyRocky" unique_id=1062271792 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("7_tqldu")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="ReturnSpawn" type="Node2D" parent="MapLayer/EnemyRocky" unique_id=1862176729]
+position = Vector2(-9, 12)
+script = ExtResource("2_y52xo")
+SpawnId = &"RockyReturnSpawn"
+
+[node name="Player" parent="." unique_id=1138772278 instance=ExtResource("6_qhe7u")]
+position = Vector2(761, 530)
+
+[node name="InputRouter" type="Node" parent="." unique_id=1263359550]
+script = ExtResource("7_aojsd")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=57122988]
+
+[node name="HUD" parent="UILayer" unique_id=653107426 instance=ExtResource("8_ehrjl")]
+offset_bottom = 1.3399658
