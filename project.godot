@@ -15,6 +15,10 @@ run/main_scene="res://features/combat_campaign/scenes/combat_campaign.tscn"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout="uid://cm0cnseq4mq62"
+
 [autoload]
 
 DataManager="*res://Script/CS/DataManager.cs"
@@ -24,6 +28,7 @@ TooltipService="*res://Script/CS/TooltipService.cs"
 MapManager="*res://features/exploration/scripts/CS/MapManager.cs"
 SceneTransition="*res://Script/CS/SceneTransition.cs"
 BattleDirector="*res://Script/CS/BattleDirector.cs"
+AudioManager="*uid://b5xixbkfbd2qu"
 
 [display]
 
