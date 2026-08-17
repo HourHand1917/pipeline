@@ -1,0 +1,67 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/scripts/dialogue_bubble.gd" id="1_bubble"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Text/node_name_label.gd" id="2_name"]
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Text/node_dialog_text.gd" id="3_text"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxBubble"]
+bg_color = Color(0.965, 0.95, 0.88, 0.98)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.16, 0.18, 0.2, 0.92)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 6
+shadow_color = Color(0, 0, 0, 0.28)
+shadow_size = 8
+shadow_offset = Vector2(0, 4)
+
+[node name="DialogueBubble" type="PanelContainer"]
+custom_minimum_size = Vector2(520, 92)
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxBubble")
+script = ExtResource("1_bubble")
+
+[node name="BubbleTail" type="Polygon2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(34, 90)
+polygon = PackedVector2Array(0, 0, 22, 0, 7, 14)
+color = Color(0.965, 0.95, 0.88, 0.98)
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 14
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 16
+
+[node name="Content" type="VBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="SpeakerName" type="Label" parent="Margin/Content"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(0.16, 0.42, 0.5, 1)
+theme_override_font_sizes/font_size = 18
+text = "NPC"
+script = ExtResource("2_name")
+hide_when_empty = true
+
+[node name="DialogText" type="RichTextLabel" parent="Margin/Content"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+mouse_filter = 1
+theme_override_colors/default_color = Color(0.08, 0.09, 0.1, 1)
+theme_override_font_sizes/normal_font_size = 25
+bbcode_enabled = true
+fit_content = true
+scroll_active = false
+autowrap_mode = 3
+script = ExtResource("3_text")
+start_hidden = false
+auto_visibility = true

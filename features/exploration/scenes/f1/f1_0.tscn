@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://dtatqxv6ljdsw"]
+
+[ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_7aotm"]
+[ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="2_t4hgr"]
+[ext_resource type="Texture2D" uid="uid://cyjrk658suxmi" path="res://features/exploration/art_assets/maps/f1/教程-0-背景.png" id="2_u8q1t"]
+[ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="5_7aotm"]
+[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="6_xypiy"]
+[ext_resource type="Texture2D" uid="uid://b3ghanmphcy1g" path="res://features/exploration/art_assets/maps/f1/教程-0-指示牌.png" id="7_u8q1t"]
+[ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_yw3k6"]
+[ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_u4bgt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t4hgr"]
+size = Vector2(696, 374)
+
+[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+script = ExtResource("1_7aotm")
+Player = NodePath("Player")
+Input = NodePath("InputRouter")
+MapId = "f1_0"
+_hud = NodePath("UILayer/HUD")
+PlayerLeft = 500
+PlayerRight = 2200
+CamLeft = 320
+CamRight = 1970
+
+[node name="f1_0rightSpawn" type="Node2D" parent="." unique_id=2084639007]
+position = Vector2(1458, 530)
+script = ExtResource("6_xypiy")
+SpawnId = &"f1_0right"
+
+[node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
+position = Vector2(466, 356)
+
+[node name="教程0背景" type="Sprite2D" parent="MapLayer" unique_id=1847836310]
+position = Vector2(677.5, 98.000015)
+scale = Vector2(0.81, 0.81)
+texture = ExtResource("2_u8q1t")
+
+[node name="教程0指示牌" type="Sprite2D" parent="MapLayer" unique_id=2060645289]
+position = Vector2(677.5, 98.000015)
+scale = Vector2(0.81, 0.81)
+texture = ExtResource("7_u8q1t")
+
+[node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1894964450]
+position = Vector2(1438, 120)
+script = ExtResource("5_7aotm")
+TargetMapId = &"f1_1"
+TargetSpawnId = &"f1_1left"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/right_edge" unique_id=2134796613]
+position = Vector2(119, 11)
+shape = SubResource("RectangleShape2D_t4hgr")
+
+[node name="Player" parent="." unique_id=1138772278 instance=ExtResource("2_t4hgr")]
+position = Vector2(761, 530)
+
+[node name="InputRouter" type="Node" parent="." unique_id=1263359550]
+script = ExtResource("7_yw3k6")
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=57122988]
+
+[node name="HUD" parent="UILayer" unique_id=653107426 instance=ExtResource("8_u4bgt")]
+offset_bottom = 1.3399658

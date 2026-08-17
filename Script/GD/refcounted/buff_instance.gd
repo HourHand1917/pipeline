@@ -15,7 +15,7 @@ func add_stacks(amount: int) -> void:
         stacks = min(stacks + amount, buff.max_stacks)
 
 func tick_duration() -> bool:
-    """返回 true 表示已过期"""
+    # 返回 true 表示已过期
     if remaining_duration <= 0:
         return false
     remaining_duration -= 1

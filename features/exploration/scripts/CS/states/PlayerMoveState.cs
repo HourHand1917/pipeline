@@ -19,6 +19,7 @@ public partial class PlayerMoveState : PlayerStateBase
     {
         player.SetVelocityX(direction * player.MoveSpeed);
         player.FaceDirection(direction);
+        player.PlayAnimation(PlayerController.AnimMove);
     }
 
     public override void Exit()

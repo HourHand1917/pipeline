@@ -43,6 +43,19 @@ public partial class ExplorationManager : Node2D
             Input.MoveReleased += dir => Player.OnMoveReleased(dir);
         }
 
+        ApplyBounds();
+
+        if (!string.IsNullOrEmpty(MapId))
+            InitPersistence(this, MapId);
+
+        GD.Print("探索场景已就绪。A/D 移动，鼠标靠近交互物变亮。");
+
+        _hud?.SetMode(PlayerTV.TVMode.Exploration);
+    }
+
+    /// <summary>把当前边界字段应用到玩家移动范围和相机限制。切房间时由 RoomBounds.ApplyTo 调用。</summary>
+    public void ApplyBounds()
+    {
         if (Player != null)
         {
             Player.MapLeft = PlayerLeft;
@@ -56,13 +69,6 @@ public partial class ExplorationManager : Node2D
             cam.LimitRight = CamRight;
             cam.LimitSmoothed = true;
         }
-
-        if (!string.IsNullOrEmpty(MapId))
-            InitPersistence(this, MapId);
-
-        GD.Print("探索场景已就绪。A/D 移动，鼠标靠近交互物变亮。");
-
-        _hud?.SetMode(PlayerTV.TVMode.Exploration);
     }
 
     private static void InitPersistence(Node node, string mapId)

@@ -29,10 +29,10 @@ enum Target {
 
 # ============ Buff 专用字段 ============
 enum BuffTarget {
-    PLAYER_STATS,    # 玩家状态
-    ENEMY_STATS,     # 敌人状态
-    PLAYER_CELLS,    # 玩家格子
-    ENEMY_CELLS,     # 敌人格子（预留）
+	PLAYER_STATS,    # 玩家状态
+	ENEMY_STATS,     # 敌人状态
+	PLAYER_CELLS,    # 玩家格子
+	ENEMY_CELLS,     # 敌人格子（预留）
 }
 
 @export_group("Buff")

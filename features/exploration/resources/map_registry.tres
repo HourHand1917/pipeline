@@ -26,6 +26,111 @@ scene_path = "res://features/exploration/scenes/test_map2.tscn"
 grid_position = Vector2i(2, 0)
 default_spawn_id = &"test2_entry"
 
+[sub_resource type="Resource" id="sub_f1_0"]
+script = ExtResource("2_map")
+id = &"f1_0"
+display_name = "教程0"
+scene_path = "res://features/exploration/scenes/f1/f1_0.tscn"
+default_spawn_id = &"f1_0right"
+
+[sub_resource type="Resource" id="sub_f1_1"]
+script = ExtResource("2_map")
+id = &"f1_1"
+display_name = "教程1"
+scene_path = "res://features/exploration/scenes/f1/f1_1.tscn"
+default_spawn_id = &"f1_1right"
+
+[sub_resource type="Resource" id="sub_f1_2"]
+script = ExtResource("2_map")
+id = &"f1_2"
+display_name = "教程2"
+scene_path = "res://features/exploration/scenes/f1/f1_2.tscn"
+default_spawn_id = &"f1_2right"
+
+[sub_resource type="Resource" id="sub_f2_0"]
+script = ExtResource("2_map")
+id = &"f2_0"
+display_name = "荒地"
+scene_path = "res://features/exploration/scenes/f2/f2_0.tscn"
+default_spawn_id = &"f2_0left"
+
+[sub_resource type="Resource" id="sub_f2_1"]
+script = ExtResource("2_map")
+id = &"f2_1"
+display_name = "贫民区"
+scene_path = "res://features/exploration/scenes/f2/f2_1.tscn"
+default_spawn_id = &"f2_1left"
+
+[sub_resource type="Resource" id="sub_f2_2"]
+script = ExtResource("2_map")
+id = &"f2_2"
+display_name = "街区"
+scene_path = "res://features/exploration/scenes/f2/f2_2.tscn"
+default_spawn_id = &"f2_2left"
+
+[sub_resource type="Resource" id="sub_f2_3"]
+script = ExtResource("2_map")
+id = &"f2_3"
+display_name = "市集"
+scene_path = "res://features/exploration/scenes/f2/f2_3.tscn"
+default_spawn_id = &"f2_3left"
+
+[sub_resource type="Resource" id="sub_f2_4"]
+script = ExtResource("2_map")
+id = &"f2_4"
+display_name = "拳击馆"
+scene_path = "res://features/exploration/scenes/f2/f2_4.tscn"
+default_spawn_id = &"f2_4left"
+
+[sub_resource type="Resource" id="sub_f3_0"]
+script = ExtResource("2_map")
+id = &"f3_0"
+display_name = "管道"
+scene_path = "res://features/exploration/scenes/f3/f3_0.tscn"
+default_spawn_id = &"f3_0left"
+
+[sub_resource type="Resource" id="sub_f3_1"]
+script = ExtResource("2_map")
+id = &"f3_1"
+display_name = "贫民区"
+scene_path = "res://features/exploration/scenes/f3/f3_1.tscn"
+default_spawn_id = &"f3_1left"
+
+[sub_resource type="Resource" id="sub_f3_2"]
+script = ExtResource("2_map")
+id = &"f3_2"
+display_name = "街道"
+scene_path = "res://features/exploration/scenes/f3/f3_2.tscn"
+default_spawn_id = &"f3_2left"
+
+[sub_resource type="Resource" id="sub_f3_5"]
+script = ExtResource("2_map")
+id = &"f3_5"
+display_name = "赌场门口"
+scene_path = "res://features/exploration/scenes/f3/f3_5.tscn"
+default_spawn_id = &"f3_5left"
+
+[sub_resource type="Resource" id="sub_f3_6"]
+script = ExtResource("2_map")
+id = &"f3_6"
+display_name = "赌场"
+scene_path = "res://features/exploration/scenes/f3/f3_6.tscn"
+default_spawn_id = &"f3_6left"
+
+[sub_resource type="Resource" id="sub_f3_7"]
+script = ExtResource("2_map")
+id = &"f3_7"
+display_name = "复用"
+scene_path = "res://features/exploration/scenes/f3/f3_7.tscn"
+default_spawn_id = &"f3_7left"
+
+[sub_resource type="Resource" id="sub_f4"]
+script = ExtResource("2_map")
+id = &"f4"
+display_name = "Boss关"
+scene_path = "res://features/exploration/scenes/f4/f4.tscn"
+default_spawn_id = &"f4entry"
+
 [resource]
 script = ExtResource("1_reg")
-maps = Array[ExtResource("2_map")]([SubResource("sub_home"), SubResource("sub_test"), SubResource("sub_test2")])
+maps = Array[ExtResource("2_map")]([SubResource("sub_home"), SubResource("sub_test"), SubResource("sub_test2"), SubResource("sub_f1_0"), SubResource("sub_f1_1"), SubResource("sub_f1_2"), SubResource("sub_f2_0"), SubResource("sub_f2_1"), SubResource("sub_f2_2"), SubResource("sub_f2_3"), SubResource("sub_f2_4"), SubResource("sub_f3_0"), SubResource("sub_f3_1"), SubResource("sub_f3_2"), SubResource("sub_f3_5"), SubResource("sub_f3_6"), SubResource("sub_f3_7"), SubResource("sub_f4")])

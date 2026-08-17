@@ -20,7 +20,7 @@ script = ExtResource("1_v1dgx")
 Player = NodePath("MapLayer/Player")
 Input = NodePath("InputRouter")
 MapId = "test_map2"
-_hud = NodePath("HUD")
+_hud = NodePath("UILayer/HUD")
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 
@@ -61,9 +61,7 @@ SpawnId = &"test2_entry"
 [node name="InputRouter" type="Node" parent="." unique_id=1263359550]
 script = ExtResource("7_k4n68")
 
-[node name="HUD" parent="." unique_id=2129627915 instance=ExtResource("8_5g27p")]
-offset_left = 1100.0
-offset_top = 543.0
-offset_right = 2503.0
-offset_bottom = 542.83997
-scale = Vector2(0.575, 0.575)
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=57122988]
+
+[node name="HUD" parent="UILayer" unique_id=653107426 instance=ExtResource("8_5g27p")]
+offset_bottom = 1.3399658

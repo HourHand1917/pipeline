@@ -38,6 +38,7 @@ public partial class RewardPage : Control
 
         _source = source;
         _open = true;
+        PlayerController.Instance?.LockMovement(); // 打开战利品页时锁定移动
         RebuildSlots();
         Visible = true;
         _anim?.Play("show_reward");
@@ -48,6 +49,7 @@ public partial class RewardPage : Control
     {
         if (!_open) return;
         _open = false;
+        PlayerController.Instance?.UnlockMovement(); // 关闭战利品页时解锁移动
         _anim?.Play("hide_reward");
         EmitSignal(SignalName.Closed);
     }

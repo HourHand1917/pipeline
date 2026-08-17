@@ -22,6 +22,9 @@ public partial class MapManager : Node
     private StringName _pendingSpawnId = "";
     private bool _traveling;
 
+    /// <summary>是否正在跨地图转场中（供新场景的玩家在 _Ready 里判断是否锁定移动）。</summary>
+    public bool IsTraveling => _traveling;
+
     // id → scene_path
     private System.Collections.Generic.Dictionary<StringName, string> _scenePaths = new();
 
@@ -79,6 +82,7 @@ public partial class MapManager : Node
         EmitSignal(SignalName.MapChanged, CurrentMapId);
 
         await SceneTransition.Instance.IrisOpen();
+        PlayerController.Instance?.UnlockMovement(); // 入场完成，恢复移动
 
         _traveling = false;
     }

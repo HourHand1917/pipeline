@@ -1,8 +1,1030 @@
 [gd_scene format=3 uid="uid://bpod731ja3no6"]
 
 [ext_resource type="Script" uid="uid://wnv8svixg043" path="res://features/exploration/scripts/CS/PlayerController.cs" id="1_tdwrg"]
+[ext_resource type="Texture2D" uid="uid://d0exgwvnxl8mv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0001_0.png" id="2_pt78m"]
 [ext_resource type="Script" uid="uid://debl1p40o27si" path="res://features/exploration/scripts/CS/CameraFollow.cs" id="2_xu4y1"]
 [ext_resource type="Script" uid="uid://dk1nlss2cbht" path="res://features/exploration/scripts/CS/states/PlayerStateMachine.cs" id="3_b7xts"]
+[ext_resource type="Texture2D" uid="uid://dsrpaiknph2e5" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0002_4.png" id="3_mi8c7"]
+[ext_resource type="Texture2D" uid="uid://d3ph08n23c4v8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0003_4.png" id="4_v4ehp"]
+[ext_resource type="Texture2D" uid="uid://njb3pikskh67" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0004_4.png" id="5_vv2ya"]
+[ext_resource type="Texture2D" uid="uid://kmh0jnp0xaq7" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0005_4.png" id="6_8oq78"]
+[ext_resource type="Texture2D" uid="uid://k2536uuxlx4w" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0006_4.png" id="7_so2h5"]
+[ext_resource type="Texture2D" uid="uid://bv7bvip6o7a4y" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0007_5.png" id="8_bylpp"]
+[ext_resource type="Texture2D" uid="uid://dq2m7tk8cdlm8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0008_4.png" id="9_wj4uy"]
+[ext_resource type="Texture2D" uid="uid://7gu2cnljfqi5" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0009_4.png" id="10_d75y7"]
+[ext_resource type="Texture2D" uid="uid://03nrjqi3i22c" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0010_4.png" id="11_itoru"]
+[ext_resource type="Texture2D" uid="uid://c52ityaked8wc" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0011_4.png" id="12_46u3q"]
+[ext_resource type="Texture2D" uid="uid://v4l5r6wr4ypg" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0012_4.png" id="13_o3hgx"]
+[ext_resource type="Texture2D" uid="uid://c2jpb64as5ljw" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0013_5.png" id="14_3hkol"]
+[ext_resource type="Texture2D" uid="uid://bm2xr3a6khrb3" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0014_4.png" id="15_76vpu"]
+[ext_resource type="Texture2D" uid="uid://dil36qvrrtya0" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0015_4.png" id="16_honmo"]
+[ext_resource type="Texture2D" uid="uid://dqmqx7m5hlymg" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0016_4.png" id="17_o2n28"]
+[ext_resource type="Texture2D" uid="uid://o0vau7cfo4db" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0017_4.png" id="18_txe1c"]
+[ext_resource type="Texture2D" uid="uid://t7bgqh1j5fhq" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0018_4.png" id="19_2kwp2"]
+[ext_resource type="Texture2D" uid="uid://b72qhgnbw8hni" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0019_5.png" id="20_aywf0"]
+[ext_resource type="Texture2D" uid="uid://2foespfso6mp" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0020_4.png" id="21_xtjkc"]
+[ext_resource type="Texture2D" uid="uid://c6ws5vkxoh56x" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0021_4.png" id="22_7ssml"]
+[ext_resource type="Texture2D" uid="uid://cbl6ygor4pihx" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0022_4.png" id="23_13mer"]
+[ext_resource type="Texture2D" uid="uid://cee0r22doi5tu" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0023_4.png" id="24_n50wo"]
+[ext_resource type="Texture2D" uid="uid://d2ukoeuaeg0tx" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0024_4.png" id="25_bpc40"]
+[ext_resource type="Texture2D" uid="uid://cf3gab4rhw5vm" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0025_5.png" id="26_vh3wi"]
+[ext_resource type="Texture2D" uid="uid://2su5ad45fygj" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0026_4.png" id="27_n0ytm"]
+[ext_resource type="Texture2D" uid="uid://do0yhww1dkp08" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0027_4.png" id="28_li5js"]
+[ext_resource type="Texture2D" uid="uid://brhtnjrwhkocq" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0028_4.png" id="29_ocvd7"]
+[ext_resource type="Texture2D" uid="uid://b0stnskoil10j" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0029_4.png" id="30_8fp3s"]
+[ext_resource type="Texture2D" uid="uid://db1ku2btglpkm" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0030_4.png" id="31_p6ask"]
+[ext_resource type="Texture2D" uid="uid://b288t8qdninvj" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0031_5.png" id="32_3fbk3"]
+[ext_resource type="Texture2D" uid="uid://bbcxdtwxrmgpq" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0032_4.png" id="33_e4y36"]
+[ext_resource type="Texture2D" uid="uid://cmm2ynadws6mc" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0033_4.png" id="34_dwj1t"]
+[ext_resource type="Texture2D" uid="uid://5ir784qkb8l0" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0034_4.png" id="35_hkllo"]
+[ext_resource type="Texture2D" uid="uid://bsb2ardfahbod" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0035_4.png" id="36_1rhlu"]
+[ext_resource type="Texture2D" uid="uid://2h2mddm4j3u6" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0036_4.png" id="37_whg4u"]
+[ext_resource type="Texture2D" uid="uid://bhvxhrgqwenwl" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0037_5.png" id="38_v6o0m"]
+[ext_resource type="Texture2D" uid="uid://ctkelxopxyvor" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0038_4.png" id="39_sc1cg"]
+[ext_resource type="Texture2D" uid="uid://8pxfb8i81tc7" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0039_4.png" id="40_paefm"]
+[ext_resource type="Texture2D" uid="uid://k3so81ydg4tk" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0040_4.png" id="41_cbbl8"]
+[ext_resource type="Texture2D" uid="uid://c32jc77kf2vpn" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0041_4.png" id="42_hqvh0"]
+[ext_resource type="Texture2D" uid="uid://d0t6p2ndajwc" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0042_4.png" id="43_38pir"]
+[ext_resource type="Texture2D" uid="uid://dy5yee31fju6a" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0043_5.png" id="44_d2eeo"]
+[ext_resource type="Texture2D" uid="uid://c2a5ugjxv24ix" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0044_4.png" id="45_ha526"]
+[ext_resource type="Texture2D" uid="uid://b6w3qroffnvqj" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0045_4.png" id="46_w1onh"]
+[ext_resource type="Texture2D" uid="uid://dcvsqk7hub3ce" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0046_4.png" id="47_c1117"]
+[ext_resource type="Texture2D" uid="uid://c1qbl81o4ck0" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0047_4.png" id="48_r0lss"]
+[ext_resource type="Texture2D" uid="uid://5ictbia3eaq8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0048_4.png" id="49_ne303"]
+[ext_resource type="Texture2D" uid="uid://c5uh61loav5lc" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0049_5.png" id="50_3dlpl"]
+[ext_resource type="Texture2D" uid="uid://dsuxt3omh0fyf" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0050_4.png" id="51_y82lo"]
+[ext_resource type="Texture2D" uid="uid://cotyfcho7gmwp" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0051_4.png" id="52_q7cio"]
+[ext_resource type="Texture2D" uid="uid://dwku2d3hhex0s" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0052_4.png" id="53_8odd0"]
+[ext_resource type="Texture2D" uid="uid://dvexg5oc0nryf" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0053_4.png" id="54_f540a"]
+[ext_resource type="Texture2D" uid="uid://rj2gnqd23iyf" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0054_4.png" id="55_kdnm1"]
+[ext_resource type="Texture2D" uid="uid://dutqg7ygdt514" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0055_5.png" id="56_73r8a"]
+[ext_resource type="Texture2D" uid="uid://c3n8vrhpasgs4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0056_4.png" id="57_y4gdb"]
+[ext_resource type="Texture2D" uid="uid://b3mqn75wsayyp" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0057_4.png" id="58_xpng8"]
+[ext_resource type="Texture2D" uid="uid://buhvd8j71t2c3" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0058_4.png" id="59_3ts6n"]
+[ext_resource type="Texture2D" uid="uid://rjftjua6uyca" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0059_4.png" id="60_4trh2"]
+[ext_resource type="Texture2D" uid="uid://cxpl7vjcrwes" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0060_4.png" id="61_t1m38"]
+[ext_resource type="Texture2D" uid="uid://dgdax0u2kcui6" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0061_5.png" id="62_slw74"]
+[ext_resource type="Texture2D" uid="uid://dook5prpk0787" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0062_4.png" id="63_3wyge"]
+[ext_resource type="Texture2D" uid="uid://p60ienmegebs" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0063_4.png" id="64_yggqe"]
+[ext_resource type="Texture2D" uid="uid://svmbbj7wgndp" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0064_4.png" id="65_5i5lc"]
+[ext_resource type="Texture2D" uid="uid://cgtql8k61yl5i" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0065_4.png" id="66_qsf8r"]
+[ext_resource type="Texture2D" uid="uid://mobjm5guqohv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0066_4.png" id="67_42wn5"]
+[ext_resource type="Texture2D" uid="uid://b5pqfk57jn83f" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0067_5.png" id="68_pbxd6"]
+[ext_resource type="Texture2D" uid="uid://bhkjqvlw5uu1j" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0068_4.png" id="69_wpuo7"]
+[ext_resource type="Texture2D" uid="uid://dykxojbvxeb2v" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0069_4.png" id="70_d5oca"]
+[ext_resource type="Texture2D" uid="uid://xn2sd8hkxxj8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0070_4.png" id="71_smyq4"]
+[ext_resource type="Texture2D" uid="uid://bpa38ub377fnx" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0071_4.png" id="72_excy0"]
+[ext_resource type="Texture2D" uid="uid://d0tbwlc5lyvmj" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0072_4.png" id="73_xrrvc"]
+[ext_resource type="Texture2D" uid="uid://cfr3cp8qnfoe7" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0073_5.png" id="74_jqipf"]
+[ext_resource type="Texture2D" uid="uid://swqcensjbjxn" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0074_4.png" id="75_kgskh"]
+[ext_resource type="Texture2D" uid="uid://dpjyg21j7dwlb" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0075_4.png" id="76_wdmxi"]
+[ext_resource type="Texture2D" uid="uid://c6257wocpjqaj" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0076_4.png" id="77_ulpxk"]
+[ext_resource type="Texture2D" uid="uid://b5j84hstfwhke" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0077_4.png" id="78_6ueqq"]
+[ext_resource type="Texture2D" uid="uid://dmvak8i1836f8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0078_4.png" id="79_xnrjr"]
+[ext_resource type="Texture2D" uid="uid://bfsr6d6wted6i" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0079_5.png" id="80_r02rk"]
+[ext_resource type="Texture2D" uid="uid://ck5liin7bkr2v" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0080_4.png" id="81_gyio8"]
+[ext_resource type="Texture2D" uid="uid://4w53grbt813m" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0081_4.png" id="82_sui5p"]
+[ext_resource type="Texture2D" uid="uid://bnw3emj7ibn8y" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0082_4.png" id="83_b5yv2"]
+[ext_resource type="Texture2D" uid="uid://by56h0ggylwyr" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0083_4.png" id="84_s2ke1"]
+[ext_resource type="Texture2D" uid="uid://dkdev3y7rtk5" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0084_4.png" id="85_byjag"]
+[ext_resource type="Texture2D" uid="uid://yniv51047knw" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0085_5.png" id="86_dtsnv"]
+[ext_resource type="Texture2D" uid="uid://xr7fqho3iur3" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0086_4.png" id="87_vmlp7"]
+[ext_resource type="Texture2D" uid="uid://c7ebfqaw0oc7c" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0087_4.png" id="88_r2tcf"]
+[ext_resource type="Texture2D" uid="uid://dna045kn8kgk6" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0088_4.png" id="89_f6luo"]
+[ext_resource type="Texture2D" uid="uid://bmv7r1722l560" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0089_4.png" id="90_3ls12"]
+[ext_resource type="Texture2D" uid="uid://3cok17kom1qi" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0090_4.png" id="91_g04rt"]
+[ext_resource type="Texture2D" uid="uid://dltp56ekwislw" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0091_5.png" id="92_gehy5"]
+[ext_resource type="Texture2D" uid="uid://bxu6vg33co6av" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0092_4.png" id="93_330vg"]
+[ext_resource type="Texture2D" uid="uid://8d78akktj5yd" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0093_4.png" id="94_qgn32"]
+[ext_resource type="Texture2D" uid="uid://be5ha6t4dbbjf" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0094_4.png" id="95_5nx50"]
+[ext_resource type="Texture2D" uid="uid://dwm6mnfoi8dkf" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0095_4.png" id="96_iekwr"]
+[ext_resource type="Texture2D" uid="uid://buvq6y0fcc5uk" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0096_4.png" id="97_aq27u"]
+[ext_resource type="Texture2D" uid="uid://cbk66genagwrv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0097_5.png" id="98_6t5am"]
+[ext_resource type="Texture2D" uid="uid://c5m4oykttehcp" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0098_4.png" id="99_ps0r7"]
+[ext_resource type="Texture2D" uid="uid://b285m81td55v1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0099_4.png" id="100_m7xbd"]
+[ext_resource type="Texture2D" uid="uid://bq2sqpqi3fbep" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0100_4.png" id="101_2phvx"]
+[ext_resource type="Texture2D" uid="uid://bbcf1xv78xvrm" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0101_4.png" id="102_mseld"]
+[ext_resource type="Texture2D" uid="uid://deqplpqdvbyup" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0102_4.png" id="103_n4k3o"]
+[ext_resource type="Texture2D" uid="uid://bow6kq1vt41rv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0103_5.png" id="104_b7c2y"]
+[ext_resource type="Texture2D" uid="uid://cnr41wkdtl6da" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0104_4.png" id="105_o1n0b"]
+[ext_resource type="Texture2D" uid="uid://dnsig6cjhry87" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0105_4.png" id="106_t2vfy"]
+[ext_resource type="Texture2D" uid="uid://dd5e6qv88bsw0" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0106_4.png" id="107_400y7"]
+[ext_resource type="Texture2D" uid="uid://snvh65fpxlrb" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0107_4.png" id="108_3ljoe"]
+[ext_resource type="Texture2D" uid="uid://cvmydb6m217xe" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0108_4.png" id="109_oqei2"]
+[ext_resource type="Texture2D" uid="uid://c0dayuo2wpgo0" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0109_5.png" id="110_6bqrg"]
+[ext_resource type="Texture2D" uid="uid://c41nxhvv3nj3" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0110_4.png" id="111_1ql4f"]
+[ext_resource type="Texture2D" uid="uid://deojnk4bce0rd" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0111_4.png" id="112_76m66"]
+[ext_resource type="Texture2D" uid="uid://dxrx4t5v2nbno" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0112_4.png" id="113_eipe1"]
+[ext_resource type="Texture2D" uid="uid://fs8q41w6qjx5" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0113_4.png" id="114_cvhno"]
+[ext_resource type="Texture2D" uid="uid://driwjgpnb7oo1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0114_4.png" id="115_wu0vh"]
+[ext_resource type="Texture2D" uid="uid://cgoilxkfcf52m" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0115_5.png" id="116_30tao"]
+[ext_resource type="Texture2D" uid="uid://dvjikvsgy2pw8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0116_4.png" id="117_w5trx"]
+[ext_resource type="Texture2D" uid="uid://cgiig0fsgnasv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0117_4.png" id="118_ina5p"]
+[ext_resource type="Texture2D" uid="uid://c75qkncak6mkx" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0118_4.png" id="119_v45qq"]
+[ext_resource type="Texture2D" uid="uid://cts1fvnxxsnuu" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0119_4.png" id="120_ef8jf"]
+[ext_resource type="Texture2D" uid="uid://vgkcaxrsper1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0120_4.png" id="121_47ijj"]
+[ext_resource type="Texture2D" uid="uid://c2yxt8g6ppgsn" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0121_5.png" id="122_m5nb0"]
+[ext_resource type="Texture2D" uid="uid://dux75kxmhqto6" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0122_4.png" id="123_easym"]
+[ext_resource type="Texture2D" uid="uid://dnulrb7f0yir5" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0123_4.png" id="124_xplug"]
+[ext_resource type="Texture2D" uid="uid://cjukd64h0sry3" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0124_4.png" id="125_wcplh"]
+[ext_resource type="Texture2D" uid="uid://bniyla0elpy12" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0125_4.png" id="126_6crp0"]
+[ext_resource type="Texture2D" uid="uid://11msss6cnc78" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0126_4.png" id="127_owgvt"]
+[ext_resource type="Texture2D" uid="uid://csd27np4j4pey" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0127_5.png" id="128_sswwn"]
+[ext_resource type="Texture2D" uid="uid://d0sul5abqylx0" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0128_4.png" id="129_1x6gr"]
+[ext_resource type="Texture2D" uid="uid://cb3jlkt16rs7j" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0129_4.png" id="130_7o3s7"]
+[ext_resource type="Texture2D" uid="uid://cxxe7dglg68ps" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0130_4.png" id="131_x5ypt"]
+[ext_resource type="Texture2D" uid="uid://x5ebpncoy8ar" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0131_4.png" id="132_kawsl"]
+[ext_resource type="Texture2D" uid="uid://sjbgvns0n8hw" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0132_4.png" id="133_x3tf1"]
+[ext_resource type="Texture2D" uid="uid://dq6qtevl3hbr1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0133_5.png" id="134_yejox"]
+[ext_resource type="Texture2D" uid="uid://b7basl18pe8xm" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0134_4.png" id="135_slnki"]
+[ext_resource type="Texture2D" uid="uid://bdl50rscd16ni" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0135_4.png" id="136_icgxy"]
+[ext_resource type="Texture2D" uid="uid://d2ndxsyp730mt" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0136_4.png" id="137_gcrws"]
+[ext_resource type="Texture2D" uid="uid://du5qndutgweeu" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0137_4.png" id="138_t74uq"]
+[ext_resource type="Texture2D" uid="uid://2fxv0pi8sa84" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0138_4.png" id="139_m482v"]
+[ext_resource type="Texture2D" uid="uid://daqcp7ngqasw2" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0139_5.png" id="140_1gv0g"]
+[ext_resource type="Texture2D" uid="uid://dvdgt51mqxsiv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0140_4.png" id="141_lxcua"]
+[ext_resource type="Texture2D" uid="uid://qnllva5fpd7k" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0141_4.png" id="142_3p3cp"]
+[ext_resource type="Texture2D" uid="uid://dbmyt62ecrlbj" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0142_4.png" id="143_yarc8"]
+[ext_resource type="Texture2D" uid="uid://byyevnf2hrpcw" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0143_4.png" id="144_p1jxo"]
+[ext_resource type="Texture2D" uid="uid://d2k8o7spmd08f" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0144_4.png" id="145_udpxr"]
+[ext_resource type="Texture2D" uid="uid://cgqhfp7vjdju2" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0145_5.png" id="146_svpvx"]
+[ext_resource type="Texture2D" uid="uid://biyox4u56rv23" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0146_4.png" id="147_4myca"]
+[ext_resource type="Texture2D" uid="uid://bjjl660vxciow" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0147_4.png" id="148_62wjs"]
+[ext_resource type="Texture2D" uid="uid://cgotxa5cwh4uo" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0148_4.png" id="149_2fdef"]
+[ext_resource type="Texture2D" uid="uid://dluunqweean02" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0149_4.png" id="150_qxja5"]
+[ext_resource type="Texture2D" uid="uid://7ul0hl64ddn4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0150_4.png" id="151_1xeou"]
+[ext_resource type="Texture2D" uid="uid://bqrtbmtm1vbwx" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0151_5.png" id="152_wwmnc"]
+[ext_resource type="Texture2D" uid="uid://bmt1ftu17yq65" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0152_4.png" id="153_pusae"]
+[ext_resource type="Texture2D" uid="uid://bb7cu3g86ua6c" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0153_4.png" id="154_j61lg"]
+[ext_resource type="Texture2D" uid="uid://vi4mfs2057ke" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0154_4.png" id="155_vy2at"]
+[ext_resource type="Texture2D" uid="uid://bbavqx8g7yjfx" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0155_4.png" id="156_1qt24"]
+[ext_resource type="Texture2D" uid="uid://ciassivc2xvc" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0156_4.png" id="157_u85ic"]
+[ext_resource type="Texture2D" uid="uid://b46ytdtiv41s1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0157_5.png" id="158_hbafb"]
+[ext_resource type="Texture2D" uid="uid://bhpj2tea1ukbo" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0158_4.png" id="159_1cjvy"]
+[ext_resource type="Texture2D" uid="uid://ckdodt6ctn2ii" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0159_4.png" id="160_sm76w"]
+[ext_resource type="Texture2D" uid="uid://clcv7jev6qq3w" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0160_4.png" id="161_o6b6q"]
+[ext_resource type="Texture2D" uid="uid://dkfnq2g6dusfg" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0161_4.png" id="162_5m6du"]
+[ext_resource type="Texture2D" uid="uid://cguphkk42u7s1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0162_4.png" id="163_6bsko"]
+[ext_resource type="Texture2D" uid="uid://cn2e5hl062e5u" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0163_5.png" id="164_khp88"]
+[ext_resource type="Texture2D" uid="uid://biqll801i5c48" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0164_4.png" id="165_qfv4b"]
+[ext_resource type="Texture2D" uid="uid://bwvlnsecegnbo" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0165_4.png" id="166_bcjn8"]
+[ext_resource type="Texture2D" uid="uid://davm47m7xu8xk" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0166_4.png" id="167_12wvw"]
+[ext_resource type="Texture2D" uid="uid://bxutxjw3gwwv5" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0167_4.png" id="168_cjwby"]
+[ext_resource type="Texture2D" uid="uid://bpafytkf81cwc" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0168_4.png" id="169_f3oqi"]
+[ext_resource type="Texture2D" uid="uid://bongxlhyw6g4v" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0169_5.png" id="170_01tjk"]
+[ext_resource type="Texture2D" uid="uid://dca6y0fr2krp1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0170_4.png" id="171_m1lku"]
+[ext_resource type="Texture2D" uid="uid://bn2f184rrjr0q" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0171_4.png" id="172_2x1ky"]
+[ext_resource type="Texture2D" uid="uid://dgjbagksur1qj" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0172_4.png" id="173_trm5s"]
+[ext_resource type="Texture2D" uid="uid://ctduggrwr7yxf" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0173_4.png" id="174_nvhp1"]
+[ext_resource type="Texture2D" uid="uid://e4xhhulxre0n" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0174_4.png" id="175_757cs"]
+[ext_resource type="Texture2D" uid="uid://ctx1f2tfjatqn" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0175_5.png" id="176_lsm8s"]
+[ext_resource type="Texture2D" uid="uid://ctnh4cqtb6gls" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0176_4.png" id="177_g175a"]
+[ext_resource type="Texture2D" uid="uid://carpduuoumbyi" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0177_4.png" id="178_shau0"]
+[ext_resource type="Texture2D" uid="uid://bnwfndq57e6wv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0178_4.png" id="179_v2wd6"]
+[ext_resource type="Texture2D" uid="uid://dti2nlaao6bh3" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0179_4.png" id="180_8ean3"]
+[ext_resource type="Texture2D" uid="uid://bfwk5crwywydn" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0180_4.png" id="181_n1py8"]
+[ext_resource type="Texture2D" uid="uid://dh1w5xhs4be2o" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0181_5.png" id="182_csdcg"]
+[ext_resource type="Texture2D" uid="uid://t8jqm8jlsb1d" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0182_4.png" id="183_ifdpn"]
+[ext_resource type="Texture2D" uid="uid://dsgfobp15nj2h" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0183_4.png" id="184_ebtma"]
+[ext_resource type="Texture2D" uid="uid://dqxlaxo00wjcs" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0184_4.png" id="185_tlv16"]
+[ext_resource type="Texture2D" uid="uid://glkmih4r1oi8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0185_4.png" id="186_caqb6"]
+[ext_resource type="Texture2D" uid="uid://c05wjnsbd6gqv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0186_4.png" id="187_p6ni5"]
+[ext_resource type="Texture2D" uid="uid://b54taw727fpbv" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0187_5.png" id="188_s88td"]
+[ext_resource type="Texture2D" uid="uid://ck5pomaqoa24y" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0188_4.png" id="189_tjjjl"]
+[ext_resource type="Texture2D" uid="uid://bhx2nyn74vmcl" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0189_4.png" id="190_gttbf"]
+[ext_resource type="Texture2D" uid="uid://uikcuiap2plf" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0190_4.png" id="191_82sav"]
+[ext_resource type="Texture2D" uid="uid://dmehqyk620bs3" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0191_4.png" id="192_idy0k"]
+[ext_resource type="Texture2D" uid="uid://cr8ofolrn3c1a" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0192_4.png" id="193_yuae2"]
+[ext_resource type="Texture2D" uid="uid://dam1g0wyu80gk" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0193_5.png" id="194_dd5u7"]
+[ext_resource type="Texture2D" uid="uid://b3nlk6gjfo42x" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0194_4.png" id="195_2xwd2"]
+[ext_resource type="Texture2D" uid="uid://ds04so8v6l5g4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0195_4.png" id="196_jo4a4"]
+[ext_resource type="Texture2D" uid="uid://cu732f4k3qh53" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0196_4.png" id="197_5fxlk"]
+[ext_resource type="Texture2D" uid="uid://cd2j1tbknlt4u" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0197_4.png" id="198_u86q2"]
+[ext_resource type="Texture2D" uid="uid://dy7wcsxxa8tnf" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0198_4.png" id="199_c8p31"]
+[ext_resource type="Texture2D" uid="uid://c0q2g8pvanf6b" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0199_5.png" id="200_c87r4"]
+[ext_resource type="Texture2D" uid="uid://vph22gmebpu8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0200_4.png" id="201_fud32"]
+[ext_resource type="Texture2D" uid="uid://ca387r5q48p7e" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0201_4.png" id="202_mmewb"]
+[ext_resource type="Texture2D" uid="uid://cicgx1eemte2l" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0202_4.png" id="203_6f6v8"]
+[ext_resource type="Texture2D" uid="uid://bibf07pa4hca0" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0203_4.png" id="204_luhl6"]
+[ext_resource type="Texture2D" uid="uid://mtpxcxq347yw" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0204_4.png" id="205_upgbx"]
+[ext_resource type="Texture2D" uid="uid://butxs8kokapak" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0205_5.png" id="206_rotu8"]
+[ext_resource type="Texture2D" uid="uid://cuy16dhqqtqf4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0206_4.png" id="207_o1as5"]
+[ext_resource type="Texture2D" uid="uid://c5xr23n45v8cn" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0207_4.png" id="208_5kffr"]
+[ext_resource type="Texture2D" uid="uid://mwh4gv5rxc1d" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0208_4.png" id="209_o0oku"]
+[ext_resource type="Texture2D" uid="uid://cniethg7nwel1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0209_4.png" id="210_q4710"]
+[ext_resource type="Texture2D" uid="uid://doosdyct8y7id" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0210_4.png" id="211_xiulr"]
+[ext_resource type="Texture2D" uid="uid://co6or4qeiu346" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0211_5.png" id="212_5ljxr"]
+[ext_resource type="Texture2D" uid="uid://bmifx2oe04r2d" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0212_4.png" id="213_u5j5c"]
+[ext_resource type="Texture2D" uid="uid://nyojibagrlp1" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0213_4.png" id="214_lrldd"]
+[ext_resource type="Texture2D" uid="uid://cysgdff0wsto5" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0214_4.png" id="215_wnwtu"]
+[ext_resource type="Texture2D" uid="uid://bq8m6kvv0s5gp" path="res://features/exploration/art_assets/rubber_animation/探索-rubber待机/0215_4.png" id="216_hyh5u"]
+[ext_resource type="Texture2D" uid="uid://eq16jb83i4yu" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0001_0.png" id="217_u3mx7"]
+[ext_resource type="Texture2D" uid="uid://boqxwqevlino8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0002_4.png" id="218_hsqrm"]
+[ext_resource type="Texture2D" uid="uid://b5d1amw32ya62" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0003_4.png" id="219_b3emg"]
+[ext_resource type="Texture2D" uid="uid://cye5mc34wkkv5" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0004_4.png" id="220_gpqx3"]
+[ext_resource type="Texture2D" uid="uid://btbuij3s7lc2" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0005_4.png" id="221_j6q1i"]
+[ext_resource type="Texture2D" uid="uid://buxxo7aribvod" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0006_4.png" id="222_li0nn"]
+[ext_resource type="Texture2D" uid="uid://2ycrpp48xnis" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0007_5.png" id="223_fdmc7"]
+[ext_resource type="Texture2D" uid="uid://c2bhgoayhcwc4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0008_4.png" id="224_qqu8h"]
+[ext_resource type="Texture2D" uid="uid://ydr5b8mmo733" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0009_4.png" id="225_fcv2h"]
+[ext_resource type="Texture2D" uid="uid://cxfckypl86bid" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0010_4.png" id="226_rar3v"]
+[ext_resource type="Texture2D" uid="uid://dwstabc684ilc" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0011_4.png" id="227_jsupn"]
+[ext_resource type="Texture2D" uid="uid://b7x2cca735vjr" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0012_4.png" id="228_r374x"]
+[ext_resource type="Texture2D" uid="uid://dsldlxgrstlc2" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0013_5.png" id="229_jnnut"]
+[ext_resource type="Texture2D" uid="uid://ufdrhb7fi1p8" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0014_4.png" id="230_ti2jh"]
+[ext_resource type="Texture2D" uid="uid://m276fxa0vc7q" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0015_4.png" id="231_yylau"]
+[ext_resource type="Texture2D" uid="uid://bp3hkivofl1ui" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0016_4.png" id="232_3cspr"]
+[ext_resource type="Texture2D" uid="uid://bui5bsuoajoo4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber移动/0017_4.png" id="233_q26j5"]
+[ext_resource type="Texture2D" uid="uid://dsfsk405sdjxr" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0001_0.png" id="234_aqtba"]
+[ext_resource type="Texture2D" uid="uid://cxso4mjnufri2" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0002_4.png" id="235_rhiyc"]
+[ext_resource type="Texture2D" uid="uid://cmdr25oh3g5no" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0003_4.png" id="236_v26jk"]
+[ext_resource type="Texture2D" uid="uid://cm2fv70xx0v4s" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0004_4.png" id="237_emuph"]
+[ext_resource type="Texture2D" uid="uid://bnqvmcjf8wtpg" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0005_4.png" id="238_hqvcf"]
+[ext_resource type="Texture2D" uid="uid://lviyunfsygr4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0006_4.png" id="239_g3xc2"]
+[ext_resource type="Texture2D" uid="uid://c15tej0pp576m" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0007_5.png" id="240_lsofs"]
+[ext_resource type="Texture2D" uid="uid://ddbg8tbvdgecu" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0008_4.png" id="241_rn52b"]
+[ext_resource type="Texture2D" uid="uid://lsngtbfsa708" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0009_4.png" id="242_tjjrr"]
+[ext_resource type="Texture2D" uid="uid://7bkxk8bxdcy4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0010_4.png" id="243_dxjs6"]
+[ext_resource type="Texture2D" uid="uid://bvk0b0cfe6s5m" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0011_4.png" id="244_6bus2"]
+[ext_resource type="Texture2D" uid="uid://cvught5lxpgyh" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0012_4.png" id="245_quk36"]
+[ext_resource type="Texture2D" uid="uid://dcasslyjwugpy" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0013_5.png" id="246_dd53h"]
+[ext_resource type="Texture2D" uid="uid://bnsg16723v6wa" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0014_4.png" id="247_uaajv"]
+[ext_resource type="Texture2D" uid="uid://bk4sgmhugv060" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0015_4.png" id="248_ffxir"]
+[ext_resource type="Texture2D" uid="uid://430ucv4oq8if" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0016_4.png" id="249_pojyx"]
+[ext_resource type="Texture2D" uid="uid://cl1r2po5k68wh" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0017_4.png" id="250_rrfnb"]
+[ext_resource type="Texture2D" uid="uid://b3pgym1eympd4" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0018_4.png" id="251_6gcai"]
+[ext_resource type="Texture2D" uid="uid://bxbdqk0g48nla" path="res://features/exploration/art_assets/rubber_animation/探索-rubber刹车/0019_5.png" id="252_5qkth"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sxm2x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_pt78m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_mi8c7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_v4ehp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_vv2ya")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_8oq78")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_so2h5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_bylpp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_wj4uy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_d75y7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_itoru")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_46u3q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_o3hgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_3hkol")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_76vpu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_honmo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_o2n28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_txe1c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_2kwp2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_aywf0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_xtjkc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_7ssml")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_13mer")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_n50wo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_bpc40")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_vh3wi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_n0ytm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_li5js")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_ocvd7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_8fp3s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_p6ask")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_3fbk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_e4y36")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_dwj1t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_hkllo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_1rhlu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_whg4u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_v6o0m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_sc1cg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_paefm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_cbbl8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_hqvh0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_38pir")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_d2eeo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_ha526")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_w1onh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_c1117")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_r0lss")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_ne303")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_3dlpl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_y82lo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_q7cio")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_8odd0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_f540a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_kdnm1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_73r8a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_y4gdb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_xpng8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_3ts6n")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_4trh2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_t1m38")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_slw74")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_3wyge")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_yggqe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("65_5i5lc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_qsf8r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_42wn5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("68_pbxd6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("69_wpuo7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("70_d5oca")
+}, {
+"duration": 1.0,
+"texture": ExtResource("71_smyq4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("72_excy0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("73_xrrvc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("74_jqipf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("75_kgskh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("76_wdmxi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("77_ulpxk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("78_6ueqq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("79_xnrjr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("80_r02rk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("81_gyio8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("82_sui5p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("83_b5yv2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("84_s2ke1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("85_byjag")
+}, {
+"duration": 1.0,
+"texture": ExtResource("86_dtsnv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("87_vmlp7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("88_r2tcf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("89_f6luo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("90_3ls12")
+}, {
+"duration": 1.0,
+"texture": ExtResource("91_g04rt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("92_gehy5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("93_330vg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("94_qgn32")
+}, {
+"duration": 1.0,
+"texture": ExtResource("95_5nx50")
+}, {
+"duration": 1.0,
+"texture": ExtResource("96_iekwr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("97_aq27u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("98_6t5am")
+}, {
+"duration": 1.0,
+"texture": ExtResource("99_ps0r7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("100_m7xbd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("101_2phvx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("102_mseld")
+}, {
+"duration": 1.0,
+"texture": ExtResource("103_n4k3o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("104_b7c2y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("105_o1n0b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("106_t2vfy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("107_400y7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("108_3ljoe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("109_oqei2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("110_6bqrg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("111_1ql4f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("112_76m66")
+}, {
+"duration": 1.0,
+"texture": ExtResource("113_eipe1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("114_cvhno")
+}, {
+"duration": 1.0,
+"texture": ExtResource("115_wu0vh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("116_30tao")
+}, {
+"duration": 1.0,
+"texture": ExtResource("117_w5trx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("118_ina5p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("119_v45qq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("120_ef8jf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("121_47ijj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("122_m5nb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("123_easym")
+}, {
+"duration": 1.0,
+"texture": ExtResource("124_xplug")
+}, {
+"duration": 1.0,
+"texture": ExtResource("125_wcplh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("126_6crp0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("127_owgvt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("128_sswwn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("129_1x6gr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("130_7o3s7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("131_x5ypt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("132_kawsl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("133_x3tf1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("134_yejox")
+}, {
+"duration": 1.0,
+"texture": ExtResource("135_slnki")
+}, {
+"duration": 1.0,
+"texture": ExtResource("136_icgxy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("137_gcrws")
+}, {
+"duration": 1.0,
+"texture": ExtResource("138_t74uq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("139_m482v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("140_1gv0g")
+}, {
+"duration": 1.0,
+"texture": ExtResource("141_lxcua")
+}, {
+"duration": 1.0,
+"texture": ExtResource("142_3p3cp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("143_yarc8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("144_p1jxo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("145_udpxr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("146_svpvx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("147_4myca")
+}, {
+"duration": 1.0,
+"texture": ExtResource("148_62wjs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("149_2fdef")
+}, {
+"duration": 1.0,
+"texture": ExtResource("150_qxja5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("151_1xeou")
+}, {
+"duration": 1.0,
+"texture": ExtResource("152_wwmnc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("153_pusae")
+}, {
+"duration": 1.0,
+"texture": ExtResource("154_j61lg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("155_vy2at")
+}, {
+"duration": 1.0,
+"texture": ExtResource("156_1qt24")
+}, {
+"duration": 1.0,
+"texture": ExtResource("157_u85ic")
+}, {
+"duration": 1.0,
+"texture": ExtResource("158_hbafb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("159_1cjvy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("160_sm76w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("161_o6b6q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("162_5m6du")
+}, {
+"duration": 1.0,
+"texture": ExtResource("163_6bsko")
+}, {
+"duration": 1.0,
+"texture": ExtResource("164_khp88")
+}, {
+"duration": 1.0,
+"texture": ExtResource("165_qfv4b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("166_bcjn8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("167_12wvw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("168_cjwby")
+}, {
+"duration": 1.0,
+"texture": ExtResource("169_f3oqi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("170_01tjk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("171_m1lku")
+}, {
+"duration": 1.0,
+"texture": ExtResource("172_2x1ky")
+}, {
+"duration": 1.0,
+"texture": ExtResource("173_trm5s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("174_nvhp1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("175_757cs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("176_lsm8s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("177_g175a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("178_shau0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("179_v2wd6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("180_8ean3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("181_n1py8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("182_csdcg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("183_ifdpn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("184_ebtma")
+}, {
+"duration": 1.0,
+"texture": ExtResource("185_tlv16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("186_caqb6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("187_p6ni5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("188_s88td")
+}, {
+"duration": 1.0,
+"texture": ExtResource("189_tjjjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("190_gttbf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("191_82sav")
+}, {
+"duration": 1.0,
+"texture": ExtResource("192_idy0k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("193_yuae2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("194_dd5u7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("195_2xwd2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("196_jo4a4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("197_5fxlk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("198_u86q2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("199_c8p31")
+}, {
+"duration": 1.0,
+"texture": ExtResource("200_c87r4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("201_fud32")
+}, {
+"duration": 1.0,
+"texture": ExtResource("202_mmewb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("203_6f6v8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("204_luhl6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("205_upgbx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("206_rotu8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("207_o1as5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("208_5kffr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("209_o0oku")
+}, {
+"duration": 1.0,
+"texture": ExtResource("210_q4710")
+}, {
+"duration": 1.0,
+"texture": ExtResource("211_xiulr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("212_5ljxr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("213_u5j5c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("214_lrldd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("215_wnwtu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("216_hyh5u")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("217_u3mx7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("218_hsqrm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("219_b3emg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("220_gpqx3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("221_j6q1i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("222_li0nn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("223_fdmc7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("224_qqu8h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("225_fcv2h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("226_rar3v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("227_jsupn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("228_r374x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("229_jnnut")
+}, {
+"duration": 1.0,
+"texture": ExtResource("230_ti2jh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("231_yylau")
+}, {
+"duration": 1.0,
+"texture": ExtResource("232_3cspr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("233_q26j5")
+}],
+"loop": true,
+"name": &"move",
+"speed": 24.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("234_aqtba")
+}, {
+"duration": 1.0,
+"texture": ExtResource("235_rhiyc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("236_v26jk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("237_emuph")
+}, {
+"duration": 1.0,
+"texture": ExtResource("238_hqvcf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("239_g3xc2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("240_lsofs")
+}, {
+"duration": 1.0,
+"texture": ExtResource("241_rn52b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("242_tjjrr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("243_dxjs6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("244_6bus2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("245_quk36")
+}, {
+"duration": 1.0,
+"texture": ExtResource("246_dd53h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("247_uaajv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("248_ffxir")
+}, {
+"duration": 1.0,
+"texture": ExtResource("249_pojyx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("250_rrfnb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("251_6gcai")
+}, {
+"duration": 1.0,
+"texture": ExtResource("252_5qkth")
+}],
+"loop": false,
+"name": &"stop",
+"speed": 24.0
+}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3qvi6"]
 size = Vector2(64, 64)
@@ -12,8 +1034,12 @@ radius = 120.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1138772278]
 script = ExtResource("1_tdwrg")
+MoveSpeed = 1000.0
 
-[node name="Sprite" type="Sprite2D" parent="." unique_id=1969210657]
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1969210657]
+scale = Vector2(0.285, 0.285)
+sprite_frames = SubResource("SpriteFrames_sxm2x")
+animation = &"stop"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=2052699507]
 shape = SubResource("RectangleShape2D_3qvi6")
