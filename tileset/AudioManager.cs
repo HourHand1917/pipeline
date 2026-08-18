@@ -1,5 +1,4 @@
 using Godot;
-using System.Collections.Generic;
 
 public partial class AudioManager : Node
 {
@@ -7,11 +6,13 @@ public partial class AudioManager : Node
 
     private const string MUSIC_BUS = "Music";
     private const string SFX_BUS = "SFX";
+    private const string MASTER_BUS = "Master";
 
     private const int MUSIC_PLAYER_COUNT = 2;
+    private const int SFX_PLAYER_COUNT = 6;
 
     private AudioStreamPlayer[] _musicPlayers;
-    private AudioStreamPlayer _sfxPlayer;
+    private AudioStreamPlayer[] _sfxPlayers;
     private int _activeMusicIndex = 0;
     private int _fadingOutIndex = -1;
     private float _fadeDuration = 1.2f;
@@ -22,7 +23,7 @@ public partial class AudioManager : Node
     {
         GD.Print("AudioManager 已成功加载并挂载到根节点。");
         InitializeMusicPlayers();
-        InitializeSfxPlayer();
+        InitializeSfxPlayers();
     }
 
     private void InitializeMusicPlayers()
@@ -41,14 +42,19 @@ public partial class AudioManager : Node
         }
     }
 
-    private void InitializeSfxPlayer()
+    private void InitializeSfxPlayers()
     {
-        _sfxPlayer = new AudioStreamPlayer
+        _sfxPlayers = new AudioStreamPlayer[SFX_PLAYER_COUNT];
+        for (int i = 0; i < SFX_PLAYER_COUNT; i++)
         {
-            Name = "SfxPlayer",
-            Bus = SFX_BUS
-        };
-        AddChild(_sfxPlayer);
+            var player = new AudioStreamPlayer
+            {
+                Name = $"SfxPlayer{i}",
+                Bus = SFX_BUS
+            };
+            AddChild(player);
+            _sfxPlayers[i] = player;
+        }
     }
 
     public override void _Process(double delta)
@@ -89,10 +95,8 @@ public partial class AudioManager : Node
 
         var current = _musicPlayers[_activeMusicIndex];
 
-        // 同一首已在播放，忽略
         if (current.Stream == music && current.Playing) return;
 
-        // 先停掉上一个淡出中的播放器
         if (_fadingOutIndex >= 0)
         {
             _musicPlayers[_fadingOutIndex].Stop();
@@ -100,13 +104,11 @@ public partial class AudioManager : Node
             _musicPlayers[_fadingOutIndex].VolumeDb = 0f;
         }
 
-        // 当前播放器变成淡出
         if (current.Playing)
         {
             _fadingOutIndex = _activeMusicIndex;
         }
 
-        // 切换到另一个播放器
         _activeMusicIndex = (_activeMusicIndex + 1) % MUSIC_PLAYER_COUNT;
         var newPlayer = _musicPlayers[_activeMusicIndex];
         newPlayer.Stream = music;
@@ -134,11 +136,47 @@ public partial class AudioManager : Node
         current.Play();
     }
 
+    /// <summary>
+    /// 播放音效：遍历音效播放器，找到空闲的播放。
+    /// </summary>
     public void PlaySfx(AudioStream sfx)
     {
-        if (sfx == null || _sfxPlayer == null) return;
-        _sfxPlayer.Stream = sfx;
-        _sfxPlayer.Play();
+        if (sfx == null) return;
+
+        foreach (var player in _sfxPlayers)
+        {
+            if (!player.Playing)
+            {
+                player.Stream = sfx;
+                player.Play();
+                return;
+            }
+        }
+
+        _sfxPlayers[0].Stop();
+        _sfxPlayers[0].Stream = sfx;
+        _sfxPlayers[0].Play();
+    }
+
+    /// <summary>
+    /// 设置指定总线的音量。volume 在 0~1 之间。
+    /// </summary>
+    public void SetBusVolume(Bus bus, float volume)
+    {
+        string busName = bus switch
+        {
+            Bus.MASTER => MASTER_BUS,
+            Bus.MUSIC => MUSIC_BUS,
+            Bus.SFX => SFX_BUS,
+            _ => MASTER_BUS
+        };
+
+        int busIndex = AudioServer.GetBusIndex(busName);
+        if (busIndex < 0) return;
+
+        float clamped = Mathf.Clamp(volume, 0f, 1f);
+        float db = Mathf.LinearToDb(clamped);
+        AudioServer.SetBusVolumeDb(busIndex, db);
     }
 
     public void StopMusic()
@@ -153,14 +191,14 @@ public partial class AudioManager : Node
     }
 
     public bool IsMusicPlaying(AudioStream music)
-{
-    if (music == null) return false;
-
-    foreach (var player in _musicPlayers)
     {
-        if (player.Playing && player.Stream == music)
-            return true;
+        if (music == null) return false;
+
+        foreach (var player in _musicPlayers)
+        {
+            if (player.Playing && player.Stream == music)
+                return true;
+        }
+        return false;
     }
-    return false;
-}
 }

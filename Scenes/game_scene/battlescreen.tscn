@@ -62,7 +62,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4udp"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar", "rubberheart", "playerTV", "playerBuffGrid")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "rubberheart", "playerTV", "playerBuffGrid")]
 custom_minimum_size = Vector2(1440, 1080)
 layout_mode = 3
 anchors_preset = 15
@@ -89,7 +89,6 @@ moveforwardbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/mo
 movehint = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movehint")
 endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/endturnbutton")
 backbutton = NodePath("battleVbox/battlecontent/sidepanel/Control/backbutton")
-healthBar = NodePath("")
 bulbOn = ExtResource("2_t4udp")
 bulbOff = ExtResource("3_vn3ql")
 rubberheart = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/rubberheart")
@@ -102,10 +101,7 @@ buffShowScene = ExtResource("5_vn3ql")
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = 2.0
-offset_right = 1972.0
-offset_bottom = 2.0
+offset_right = 1980.0
 grow_vertical = 2
 scale = Vector2(0.7264723, 0.9967271)
 mouse_filter = 2
