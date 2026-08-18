@@ -151,4 +151,16 @@ public partial class AudioManager : Node
         }
         _isFading = false;
     }
+
+    public bool IsMusicPlaying(AudioStream music)
+{
+    if (music == null) return false;
+
+    foreach (var player in _musicPlayers)
+    {
+        if (player.Playing && player.Stream == music)
+            return true;
+    }
+    return false;
+}
 }

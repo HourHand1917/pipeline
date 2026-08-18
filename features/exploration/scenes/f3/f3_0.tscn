@@ -1,8 +1,9 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://nqfwskhqw8o"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
-[ext_resource type="Texture2D" path="res://features/exploration/art_assets/maps/f3/f3-0_管道.png" id="3_bg"]
+[ext_resource type="AudioStream" uid="uid://b4keq52aw3vov" path="res://tileset/music_resource/OGG/music/MUS_F03_Ambience_OGG.ogg" id="2_vpsei"]
+[ext_resource type="Texture2D" uid="uid://bxg0kld4v8fs1" path="res://features/exploration/art_assets/maps/f3/f3-0_管道.png" id="3_bg"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
@@ -11,61 +12,62 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
 
-[node name="ExplorationMap" type="Node2D" node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap" type="Node2D" unique_id=384391665 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f3_0"
 _hud = NodePath("UILayer/HUD")
+MapMusic = ExtResource("2_vpsei")
 PlayerLeft = 0
 PlayerRight = 1680
 CamLeft = 0
 CamRight = 1680
 
-[node name="f3_0leftSpawn" type="Node2D" parent="."]
+[node name="f3_0leftSpawn" type="Node2D" parent="." unique_id=1105670115]
 position = Vector2(150, 530)
 script = ExtResource("2_spawn")
 SpawnId = &"f3_0left"
 
-[node name="f3_0rightSpawn" type="Node2D" parent="."]
+[node name="f3_0rightSpawn" type="Node2D" parent="." unique_id=476544618]
 position = Vector2(1530, 530)
 script = ExtResource("2_spawn")
 SpawnId = &"f3_0right"
 
-[node name="MapLayer" type="Node2D" parent="."]
+[node name="MapLayer" type="Node2D" parent="." unique_id=687483465]
 
-[node name="管道背景" type="Sprite2D" parent="MapLayer"]
+[node name="管道背景" type="Sprite2D" parent="MapLayer" unique_id=1106057333]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_bg")
 
-[node name="left_edge" type="Area2D" parent="MapLayer"]
+[node name="left_edge" type="Area2D" parent="MapLayer" unique_id=763472172]
 position = Vector2(0, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"home"
 TargetSpawnId = &"home_entry"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge" unique_id=178580467]
 position = Vector2(-300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
-[node name="right_edge" type="Area2D" parent="MapLayer"]
+[node name="right_edge" type="Area2D" parent="MapLayer" unique_id=977431953]
 position = Vector2(1680, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"f3_1"
 TargetSpawnId = &"f3_1left"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/right_edge"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/right_edge" unique_id=1206533838]
 position = Vector2(300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
-[node name="Player" parent="." instance=ExtResource("5_player")]
+[node name="Player" parent="." unique_id=1953087318 instance=ExtResource("5_player")]
 position = Vector2(840, 530)
 
-[node name="InputRouter" type="Node" parent="."]
+[node name="InputRouter" type="Node" parent="." unique_id=760880728]
 script = ExtResource("6_input")
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=42689995]
 
-[node name="HUD" parent="UILayer" instance=ExtResource("7_hud")]
+[node name="HUD" parent="UILayer" unique_id=1356962032 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658

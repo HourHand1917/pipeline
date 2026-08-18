@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c652efqdl7xok"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
+[ext_resource type="AudioStream" uid="uid://b4keq52aw3vov" path="res://tileset/music_resource/OGG/music/MUS_F03_Ambience_OGG.ogg" id="2_fw5kp"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="Texture2D" uid="uid://cjrxo7rmrnywe" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV.png" id="3_bg"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
@@ -22,6 +23,7 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f3_3"
 _hud = NodePath("UILayer/HUD")
+MapMusic = ExtResource("2_fw5kp")
 PlayerLeft = 0
 PlayerRight = 1680
 CamLeft = 0
