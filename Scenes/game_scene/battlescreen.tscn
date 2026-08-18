@@ -102,10 +102,7 @@ buffShowScene = ExtResource("5_vn3ql")
 layout_mode = 1
 anchors_preset = 9
 anchor_bottom = 1.0
-offset_left = -8.0
-offset_top = 2.0
-offset_right = 1972.0
-offset_bottom = 2.0
+offset_right = 1980.0
 grow_vertical = 2
 scale = Vector2(0.7264723, 0.9967271)
 mouse_filter = 2
@@ -122,27 +119,28 @@ layout_mode = 2
 
 [node name="statsbarboard" type="PanelContainer" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1274486744]
 layout_mode = 0
-offset_right = 642.0
-offset_bottom = 187.0
+offset_right = 850.68634
+offset_bottom = 192.71912
 theme_override_styles/panel = SubResource("StyleBoxTexture_mu3ns")
 
 [node name="statsbarholder" type="PanelContainer" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1817132176]
 layout_mode = 0
-offset_left = 201.99998
-offset_top = 51.0
-offset_right = 1570.0
-offset_bottom = 262.0
+offset_left = 268.4204
+offset_top = 54.26597
+offset_right = 2066.8457
+offset_bottom = 266.93106
 scale = Vector2(0.31534487, 0.1934245)
 theme_override_styles/panel = SubResource("StyleBoxFlat_epdb4")
 
-[node name="healthbar" type="TextureProgressBar" parent="battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder" unique_id=46253231]
+[node name="healthbar" type="TextureProgressBar" parent="battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder" unique_id=1196939012]
 layout_mode = 2
+nine_patch_stretch = true
 texture_under = ExtResource("3_7le68")
-texture_progress = ExtResource("4_brapn")
+texture_over = ExtResource("4_brapn")
 
 [node name="rubberheart" type="AnimatedSprite2D" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1189351085]
-position = Vector2(133, 84)
-scale = Vector2(0.16782407, 0.16226853)
+position = Vector2(176.19392, 87.37433)
+scale = Vector2(0.22283812, 0.16938604)
 sprite_frames = SubResource("SpriteFrames_vn3ql")
 animation = &"idel"
 autoplay = "idel"
@@ -257,8 +255,8 @@ mouse_filter = 2
 [node name="borderTexure" type="PanelContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=2075789304]
 custom_minimum_size = Vector2(800, 600)
 layout_mode = 0
-offset_right = 800.0
-offset_bottom = 600.0
+offset_right = 949.7954
+offset_bottom = 600.4938
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_lwu1b")
 
@@ -266,31 +264,27 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_lwu1b")
 layout_mode = 0
 offset_left = 75.00001
 offset_top = 96.0
-offset_right = 1319.0
+offset_right = 1607.2887
 offset_bottom = 906.0
 scale = Vector2(0.44064844, 0.43743992)
 texture = ExtResource("12_26bt4")
 
 [node name="panelborder" type="PanelContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=758408112]
-custom_minimum_size = Vector2(800, 600)
 layout_mode = 0
-offset_left = 153.0
-offset_top = 123.0
-offset_right = 1060.6229
-offset_bottom = 739.24133
+offset_left = 166.5583
+offset_top = 121.92752
+offset_right = 1263.6837
+offset_bottom = 805.9276
 scale = Vector2(0.47281677, 0.45607015)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rr40r")
 
-[node name="battlegird" type="GridContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder" unique_id=1536351402]
-custom_minimum_size = Vector2(650, 400)
+[node name="battlegird" type="GridContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder" unique_id=1031786393]
 layout_mode = 2
-size_flags_horizontal = 0
-theme_override_constants/h_separation = 0
-theme_override_constants/v_separation = 0
 columns = 4
 
 [node name="battlecellbutton0" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=382575080 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(300, 220)
 layout_mode = 2
 
 [node name="battlecellbutton1" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1071851966 instance=ExtResource("13_7le68")]
@@ -328,12 +322,13 @@ layout_mode = 2
 
 [node name="endturnbutton" type="TextureButton" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=409315270]
 layout_mode = 0
-offset_left = 650.0
-offset_top = 311.0
-offset_right = 983.0
-offset_bottom = 744.0
+offset_left = 757.08325
+offset_top = 296.49887
+offset_right = 1216.4219
+offset_bottom = 800.3114
 scale = Vector2(0.38058504, 0.40425068)
 texture_normal = ExtResource("14_aadoi")
+stretch_mode = 0
 
 [node name="sidepanel" type="VBoxContainer" parent="battleVbox/battlecontent" unique_id=264618196]
 custom_minimum_size = Vector2(250, 0)

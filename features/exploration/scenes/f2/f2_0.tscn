@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dh7kvbk6runsd"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
+[ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_jj31n"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="Texture2D" uid="uid://cdaodn4q1lhve" path="res://features/exploration/art_assets/maps/f2/f2-0_荒地.png" id="3_bg"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
@@ -17,6 +18,7 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f2_0"
 _hud = NodePath("UILayer/HUD")
+MapMusic = ExtResource("2_jj31n")
 PlayerLeft = 0
 PlayerRight = 2643
 CamLeft = 0
@@ -39,13 +41,13 @@ position = Vector2(1322, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_bg")
 
-[node name="left_edge" type="Area2D" parent="MapLayer"]
+[node name="left_edge" type="Area2D" parent="MapLayer" unique_id=985911968]
 position = Vector2(0, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"home"
 TargetSpawnId = &"home_entry"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge" unique_id=124348578]
 position = Vector2(-300, 0)
 shape = SubResource("RectangleShape2D_edge")
 

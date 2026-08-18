@@ -23,10 +23,9 @@ TooltipService="*res://Script/CS/TooltipService.cs"
 MapManager="*res://features/exploration/scripts/CS/MapManager.cs"
 SceneTransition="*res://Script/CS/SceneTransition.cs"
 BattleDirector="*res://Script/CS/BattleDirector.cs"
-GrowthManager="*res://Script/CS/GrowthManager.cs"
-Dialogic="*uid://ds2q0uclmolvu"
 MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 AudioManager="*uid://b5xixbkfbd2qu"
+Dialogic="*uid://ds2q0uclmolvu"
 
 [dialogic]
 
@@ -87,7 +86,7 @@ project/assembly_name="Pipeline"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/godot_mcp/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/godot_mcp/plugin.cfg")
 
 [input]
 

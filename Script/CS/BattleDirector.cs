@@ -19,6 +19,9 @@ public partial class BattleDirector : Node
     /// <summary>战斗结束返回的生成点</summary>
     public StringName ReturnSpawnId { get; private set; } = "";
 
+    /// <summary>地图默认音乐（战斗结束恢复用）</summary>
+    [Export] public AudioStream DefaultMapMusic { get; set; }
+
     public override void _Ready()
     {
         if (Instance != null) { GD.PushError("BattleDirector: 重复实例化"); return; }
@@ -56,6 +59,14 @@ public partial class BattleDirector : Node
 
     private void ReturnToExploration()
     {
+        RestoreMapMusic();
         MapManager.Instance.TravelTo(NpcMapId, ReturnSpawnId);
+    }
+
+    /// <summary>战斗结束后恢复地图音乐。</summary>
+    private void RestoreMapMusic()
+    {
+        var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+        audio?.PlayMusicWithFade(DefaultMapMusic);
     }
 }

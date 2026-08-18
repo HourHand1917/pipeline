@@ -8,6 +8,9 @@ public partial class ExplorationManager : Node2D
     [Export] public string MapId { get; set; } = "";
     [Export] private ExplorationHUD _hud;
 
+    [ExportGroup("音乐")]
+    [Export] public AudioStream MapMusic { get; set; }
+
     [ExportGroup("玩家边界")]
     [Export] public int PlayerLeft { get; set; } = -2000;
     [Export] public int PlayerRight { get; set; } = 3500;
@@ -16,19 +19,16 @@ public partial class ExplorationManager : Node2D
     [Export] public int CamLeft { get; set; } = -2100;
     [Export] public int CamRight { get; set; } = 3600;
 
-
     public override void _Ready()
     {
-        // 从 MapManager 读当前地图（覆盖场景里写死的 MapId）
         if (MapManager.Instance != null)
         {
             if (string.IsNullOrEmpty(MapManager.Instance.CurrentMapId))
-                MapManager.Instance.SetCurrentMap(MapId);  // 首次进入，注册当前地图
+                MapManager.Instance.SetCurrentMap(MapId);
             else
                 MapId = MapManager.Instance.CurrentMapId.ToString();
         }
 
-        // 定位玩家到生成点（跨场景穿梭时）
         if (MapManager.Instance != null)
         {
             var spawnId = MapManager.Instance.ConsumePendingSpawn();
@@ -36,7 +36,6 @@ public partial class ExplorationManager : Node2D
                 PlacePlayerAtSpawn(spawnId);
         }
 
-        // 输入 → 玩家
         if (Input != null && Player != null)
         {
             Input.MovePressed += dir => Player.OnMovePressed(dir);
@@ -48,12 +47,22 @@ public partial class ExplorationManager : Node2D
         if (!string.IsNullOrEmpty(MapId))
             InitPersistence(this, MapId);
 
+        PlayMapMusic();
+
         GD.Print("探索场景已就绪。A/D 移动，鼠标靠近交互物变亮。");
 
         _hud?.SetMode(PlayerTV.TVMode.Exploration);
     }
 
-    /// <summary>把当前边界字段应用到玩家移动范围和相机限制。切房间时由 RoomBounds.ApplyTo 调用。</summary>
+    /// <summary>播放当前地图绑定音乐。</summary>
+    private void PlayMapMusic()
+    {
+        if (MapMusic == null) return;
+
+        var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+        audio?.PlayMusic(MapMusic);
+    }
+
     public void ApplyBounds()
     {
         if (Player != null)
@@ -79,7 +88,6 @@ public partial class ExplorationManager : Node2D
             InitPersistence(child, mapId);
     }
 
-    /// <summary>找到对应 SpawnPoint 节点，把玩家定位过去。</summary>
     private void PlacePlayerAtSpawn(StringName spawnId)
     {
         var spawn = FindSpawn(this, spawnId);
@@ -105,5 +113,4 @@ public partial class ExplorationManager : Node2D
         }
         return null;
     }
-
 }

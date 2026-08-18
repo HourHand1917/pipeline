@@ -1,13 +1,23 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://citnp6vl0ymsj"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
-[ext_resource type="Texture2D" path="res://features/exploration/art_assets/maps/f4/boss关.png" id="3_bg"]
+[ext_resource type="Texture2D" uid="uid://c76d1v4e0ugm" path="res://features/exploration/art_assets/maps/f4/boss关.png" id="3_bg"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="7_s2o3l"]
+[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_23vsp"]
+[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="9_syxpf"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="10_0cwr6"]
 
-[node name="ExplorationMap" type="Node2D" node_paths=PackedStringArray("Player", "Input", "_hud")]
+[sub_resource type="CircleShape2D" id="CircleShape2D_2nqeu"]
+radius = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3ux7p"]
+radius = 48.0
+
+[node name="ExplorationMap" type="Node2D" unique_id=24797590 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
@@ -18,25 +28,61 @@ PlayerRight = 6400
 CamLeft = 0
 CamRight = 6400
 
-[node name="f4entry" type="Node2D" parent="."]
+[node name="f4entry" type="Node2D" parent="." unique_id=1651295935]
 position = Vector2(150, 530)
 script = ExtResource("2_spawn")
 SpawnId = &"f4entry"
 
-[node name="MapLayer" type="Node2D" parent="."]
+[node name="MapLayer" type="Node2D" parent="." unique_id=1878379614]
 
-[node name="boss关背景" type="Sprite2D" parent="MapLayer"]
+[node name="boss关背景" type="Sprite2D" parent="MapLayer" unique_id=1704790957]
 position = Vector2(3200, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_bg")
 
-[node name="Player" parent="." instance=ExtResource("5_player")]
+[node name="Player" parent="." unique_id=1793969317 instance=ExtResource("5_player")]
 position = Vector2(3200, 530)
 
-[node name="InputRouter" type="Node" parent="."]
+[node name="InputRouter" type="Node" parent="." unique_id=1123736394]
 script = ExtResource("6_input")
 
-[node name="UILayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=1914560000]
 
-[node name="HUD" parent="UILayer" instance=ExtResource("7_hud")]
+[node name="HUD" parent="UILayer" unique_id=1501444498 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658
+
+[node name="Boom" type="Area2D" parent="." unique_id=654666680 node_paths=PackedStringArray("_blink")]
+position = Vector2(3596, 438)
+script = ExtResource("7_s2o3l")
+BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
+BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
+ReturnSpawnId = &"sharrk"
+AggroRadius = 100.0
+BattleMusic = ExtResource("8_23vsp")
+NpcName = "Boom"
+PersistenceId = "enemy_boom_f1_1"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="Boom" unique_id=1814432796]
+modulate = Color(0.92, 0.37, 0.25, 1)
+texture = ExtResource("9_syxpf")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="Boom" unique_id=410469157]
+shape = SubResource("CircleShape2D_2nqeu")
+
+[node name="ClickZone" type="Area2D" parent="Boom" unique_id=2072368548]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="Boom/ClickZone" unique_id=315292968]
+shape = SubResource("CircleShape2D_3ux7p")
+
+[node name="Blink" type="Node" parent="Boom" unique_id=22375298 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("10_0cwr6")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="ReturnSpawn" type="Node2D" parent="Boom" unique_id=218581825]
+position = Vector2(-9, 12)
+script = ExtResource("2_spawn")
+SpawnId = &"boom_return"

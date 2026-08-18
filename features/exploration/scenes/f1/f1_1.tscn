@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://b8pya2osaixgn"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_o77cp"]
+[ext_resource type="AudioStream" uid="uid://1v2sqwociymw" path="res://tileset/music_resource/OGG/music/MUS_F01_Home_OGG.ogg" id="2_88kio"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_h6566"]
 [ext_resource type="Texture2D" uid="uid://iwodhdmb12kc" path="res://features/exploration/art_assets/maps/f1/教程-1-背景.png" id="3_o77cp"]
 [ext_resource type="Texture2D" uid="uid://6i4vatwprdvx" path="res://features/exploration/art_assets/maps/f1/教程-1-箱子.png" id="4_h6566"]
@@ -14,6 +15,7 @@
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="9_blink"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_loot"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="11_npc"]
+[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="12_88kio"]
 [ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="12_boom_sprite"]
 
 [sub_resource type="Resource" id="Resource_loot"]
@@ -36,6 +38,7 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f1_1"
 _hud = NodePath("UILayer/HUD")
+MapMusic = ExtResource("2_88kio")
 PlayerLeft = -250
 PlayerRight = 2300
 CamLeft = 150
@@ -94,6 +97,7 @@ BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/boom_rules.tres"
 ReturnSpawnId = &"boom_return"
 AggroRadius = 100.0
+BattleMusic = ExtResource("12_88kio")
 NpcName = "Boom"
 PersistenceId = "enemy_boom_f1_1"
 _blink = NodePath("Blink")
