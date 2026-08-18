@@ -10,6 +10,7 @@ public partial class StarterDeck : Node
     [Export] public Resource[] Cards { get; set; } = System.Array.Empty<Resource>();
     [Export] public Resource[] Items { get; set; } = System.Array.Empty<Resource>();
     [Export] public DataManager.CurrencyType Currency { get; set; } = DataManager.CurrencyType.BottleCap;
+    [Export] public int InitialLevel { get; set; } = 2;
 
     public override void _Ready()
     {
@@ -20,7 +21,8 @@ public partial class StarterDeck : Node
             DataManager.Instance.AddItem(item);
 
         DataManager.Instance.UpgradeCard("battery");
-        DataManager.Instance.ModifyCurrency(Currency, 60);
-        DataManager.Instance.ModifyCurrency(DataManager.CurrencyType.Faucet, 5);
+        DataManager.Instance.ModifyCurrency(Currency, 300);
+        DataManager.Instance.ModifyCurrency(DataManager.CurrencyType.Faucet, 300);
+        DataManager.Instance.AddLevel(InitialLevel - 1);
     }
 }

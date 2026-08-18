@@ -27,7 +27,7 @@ public partial class WorkbenchUI : Control
     [Export] private BuildWorkbenchPanel _buildPage;
     [Export] private EnhanceWorkbenchPanel _upgradePage;
     [Export] private Control _aiPage;
-    [Export] private Button _closeButton;
+    [Export] private TextureButton _closeButton;
 
     /// <summary>选中 tab 升起的高度（像素）</summary>
     [Export] private float _tabRaiseOffset = 12f;

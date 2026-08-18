@@ -2,33 +2,67 @@
 
 [ext_resource type="Script" uid="uid://csmsb34ixbywo" path="res://features/shop/ShopData.gd" id="1_data"]
 [ext_resource type="Script" uid="uid://diqp7kgpioav6" path="res://features/shop/ShopEntry.gd" id="2_entry"]
-[ext_resource type="Resource" uid="uid://b8v3gh0oykgbf" path="res://Resource/item/test_item.tres" id="3_item"]
-[ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="4_battery"]
-[ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="5_medkit"]
-[ext_resource type="Resource" uid="uid://dmk3a7ohv1eub" path="res://Resource/item/healthmed.tres" id="5_xs46r"]
+[ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="3_battery"]
+[ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="4_medkit"]
+[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="5_revolver"]
+[ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/shield.tres" id="6_shield"]
+[ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="7_swap"]
+[ext_resource type="Resource" uid="uid://b8v3gh0oykgbf" path="res://Resource/item/test_item.tres" id="8_test"]
+[ext_resource type="Resource" uid="uid://dmk3a7ohv1eub" path="res://Resource/item/healthmed.tres" id="9_hmed"]
+[ext_resource type="Resource" uid="uid://cusnq01be0yyp" path="res://Resource/item/mvp/particle_wall.tres" id="10_pwall"]
+[ext_resource type="Resource" uid="uid://db273dcl1sbbo" path="res://Resource/item/mvp/bulletproof_vest.tres" id="11_vest"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/grenade.tres" id="12_grenade"]
 
-[sub_resource type="Resource" id="sub_0"]
+[sub_resource type="Resource" id="sub_card_0"]
 script = ExtResource("2_entry")
-item_res = ExtResource("3_item")
-stock = 5
-
-[sub_resource type="Resource" id="sub_1"]
-script = ExtResource("2_entry")
-item_res = ExtResource("4_battery")
+item_res = ExtResource("3_battery")
 price = 20
 
-[sub_resource type="Resource" id="sub_2"]
+[sub_resource type="Resource" id="sub_card_1"]
 script = ExtResource("2_entry")
-item_res = ExtResource("5_medkit")
+item_res = ExtResource("4_medkit")
 price = 15
 
-[sub_resource type="Resource" id="Resource_ab4fy"]
+[sub_resource type="Resource" id="sub_card_2"]
 script = ExtResource("2_entry")
-item_res = ExtResource("5_xs46r")
-stock = 4
-metadata/_custom_type_script = "uid://diqp7kgpioav6"
+item_res = ExtResource("5_revolver")
+price = 25
+
+[sub_resource type="Resource" id="sub_card_3"]
+script = ExtResource("2_entry")
+item_res = ExtResource("6_shield")
+price = 18
+
+[sub_resource type="Resource" id="sub_card_4"]
+script = ExtResource("2_entry")
+item_res = ExtResource("7_swap")
+price = 12
+
+[sub_resource type="Resource" id="sub_item_0"]
+script = ExtResource("2_entry")
+item_res = ExtResource("8_test")
+
+[sub_resource type="Resource" id="sub_item_1"]
+script = ExtResource("2_entry")
+item_res = ExtResource("9_hmed")
+price = 15
+
+[sub_resource type="Resource" id="sub_item_2"]
+script = ExtResource("2_entry")
+item_res = ExtResource("10_pwall")
+price = 30
+
+[sub_resource type="Resource" id="sub_item_3"]
+script = ExtResource("2_entry")
+item_res = ExtResource("11_vest")
+price = 20
+
+[sub_resource type="Resource" id="sub_item_4"]
+script = ExtResource("2_entry")
+item_res = ExtResource("12_grenade")
+price = 22
 
 [resource]
 script = ExtResource("1_data")
 shop_name = "流浪商店"
-entries = Array[ExtResource("2_entry")]([SubResource("sub_0"), SubResource("sub_1"), SubResource("sub_2"), SubResource("Resource_ab4fy")])
+entries = Array[ExtResource("2_entry")]([SubResource("sub_card_0"), SubResource("sub_card_1"), SubResource("sub_card_2"), SubResource("sub_card_3"), SubResource("sub_card_4"), SubResource("sub_item_0"), SubResource("sub_item_1"), SubResource("sub_item_2"), SubResource("sub_item_3"), SubResource("sub_item_4")])

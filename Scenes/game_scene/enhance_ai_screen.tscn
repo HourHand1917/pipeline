@@ -1,4 +1,8 @@
-[gd_scene format=3 uid="uid://cwnaxajo6wwxj"]
+[gd_scene format=3 uid="uid://c73k8s00p3uvw"]
+
+[ext_resource type="Script" uid="uid://c88dggelmp50n" path="res://features/workbench/GrowthPanel.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://burhbp2ktif2h" path="res://features/exploration/art_assets/workbenchUI/玩家升级界面按钮背景.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://tjjr822chi8w" path="res://features/exploration/art_assets/workbenchUI/玩家升级界面按钮背景（反转）.png" id="3_bgrev"]
 
 [node name="enhance_ai_screen" type="Control" unique_id=239501933]
 layout_mode = 3
@@ -7,3 +11,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_script")
+_buttonBg = ExtResource("2_bg")
+_buttonBgReversed = ExtResource("3_bgrev")

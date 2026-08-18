@@ -79,6 +79,21 @@ public partial class BattleManager : Node
         Player.LoadForNextWave(playerData, rules, preservePlayerState);
         Player.ClearTurnModifiers();
 
+        // 能力成长：入场力量 buff（仅首次进入时施加一次）
+        if (!preservePlayerState)
+        {
+            int strengthStacks = GrowthManager.Instance?.GetStrengthStacks() ?? 0;
+            if (strengthStacks > 0)
+            {
+                var strength = GD.Load<Resource>("res://features/buff_system/resources/buffs/strength.tres");
+                if (strength != null)
+                {
+                    Player.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, strength, strengthStacks);
+                    Player.ApplyBuff(strength, strengthStacks);
+                }
+            }
+        }
+
         int playerStartCell = battleMap.Get(GDScriptKeys.BattleMap.PlayerStartCell).AsInt32();
         int requestedPlayerCell = preservePlayerState && Player.MapPosition > 0
             ? Player.MapPosition

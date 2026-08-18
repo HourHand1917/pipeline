@@ -5,7 +5,6 @@ extends Resource
 @export var item_res: Resource
 
 @export var price: int = 10
-@export var stock: int = 3
 
 
 ## 从物品资源自动读取显示名

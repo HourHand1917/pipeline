@@ -32,10 +32,10 @@ public partial class PlayerBattle : Node2D
     {
         if (playerData == null) return;
 
-        MaxHp = playerData.Get(GDScriptKeys.CharacterData.MaxHp).AsInt32();
+        MaxHp = playerData.Get(GDScriptKeys.CharacterData.MaxHp).AsInt32() + (GrowthManager.Instance?.GetMaxHpBonus() ?? 0);
         CurrentHp = MaxHp;
         Shield = playerData.Get(GDScriptKeys.CharacterData.InitialShield).AsInt32();
-        MaxEnergy = rules?.Get(GDScriptKeys.GameRules.EnergyPerTurn).AsInt32() ?? 3;
+        MaxEnergy = (rules?.Get(GDScriptKeys.GameRules.EnergyPerTurn).AsInt32() ?? 3) + (GrowthManager.Instance?.GetEnergyBonus() ?? 0);
         Energy = MaxEnergy;
         StrengthThisTurn = 0;
 
@@ -63,10 +63,10 @@ public partial class PlayerBattle : Node2D
 
         int previousHp = CurrentHp;
         int previousShield = Shield;
-        MaxHp = playerData.Get(GDScriptKeys.CharacterData.MaxHp).AsInt32();
+        MaxHp = playerData.Get(GDScriptKeys.CharacterData.MaxHp).AsInt32() + (GrowthManager.Instance?.GetMaxHpBonus() ?? 0);
         CurrentHp = Mathf.Clamp(previousHp, 0, MaxHp);
         Shield = Mathf.Max(0, previousShield);
-        MaxEnergy = rules?.Get(GDScriptKeys.GameRules.EnergyPerTurn).AsInt32() ?? MaxEnergy;
+        MaxEnergy = (rules?.Get(GDScriptKeys.GameRules.EnergyPerTurn).AsInt32() ?? MaxEnergy) + (GrowthManager.Instance?.GetEnergyBonus() ?? 0);
         Energy = MaxEnergy;
         StrengthThisTurn = 0;
         DisplayName = playerData.Get(GDScriptKeys.CharacterData.DisplayName).AsString();

@@ -20,7 +20,38 @@ public partial class BoardManager : Node
 
     public override void _Ready()
     {
+        ApplyGrowthBoardSize();
         ConfigureBoard(new Vector2I(columns, rows), false);
+
+        // 能力成长：购买「棋盘扩容」后实时重配棋盘
+        if (GrowthManager.Instance != null)
+            GrowthManager.Instance.Changed += OnGrowthChanged;
+    }
+
+    public override void _ExitTree()
+    {
+        if (GrowthManager.Instance != null)
+            GrowthManager.Instance.Changed -= OnGrowthChanged;
+    }
+
+    /// <summary>能力成长：棋盘扩容覆盖默认 3×2。</summary>
+    private void ApplyGrowthBoardSize()
+    {
+        var growthBoard = GrowthManager.Instance?.GetBoardSize();
+        if (growthBoard.HasValue)
+        {
+            columns = growthBoard.Value.X;
+            rows = growthBoard.Value.Y;
+        }
+    }
+
+    private void OnGrowthChanged()
+    {
+        var growthBoard = GrowthManager.Instance?.GetBoardSize();
+        if (!growthBoard.HasValue) return;
+        var newSize = growthBoard.Value;
+        if (newSize.X == columns && newSize.Y == rows) return; // 尺寸没变，跳过
+        ConfigureBoard(newSize, true); // 扩容：保留仍在边界内的卡
     }
 
     // ================================================================

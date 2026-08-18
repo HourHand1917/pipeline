@@ -2,9 +2,9 @@ using Godot;
 using Godot.Collections;
 
 /// <summary>
-/// 商店 UI。AnimationPlayer 控制开/关动画。
-/// 读取 ShopData + ShopManager 渲染商品，点购买 → ShopManager.Buy()。
-/// ShopEntry 是 GDScript Resource，通过 Get/Call 跨语言访问。
+/// 商店 UI（独立场景）。卡片式商品展示，分两排：上排卡牌、下排物品。
+/// 每个槽位是单个商品（无数量），点击即购买。
+/// 读取 ShopManager 的 CardSlots / ItemSlots 渲染，点卡片 → ShopManager.Buy()。
 /// </summary>
 [GlobalClass]
 public partial class ShopUI : Control
@@ -12,10 +12,14 @@ public partial class ShopUI : Control
     [Signal] public delegate void ClosedEventHandler();
 
     [Export] private AnimationPlayer _anim;
-    [Export] private VBoxContainer _itemList;
+    [Export] private GridContainer _cardGrid;
+    [Export] private GridContainer _itemGrid;
     [Export] private Label _goldLabel;
-    [Export] private Button _closeButton;
+    [Export] private TextureButton _closeButton;
     [Export] private ShopManager _shopManager;
+
+    /// <summary>卡片背景贴图（可选，不设则用默认按钮样式）。</summary>
+    [Export] private Texture2D _cardBg;
 
     public override void _Ready()
     {
@@ -30,7 +34,6 @@ public partial class ShopUI : Control
     public override void _ExitTree()
     {
         // 场景切换时断开全局信号，避免访问已销毁节点
-        // _shopManager 是同场景节点，一起销毁，无需断开
         DataManager.Instance.CurrencyChanged -= Refresh;
     }
 
@@ -48,35 +51,68 @@ public partial class ShopUI : Control
         EmitSignal(SignalName.Closed);
     }
 
-    /// <summary>
-    /// AnimationPlayer Method Track 调用：show 动画第一帧启用全部商品按钮。
-    /// </summary>
-    public void EnableButtons()
-    {
-        // 不能盲目全部启用——要重跑 Refresh 的逻辑，否则会覆盖售罄/背包满等状态
-        Refresh();
-    }
+    /// <summary>show 动画第一帧调用：重跑 Refresh，覆盖售罄/背包满等状态。</summary>
+    public void EnableButtons() => Refresh();
 
-    /// <summary>
-    /// AnimationPlayer Method Track 调用：hide 动画第一帧禁用全部商品按钮，
-    /// 防止动画播放期间玩家误点。
-    /// </summary>
-    public void DisableButtons()
-    {
-        SetItemButtonsDisabled(true);
-    }
+    /// <summary>hide 动画第一帧调用：禁用全部商品卡片，防止动画期间误点。</summary>
+    public void DisableButtons() => SetCardsDisabled(true);
 
-    private void SetItemButtonsDisabled(bool disabled)
+    private void SetCardsDisabled(bool disabled)
     {
-        if (_itemList == null) return;
-        foreach (var child in _itemList.GetChildren())
+        foreach (var grid in new[] { _cardGrid, _itemGrid })
         {
-            if (child is Button btn)
-                btn.Disabled = disabled;
+            if (grid == null) continue;
+            foreach (var child in grid.GetChildren())
+            {
+                if (child is Button btn)
+                    btn.Disabled = disabled;
+            }
         }
     }
 
-    private void AttachTooltip(Button btn, Resource itemRes, int price, int stock)
+    private void Refresh()
+    {
+        if (_shopManager?.ShopData == null) return;
+
+        ClearGrid(_cardGrid);
+        ClearGrid(_itemGrid);
+
+        if (_goldLabel != null)
+            _goldLabel.Text = $"金币：{_shopManager.PlayerGold}";
+
+        foreach (var entry in _shopManager.CardSlots)
+            AddCard(_cardGrid, entry);
+
+        foreach (var entry in _shopManager.ItemSlots)
+            AddCard(_itemGrid, entry);
+    }
+
+    private static void ClearGrid(GridContainer grid)
+    {
+        if (grid == null) return;
+        foreach (Node child in grid.GetChildren())
+            child.QueueFree();
+    }
+
+    private void AddCard(GridContainer grid, Resource entry)
+    {
+        var itemRes = entry.Get("item_res").As<Resource>();
+        if (itemRes == null) return;
+
+        int price = entry.Get("price").AsInt32();
+        bool isCard = entry.Call("is_card").AsBool();
+        bool bagFull = !isCard && DataManager.Instance.ItemBag.Count >= DataManager.MaxItemSlots;
+
+        var card = MakeCard(itemRes, entry, price, bagFull);
+        card.Disabled = _shopManager.PlayerGold < price || bagFull;
+
+        var e = entry; // capture for lambda
+        card.Pressed += () => _shopManager.Buy(e);
+        AttachTooltip(card, itemRes, price);
+        grid.AddChild(card);
+    }
+
+    private void AttachTooltip(Button card, Resource itemRes, int price)
     {
         var data = new TooltipData();
         data.Title = itemRes.Get("display_name").AsString();
@@ -87,7 +123,6 @@ public partial class ShopUI : Control
         data.Details = new Godot.Collections.Dictionary<string, string>
         {
             { "价格", $"${price}" },
-            { "库存", $"{stock}" },
         };
 
         // 卡牌特有：射程
@@ -99,47 +134,71 @@ public partial class ShopUI : Control
                 data.Details["射程"] = range;
         }
 
-        TooltipService.Instance.ShowFor(btn, data);
+        TooltipService.Instance.ShowFor(card, data);
     }
 
-    private void Refresh()
+    /// <summary>构建一张商品卡片：可选背景贴图 + 图标 + 名字 + 价格。</summary>
+    private Button MakeCard(Resource itemRes, Resource entry, int price, bool bagFull)
     {
-        if (_shopManager?.ShopData == null) return;
-
-        foreach (Node child in _itemList.GetChildren())
-            child.QueueFree();
-
-        if (_goldLabel != null)
-            _goldLabel.Text = $"金币：{_shopManager.PlayerGold}";
-
-        var entries = _shopManager.ShopData.Get("entries").As<Array<Resource>>();
-        if (entries == null) return;
-
-        foreach (var entry in entries)
+        var card = new Button
         {
-            var itemRes = entry.Get("item_res").As<Resource>();
-            if (itemRes == null) continue;
+            CustomMinimumSize = new Vector2(0, 140),
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+        };
 
-            int stock = _shopManager.GetStock(itemRes);
-            int price = entry.Get("price").AsInt32();
-            bool isCard = entry.Call("is_card").AsBool();
-            bool bagFull = !isCard && DataManager.Instance.ItemBag.Count >= DataManager.MaxItemSlots;
-
-            var btn = new Button();
-            btn.Disabled = stock <= 0 || _shopManager.PlayerGold < price || bagFull;
-
-            string name = entry.Call("get_display_name").AsString();
-            if (stock <= 0)
-                btn.Text = $"{name}  已售罄";
-            else if (bagFull)
-                btn.Text = $"{name}  ${price}  背包已满";
-            else
-                btn.Text = $"{name}  ${price}  剩{stock}";
-            btn.CustomMinimumSize = new Vector2(0, 50);
-            var e = entry; // capture for lambda
-            btn.Pressed += () => _shopManager.Buy(e);
-            AttachTooltip(btn, itemRes, price, stock);
-            _itemList.AddChild(btn);
+        if (_cardBg != null)
+        {
+            var style = new StyleBoxTexture { Texture = _cardBg };
+            style.ContentMarginLeft = 24;
+            style.ContentMarginRight = 24;
+            style.ContentMarginTop = 18;
+            style.ContentMarginBottom = 18;
+            card.AddThemeStyleboxOverride("normal", style);
         }
+
+        var margin = new MarginContainer();
+        margin.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+        margin.MouseFilter = Control.MouseFilterEnum.Ignore;
+
+        var hbox = new HBoxContainer();
+        hbox.AddThemeConstantOverride("separation", 14);
+        hbox.MouseFilter = Control.MouseFilterEnum.Ignore;
+
+        // 图标（ItemData 有 icon 贴图；CardData 只有文字 icon_text，这里就不放图标）
+        var iconTex = itemRes.Get("icon").As<Texture2D>();
+        if (iconTex != null)
+        {
+            var icon = new TextureRect
+            {
+                Texture = iconTex,
+                CustomMinimumSize = new Vector2(80, 80),
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+            };
+            hbox.AddChild(icon);
+        }
+
+        var vbox = new VBoxContainer
+        {
+            SizeFlagsHorizontal = Control.SizeFlags.ExpandFill,
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+        };
+
+        string name = entry.Call("get_display_name").AsString();
+        var nameLabel = new Label { Text = name };
+        nameLabel.AddThemeFontSizeOverride("font_size", 24);
+        vbox.AddChild(nameLabel);
+
+        string info = bagFull ? "背包已满" : $"${price}";
+        var infoLabel = new Label { Text = info };
+        infoLabel.AddThemeFontSizeOverride("font_size", 20);
+        infoLabel.AddThemeColorOverride("font_color", new Color("#f1c453"));
+        vbox.AddChild(infoLabel);
+
+        hbox.AddChild(vbox);
+        margin.AddChild(hbox);
+        card.AddChild(margin);
+        return card;
     }
 }

@@ -1,0 +1,175 @@
+[gd_scene format=3 uid="uid://dgf7q2omm6kf"]
+
+[ext_resource type="Script" uid="uid://unxmpcudbtks" path="res://features/shop/ShopUI.cs" id="1_ui"]
+[ext_resource type="Texture2D" uid="uid://dqmc4yd8vqlk7" path="res://features/exploration/art_assets/shop/价格牌.png" id="2_ho1k5"]
+[ext_resource type="Script" uid="uid://cnkxsvpsj36u4" path="res://features/shop/ShopManager.cs" id="2_mgr"]
+[ext_resource type="Resource" uid="uid://3fm7weqvvkxh" path="res://features/shop/resources/default_shop.tres" id="3_data"]
+[ext_resource type="Texture2D" uid="uid://cisnw5p2xb85f" path="res://features/exploration/art_assets/shop/退出键.png" id="5_close"]
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="anim_hide"]
+resource_name = "hide_shopUI"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"DisableButtons"
+}]
+}
+
+[sub_resource type="Animation" id="anim_show"]
+resource_name = "show_shopUI"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"EnableButtons"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="anim_lib"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"hide_shopUI": SubResource("anim_hide"),
+&"show_shopUI": SubResource("anim_show")
+}
+
+[node name="ShopUI" type="Control" unique_id=2094376065 node_paths=PackedStringArray("_anim", "_cardGrid", "_itemGrid", "_goldLabel", "_closeButton", "_shopManager")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ui")
+_anim = NodePath("Anim")
+_cardGrid = NodePath("CardGrid")
+_itemGrid = NodePath("ItemGrid")
+_goldLabel = NodePath("GoldLabel")
+_closeButton = NodePath("CloseButton")
+_shopManager = NodePath("ShopManager")
+
+[node name="Background" type="TextureRect" parent="." unique_id=2048552384]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_ho1k5")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CardGrid" type="GridContainer" parent="." unique_id=436663278]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.12
+anchor_top = 0.32
+anchor_right = 0.88
+anchor_bottom = 0.56
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 4
+
+[node name="ItemGrid" type="GridContainer" parent="." unique_id=1308855236]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.31527779
+anchor_top = 0.6537037
+anchor_right = 0.85486114
+anchor_bottom = 0.83981484
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="GoldLabel" type="Label" parent="." unique_id=12211322]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 40.0
+offset_right = 500.0
+offset_bottom = 90.0
+theme_override_font_sizes/font_size = 32
+
+[node name="CloseButton" type="TextureButton" parent="." unique_id=438214947]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8204723
+anchor_top = 0.0652963
+anchor_right = 0.9103056
+anchor_bottom = 0.17262962
+offset_left = -0.48010254
+offset_top = -0.52000046
+offset_right = 0.15991211
+offset_bottom = -0.44000244
+texture_normal = ExtResource("5_close")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="ShopManager" type="Node" parent="." unique_id=346672913]
+script = ExtResource("2_mgr")
+ShopData = ExtResource("3_data")
+PersistenceId = "shop_home"
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=1277406782]
+libraries/ = SubResource("anim_lib")

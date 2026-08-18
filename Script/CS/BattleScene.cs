@@ -37,6 +37,13 @@ public partial class BattleScene : Node2D
             _gridWidth = boardSizes[0].X;
             _gridHeight = boardSizes[0].Y;
         }
+        // 能力成长：棋盘扩容覆盖默认尺寸
+        var growthBoard = GrowthManager.Instance?.GetBoardSize();
+        if (growthBoard.HasValue)
+        {
+            _gridWidth = growthBoard.Value.X;
+            _gridHeight = growthBoard.Value.Y;
+        }
         BoardManager.ConfigureBoard(new Vector2I(_gridWidth, _gridHeight), false);
 
         // 创建战斗实例

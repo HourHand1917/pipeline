@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://giwwrblnqxt" path="res://features/exploration/art_assets/workbenchUI/背景.png" id="2_qkk36"]
 [ext_resource type="Texture2D" uid="uid://cxypy2bkg4jgt" path="res://features/exploration/art_assets/workbenchUI/按钮_关闭.png" id="3_5f42w"]
 [ext_resource type="Script" uid="uid://cqa0c10xlfgll" path="res://features/workbench/EnhanceWorkbenchPanel.cs" id="3_upgrade"]
-[ext_resource type="PackedScene" uid="uid://cwnaxajo6wwxj" path="res://Scenes/game_scene/enhance_ai_screen.tscn" id="4_ai"]
+[ext_resource type="Script" uid="uid://c88dggelmp50n" path="res://features/workbench/GrowthPanel.cs" id="4_ai"]
 [ext_resource type="Script" uid="uid://cb5ujva8p6u6p" path="res://features/workbench/BuildWorkbenchPanel.cs" id="4_wrosw"]
 [ext_resource type="Texture2D" uid="uid://cpecotj4btliu" path="res://features/exploration/art_assets/workbenchUI/卡牌屏幕.png" id="5_3r268"]
 [ext_resource type="Texture2D" uid="uid://cte22305wyiiy" path="res://features/exploration/art_assets/workbenchUI/卡牌背景.png" id="5_hk37n"]
@@ -20,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://mmv8ss1afxfb" path="res://features/exploration/art_assets/workbenchUI/升级!（亮）.png" id="16_vj5mj"]
 [ext_resource type="Texture2D" uid="uid://b1lnd7a1xrm3c" path="res://features/exploration/art_assets/workbenchUI/升级！（暗）.png" id="17_njf40"]
 [ext_resource type="Texture2D" uid="uid://cgg0e51jlsa56" path="res://features/exploration/art_assets/货币/水龙头/显示屏版.png" id="18_njf40"]
+[ext_resource type="Texture2D" uid="uid://wr4oblonnkf7" path="res://features/exploration/art_assets/workbenchUI/升级界面_线.png" id="20_rq21t"]
 [ext_resource type="Texture2D" uid="uid://uyyss17pv6dw" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0023_8.png" id="21_hobfm"]
 [ext_resource type="Texture2D" uid="uid://ch67vanwlqv2v" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0022_9.png" id="22_ua4g3"]
 [ext_resource type="Texture2D" uid="uid://btuclcxq8rwv" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0021_8.png" id="23_dh1jv"]
@@ -43,6 +44,15 @@
 [ext_resource type="Texture2D" uid="uid://u3ui15p3xj2f" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0003_8.png" id="41_iugdj"]
 [ext_resource type="Texture2D" uid="uid://rhfx1l1dmssp" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0002_8.png" id="42_gbkr2"]
 [ext_resource type="Texture2D" uid="uid://drwhlxbpt4oyh" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0001_0.png" id="43_5ne73"]
+[ext_resource type="Texture2D" uid="uid://cisnw5p2xb85f" path="res://features/exploration/art_assets/shop/退出键.png" id="44_exit"]
+[ext_resource type="Texture2D" uid="uid://burhbp2ktif2h" path="res://features/exploration/art_assets/workbenchUI/玩家升级界面按钮背景.png" id="45_growthbg"]
+[ext_resource type="Texture2D" uid="uid://tjjr822chi8w" path="res://features/exploration/art_assets/workbenchUI/玩家升级界面按钮背景（反转）.png" id="46_growthbgrev"]
+
+[sub_resource type="StyleBoxTexture" id="growthbg_reversed"]
+texture = ExtResource("46_growthbgrev")
+
+[sub_resource type="StyleBoxTexture" id="growthbg_normal"]
+texture = ExtResource("45_growthbg")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_f11c3"]
 animations = [{
@@ -603,16 +613,6 @@ texture = ExtResource("2_qkk36")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="CloseBtn" type="Button" parent="." unique_id=1359965003]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -119.0
-offset_right = -16.0
-offset_bottom = 95.0
-text = "X"
-
 [node name="PanelStack" type="Control" parent="." unique_id=1042558203]
 layout_mode = 1
 anchor_left = 0.04375
@@ -624,6 +624,7 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="BuildPage" type="Control" parent="PanelStack" unique_id=1969213508 node_paths=PackedStringArray("_boardManager", "_buildGrid", "_inventoryBox")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -982,10 +983,6 @@ theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
 columns = 4
 
-[node name="MaterialApplier" type="Node" parent="PanelStack/UpgradePage/inventorybox/ScrollContainer" unique_id=772919305]
-script = ExtResource("9_2gsrf")
-_material = ExtResource("7_55txc")
-
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelStack/UpgradePage/inventorybox" unique_id=1698304984]
 layout_mode = 1
 anchors_preset = -1
@@ -1012,11 +1009,146 @@ theme_override_font_sizes/font_size = 34
 text = "1"
 metadata/_edit_use_anchors_ = true
 
-[node name="AIPage" parent="PanelStack" unique_id=247915953 instance=ExtResource("4_ai")]
-visible = false
+[node name="AIPage" type="Control" parent="PanelStack" unique_id=247915953 node_paths=PackedStringArray("_hp1Button", "_hp2Button", "_str1Button", "_str2Button", "_board1Button", "_board2Button", "_energyButton", "_levelLabel", "_faucetNumber")]
 layout_mode = 1
-offset_left = 1395.0
-offset_right = 1395.0
+anchors_preset = 0
+script = ExtResource("4_ai")
+_hp1Button = NodePath("Hp1Button")
+_hp2Button = NodePath("Hp2Button")
+_str1Button = NodePath("Str1Button")
+_str2Button = NodePath("Str2Button")
+_board1Button = NodePath("Board1Button")
+_board2Button = NodePath("Board2Button")
+_energyButton = NodePath("EnergyButton")
+_levelLabel = NodePath("LevelLabel")
+_faucetNumber = NodePath("FaucetBox/FaucetNumber")
+
+[node name="line" type="TextureRect" parent="PanelStack/AIPage" unique_id=296255176]
+layout_mode = 0
+offset_left = -380.0
+offset_top = -112.99988
+offset_right = 1722.0
+offset_bottom = 1016.0001
+texture = ExtResource("20_rq21t")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="LevelLabel" type="Label" parent="PanelStack/AIPage" unique_id=1050000001]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 30.0
+offset_right = 260.0
+offset_bottom = 70.0
+theme_override_font_sizes/font_size = 28
+
+[node name="FaucetBox" type="HBoxContainer" parent="PanelStack/AIPage" unique_id=1050000009]
+layout_mode = 0
+offset_left = 60.0
+offset_top = 90.0
+offset_right = 360.0
+offset_bottom = 150.0
+theme_override_constants/separation = 8
+
+[node name="FaucetIcon" type="TextureRect" parent="PanelStack/AIPage/FaucetBox" unique_id=1050000010]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+texture = ExtResource("18_njf40")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="FaucetNumber" type="Label" parent="PanelStack/AIPage/FaucetBox" unique_id=1050000011]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+
+[node name="Hp1Button" type="Button" parent="PanelStack/AIPage" unique_id=1050000002]
+layout_mode = 0
+offset_left = 285.0
+offset_top = 334.00012
+offset_right = 515.0
+offset_bottom = 464.00012
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("growthbg_reversed")
+text = "生命提升I"
+
+[node name="Str1Button" type="Button" parent="PanelStack/AIPage" unique_id=1050000003]
+layout_mode = 0
+offset_left = 503.0
+offset_top = 179.00012
+offset_right = 733.0
+offset_bottom = 309.00012
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("growthbg_reversed")
+text = "力量提升I"
+
+[node name="Board1Button" type="Button" parent="PanelStack/AIPage" unique_id=1050000004]
+layout_mode = 0
+offset_left = 838.0
+offset_top = 264.00012
+offset_right = 1068.0
+offset_bottom = 394.00012
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("growthbg_normal")
+text = "棋盘扩容I"
+
+[node name="Hp2Button" type="Button" parent="PanelStack/AIPage" unique_id=1050000005]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 154.00012
+offset_right = 370.0
+offset_bottom = 284.00012
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("growthbg_reversed")
+text = "生命提升II"
+
+[node name="Str2Button" type="Button" parent="PanelStack/AIPage" unique_id=1050000006]
+layout_mode = 0
+offset_left = 437.0
+offset_top = 49.000122
+offset_right = 667.0
+offset_bottom = 179.00012
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("growthbg_normal")
+text = "力量提升II"
+
+[node name="Board2Button" type="Button" parent="PanelStack/AIPage" unique_id=1050000007]
+layout_mode = 0
+offset_left = 1038.0
+offset_top = 151.00012
+offset_right = 1268.0
+offset_bottom = 281.00012
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("growthbg_normal")
+text = "棋盘扩容II"
+
+[node name="EnergyButton" type="Button" parent="PanelStack/AIPage" unique_id=1050000008]
+layout_mode = 0
+offset_left = 783.0
+offset_top = 88.00012
+offset_right = 1013.0
+offset_bottom = 218.00012
+theme_override_font_sizes/font_size = 22
+theme_override_styles/normal = SubResource("growthbg_reversed")
+text = "能量提升"
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/AIPage" unique_id=772919305]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
+[node name="CloseBtn" type="TextureButton" parent="." unique_id=1359965003]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8753334
+anchor_top = -0.0074074105
+anchor_right = 0.9799722
+anchor_bottom = 0.100962974
+offset_left = 0.51989746
+offset_right = -0.16003418
+offset_bottom = -0.03996277
+texture_normal = ExtResource("44_exit")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
 
 [node name="TabBar" type="HBoxContainer" parent="." unique_id=125854586]
 z_index = -1
@@ -1053,6 +1185,8 @@ stretch_mode = 5
 position = Vector2(720, 540)
 sprite_frames = SubResource("SpriteFrames_f11c3")
 animation = &"show"
+frame = 22
+frame_progress = 1.0
 
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=1887714940]
 libraries/ = SubResource("AnimationLibrary_5f42w")
