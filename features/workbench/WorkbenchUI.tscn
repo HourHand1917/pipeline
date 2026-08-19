@@ -768,7 +768,6 @@ script = ExtResource("9_2gsrf")
 _material = ExtResource("7_55txc")
 
 [node name="UpgradePage" type="Control" parent="PanelStack" unique_id=1490783277 node_paths=PackedStringArray("_inventoryBox", "_beforeText", "_afterText", "_faucetLabel", "_enhanceButton", "_enhanceBtnLabel")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -983,6 +982,10 @@ theme_override_constants/h_separation = 4
 theme_override_constants/v_separation = 4
 columns = 4
 
+[node name="MaterialApplier" type="Node" parent="PanelStack/UpgradePage/inventorybox/ScrollContainer" unique_id=235418221]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelStack/UpgradePage/inventorybox" unique_id=1698304984]
 layout_mode = 1
 anchors_preset = -1
@@ -1009,7 +1012,12 @@ theme_override_font_sizes/font_size = 34
 text = "1"
 metadata/_edit_use_anchors_ = true
 
+[node name="MaterialApplier" type="Node" parent="PanelStack/UpgradePage/inventorybox/HBoxContainer" unique_id=368723049]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
 [node name="AIPage" type="Control" parent="PanelStack" unique_id=247915953 node_paths=PackedStringArray("_hp1Button", "_hp2Button", "_str1Button", "_str2Button", "_board1Button", "_board2Button", "_energyButton", "_levelLabel", "_faucetNumber")]
+visible = false
 layout_mode = 1
 anchors_preset = 0
 script = ExtResource("4_ai")

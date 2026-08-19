@@ -199,7 +199,7 @@ script = ExtResource("16_w8jpk")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=2084244279]
 
-[node name="ShopUI" parent="UILayer" unique_id=514060493 instance=ExtResource("34_shopui")]
+[node name="ShopUI" parent="UILayer" unique_id=111729031 instance=ExtResource("34_shopui")]
 
 [node name="WorkbenchUI" parent="UILayer" unique_id=495580737 instance=ExtResource("27_wb")]
 _tabRaiseOffset = 30.0

@@ -26,6 +26,7 @@ BattleDirector="*res://Script/CS/BattleDirector.cs"
 MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 AudioManager="*uid://b5xixbkfbd2qu"
 Dialogic="*uid://ds2q0uclmolvu"
+GrowthManager="*res://Script/CS/GrowthManager.cs"
 
 [dialogic]
 
