@@ -15,7 +15,6 @@
 [ext_resource type="Script" uid="uid://brldldukiq5i5" path="res://features/exploration/scripts/CS/interactables/StoreInteractable.cs" id="12_epj53"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="16_w8jpk"]
 [ext_resource type="Script" uid="uid://cjyj7g4diq8ih" path="res://Script/CS/StarterDeck.cs" id="20_8lmfl"]
-[ext_resource type="PackedScene" path="res://features/shop/ShopUI.tscn" id="34_shopui"]
 [ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="21_awyto"]
 [ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="22_fxped"]
 [ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="23_tis6c"]
@@ -28,6 +27,7 @@
 [ext_resource type="Script" uid="uid://cqaav03k6hg6q" path="res://features/exploration/scripts/CS/interactables/GateInteractable.cs" id="31_gate"]
 [ext_resource type="AudioStream" uid="uid://c8gvr0gwm7lh5" path="res://tileset/music_resource/MUS_Home_Mp3.mp3" id="31_vmofw"]
 [ext_resource type="Script" uid="uid://dq8q6f6remj3d" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="32_mapselect"]
+[ext_resource type="PackedScene" uid="uid://dgf7q2omm6kf" path="res://features/shop/ShopUI.tscn" id="34_shopui"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -199,7 +199,7 @@ script = ExtResource("16_w8jpk")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=2084244279]
 
-[node name="ShopUI" parent="UILayer" instance=ExtResource("34_shopui")]
+[node name="ShopUI" parent="UILayer" unique_id=514060493 instance=ExtResource("34_shopui")]
 
 [node name="WorkbenchUI" parent="UILayer" unique_id=495580737 instance=ExtResource("27_wb")]
 _tabRaiseOffset = 30.0
