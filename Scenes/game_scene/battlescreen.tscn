@@ -19,15 +19,17 @@
 [ext_resource type="Texture2D" uid="uid://d2luylgljdv72" path="res://features/exploration/art_assets/battlescreen/battlegrid.png" id="12_26bt4"]
 [ext_resource type="PackedScene" uid="uid://b0pq5ka3u7at7" path="res://Scenes/game_scene/gridcellbutton.tscn" id="13_7le68"]
 [ext_resource type="Texture2D" uid="uid://bad7qtk6huluv" path="res://features/exploration/art_assets/battlescreen/回合结束按钮.png" id="14_aadoi"]
+[ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="18_8ayyh"]
 [ext_resource type="PackedScene" uid="uid://5umggsibdp5b" path="res://features/tv_ui/PlayerTV.tscn" id="18_pergr"]
+[ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="19_pjudx"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mu3ns"]
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vn3ql"]
 texture = ExtResource("2_rr40r")
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epdb4"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_epcg3"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_vn3ql"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_8ayyh"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -53,16 +55,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_lwu1b"]
-texture = ExtResource("2_ycqhv")
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rr40r"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4udp"]
-bg_color = Color(0.6, 0.6, 0.6, 0)
-
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "statuslabel", "roundlabel", "phaselabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "healthBar", "rubberheart", "playerTV", "playerBuffGrid")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "loglabel", "statuslabel", "roundlabel", "phaselabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "healthBar", "playerTV", "playerBuffGrid")]
 custom_minimum_size = Vector2(1440, 1080)
 layout_mode = 3
 anchors_preset = 15
@@ -73,273 +66,326 @@ grow_vertical = 2
 size_flags_vertical = 3
 mouse_filter = 2
 script = ExtResource("1_tb4nm")
-battlegrid = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird")
+battlegrid = NodePath("stageWrapper/battlegird")
 energyGrid = NodePath("energygrid")
-statuslabel = NodePath("battleVbox/statuslabel")
-roundlabel = NodePath("battleVbox/infobar/roundlabel")
-phaselabel = NodePath("battleVbox/infobar/phaselabel")
-distancelabel = NodePath("battleVbox/infobar/distancelabel")
-distancetrack = NodePath("battleVbox/stagepanel/margin/stageVbox/distancetrack")
-movebackbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movebackbutton")
-moveforwardbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/moveforwardbutton")
-movehint = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movehint")
-endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/endturnbutton")
-healthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
+loglabel = NodePath("LogLabel")
+statuslabel = NodePath("statuslabel")
+roundlabel = NodePath("infobar/roundlabel")
+phaselabel = NodePath("infobar/phaselabel")
+distancelabel = NodePath("infobar/distancelabel")
+distancetrack = NodePath("stagepanel/margin/stageVbox/distancetrack")
+movebackbutton = NodePath("stagepanel/margin/stageVbox/movement/movebackbutton")
+moveforwardbutton = NodePath("stagepanel/margin/stageVbox/movement/moveforwardbutton")
+movehint = NodePath("stagepanel/margin/stageVbox/movement/movehint")
+endturnbutton = NodePath("stageWrapper/endturnbutton")
+healthBar = NodePath("statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
 bulbOn = ExtResource("2_t4udp")
 bulbOff = ExtResource("3_vn3ql")
-rubberheart = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/rubberheart")
 trackSlotScene = ExtResource("4_aadoi")
 playerTV = NodePath("PlayerTV")
-playerBuffGrid = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/buffgrid_player")
+playerBuffGrid = NodePath("buffgrid_player")
 buffShowScene = ExtResource("5_vn3ql")
 
-[node name="battleVbox" type="VBoxContainer" parent="." unique_id=1200818013]
+[node name="LogLabel" type="RichTextLabel" parent="." unique_id=1848335453]
 layout_mode = 1
-anchors_preset = 9
-anchor_bottom = 1.0
-offset_right = 1980.0
-grow_vertical = 2
-scale = Vector2(0.7264723, 0.9967271)
+anchors_preset = -1
+anchor_top = 0.33240741
+anchor_right = 0.28300002
+anchor_bottom = 0.54748154
+offset_right = 0.47998047
+offset_bottom = -0.2800293
+metadata/_edit_use_anchors_ = true
+
+[node name="statuslabel" type="Label" parent="." unique_id=1658931596]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0018888897
+anchor_right = 0.9960278
+anchor_bottom = 0.021000002
+offset_left = -0.7200012
+offset_right = 0.7199707
+offset_bottom = 0.3199978
+metadata/_edit_use_anchors_ = true
+
+[node name="statsbarcontainer" type="HBoxContainer" parent="." unique_id=984423665]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 0
+offset_bottom = 150.0
 mouse_filter = 2
 
-[node name="statuslabel" type="Label" parent="battleVbox" unique_id=1658931596]
+[node name="statsbarcontrol" type="Control" parent="statsbarcontainer" unique_id=2056738596]
 layout_mode = 2
 
-[node name="statsbarcontainer" type="HBoxContainer" parent="battleVbox" unique_id=1197099138]
-custom_minimum_size = Vector2(0, 150)
-layout_mode = 2
-
-[node name="statsbarcontrol" type="Control" parent="battleVbox/statsbarcontainer" unique_id=834909076]
-layout_mode = 2
-
-[node name="statsbarboard" type="PanelContainer" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1274486744]
+[node name="statsbarboard" type="PanelContainer" parent="statsbarcontainer/statsbarcontrol" unique_id=1374977516]
 layout_mode = 0
-offset_right = 850.68634
-offset_bottom = 192.71912
-theme_override_styles/panel = SubResource("StyleBoxTexture_mu3ns")
+offset_right = 642.0
+offset_bottom = 187.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_vn3ql")
 
-[node name="statsbarholder" type="PanelContainer" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1817132176]
+[node name="statsbarholder" type="PanelContainer" parent="statsbarcontainer/statsbarcontrol" unique_id=706587243]
 layout_mode = 0
-offset_left = 268.4204
-offset_top = 54.26597
-offset_right = 2066.8457
-offset_bottom = 266.93106
+offset_left = 201.99998
+offset_top = 51.0
+offset_right = 1570.0
+offset_bottom = 262.0
 scale = Vector2(0.31534487, 0.1934245)
-theme_override_styles/panel = SubResource("StyleBoxFlat_epdb4")
+theme_override_styles/panel = SubResource("StyleBoxFlat_epcg3")
 
-[node name="healthbar" type="TextureProgressBar" parent="battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder" unique_id=1196939012]
+[node name="healthbar" type="TextureProgressBar" parent="statsbarcontainer/statsbarcontrol/statsbarholder" unique_id=431393641]
 layout_mode = 2
-nine_patch_stretch = true
 texture_under = ExtResource("3_7le68")
-texture_over = ExtResource("4_brapn")
+texture_progress = ExtResource("4_brapn")
 
-[node name="rubberheart" type="AnimatedSprite2D" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=1189351085]
-position = Vector2(176.19392, 87.37433)
-scale = Vector2(0.22283812, 0.16938604)
-sprite_frames = SubResource("SpriteFrames_vn3ql")
+[node name="rubberheart" type="AnimatedSprite2D" parent="statsbarcontainer/statsbarcontrol" unique_id=658722100]
+position = Vector2(133, 84)
+scale = Vector2(0.16782407, 0.16226853)
+sprite_frames = SubResource("SpriteFrames_8ayyh")
 animation = &"idel"
 autoplay = "idel"
-frame_progress = 0.8514717
 
-[node name="buffgrid_player" type="GridContainer" parent="battleVbox/statsbarcontainer/statsbarcontrol" unique_id=137671753]
-layout_mode = 0
-offset_left = 195.0
-offset_top = 114.0
-offset_right = 659.0
-offset_bottom = 187.0
+[node name="buffgrid_player" type="GridContainer" parent="." unique_id=137671753]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.135
+anchor_top = 0.106000006
+anchor_right = 0.13577779
+anchor_bottom = 0.17300001
+offset_left = 0.59999084
+offset_top = -0.48000336
+offset_right = -0.52001953
+offset_bottom = 0.1599884
 columns = 5
+metadata/_edit_use_anchors_ = true
 
-[node name="infobar" type="HBoxContainer" parent="battleVbox" unique_id=54570403]
-layout_mode = 2
+[node name="infobar" type="HBoxContainer" parent="." unique_id=54570403]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.013694446
+anchor_top = 0.13240741
+anchor_right = 1.0092223
+anchor_bottom = 0.16340742
+offset_left = -0.7200012
+offset_right = 0.7199707
+offset_bottom = 0.51999664
 theme_override_constants/separation = 12
 alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="roundlabel" type="Label" parent="battleVbox/infobar" unique_id=393697912]
+[node name="roundlabel" type="Label" parent="infobar" unique_id=393697912]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "回合0"
 
-[node name="phaselabel" type="Label" parent="battleVbox/infobar" unique_id=659047388]
+[node name="phaselabel" type="Label" parent="infobar" unique_id=659047388]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "构筑阶段"
 
-[node name="energylabel" type="Label" parent="battleVbox/infobar" unique_id=920811024]
+[node name="energylabel" type="Label" parent="infobar" unique_id=920811024]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "能量 0/0"
 
-[node name="distancelabel" type="Label" parent="battleVbox/infobar" unique_id=1403401876]
+[node name="distancelabel" type="Label" parent="infobar" unique_id=1403401876]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "玩家0.怪物0，距离0格"
 
-[node name="stagepanel" type="PanelContainer" parent="battleVbox" unique_id=1224801427]
-layout_mode = 2
+[node name="stagepanel" type="PanelContainer" parent="." unique_id=1224801427]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0032777786
+anchor_top = 0.17777778
+anchor_right = 0.9988056
+anchor_bottom = 0.4037778
+offset_left = -0.7200012
+offset_right = 0.7199707
+offset_bottom = -0.08001709
 mouse_filter = 2
+metadata/_edit_use_anchors_ = true
 
-[node name="margin" type="MarginContainer" parent="battleVbox/stagepanel" unique_id=1286502687]
+[node name="margin" type="MarginContainer" parent="stagepanel" unique_id=1286502687]
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="stageVbox" type="VBoxContainer" parent="battleVbox/stagepanel/margin" unique_id=854700267]
+[node name="stageVbox" type="VBoxContainer" parent="stagepanel/margin" unique_id=854700267]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="distanceheader" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=881479664]
+[node name="distanceheader" type="HBoxContainer" parent="stagepanel/margin/stageVbox" unique_id=881479664]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="eyebrow" type="Label" parent="battleVbox/stagepanel/margin/stageVbox/distanceheader" unique_id=365746658]
+[node name="eyebrow" type="Label" parent="stagepanel/margin/stageVbox/distanceheader" unique_id=365746658]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "战斗距离"
 
-[node name="distancelabel" type="Label" parent="battleVbox/stagepanel/margin/stageVbox/distanceheader" unique_id=1637419259]
+[node name="distancelabel" type="Label" parent="stagepanel/margin/stageVbox/distanceheader" unique_id=1637419259]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "玩家0·敌人0·距离0格"
 horizontal_alignment = 1
 
-[node name="distancetrack" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=503304078]
+[node name="distancetrack" type="HBoxContainer" parent="stagepanel/margin/stageVbox" unique_id=503304078]
 layout_mode = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="trackslot" parent="battleVbox/stagepanel/margin/stageVbox/distancetrack" unique_id=1999530165 instance=ExtResource("4_aadoi")]
+[node name="trackslot" parent="stagepanel/margin/stageVbox/distancetrack" unique_id=1999530165 instance=ExtResource("4_aadoi")]
 layout_mode = 2
 
-[node name="movement" type="HBoxContainer" parent="battleVbox/stagepanel/margin/stageVbox" unique_id=953537882]
+[node name="movement" type="HBoxContainer" parent="stagepanel/margin/stageVbox" unique_id=953537882]
 layout_mode = 2
 theme_override_constants/separation = 8
 alignment = 1
 
-[node name="movebackbutton" type="Button" parent="battleVbox/stagepanel/margin/stageVbox/movement" unique_id=1501721777]
+[node name="movebackbutton" type="Button" parent="stagepanel/margin/stageVbox/movement" unique_id=1501721777]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "后退"
 
-[node name="movehint" type="Label" parent="battleVbox/stagepanel/margin/stageVbox/movement" unique_id=682321102]
+[node name="movehint" type="Label" parent="stagepanel/margin/stageVbox/movement" unique_id=682321102]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "移动消耗 1 能量"
 
-[node name="moveforwardbutton" type="Button" parent="battleVbox/stagepanel/margin/stageVbox/movement" unique_id=1709012874]
+[node name="moveforwardbutton" type="Button" parent="stagepanel/margin/stageVbox/movement" unique_id=1709012874]
 layout_mode = 2
 theme_override_font_sizes/font_size = 24
 text = "前进"
 
-[node name="battlecontent" type="HBoxContainer" parent="battleVbox" unique_id=1492056502]
-custom_minimum_size = Vector2(1980, 0)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 3
-theme_override_constants/separation = 16
-
-[node name="boardcolum" type="VBoxContainer" parent="battleVbox/battlecontent" unique_id=2044582270]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="stageWrapper" type="Control" parent="battleVbox/battlecontent/boardcolum" unique_id=924513691]
-layout_mode = 2
+[node name="stageWrapper" type="Control" parent="." unique_id=924513691]
+layout_mode = 1
+anchor_left = 0.008
+anchor_top = 0.54200006
+anchor_right = 0.483
+anchor_bottom = 1.0170001
+offset_left = -26.52
+offset_top = -12.360046
+offset_right = 729.48
+offset_bottom = 554.6399
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.52, 0.52)
 mouse_filter = 2
 
-[node name="borderTexure" type="PanelContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=2075789304]
-custom_minimum_size = Vector2(800, 600)
-layout_mode = 0
-offset_right = 1116.3536
-offset_bottom = 600.4938
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_lwu1b")
+[node name="background" type="Control" parent="stageWrapper" unique_id=1781236209]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="screentexture" type="TextureRect" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=535350651]
-layout_mode = 0
-offset_left = 94.97952
-offset_top = 99.85527
-offset_right = 1945.8998
-offset_bottom = 909.8553
-scale = Vector2(0.44064844, 0.43743992)
+[node name="screentexture" type="TextureRect" parent="stageWrapper/background" unique_id=535350651]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.10486111
+anchor_top = 0.012037037
+anchor_right = 0.78541666
+anchor_bottom = 0.90185183
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("12_26bt4")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
 
-[node name="panelborder" type="PanelContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=758408112]
-layout_mode = 0
-offset_left = 217.48935
-offset_top = 122.9308
-offset_right = 1478.0856
-offset_bottom = 824.6814
-scale = Vector2(0.47281677, 0.45607015)
+[node name="borderTexure" type="TextureRect" parent="stageWrapper/background" unique_id=1274940752]
+custom_minimum_size = Vector2(800, 600)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_rr40r")
+texture = ExtResource("2_ycqhv")
+expand_mode = 1
+stretch_mode = 5
 
-[node name="battlegird" type="GridContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder" unique_id=1031786393]
-layout_mode = 2
+[node name="battlegird" type="GridContainer" parent="stageWrapper" unique_id=1031786393]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.2027778
+anchor_top = 0.19907407
+anchor_right = 0.7532222
+anchor_bottom = 0.75566673
+offset_right = 87.359985
+offset_bottom = 66.879944
+scale = Vector2(0.84, 0.84)
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
 columns = 4
+metadata/_edit_use_anchors_ = true
 
-[node name="battlecellbutton0" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=382575080 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton0" parent="stageWrapper/battlegird" unique_id=382575080 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton1" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1987946169 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton1" parent="stageWrapper/battlegird" unique_id=1987946169 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton2" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1879915097 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton2" parent="stageWrapper/battlegird" unique_id=1879915097 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton3" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=573635994 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton3" parent="stageWrapper/battlegird" unique_id=573635994 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton4" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1935960281 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton4" parent="stageWrapper/battlegird" unique_id=1935960281 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton5" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1834776382 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton5" parent="stageWrapper/battlegird" unique_id=1834776382 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton6" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1431028308 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton6" parent="stageWrapper/battlegird" unique_id=1431028308 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton7" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1824636046 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton7" parent="stageWrapper/battlegird" unique_id=1824636046 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton8" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1929850005 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton8" parent="stageWrapper/battlegird" unique_id=1929850005 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton9" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1522483258 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton9" parent="stageWrapper/battlegird" unique_id=1522483258 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton10" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1356694069 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton10" parent="stageWrapper/battlegird" unique_id=1356694069 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="battlecellbutton11" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=252479802 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton11" parent="stageWrapper/battlegird" unique_id=252479802 instance=ExtResource("13_7le68")]
 layout_mode = 2
 
-[node name="endturnbutton" type="TextureButton" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=409315270]
-layout_mode = 0
-offset_left = 890.6052
-offset_top = 295.49557
-offset_right = 1454.832
-offset_bottom = 804.272
-scale = Vector2(0.38058504, 0.40425068)
+[node name="MaterialApplier" type="Node" parent="stageWrapper/battlegird" unique_id=154242373]
+script = ExtResource("18_8ayyh")
+_material = ExtResource("19_pjudx")
+
+[node name="endturnbutton" type="TextureButton" parent="stageWrapper" unique_id=409315270]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.80300003
+anchor_top = 0.49629635
+anchor_right = 0.9801543
+anchor_bottom = 0.8418274
+offset_left = -0.32006836
+offset_top = -6.1035156e-05
+offset_right = 0.57788086
+offset_bottom = -0.17358398
 texture_normal = ExtResource("14_aadoi")
-stretch_mode = 0
+ignore_texture_size = true
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
 
-[node name="sidepanel" type="VBoxContainer" parent="battleVbox/battlecontent" unique_id=264618196]
+[node name="sidepanel" type="VBoxContainer" parent="." unique_id=264618196]
 custom_minimum_size = Vector2(250, 0)
-layout_mode = 2
+layout_mode = 0
+offset_left = -270.0
+offset_right = -20.0
+offset_bottom = 1080.0
 mouse_filter = 2
-
-[node name="PanelContainer" type="PanelContainer" parent="battleVbox/battlecontent" unique_id=547029121]
-custom_minimum_size = Vector2(600, 0)
-layout_mode = 2
-mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxFlat_t4udp")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="battleVbox/battlecontent" unique_id=239639901]
-layout_mode = 2
-
-[node name="Control" type="Control" parent="battleVbox/battlecontent/VBoxContainer" unique_id=1753385836]
-layout_mode = 2
 
 [node name="PlayerTV" parent="." unique_id=2129627915 instance=ExtResource("18_pergr")]
 layout_mode = 1
@@ -348,26 +394,25 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -197.99994
-offset_top = -605.0
-offset_right = 1205.0
-offset_bottom = 291.0
+offset_left = 34.00006
+offset_top = -512.0
+offset_right = 1436.9966
+offset_bottom = 384.0
 grow_vertical = 0
-scale = Vector2(0.495, 0.495)
+scale = Vector2(0.475, 0.475)
 
 [node name="energygrid" type="GridContainer" parent="." unique_id=921566161]
-visible = false
 custom_minimum_size = Vector2(200, 325)
 layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -98.0
-offset_top = -226.0
-offset_right = 876.3331
-offset_bottom = 224.0
+anchors_preset = -1
+anchor_left = 0.522
+anchor_top = 0.82100004
+anchor_right = 0.83300006
+anchor_bottom = 1.0150001
+offset_left = 113.32001
+offset_top = -2.6800537
+offset_right = 639.8131
+offset_bottom = 237.79993
 grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.45967647, 0.46560314)

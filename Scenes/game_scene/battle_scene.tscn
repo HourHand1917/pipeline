@@ -23,7 +23,10 @@ script = ExtResource("3_resolver")
 script = ExtResource("4_battle")
 
 [node name="BattleScreen" parent="." unique_id=1903682587 instance=ExtResource("5_screen")]
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 1920.0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 1440.0
 offset_bottom = 1080.0
+grow_horizontal = 1
+grow_vertical = 1

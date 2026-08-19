@@ -17,7 +17,7 @@ Button/styles/disabled = SubResource("StyleBoxFlat_yrplj")
 Button/styles/normal = SubResource("StyleBoxFlat_e5vk8")
 
 [node name="battlecellbutton" type="Button" unique_id=382575080 node_paths=PackedStringArray("normalTexture", "chargedTexture", "cooldownTexture", "disabledTexture", "textLabel")]
-custom_minimum_size = Vector2(320, 220)
+custom_minimum_size = Vector2(217, 220)
 offset_right = 217.0
 offset_bottom = 223.0
 theme = SubResource("Theme_0f5lh")
@@ -31,35 +31,35 @@ textLabel = NodePath("labeltext")
 [node name="disabledtexture" type="TextureRect" parent="." unique_id=1655289428]
 visible = false
 layout_mode = 0
-offset_right = 318.0
+offset_right = 217.0
 offset_bottom = 223.0
 texture = ExtResource("1_fkxl5")
 
 [node name="normaltexture" type="TextureRect" parent="." unique_id=9744700]
 visible = false
 layout_mode = 0
-offset_right = 316.0
+offset_right = 217.0
 offset_bottom = 223.0
 texture = ExtResource("2_yrplj")
 
 [node name="chargedtexture" type="TextureRect" parent="." unique_id=955278989]
 visible = false
 layout_mode = 0
-offset_right = 316.0
+offset_right = 217.0
 offset_bottom = 223.0
 texture = ExtResource("3_e5vk8")
 
 [node name="cooldowntexture" type="TextureRect" parent="." unique_id=2004411770]
 visible = false
 layout_mode = 0
-offset_right = 316.0
+offset_right = 217.0
 offset_bottom = 223.0
 texture = ExtResource("4_0f5lh")
 
 [node name="labeltext" type="Label" parent="." unique_id=1217196198]
 layout_mode = 0
-offset_left = 30.0
+offset_left = 15.0
 offset_top = 34.0
-offset_right = 288.0
+offset_right = 202.0
 offset_bottom = 190.0
 theme_override_font_sizes/font_size = 36
