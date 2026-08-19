@@ -1,26 +1,27 @@
-[gd_scene format=3 uid="uid://bk0fn34d3qe2e"]
+[gd_scene format=3 uid="uid://b77bjm7uttxkl"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_bomua"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
-[ext_resource type="Texture2D" uid="uid://dytw08jh6g0tl" path="res://features/exploration/art_assets/maps/f2/f2-4拳击馆.png" id="3_bg"]
+[ext_resource type="Texture2D" uid="uid://4x5y0tp0gvj4" path="res://features/exploration/art_assets/maps/f2/f2-6（复用）.png" id="4_bomua"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
 
-[node name="ExplorationMap" type="Node2D" unique_id=1027938863 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap2" type="Node2D" unique_id=1027938863 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f2_4"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_bomua")
-PlayerLeft = 0
-PlayerRight = 1680
+PlayerLeft = -150
+PlayerRight = 1830
 CamLeft = 0
 CamRight = 1680
 
@@ -36,23 +37,28 @@ SpawnId = &"f2_4right"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=731917710]
 
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=967029074]
+position = Vector2(1153, 1416)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
+
 [node name="拳击馆背景" type="Sprite2D" parent="MapLayer" unique_id=1576515868]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("3_bg")
+texture = ExtResource("4_bomua")
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1291970118]
-position = Vector2(0, 450)
+position = Vector2(-150, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"f2_3"
 TargetSpawnId = &"f2_3right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge" unique_id=397083275]
-position = Vector2(-300, 0)
+position = Vector2(-239, 0)
 shape = SubResource("RectangleShape2D_edge")
 
 [node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1973416291]
-position = Vector2(1680, 450)
+position = Vector2(1830, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"home"
 TargetSpawnId = &"home_entry"

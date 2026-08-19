@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://citnp6vl0ymsj"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="Texture2D" uid="uid://c76d1v4e0ugm" path="res://features/exploration/art_assets/maps/f4/boss关.png" id="3_bg"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
@@ -34,6 +35,11 @@ script = ExtResource("2_spawn")
 SpawnId = &"f4entry"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=1878379614]
+
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer"]
+position = Vector2(930.7693, 1764.6154)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
 
 [node name="boss关背景" type="Sprite2D" parent="MapLayer" unique_id=1704790957]
 position = Vector2(3200, 450)

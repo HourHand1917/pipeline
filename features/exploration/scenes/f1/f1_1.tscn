@@ -16,6 +16,10 @@
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="11_npc"]
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="12_88kio"]
 [ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="12_boom_sprite"]
+[ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="15_e5xpt"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="21_workbench_interact"]
+[ext_resource type="PackedScene" path="res://features/workbench/SupplyWorkbench.tscn" id="22_supply_wb"]
 
 [sub_resource type="Resource" id="Resource_loot"]
 script = ExtResource("10_loot")
@@ -31,7 +35,7 @@ radius = 48.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_o77cp")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
@@ -40,7 +44,7 @@ _hud = NodePath("UILayer/HUD")
 PlayerLeft = -250
 PlayerRight = 2300
 CamLeft = 150
-CamRight = 2020
+CamRight = 1800
 
 [node name="f1_1rightSpawn" type="Node2D" parent="." unique_id=2084639007]
 position = Vector2(1643, 530)
@@ -55,6 +59,11 @@ SpawnId = &"f1_1left"
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 position = Vector2(546, 334)
 scale = Vector2(0.81, 0.81)
+
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=365717357]
+position = Vector2(1049.3828, 1145.679)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
 
 [node name="教程1背景" type="Sprite2D" parent="MapLayer" unique_id=1537165390]
 position = Vector2(516, 139)
@@ -125,7 +134,7 @@ script = ExtResource("2_h6566")
 SpawnId = &"boom_return"
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1919059850]
-position = Vector2(-436, 197)
+position = Vector2(-618.51855, 197)
 script = ExtResource("5_h6566")
 TargetMapId = &"f1_0"
 TargetSpawnId = &"f1_0right"
@@ -135,7 +144,7 @@ position = Vector2(-375.5, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
 [node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1919059851]
-position = Vector2(1468, 197)
+position = Vector2(1665.4321, 197)
 script = ExtResource("5_h6566")
 TargetMapId = &"f1_2"
 TargetSpawnId = &"f1_2left"
@@ -144,6 +153,33 @@ TargetSpawnId = &"f1_2left"
 position = Vector2(375.5, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
+[node name="补给机器" type="Area2D" parent="MapLayer" unique_id=627605118 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
+position = Vector2(-45.67902, 235.80246)
+script = ExtResource("21_workbench_interact")
+WorkbenchUI = NodePath("../../UILayer/SupplyWorkbench")
+Hud = NodePath("../../UILayer/HUD")
+DisplayName = "补给机器"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/补给机器" unique_id=2110000001]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("15_e5xpt")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/补给机器" unique_id=2110000002]
+shape = SubResource("CircleShape2D_chest_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/补给机器" unique_id=2110000003]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/补给机器/ClickZone" unique_id=2110000004]
+shape = SubResource("CircleShape2D_chest_click")
+
+[node name="Blink" type="Node" parent="MapLayer/补给机器" unique_id=2110000005 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("9_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
 [node name="Player" parent="." unique_id=1138772278 instance=ExtResource("5_vk70s")]
 position = Vector2(761, 530)
 
@@ -151,6 +187,8 @@ position = Vector2(761, 530)
 script = ExtResource("6_tvxcj")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=57122988]
+
+[node name="SupplyWorkbench" parent="UILayer" unique_id=667401658 instance=ExtResource("22_supply_wb")]
 
 [node name="HUD" parent="UILayer" unique_id=653107426 instance=ExtResource("7_2iy1r")]
 offset_bottom = 1.3399658

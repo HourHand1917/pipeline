@@ -1,68 +1,183 @@
-[gd_scene format=3 uid="uid://dqaty3fxqv4co"]
+[gd_scene format=3 uid="uid://d2mua7re5s5k5"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_uq0s1"]
-[ext_resource type="Texture2D" uid="uid://c2cmbku62lt53" path="res://features/exploration/art_assets/maps/f2/f2-2_街区.png" id="3_bg"]
+[ext_resource type="Texture2D" uid="uid://ceexktas5lgbk" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-门.png" id="4_1xsuv"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
+[ext_resource type="Texture2D" uid="uid://dbcaoreqifj1p" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-门框.png" id="5_ardu1"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Script" uid="uid://dci7bqwtky2sp" path="res://features/exploration/scripts/CS/interactables/RoomGateInteractable.cs" id="10_rgate"]
+[ext_resource type="Script" uid="uid://bju6uaedyndmv" path="res://features/exploration/scripts/CS/RoomTransitionManager.cs" id="11_rmanager"]
+[ext_resource type="Script" uid="uid://dya0c2snh75vx" path="res://features/exploration/scripts/CS/RoomBounds.cs" id="12_rbounds"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="13_blink"]
+[ext_resource type="Texture2D" uid="uid://dy2qqvbf8yq1i" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-小门框.png" id="15_smalldoor"]
+[ext_resource type="Texture2D" uid="uid://xv1drawokugm" path="res://features/exploration/art_assets/maps/f2/f2-3酒吧内部.png" id="16_bar"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_erxx1"]
+size = Vector2(373, 313)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a2tor"]
+size = Vector2(379, 310)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
 
-[node name="ExplorationMap" type="Node2D" unique_id=1276622731 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8ja7"]
+size = Vector2(164, 205)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hvauc"]
+size = Vector2(162, 207)
+
+[node name="ExplorationMap2" type="Node2D" unique_id=1276622731 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f2_2"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_uq0s1")
-PlayerLeft = 0
-PlayerRight = 1680
-CamLeft = 0
-CamRight = 1680
 
-[node name="f2_2leftSpawn" type="Node2D" parent="." unique_id=1993548058]
+[node name="MapLayer" type="Node2D" parent="." unique_id=1090860454]
+
+[node name="Room_Front" type="Node2D" parent="MapLayer" unique_id=-2084967295]
+
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer/Room_Front" unique_id=1551136329]
+position = Vector2(1128, 1402)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
+
+[node name="酒吧门" type="Area2D" parent="MapLayer/Room_Front" unique_id=-2084967294 node_paths=PackedStringArray("Manager", "_blink")]
+position = Vector2(840, 450)
+script = ExtResource("10_rgate")
+Manager = NodePath("../../../RoomManager")
+DisplayName = "酒吧"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/酒吧门" unique_id=-2084967293]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("4_1xsuv")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Front/酒吧门" unique_id=-2084967292]
+position = Vector2(-54.5, 48.5)
+shape = SubResource("RectangleShape2D_erxx1")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Front/酒吧门" unique_id=-2084967291]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Front/酒吧门/ClickZone" unique_id=-2084967290]
+position = Vector2(-56.5, 52)
+shape = SubResource("RectangleShape2D_a2tor")
+
+[node name="Blink" type="Node" parent="MapLayer/Room_Front/酒吧门" unique_id=-2084967289 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("13_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="街区背景" type="Sprite2D" parent="MapLayer/Room_Front" unique_id=213811791]
+position = Vector2(840, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_ardu1")
+
+[node name="f2_2leftSpawn" type="Node2D" parent="MapLayer/Room_Front" unique_id=1993548058]
 position = Vector2(150, 530)
 script = ExtResource("2_spawn")
 SpawnId = &"f2_2left"
 
-[node name="f2_2rightSpawn" type="Node2D" parent="." unique_id=89972581]
+[node name="f2_2rightSpawn" type="Node2D" parent="MapLayer/Room_Front" unique_id=89972581]
 position = Vector2(1530, 530)
 script = ExtResource("2_spawn")
 SpawnId = &"f2_2right"
 
-[node name="MapLayer" type="Node2D" parent="." unique_id=1090860454]
-
-[node name="街区背景" type="Sprite2D" parent="MapLayer" unique_id=213811791]
-position = Vector2(840, 450)
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("3_bg")
-
-[node name="left_edge" type="Area2D" parent="MapLayer" unique_id=514671724]
-position = Vector2(0, 450)
+[node name="left_edge" type="Area2D" parent="MapLayer/Room_Front" unique_id=514671724]
+position = Vector2(-150, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"f2_1"
 TargetSpawnId = &"f2_1right"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge" unique_id=1272142242]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/Room_Front/left_edge" unique_id=1272142242]
 position = Vector2(-300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
-[node name="right_edge" type="Area2D" parent="MapLayer" unique_id=978152786]
-position = Vector2(1680, 450)
+[node name="right_edge" type="Area2D" parent="MapLayer/Room_Front" unique_id=978152786]
+position = Vector2(1830, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"f2_3"
 TargetSpawnId = &"f2_3left"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/right_edge" unique_id=1543549295]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/Room_Front/right_edge" unique_id=1543549295]
 position = Vector2(300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
+[node name="Bounds" type="Node" parent="MapLayer/Room_Front" unique_id=-2084967288]
+script = ExtResource("12_rbounds")
+PlayerLeft = -150
+PlayerRight = 1830
+CamRight = 1680
+
+[node name="Room_Back" type="Node2D" parent="MapLayer" unique_id=-2084967287]
+
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer/Room_Back" unique_id=280755004]
+position = Vector2(1041, 1420)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
+
+[node name="酒吧背景" type="Sprite2D" parent="MapLayer/Room_Back" unique_id=-2084967286]
+position = Vector2(840, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("16_bar")
+
+[node name="出口门" type="Area2D" parent="MapLayer/Room_Back" unique_id=-2084967285 node_paths=PackedStringArray("Manager", "_blink")]
+position = Vector2(840, 450)
+script = ExtResource("10_rgate")
+TargetRoomId = "Room_Front"
+Manager = NodePath("../../../RoomManager")
+DisplayName = "离开"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Back/出口门" unique_id=-2084967284]
+position = Vector2(1.9999999, -22.999998)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("15_smalldoor")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Back/出口门" unique_id=-2084967283]
+position = Vector2(-149, 105.5)
+shape = SubResource("RectangleShape2D_v8ja7")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Back/出口门" unique_id=-2084967282]
+position = Vector2(-160, 87)
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Back/出口门/ClickZone" unique_id=-2084967281]
+position = Vector2(9, 16.5)
+shape = SubResource("RectangleShape2D_hvauc")
+
+[node name="Blink" type="Node" parent="MapLayer/Room_Back/出口门" unique_id=-2084967280 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("13_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="Bounds" type="Node" parent="MapLayer/Room_Back" unique_id=-2084967279]
+script = ExtResource("12_rbounds")
+PlayerLeft = 630
+PlayerRight = 930
+CamRight = 1680
+
+[node name="街区背景" type="Sprite2D" parent="MapLayer/Room_Back" unique_id=550699638]
+z_index = 1
+position = Vector2(840, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("5_ardu1")
+
 [node name="Player" parent="." unique_id=2018072991 instance=ExtResource("5_player")]
 position = Vector2(840, 530)
+
+[node name="RoomManager" type="Node2D" parent="." unique_id=-2084967278]
+script = ExtResource("11_rmanager")
 
 [node name="InputRouter" type="Node" parent="." unique_id=676517789]
 script = ExtResource("6_input")

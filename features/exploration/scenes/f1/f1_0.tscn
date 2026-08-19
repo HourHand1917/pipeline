@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://b3ghanmphcy1g" path="res://features/exploration/art_assets/maps/f1/教程-0-指示牌.png" id="7_u8q1t"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_yw3k6"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_u4bgt"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t4hgr"]
 size = Vector2(696, 374)
@@ -30,6 +31,11 @@ SpawnId = &"f1_0right"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 position = Vector2(466, 356)
+
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=1779410406]
+position = Vector2(943, 1074.0002)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
 
 [node name="教程0背景" type="Sprite2D" parent="MapLayer" unique_id=1847836310]
 position = Vector2(677.5, 98.000015)
