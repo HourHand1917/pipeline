@@ -13,6 +13,7 @@ public partial class UIManager : Node
     [Signal] public delegate void MoveRequestedEventHandler(int action);
     [Signal] public delegate void EndTurnRequestedEventHandler();
     [Signal] public delegate void BackToBuildRequestedEventHandler();
+    [Signal] public delegate void MoveToCellRequestedEventHandler(int targetCell);
 
     private BoardManager boardManager;
     private BattleManager battleManager;
@@ -102,8 +103,6 @@ public partial class UIManager : Node
         }
 
         _actionButtons.Clear();
-        if (MoveBackButton != null) { MoveBackButton.Pressed += () => EmitSignal(SignalName.MoveRequested, (int)BattleManager.MoveAction.Backward); _actionButtons.Add(MoveBackButton); }
-        if (MoveForwardButton != null) { MoveForwardButton.Pressed += () => EmitSignal(SignalName.MoveRequested, (int)BattleManager.MoveAction.Forward); _actionButtons.Add(MoveForwardButton); }
         if (EndTurnButton != null) { EndTurnButton.Pressed += () => EmitSignal(SignalName.EndTurnRequested); _actionButtons.Add(EndTurnButton); }
         if (BackButton != null) { BackButton.Pressed += () => EmitSignal(SignalName.BackToBuildRequested); _actionButtons.Add(BackButton); }
 
@@ -268,8 +267,6 @@ public partial class UIManager : Node
         }
 
         bool canAct = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
-        if (MoveBackButton != null) { MoveBackButton.Text = "← 后退"; MoveBackButton.Disabled = !canAct || !battleManager.CanPlayerMove((int)BattleManager.MoveAction.Backward); }
-        if (MoveForwardButton != null) { MoveForwardButton.Text = "前进 →"; MoveForwardButton.Disabled = !canAct || !battleManager.CanPlayerMove((int)BattleManager.MoveAction.Forward); }
         if (EndTurnButton != null) EndTurnButton.Disabled = !canAct;
     }
 
@@ -308,6 +305,7 @@ public partial class UIManager : Node
                 slot.CustomMinimumSize = new Vector2(144, 144);
                 slot.Configure(i, "", Colors.White, null);
                 slot.SlotClicked += OnTrackSlotClicked;
+                slot.MoveRequested += OnMoveRequested; 
                 DistanceTrack.AddChild(slot);
             }
         }
@@ -640,5 +638,10 @@ public partial class UIManager : Node
     {
         EmitSignal(SignalName.LightCellRequested, pos);
     }
+}
+
+private void OnMoveRequested(int targetCell)
+{
+    EmitSignal(SignalName.MoveToCellRequested, targetCell);
 }
 }

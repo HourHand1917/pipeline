@@ -55,7 +55,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "loglabel", "statuslabel", "roundlabel", "phaselabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "healthBar", "playerTV", "playerBuffGrid")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "loglabel", "statuslabel", "roundlabel", "phaselabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "healthBar", "rubberheart", "playerTV", "playerBuffGrid")]
 custom_minimum_size = Vector2(1440, 1080)
 layout_mode = 3
 anchors_preset = 15
@@ -74,13 +74,14 @@ roundlabel = NodePath("infobar/roundlabel")
 phaselabel = NodePath("infobar/phaselabel")
 distancelabel = NodePath("infobar/distancelabel")
 distancetrack = NodePath("stagepanel/margin/stageVbox/distancetrack")
-movebackbutton = NodePath("stagepanel/margin/stageVbox/movement/movebackbutton")
-moveforwardbutton = NodePath("stagepanel/margin/stageVbox/movement/moveforwardbutton")
-movehint = NodePath("stagepanel/margin/stageVbox/movement/movehint")
+movebackbutton = NodePath("")
+moveforwardbutton = NodePath("")
+movehint = NodePath("")
 endturnbutton = NodePath("stageWrapper/endturnbutton")
 healthBar = NodePath("statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
 bulbOn = ExtResource("2_t4udp")
 bulbOff = ExtResource("3_vn3ql")
+rubberheart = NodePath("statsbarcontainer/statsbarcontrol/rubberheart")
 trackSlotScene = ExtResource("4_aadoi")
 playerTV = NodePath("PlayerTV")
 playerBuffGrid = NodePath("buffgrid_player")
@@ -238,26 +239,6 @@ alignment = 1
 
 [node name="trackslot" parent="stagepanel/margin/stageVbox/distancetrack" unique_id=1999530165 instance=ExtResource("4_aadoi")]
 layout_mode = 2
-
-[node name="movement" type="HBoxContainer" parent="stagepanel/margin/stageVbox" unique_id=953537882]
-layout_mode = 2
-theme_override_constants/separation = 8
-alignment = 1
-
-[node name="movebackbutton" type="Button" parent="stagepanel/margin/stageVbox/movement" unique_id=1501721777]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "后退"
-
-[node name="movehint" type="Label" parent="stagepanel/margin/stageVbox/movement" unique_id=682321102]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "移动消耗 1 能量"
-
-[node name="moveforwardbutton" type="Button" parent="stagepanel/margin/stageVbox/movement" unique_id=1709012874]
-layout_mode = 2
-theme_override_font_sizes/font_size = 24
-text = "前进"
 
 [node name="stageWrapper" type="Control" parent="." unique_id=924513691]
 layout_mode = 1

@@ -75,6 +75,8 @@ public partial class BattleScene : Node2D
         BattleManager.LogMessage += (string text) => BattleScreen.AppendLog(text);
         BattleManager.BattleEnded += OnBattleEnded;
 
+        BattleScreen.MoveToCellRequested += (int cell) => BattleManager.TryMoveToCell(cell);
+
         // 从工作台恢复构筑棋盘
         var savedBuild = DataManager.Instance.LoadBuild();
         if (savedBuild != null && savedBuild.Count > 0)
@@ -124,4 +126,6 @@ public partial class BattleScene : Node2D
         else
             BattleDirector.Instance.OnBattleLost();
     }
+
+    
 }

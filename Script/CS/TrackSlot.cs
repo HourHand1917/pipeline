@@ -4,6 +4,7 @@ using Godot;
 public partial class TrackSlot : PanelContainer
 {
     [Signal] public delegate void SlotClickedEventHandler(int cellNumber, GodotObject combatant);
+    [Signal] public delegate void MoveRequestedEventHandler(int cellNumber);
 
     [Export] private Control occupant;
     [Export] private AnimatedSprite2D animatedSprite;
@@ -11,7 +12,7 @@ public partial class TrackSlot : PanelContainer
     [Export] private Label slotLabel;
 
     public int CellNumber { get; private set; }
-    public GodotObject OccupantRef { get; private set; } // PlayerBattle 或 EnemyBattle
+    public GodotObject OccupantRef { get; private set; }
 
     private static readonly Color DangerTint = new("#d94b45");
     private static readonly Color WarningTint = new("#d5a53a");
@@ -40,14 +41,9 @@ public partial class TrackSlot : PanelContainer
             occupant.Modulate = new Color(tint.R, tint.G, tint.B, 0.3f);
         }
 
-
         ApplyPredictionVisual();
     }
 
-    /// <summary>
-    /// 独立危险区预测器只把结果投影到轨道格，不参与 AI 决策。
-    /// current=true 为本回合将结算的红色危险区；future=true 为蓄力后的黄色预告。
-    /// </summary>
     public void SetDangerState(bool current, bool future)
     {
         _isDanger = current;
@@ -119,11 +115,19 @@ public partial class TrackSlot : PanelContainer
     {
         if (@event is InputEventMouseButton mb && mb.Pressed && mb.ButtonIndex == MouseButton.Left)
         {
-            EmitSignal(SignalName.SlotClicked, CellNumber, OccupantRef);
+            if (OccupantRef == null)
+            {
+                // 空格子 → 请求移动
+                EmitSignal(SignalName.MoveRequested, CellNumber);
+            }
+            else
+            {
+                // 有角色 → 显示信息
+                EmitSignal(SignalName.SlotClicked, CellNumber, OccupantRef);
+            }
         }
     }
 
-    /// <summary>后期切换动画用</summary>
     public void PlayAnimation(string animName)
     {
         animatedSprite?.Play(animName);

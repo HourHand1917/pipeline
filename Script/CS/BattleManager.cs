@@ -985,4 +985,56 @@ public partial class BattleManager : Node
     private bool CanAcceptPlayerAction() => CurrentPhase == Phase.PlayerTurn && !turnTransitionLocked && BoardManager != null && rules != null && Player != null;
     private void SetPhase(Phase newPhase) { if (CurrentPhase == newPhase) return; CurrentPhase = newPhase; EmitSignal(SignalName.PhaseChanged, (int)newPhase); }
     private void Log(string text) => EmitSignal(SignalName.LogMessage, text);
+
+    public void TryMoveToCell(int targetCell)
+{
+    if (!CanAcceptPlayerAction()) { Log("当前阶段不能移动。"); return; }
+
+    var battleMap = rules.Get(GDScriptKeys.GameRules.BattleMap).As<GodotObject>();
+    int stepCost = rules.Get(GDScriptKeys.GameRules.MoveEnergyCost).AsInt32();
+    int currentPos = Player.MapPosition;
+
+    int maxSteps = 99; // 安全上限
+    for (int step = 0; step < maxSteps; step++)
+    {
+        if (currentPos == targetCell) break;
+
+        int direction = Mathf.Sign(targetCell - currentPos);
+        if (direction == 0) break;
+
+        int candidate = currentPos + direction;
+
+        // 边界检查
+        if (!battleMap.Call(GDScriptKeys.BattleMap.IsValidCell, candidate).AsBool())
+        { Log("路径被边界阻挡。"); return; }
+
+        // 敌人阻挡
+        if (EnemyManager.IsCellOccupiedByEnemy(candidate))
+        { Log("路径被敌人阻挡。"); return; }
+
+        // 能量检查
+        if (Player.Energy < stepCost)
+        { Log($"能量不足，需要{stepCost}点。"); return; }
+
+        Player.SpendEnergy(stepCost);
+        currentPos = candidate;
+        Player.SetMapPosition(currentPos);
+        Log($"移动：{currentPos}，消耗{stepCost}能量。");
+    }
+
+    foreach (var enemy in EnemyManager.Enemies)
+        enemy?.UpdateFacing(Player.MapPosition);
+
+    if (currentPos == targetCell)
+    {
+        Log($"到达 {targetCell}。");
+    }
+    else
+    {
+        Log($"移动到 {currentPos}，无法继续。");
+    }
+
+    PlanEnemyTurns();
+    EmitSignal(SignalName.BattleStateChanged);
+}
 }

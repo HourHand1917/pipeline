@@ -10,6 +10,7 @@ public partial class BattleScreen : Control
     [Signal] public delegate void BackToBuildRequestedEventHandler();
     [Signal] public delegate void ItemUsedEventHandler(int index);
     [Signal] public delegate void ItemDiscardedEventHandler(int index);
+    [Signal] public delegate void MoveToCellRequestedEventHandler(int targetCell);
 
     public UIManager UIManager { get; private set; }
     public PlayerBattle Player { get; set; }
@@ -89,6 +90,8 @@ public partial class BattleScreen : Control
         UIManager.PlayerTV = playerTV;
         UIManager.PlayerBuffGrid = playerBuffGrid;
         UIManager.BuffShowScene = buffShowScene;
+
+        UIManager.MoveToCellRequested += (int cell) => EmitSignal(SignalName.MoveToCellRequested, cell);
 
         itemPanel?.Refresh();
         if (itemPanel != null)
