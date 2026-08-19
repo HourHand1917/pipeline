@@ -1,0 +1,528 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" uid="uid://c45n3fdkkjvr2" path="res://features/workbench/WorkbenchUI.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://cy51lpqer8gx2" path="res://features/exploration/art_assets/workbenchUI/按钮_启用.png" id="2_3r268"]
+[ext_resource type="Texture2D" uid="uid://giwwrblnqxt" path="res://features/exploration/art_assets/workbenchUI/背景.png" id="2_qkk36"]
+[ext_resource type="Texture2D" uid="uid://cxypy2bkg4jgt" path="res://features/exploration/art_assets/workbenchUI/按钮_关闭.png" id="3_5f42w"]
+[ext_resource type="Script" uid="uid://cqa0c10xlfgll" path="res://features/workbench/EnhanceWorkbenchPanel.cs" id="3_upgrade"]
+[ext_resource type="Script" uid="uid://c88dggelmp50n" path="res://features/workbench/GrowthPanel.cs" id="4_ai"]
+[ext_resource type="Script" uid="uid://cb5ujva8p6u6p" path="res://features/workbench/BuildWorkbenchPanel.cs" id="4_wrosw"]
+[ext_resource type="Texture2D" uid="uid://cpecotj4btliu" path="res://features/exploration/art_assets/workbenchUI/卡牌屏幕.png" id="5_3r268"]
+[ext_resource type="Texture2D" uid="uid://cte22305wyiiy" path="res://features/exploration/art_assets/workbenchUI/卡牌背景.png" id="5_hk37n"]
+[ext_resource type="Texture2D" uid="uid://lwaqyeqhb8np" path="res://features/exploration/art_assets/workbenchUI/卡牌背景（暗）.png" id="6_55txc"]
+[ext_resource type="Texture2D" uid="uid://bb1sa30wcpii0" path="res://features/exploration/art_assets/workbenchUI/build棋盘.png" id="6_nslom"]
+[ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="7_55txc"]
+[ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="8_bm"]
+[ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="9_2gsrf"]
+[ext_resource type="PackedScene" uid="uid://b0pq5ka3u7at7" path="res://Scenes/game_scene/gridcellbutton.tscn" id="9_cell"]
+[ext_resource type="Texture2D" uid="uid://c23atn6pgmi2e" path="res://features/exploration/art_assets/workbenchUI/卡牌升级面板.png" id="14_y6632"]
+[ext_resource type="Texture2D" uid="uid://ogc6gp320j04" path="res://features/exploration/art_assets/workbenchUI/升级！.png" id="15_6w6mp"]
+[ext_resource type="Texture2D" uid="uid://mmv8ss1afxfb" path="res://features/exploration/art_assets/workbenchUI/升级!（亮）.png" id="16_vj5mj"]
+[ext_resource type="Texture2D" uid="uid://b1lnd7a1xrm3c" path="res://features/exploration/art_assets/workbenchUI/升级！（暗）.png" id="17_njf40"]
+[ext_resource type="Texture2D" uid="uid://cgg0e51jlsa56" path="res://features/exploration/art_assets/货币/水龙头/显示屏版.png" id="18_njf40"]
+[ext_resource type="Texture2D" uid="uid://wr4oblonnkf7" path="res://features/exploration/art_assets/workbenchUI/升级界面_线.png" id="20_rq21t"]
+[ext_resource type="Texture2D" uid="uid://uyyss17pv6dw" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0023_8.png" id="21_hobfm"]
+[ext_resource type="Texture2D" uid="uid://ch67vanwlqv2v" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0022_9.png" id="22_ua4g3"]
+[ext_resource type="Texture2D" uid="uid://btuclcxq8rwv" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0021_8.png" id="23_dh1jv"]
+[ext_resource type="Texture2D" uid="uid://ch7bekscer7xy" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0020_8.png" id="24_mcjyr"]
+[ext_resource type="Texture2D" uid="uid://be0fdrpc0awfg" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0019_9.png" id="25_rq21t"]
+[ext_resource type="Texture2D" uid="uid://c0ot7gdmxcfn4" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0018_8.png" id="26_8wlkw"]
+[ext_resource type="Texture2D" uid="uid://cbw6f7ay762y" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0017_8.png" id="27_eawb0"]
+[ext_resource type="Texture2D" uid="uid://vxbpasnt4okd" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0016_9.png" id="28_0lfar"]
+[ext_resource type="Texture2D" uid="uid://dtca4650ssvqx" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0015_8.png" id="29_xbte0"]
+[ext_resource type="Texture2D" uid="uid://cmv015k5bm2ju" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0014_8.png" id="30_ril8v"]
+[ext_resource type="Texture2D" uid="uid://dr2blap3d45dy" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0013_9.png" id="31_fj7fe"]
+[ext_resource type="Texture2D" uid="uid://cgbw7htvfrfjs" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0012_8.png" id="32_ylk2o"]
+[ext_resource type="Texture2D" uid="uid://gv2x38bydlwi" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0011_8.png" id="33_sgufh"]
+[ext_resource type="Texture2D" uid="uid://ddc7rswr6g0es" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0010_9.png" id="34_r7fjl"]
+[ext_resource type="Texture2D" uid="uid://bwwoe6h6qcybb" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0009_8.png" id="35_3sqln"]
+[ext_resource type="Texture2D" uid="uid://b1j8am2rd53s8" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0008_8.png" id="36_fi640"]
+[ext_resource type="Texture2D" uid="uid://bsrg4jw0bdjdv" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0007_9.png" id="37_evttn"]
+[ext_resource type="Texture2D" uid="uid://cyvjh4fqyooex" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0006_8.png" id="38_skb28"]
+[ext_resource type="Texture2D" uid="uid://dpvi7i2n41xxp" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0005_8.png" id="39_rjrdm"]
+[ext_resource type="Texture2D" uid="uid://cx22rb8wtb67u" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0004_9.png" id="40_cphrn"]
+[ext_resource type="Texture2D" uid="uid://u3ui15p3xj2f" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0003_8.png" id="41_iugdj"]
+[ext_resource type="Texture2D" uid="uid://rhfx1l1dmssp" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0002_8.png" id="42_gbkr2"]
+[ext_resource type="Texture2D" uid="uid://drwhlxbpt4oyh" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0001_0.png" id="43_5ne73"]
+[ext_resource type="Texture2D" uid="uid://cisnw5p2xb85f" path="res://features/exploration/art_assets/shop/退出键.png" id="44_exit"]
+[ext_resource type="Texture2D" uid="uid://burhbp2ktif2h" path="res://features/exploration/art_assets/workbenchUI/玩家升级界面按钮背景.png" id="45_growthbg"]
+[ext_resource type="Texture2D" uid="uid://tjjr822chi8w" path="res://features/exploration/art_assets/workbenchUI/玩家升级界面按钮背景（反转）.png" id="46_growthbgrev"]
+
+[sub_resource type="StyleBoxTexture" id="growthbg_reversed"]
+texture = ExtResource("46_growthbgrev")
+
+[sub_resource type="StyleBoxTexture" id="growthbg_normal"]
+texture = ExtResource("45_growthbg")
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f11c3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("30_ril8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_fj7fe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_ylk2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_sgufh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_r7fjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_3sqln")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_fi640")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_evttn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_skb28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_rjrdm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_cphrn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_iugdj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_gbkr2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_5ne73")
+}],
+"loop": false,
+"name": &"hide",
+"speed": 18.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("43_5ne73")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_gbkr2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_iugdj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_cphrn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_rjrdm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_skb28")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_evttn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_fi640")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_3sqln")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_r7fjl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_sgufh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_ylk2o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_fj7fe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_ril8v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_xbte0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_0lfar")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_eawb0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_8wlkw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_rq21t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_mcjyr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_dh1jv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_ua4g3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_hobfm")
+}],
+"loop": false,
+"name": &"show",
+"speed": 14.0
+}]
+
+[sub_resource type="Animation" id="anim_reset"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1138)]
+}
+
+[sub_resource type="Animation" id="anim_hide_wb"]
+resource_name = "hide_workbench"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [false],
+"method": &"EnableAllButtons"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["hide"],
+"method": &"play"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2, 2),
+"update": 0,
+"values": [Vector2(0, 28), Vector2(0, 1138)]
+}
+
+[sub_resource type="Animation" id="anim_show_wb"]
+resource_name = "show_workbench"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [true],
+"method": &"EnableAllButtons"
+}]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.43333334),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["show"],
+"method": &"play"
+}]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, 1138), Vector2(0, 28)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5f42w"]
+_data = {
+&"RESET": SubResource("anim_reset"),
+&"hide_workbench": SubResource("anim_hide_wb"),
+&"show_workbench": SubResource("anim_show_wb")
+}
+
+[node name="SupplyWorkbench" type="Control" unique_id=495580737 node_paths=PackedStringArray("_anim", "_buildPage", "_closeButton")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 1138.0
+offset_bottom = 1137.9995
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+_anim = NodePath("Anim")
+_buildPage = NodePath("PanelStack/BuildPage")
+_closeButton = NodePath("CloseBtn")
+
+[node name="background" type="TextureRect" parent="." unique_id=797324562]
+layout_mode = 0
+offset_top = -44.0
+offset_right = 3428.5713
+offset_bottom = 2632.1904
+scale = Vector2(0.42, 0.42)
+texture = ExtResource("2_qkk36")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PanelStack" type="Control" parent="." unique_id=1042558203]
+layout_mode = 1
+anchor_left = 0.04375
+anchor_top = 0.18518518
+anchor_right = 0.95416665
+anchor_bottom = 0.8212963
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="BuildPage" type="Control" parent="PanelStack" unique_id=1969213508 node_paths=PackedStringArray("_boardManager", "_buildGrid", "_inventoryBox")]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_wrosw")
+_boardManager = NodePath("BoardManager")
+_buildGrid = NodePath("build/buildgrid")
+_inventoryBox = NodePath("inventorybox/ScrollContainer/inventorybox")
+_cardBgNormalTex = ExtResource("5_hk37n")
+_cardBgDisabledTex = ExtResource("6_55txc")
+_cardCellSize = Vector2(120, 158)
+
+[node name="BoardManager" type="Node" parent="PanelStack/BuildPage" unique_id=556445515]
+script = ExtResource("8_bm")
+
+[node name="inventorybox" type="Control" parent="PanelStack/BuildPage" unique_id=1187437606]
+layout_mode = 1
+anchor_left = 0.48665142
+anchor_top = 0.03202329
+anchor_right = 0.9984744
+anchor_bottom = 0.88500726
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="inventoryboxBackground" type="TextureRect" parent="PanelStack/BuildPage/inventorybox" unique_id=1565862005]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.023743015
+anchor_top = -0.097607635
+anchor_right = 1.0082127
+anchor_bottom = 0.9850087
+offset_left = 6.0
+offset_top = -0.04499817
+offset_right = -0.2730713
+offset_bottom = -0.045043945
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_3r268")
+expand_mode = 1
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelStack/BuildPage/inventorybox" unique_id=823456789]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.1383249
+anchor_top = 0.11766215
+anchor_right = 0.8842123
+anchor_bottom = 0.6691391
+offset_left = 0.18399811
+offset_top = 0.049995422
+offset_right = -0.0960083
+offset_bottom = -0.16000366
+size_flags_horizontal = 3
+size_flags_vertical = 3
+metadata/_edit_use_anchors_ = true
+
+[node name="inventorybox" type="GridContainer" parent="PanelStack/BuildPage/inventorybox/ScrollContainer" unique_id=156561971]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 4
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/BuildPage/inventorybox/ScrollContainer" unique_id=1214724546]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
+[node name="build" type="Control" parent="PanelStack/BuildPage" unique_id=247130625]
+layout_mode = 1
+anchor_left = 0.0022883294
+anchor_top = -0.06259097
+anchor_right = 0.539283
+anchor_bottom = 1.1411936
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="buildBackground" type="TextureRect" parent="PanelStack/BuildPage/build" unique_id=210631211]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("6_nslom")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="buildgrid" type="GridContainer" parent="PanelStack/BuildPage/build" unique_id=1375349207]
+layout_mode = 0
+offset_left = 97.99999
+offset_top = 132.1
+offset_right = 966.0
+offset_bottom = 792.1
+scale = Vector2(0.565, 0.565)
+theme_override_constants/h_separation = 0
+theme_override_constants/v_separation = 0
+columns = 4
+
+[node name="cell0" parent="PanelStack/BuildPage/build/buildgrid" unique_id=604393976 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell1" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1953496039 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell2" parent="PanelStack/BuildPage/build/buildgrid" unique_id=670808979 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell3" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1346980581 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell4" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1228717573 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell5" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1464742294 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell6" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1334296536 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell7" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1666604483 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell8" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1972083254 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell9" parent="PanelStack/BuildPage/build/buildgrid" unique_id=956146587 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell10" parent="PanelStack/BuildPage/build/buildgrid" unique_id=1892271066 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="cell11" parent="PanelStack/BuildPage/build/buildgrid" unique_id=219866599 instance=ExtResource("9_cell")]
+layout_mode = 2
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/BuildPage/build/buildgrid" unique_id=979913663]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
+
+[node name="CloseBtn" type="TextureButton" parent="." unique_id=1359965003]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.8753334
+anchor_top = -0.0074074105
+anchor_right = 0.9799722
+anchor_bottom = 0.100962974
+offset_left = 0.51989746
+offset_right = -0.16003418
+offset_bottom = -0.03996277
+texture_normal = ExtResource("44_exit")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1048984163]
+position = Vector2(720, 540)
+sprite_frames = SubResource("SpriteFrames_f11c3")
+animation = &"show"
+frame = 22
+frame_progress = 1.0
+
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=1887714940]
+libraries/ = SubResource("AnimationLibrary_5f42w")

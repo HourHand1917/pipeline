@@ -16,7 +16,7 @@ public partial class MapSelectUI : Control
     public override void _Ready()
     {
         Visible = false;
-        if (_f2Button != null) _f2Button.Pressed += () => Travel("f2_0", "f2_0left");
+        if (_f2Button != null) _f2Button.Pressed += () => Travel("f2_1", "f2_1left");
         if (_f3Button != null) _f3Button.Pressed += () => Travel("f3_0", "f3_0left");
         if (_f4Button != null) _f4Button.Pressed += () => Travel("f4", "f4entry");
         if (_closeButton != null) _closeButton.Pressed += Close;

@@ -57,8 +57,46 @@ public partial class BuildWorkbenchPanel : Control
 
     public void RefreshAll()
     {
+        RemoveOverPlacedCards();
         RefreshInventory();
         RefreshBoard();
+    }
+
+    /// <summary>
+    /// 升级会消耗卡牌，若已被消耗的卡还放在棋盘上，就把多余的那张移除，
+    /// 避免同时装上升级前和升级后的卡。
+    /// </summary>
+    private void RemoveOverPlacedCards()
+    {
+        var placedCount = new System.Collections.Generic.Dictionary<StringName, int>();
+        foreach (var rt in _boardManager.runtime_cards)
+        {
+            var data = rt.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
+            var cardId = data.Get(GDScriptKeys.CardData.Id).AsStringName();
+            placedCount[cardId] = placedCount.TryGetValue(cardId, out var c) ? c + 1 : 1;
+        }
+
+        var excess = new System.Collections.Generic.Dictionary<StringName, int>();
+        foreach (var kv in placedCount)
+        {
+            int owned = DataManager.Instance.GetCardCount(kv.Key);
+            if (kv.Value > owned) excess[kv.Key] = kv.Value - owned;
+        }
+        if (excess.Count == 0) return;
+
+        var toRemove = new List<int>();
+        foreach (var rt in _boardManager.runtime_cards)
+        {
+            var data = rt.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
+            var cardId = data.Get(GDScriptKeys.CardData.Id).AsStringName();
+            if (excess.TryGetValue(cardId, out int n) && n > 0)
+            {
+                toRemove.Add(rt.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32());
+                excess[cardId] = n - 1;
+            }
+        }
+        foreach (var id in toRemove)
+            _boardManager.RemoveCard(id);
     }
 
     // ================================================================

@@ -34,6 +34,11 @@ public partial class SceneTransition : CanvasLayer
         _material = new ShaderMaterial { Shader = shader };
         _material.SetShaderParameter("radius", 1.5f);
 
+        // 按实际视口宽高比修正，保证黑圈是正圆（4:3 下 1.333）
+        var viewSize = GetViewport().GetVisibleRect().Size;
+        if (viewSize.Y > 0f)
+            _material.SetShaderParameter("aspect", viewSize.X / viewSize.Y);
+
         _overlay = new ColorRect
         {
             Material = _material,

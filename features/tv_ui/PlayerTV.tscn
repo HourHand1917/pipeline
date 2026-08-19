@@ -11,6 +11,15 @@
 [ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="8_o0qei"]
 [ext_resource type="Script" uid="uid://ciw3cgy08xxfo" path="res://features/tv_ui/RewardPage.cs" id="10_4701r"]
 [ext_resource type="Texture2D" uid="uid://seunnoggcflu" path="res://features/exploration/art_assets/battlescreen/清单.png" id="11_3rkpp"]
+[ext_resource type="Texture2D" uid="uid://xxcp33dmb853" path="res://features/exploration/art_assets/battlescreen/花屏/001.png" id="12_5kmhr"]
+[ext_resource type="Texture2D" uid="uid://cmoie1fa4ei48" path="res://features/exploration/art_assets/battlescreen/花屏/002.png" id="13_lbyi1"]
+[ext_resource type="Texture2D" uid="uid://c1bpm0p4jpkk7" path="res://features/exploration/art_assets/battlescreen/花屏/003.png" id="14_ulyvy"]
+[ext_resource type="Texture2D" uid="uid://cf8lxixwj4bmy" path="res://features/exploration/art_assets/battlescreen/花屏/004.png" id="15_a32tn"]
+[ext_resource type="Texture2D" uid="uid://cb4luc7h4qjlp" path="res://features/exploration/art_assets/battlescreen/花屏/005.png" id="16_nbwun"]
+[ext_resource type="Texture2D" uid="uid://cufep00euqs0q" path="res://features/exploration/art_assets/battlescreen/花屏/006.png" id="17_kfoj2"]
+[ext_resource type="Texture2D" uid="uid://bf0fv1hgwl0am" path="res://features/exploration/art_assets/battlescreen/花屏/007.png" id="18_5udeh"]
+[ext_resource type="Texture2D" uid="uid://cn0d5m0ae8g0g" path="res://features/exploration/art_assets/battlescreen/花屏/008.png" id="19_rse81"]
+[ext_resource type="Material" uid="uid://c2uf6ubc7csl7" path="res://Shaders/noise_vignette_material.tres" id="20_noise"]
 
 [sub_resource type="Animation" id="Animation_reward_reset"]
 resource_name = "RESET"
@@ -145,6 +154,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("花屏:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_h3ujh"]
 resource_name = "hide_tv"
@@ -180,7 +201,7 @@ tracks/0/keys = {
 
 [sub_resource type="Animation" id="Animation_butd8"]
 resource_name = "switch_panel"
-length = 0.5
+length = 0.4
 tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -188,15 +209,30 @@ tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.23333333, 0.5),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.36666667, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
 "values": [{
+"args": [],
+"method": &"OnSwitchStart"
+}, {
 "args": [],
 "method": &"OnSwitchMidpoint"
 }, {
 "args": [],
 "method": &"OnSwitchComplete"
 }]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("花屏:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1tjra"]
@@ -206,6 +242,38 @@ _data = {
 &"show_tv": SubResource("Animation_yfoog"),
 &"switch_panel": SubResource("Animation_butd8")
 }
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3scwb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_5kmhr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_lbyi1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_ulyvy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_a32tn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_nbwun")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_kfoj2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_5udeh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_rse81")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
 
 [node name="PlayerTV" type="Control" unique_id=2129627915 node_paths=PackedStringArray("_anim", "_upButton", "_downButton", "_mapPanel", "_inventoryPanel", "_enemyPanel", "_rewardPage")]
 custom_minimum_size = Vector2(1402, 896)
@@ -473,3 +541,13 @@ scale = Vector2(0.5714649, 0.5394293)
 
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=610337759]
 libraries/ = SubResource("AnimationLibrary_1tjra")
+
+[node name="花屏" type="AnimatedSprite2D" parent="." unique_id=525957441]
+visible = false
+modulate = Color(0.34292316, 0.7686562, 0.7846114, 1)
+material = ExtResource("20_noise")
+position = Vector2(709.5, 434.99997)
+scale = Vector2(0.64285725, 0.5546296)
+sprite_frames = SubResource("SpriteFrames_3scwb")
+autoplay = "default"
+frame_progress = 0.2474522

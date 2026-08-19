@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_aojsd"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_tqldu"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
@@ -20,14 +21,14 @@ radius = 120.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_aojsd"]
 radius = 48.0
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_xurlq")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f1_2"
 _hud = NodePath("UILayer/HUD")
-PlayerLeft = -250
-PlayerRight = 3400
+PlayerLeft = -400
+PlayerRight = 3700
 CamLeft = 0
 CamRight = 3400
 
@@ -44,13 +45,18 @@ SpawnId = &"f1_2left"
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 position = Vector2(489, 265)
 
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=1164727865]
+position = Vector2(1025, 1159)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
+
 [node name="教程2" type="Sprite2D" parent="MapLayer" unique_id=1236278224]
 position = Vector2(999, 180)
 scale = Vector2(0.805, 0.805)
 texture = ExtResource("3_63mp5")
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1919059850]
-position = Vector2(-436, 197)
+position = Vector2(-595, 197)
 script = ExtResource("5_tqldu")
 TargetMapId = &"f1_1"
 TargetSpawnId = &"f1_1right"
@@ -60,7 +66,7 @@ position = Vector2(-529, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
 [node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1919059851]
-position = Vector2(2434, 197)
+position = Vector2(2601, 197)
 script = ExtResource("5_tqldu")
 TargetMapId = &"home"
 TargetSpawnId = &"home_entry"

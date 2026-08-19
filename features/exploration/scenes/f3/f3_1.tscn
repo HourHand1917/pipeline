@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bih3xixbydkrj"]
+[gd_scene format=3 uid="uid://7lhp6t43iga0"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="AudioStream" uid="uid://b4keq52aw3vov" path="res://tileset/music_resource/OGG/music/MUS_F03_Ambience_OGG.ogg" id="2_j060f"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -19,8 +20,8 @@ Input = NodePath("InputRouter")
 MapId = "f3_1"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_j060f")
-PlayerLeft = 0
-PlayerRight = 1680
+PlayerLeft = -150
+PlayerRight = 1830
 CamLeft = 0
 CamRight = 1680
 
@@ -36,13 +37,18 @@ SpawnId = &"f3_1right"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=1459673200]
 
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=1837191195]
+position = Vector2(1041, 1457)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
+
 [node name="贫民区背景" type="Sprite2D" parent="MapLayer" unique_id=1384928563]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_bg")
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1022286911]
-position = Vector2(0, 450)
+position = Vector2(-146, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"f3_0"
 TargetSpawnId = &"f3_0right"
@@ -52,7 +58,7 @@ position = Vector2(-300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
 [node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1377645716]
-position = Vector2(1680, 450)
+position = Vector2(1844, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"f3_2"
 TargetSpawnId = &"f3_2left"

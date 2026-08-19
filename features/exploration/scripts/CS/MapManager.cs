@@ -69,6 +69,9 @@ public partial class MapManager : Node
 
         _traveling = true;
 
+        // 圈缩（IrisClose）前锁定旧场景玩家，避免转场时还能走动
+        PlayerController.Instance?.LockMovement();
+
         // 切换前更新状态，让新场景 _Ready 能读到
         CurrentMapId = targetMapId;
         CurrentSpawnId = spawnId;
