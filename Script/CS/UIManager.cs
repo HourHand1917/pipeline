@@ -87,7 +87,7 @@ public partial class UIManager : Node
             for (int i = 0; i < battleButtons.Count; i++)
             {
                 int index = i;
-                battleButtons[i].Pressed += () => EmitSignal(SignalName.LightCellRequested, buttonPositions[index]);
+                battleButtons[i].Pressed += () => OnBattleCellPressed(index);
             }
         }
 
@@ -181,59 +181,68 @@ public partial class UIManager : Node
     }
 
     private void RefreshBoard(int gridWidth, int gridHeight)
+{
+    bool canLight = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
+
+    for (int i = 0; i < MAX_GRID_BUTTONS; i++)
     {
-        bool canLight = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
+        var pos = buttonPositions[i];
+        var btn = battleButtons[i];
 
-        for (int i = 0; i < MAX_GRID_BUTTONS; i++)
+        if (pos.X >= gridWidth || pos.Y >= gridHeight)
         {
-            var pos = buttonPositions[i];
-            var btn = battleButtons[i];
-
-            if (pos.X >= gridWidth || pos.Y >= gridHeight)
-            {
-                btn.SetText("");
-                btn.SetState(CellState.Disabled);
-                continue;
-            }
-
-            var cell = boardManager.GetCell(pos);
-            var runtime = boardManager.GetCardByCell(pos);
-
-            if (runtime == null)
-            {
-                btn.SetText("");
-                btn.SetState(CellState.Normal);
-                btn.Disabled = true;
-                continue;
-            }
-
-            btn.Disabled = !canLight;
-
-            var data = runtime.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
-            bool isLit = cell.Get(GDScriptKeys.CellRuntime.IsLit).AsBool();
-            int cooldown = runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32();
-
-            string text = $"{data.Get(GDScriptKeys.CardData.IconText)}\n{data.Get(GDScriptKeys.CardData.DisplayName)}";
-
-            if (cooldown > 0)
-            {
-                btn.SetState(CellState.Cooldown);
-                text += $"\n冷却{cooldown}";
-            }
-            else if (isLit)
-            {
-                btn.SetState(CellState.Charged);
-                text += "\n已点亮";
-            }
-            else
-            {
-                btn.SetState(CellState.Normal);
-                text += "\n未点亮";
-            }
-
-            btn.SetText(text);
+            btn.SetText("");
+            btn.SetState(CellState.Disabled);
+            continue;
         }
+
+        var cell = boardManager.GetCell(pos);
+        var runtime = boardManager.GetCardByCell(pos);
+
+        if (runtime == null)
+        {
+            btn.SetText("");
+            btn.SetState(CellState.Normal);
+            btn.Disabled = true;
+            continue;
+        }
+
+        int instanceId = runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32();
+        var data = runtime.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
+        bool isLit = cell.Get(GDScriptKeys.CellRuntime.IsLit).AsBool();
+        int cooldown = runtime.Get(GDScriptKeys.CardRuntime.CooldownRemaining).AsInt32();
+        bool cardReady = boardManager.CheckCardReady(runtime);
+
+        string text = $"{data.Get(GDScriptKeys.CardData.IconText)}\n{data.Get(GDScriptKeys.CardData.DisplayName)}";
+
+        if (cardReady && canLight)
+        {
+            btn.SetState(CellState.Ready);
+            text += "\n可发动";
+            btn.Disabled = false;
+        }
+        else if (cooldown > 0)
+        {
+            btn.SetState(CellState.Cooldown);
+            text += $"\n冷却{cooldown}";
+            btn.Disabled = !canLight;
+        }
+        else if (isLit)
+        {
+            btn.SetState(CellState.Charged);
+            text += "\n已点亮";
+            btn.Disabled = !canLight;
+        }
+        else
+        {
+            btn.SetState(CellState.Normal);
+            text += "\n未点亮";
+            btn.Disabled = !canLight;
+        }
+
+        btn.SetText(text);
     }
+}
 
     private void RefreshStatus()
     {
@@ -464,31 +473,14 @@ public partial class UIManager : Node
     }
 
     private void RefreshActivationButtons()
+{
+    int readyCount = 0;
+    foreach (var runtime in boardManager.runtime_cards)
     {
-        if (ActivationBox != null) { foreach (Node child in ActivationBox.GetChildren()) child.QueueFree(); }
-        if (ReadyList != null) { foreach (Node child in ReadyList.GetChildren()) child.QueueFree(); }
-
-        int readyCount = 0;
-        foreach (var runtime in boardManager.runtime_cards)
-        {
-            if (!boardManager.CheckCardReady(runtime)) continue;
-            readyCount++;
-            var data = runtime.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
-            var button = new Button();
-            button.Text = $"发动｜{data.Get(GDScriptKeys.CardData.DisplayName)}";
-            button.Disabled = battleManager.CurrentPhase != BattleManager.Phase.PlayerTurn;
-            button.CustomMinimumSize = new Vector2(230, 44);
-            button.AddThemeFontSizeOverride("font_size", 19);
-            button.AddThemeColorOverride("font_color", AccentCyan);
-            button.AddThemeColorOverride("font_hover_color", Colors.White);
-            button.AddThemeStyleboxOverride("normal", MakeButtonStyle(new Color("#162c33"), new Color("#427c83"), 2));
-            button.AddThemeStyleboxOverride("hover", MakeButtonStyle(new Color("#24515a"), AccentCyan, 2));
-            int id = runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32();
-            button.Pressed += () => EmitSignal(SignalName.PlayCardRequested, id);
-            ActivationBox.AddChild(button);
-        }
-        if (ReadyLabel != null) ReadyLabel.Text = $"{readyCount} 张就绪";
+        if (boardManager.CheckCardReady(runtime)) readyCount++;
     }
+    if (ReadyLabel != null) ReadyLabel.Text = $"{readyCount} 张就绪";
+}
 
     public void AppendLog(string text) { if (LogLabel != null) { LogLabel.AppendText("• " + text + "\n"); LogLabel.ScrollToLine(Mathf.Max(0, LogLabel.GetLineCount() - 1)); } }
     public void ClearLog() { if (LogLabel != null) LogLabel.Clear(); }
@@ -629,4 +621,24 @@ public partial class UIManager : Node
                 collected[id] = (buff, stacks);
         }
     }
+
+    private void OnBattleCellPressed(int index)
+{
+    var pos = buttonPositions[index];
+    var runtime = boardManager.GetCardByCell(pos);
+
+    if (runtime == null) return;
+
+    bool cardReady = boardManager.CheckCardReady(runtime);
+    int instanceId = runtime.Get(GDScriptKeys.CardRuntime.InstanceId).AsInt32();
+
+    if (cardReady)
+    {
+        EmitSignal(SignalName.PlayCardRequested, instanceId);
+    }
+    else
+    {
+        EmitSignal(SignalName.LightCellRequested, pos);
+    }
+}
 }

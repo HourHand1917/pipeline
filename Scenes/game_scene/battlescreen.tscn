@@ -62,7 +62,7 @@ bg_color = Color(0.6, 0.6, 0.6, 0)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t4udp"]
 bg_color = Color(0.6, 0.6, 0.6, 0)
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "activationbox", "readylist", "loglabel", "statuslabel", "roundlabel", "phaselabel", "readylabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "backbutton", "healthBar", "rubberheart", "playerTV", "playerBuffGrid")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "statuslabel", "roundlabel", "phaselabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "healthBar", "rubberheart", "playerTV", "playerBuffGrid")]
 custom_minimum_size = Vector2(1440, 1080)
 layout_mode = 3
 anchors_preset = 15
@@ -75,20 +75,15 @@ mouse_filter = 2
 script = ExtResource("1_tb4nm")
 battlegrid = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird")
 energyGrid = NodePath("energygrid")
-activationbox = NodePath("")
-readylist = NodePath("")
-loglabel = NodePath("")
 statuslabel = NodePath("battleVbox/statuslabel")
 roundlabel = NodePath("battleVbox/infobar/roundlabel")
 phaselabel = NodePath("battleVbox/infobar/phaselabel")
-readylabel = NodePath("")
 distancelabel = NodePath("battleVbox/infobar/distancelabel")
 distancetrack = NodePath("battleVbox/stagepanel/margin/stageVbox/distancetrack")
 movebackbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movebackbutton")
 moveforwardbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/moveforwardbutton")
 movehint = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movehint")
 endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/endturnbutton")
-backbutton = NodePath("")
 healthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
 bulbOn = ExtResource("2_t4udp")
 bulbOff = ExtResource("3_vn3ql")
@@ -284,51 +279,39 @@ layout_mode = 2
 columns = 4
 
 [node name="battlecellbutton0" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=382575080 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton1" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1987946169 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton2" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1879915097 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton3" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=573635994 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton4" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1935960281 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton5" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1834776382 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton6" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1431028308 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton7" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1824636046 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton8" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1929850005 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton9" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1522483258 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton10" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1356694069 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="battlecellbutton11" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=252479802 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="endturnbutton" type="TextureButton" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=409315270]

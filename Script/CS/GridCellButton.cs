@@ -1,6 +1,6 @@
 using Godot;
 
-public enum CellState { Normal, Charged, Cooldown, Disabled }
+public enum CellState { Normal, Charged, Cooldown, Disabled, Ready }
 
 [GlobalClass]
 public partial class GridCellButton : Button
@@ -17,9 +17,19 @@ public partial class GridCellButton : Button
     {
         _state = state;
         normalTexture.Visible = state == CellState.Normal;
-        chargedTexture.Visible = state == CellState.Charged;
+        chargedTexture.Visible = state == CellState.Charged || state == CellState.Ready;
         cooldownTexture.Visible = state == CellState.Cooldown;
         disabledTexture.Visible = state == CellState.Disabled;
+
+        if (state == CellState.Ready)
+        {
+            chargedTexture.Modulate = new Color(1f, 0.85f, 0.3f);
+            Disabled = false;
+        }
+        else
+        {
+            chargedTexture.Modulate = Colors.White;
+        }
     }
 
     public void SetText(string text)
