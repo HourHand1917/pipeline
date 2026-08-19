@@ -75,20 +75,20 @@ mouse_filter = 2
 script = ExtResource("1_tb4nm")
 battlegrid = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird")
 energyGrid = NodePath("energygrid")
-activationbox = NodePath("battleVbox/battlecontent/sidepanel/Control/activationbox")
-readylist = NodePath("battleVbox/battlecontent/sidepanel/Control/readylist")
-loglabel = NodePath("battleVbox/battlecontent/sidepanel/Control/loglabel")
+activationbox = NodePath("")
+readylist = NodePath("")
+loglabel = NodePath("")
 statuslabel = NodePath("battleVbox/statuslabel")
 roundlabel = NodePath("battleVbox/infobar/roundlabel")
 phaselabel = NodePath("battleVbox/infobar/phaselabel")
-readylabel = NodePath("battleVbox/battlecontent/sidepanel/Control/readylabel")
+readylabel = NodePath("")
 distancelabel = NodePath("battleVbox/infobar/distancelabel")
 distancetrack = NodePath("battleVbox/stagepanel/margin/stageVbox/distancetrack")
 movebackbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movebackbutton")
 moveforwardbutton = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/moveforwardbutton")
 movehint = NodePath("battleVbox/stagepanel/margin/stageVbox/movement/movehint")
 endturnbutton = NodePath("battleVbox/battlecontent/boardcolum/stageWrapper/endturnbutton")
-backbutton = NodePath("battleVbox/battlecontent/sidepanel/Control/backbutton")
+backbutton = NodePath("")
 healthBar = NodePath("battleVbox/statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
 bulbOn = ExtResource("2_t4udp")
 bulbOff = ExtResource("3_vn3ql")
@@ -255,26 +255,26 @@ mouse_filter = 2
 [node name="borderTexure" type="PanelContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=2075789304]
 custom_minimum_size = Vector2(800, 600)
 layout_mode = 0
-offset_right = 949.7954
+offset_right = 1116.3536
 offset_bottom = 600.4938
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxTexture_lwu1b")
 
 [node name="screentexture" type="TextureRect" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=535350651]
 layout_mode = 0
-offset_left = 75.00001
-offset_top = 96.0
-offset_right = 1607.2887
-offset_bottom = 906.0
+offset_left = 94.97952
+offset_top = 99.85527
+offset_right = 1945.8998
+offset_bottom = 909.8553
 scale = Vector2(0.44064844, 0.43743992)
 texture = ExtResource("12_26bt4")
 
 [node name="panelborder" type="PanelContainer" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=758408112]
 layout_mode = 0
-offset_left = 166.5583
-offset_top = 121.92752
-offset_right = 1263.6837
-offset_bottom = 805.9276
+offset_left = 217.48935
+offset_top = 122.9308
+offset_right = 1478.0856
+offset_bottom = 824.6814
 scale = Vector2(0.47281677, 0.45607015)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_rr40r")
@@ -284,48 +284,59 @@ layout_mode = 2
 columns = 4
 
 [node name="battlecellbutton0" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=382575080 instance=ExtResource("13_7le68")]
-custom_minimum_size = Vector2(300, 220)
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton1" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1071851966 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton1" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1987946169 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton2" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1826972282 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton2" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1879915097 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton3" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1263472353 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton3" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=573635994 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton4" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1085164984 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton4" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1935960281 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton5" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=2080237789 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton5" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1834776382 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton6" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=887179162 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton6" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1431028308 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton7" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=16078418 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton7" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1824636046 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton8" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1908993289 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton8" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1929850005 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton9" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=416830298 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton9" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1522483258 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton10" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1441621118 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton10" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=1356694069 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
-[node name="battlecellbutton11" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=581543781 instance=ExtResource("13_7le68")]
+[node name="battlecellbutton11" parent="battleVbox/battlecontent/boardcolum/stageWrapper/panelborder/battlegird" unique_id=252479802 instance=ExtResource("13_7le68")]
+custom_minimum_size = Vector2(320, 220)
 layout_mode = 2
 
 [node name="endturnbutton" type="TextureButton" parent="battleVbox/battlecontent/boardcolum/stageWrapper" unique_id=409315270]
 layout_mode = 0
-offset_left = 757.08325
-offset_top = 296.49887
-offset_right = 1216.4219
-offset_bottom = 800.3114
+offset_left = 890.6052
+offset_top = 295.49557
+offset_right = 1454.832
+offset_bottom = 804.272
 scale = Vector2(0.38058504, 0.40425068)
 texture_normal = ExtResource("14_aadoi")
 stretch_mode = 0
@@ -334,59 +345,6 @@ stretch_mode = 0
 custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 mouse_filter = 2
-
-[node name="Control" type="Control" parent="battleVbox/battlecontent/sidepanel" unique_id=667332065]
-layout_mode = 2
-
-[node name="activationtitle" type="Label" parent="battleVbox/battlecontent/sidepanel/Control" unique_id=118741897]
-layout_mode = 0
-offset_left = 800.0
-offset_top = 12.0
-offset_right = 1050.0
-offset_bottom = 46.0
-theme_override_font_sizes/font_size = 24
-text = "可发动物品"
-
-[node name="readylabel" type="Label" parent="battleVbox/battlecontent/sidepanel/Control" unique_id=1913187748]
-layout_mode = 0
-offset_left = 797.0
-offset_top = 50.0
-offset_right = 1047.0
-offset_bottom = 84.0
-theme_override_font_sizes/font_size = 24
-text = "0张就绪"
-
-[node name="activationbox" type="VBoxContainer" parent="battleVbox/battlecontent/sidepanel/Control" unique_id=1667135277]
-layout_mode = 0
-offset_left = 800.0
-offset_top = 94.0
-offset_right = 1050.0
-offset_bottom = 94.0
-
-[node name="readylist" type="VBoxContainer" parent="battleVbox/battlecontent/sidepanel/Control" unique_id=1142338414]
-layout_mode = 0
-offset_left = 810.0
-offset_top = 181.0
-offset_right = 1060.0
-offset_bottom = 181.0
-
-[node name="loglabel" type="RichTextLabel" parent="battleVbox/battlecontent/sidepanel/Control" unique_id=747665748]
-custom_minimum_size = Vector2(249.55, 239.065)
-layout_mode = 0
-offset_left = 800.0
-offset_top = 226.0
-offset_right = 1050.0
-offset_bottom = 465.065
-scroll_active = false
-
-[node name="backbutton" type="Button" parent="battleVbox/battlecontent/sidepanel/Control" unique_id=1736902636]
-layout_mode = 0
-offset_left = 830.0
-offset_top = 523.0
-offset_right = 1080.0
-offset_bottom = 565.0
-theme_override_font_sizes/font_size = 24
-text = "返回构筑"
 
 [node name="PanelContainer" type="PanelContainer" parent="battleVbox/battlecontent" unique_id=547029121]
 custom_minimum_size = Vector2(600, 0)
@@ -415,6 +373,7 @@ grow_vertical = 0
 scale = Vector2(0.495, 0.495)
 
 [node name="energygrid" type="GridContainer" parent="." unique_id=921566161]
+visible = false
 custom_minimum_size = Vector2(200, 325)
 layout_mode = 1
 anchors_preset = 7

@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://b8pya2osaixgn"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_o77cp"]
-[ext_resource type="AudioStream" uid="uid://1v2sqwociymw" path="res://tileset/music_resource/OGG/music/MUS_F01_Home_OGG.ogg" id="2_88kio"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_h6566"]
 [ext_resource type="Texture2D" uid="uid://iwodhdmb12kc" path="res://features/exploration/art_assets/maps/f1/教程-1-背景.png" id="3_o77cp"]
 [ext_resource type="Texture2D" uid="uid://6i4vatwprdvx" path="res://features/exploration/art_assets/maps/f1/教程-1-箱子.png" id="4_h6566"]
@@ -38,7 +37,6 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f1_1"
 _hud = NodePath("UILayer/HUD")
-MapMusic = ExtResource("2_88kio")
 PlayerLeft = -250
 PlayerRight = 2300
 CamLeft = 150
