@@ -19,7 +19,7 @@ func _load_info(choice_info: Dictionary) -> void:
 	var button_number := int(choice_info.get("button_index", 0))
 	choice_number.text = "%02d" % button_number
 	tooltip_text = str(choice_info.get("text", ""))
-	state_marker.color = Color("5cc7c0") if not disabled else Color("55514a")
+	state_marker.color = Color("56e8ff") if not disabled else Color("31545b")
 
 	if Engine.is_editor_hint() or not visible:
 		return

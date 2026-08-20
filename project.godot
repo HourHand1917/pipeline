@@ -36,6 +36,7 @@ directories/dch_directory={
 "鼠鼠": "res://features/dialogue/test_content/characters/鼠鼠.dch"
 }
 directories/dtl_directory={
+"npc_dialogue_example_timeline": "res://features/dialogue/examples/npc_dialogue_example_timeline.dtl",
 "水龙头与上层工程师": "res://features/dialogue/test_content/timelines/水龙头与上层工程师.dtl"
 }
 layout/style_directory={}

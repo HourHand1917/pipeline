@@ -19,7 +19,8 @@ func setup(info: Dictionary) -> void:
 	var character: Variant = info.get("character")
 	if character != null:
 		speaker_name.text = character.get_display_name_translated()
-		speaker_name.self_modulate = character.color
+		# 保留 Dialogic 角色色作为身份提示，同时提亮到青白屏幕色域以保证可读性。
+		speaker_name.self_modulate = character.color.lerp(Color("c9f8ff"), 0.58)
 	else:
 		speaker_name.text = ""
 		speaker_name.self_modulate = Color.WHITE
@@ -32,7 +33,7 @@ func freeze_as_history() -> void:
 		dialog_text.set_process(false)
 	if speaker_name:
 		speaker_name.remove_from_group("dialogic_name_label")
-	self_modulate = Color(0.88, 0.88, 0.88, 0.96)
+	self_modulate = Color(0.76, 0.9, 0.94, 0.9)
 
 
 func get_dialog_text_node() -> RichTextLabel:

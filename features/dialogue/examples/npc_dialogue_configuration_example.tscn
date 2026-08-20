@@ -1,0 +1,241 @@
+[gd_scene format=3 uid="uid://cv6lgiswsykne"]
+
+[ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_manager"]
+[ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="2_player"]
+[ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="3_input"]
+[ext_resource type="Script" uid="uid://d3qp3th6sj26" path="res://features/exploration/scripts/CS/interactables/FriendlyNPC.cs" id="4_friendly"]
+[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="5_hostile"]
+[ext_resource type="Resource" uid="uid://y27iwbx1d0d0" path="res://features/dialogue/examples/npc_dialogue_example_timeline.dtl" id="6_timeline"]
+[ext_resource type="Resource" uid="uid://dmw1ww2sworam" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="7_npc_character"]
+[ext_resource type="Resource" uid="uid://hhx5w2lmb3jx" path="res://features/dialogue/test_content/characters/reb.dch" id="8b_reb_character"]
+[ext_resource type="Resource" uid="uid://cud46uo7b7ivd" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="8_player_character"]
+[ext_resource type="PackedScene" path="res://features/dialogue/scenes/npc_dialogue_canvas.tscn" id="9_canvas"]
+[ext_resource type="PackedScene" uid="uid://dgf7q2omm6kf" path="res://features/shop/ShopUI.tscn" id="10_shop"]
+[ext_resource type="Texture2D" uid="uid://b7va0e0jpk3vl" path="res://icon.svg" id="11_icon"]
+
+[sub_resource type="CircleShape2D" id="CircleFriendlyDetection"]
+radius = 260.0
+
+[sub_resource type="RectangleShape2D" id="RectangleClick"]
+size = Vector2(150, 180)
+
+[sub_resource type="Animation" id="AnimationReset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="AnimationNpcNod"]
+resource_name = "npc_nod"
+length = 0.48
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12, 0.24, 0.36, 0.48),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.16, 0.14, -0.07, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibraryNpc"]
+_data = {
+&"RESET": SubResource("AnimationReset"),
+&"npc_nod": SubResource("AnimationNpcNod")
+}
+
+[sub_resource type="CircleShape2D" id="CircleHostileDetection"]
+radius = 120.0
+
+[sub_resource type="StyleBoxFlat" id="StyleInstructions"]
+bg_color = Color(0.045, 0.06, 0.07, 0.94)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.25, 0.76, 0.73, 0.85)
+corner_radius_top_left = 14
+corner_radius_top_right = 14
+corner_radius_bottom_right = 14
+corner_radius_bottom_left = 14
+shadow_color = Color(0, 0, 0, 0.35)
+shadow_size = 8
+
+[node name="NPCDialogueConfigurationExample" type="Node2D" unique_id=1092772756 node_paths=PackedStringArray("Player", "Input")]
+script = ExtResource("1_manager")
+Player = NodePath("MapLayer/Player")
+Input = NodePath("InputRouter")
+MapId = "test_map"
+PlayerLeft = 120
+PlayerRight = 1880
+CamLeft = 0
+CamRight = 2000
+
+[node name="Backdrop" type="Polygon2D" parent="." unique_id=1134767759]
+color = Color(0.055, 0.07, 0.075, 1)
+polygon = PackedVector2Array(-200, -200, 2200, -200, 2200, 1000, -200, 1000)
+
+[node name="Floor" type="Polygon2D" parent="." unique_id=784300063]
+color = Color(0.12, 0.17, 0.17, 1)
+polygon = PackedVector2Array(-200, 650, 2200, 650, 2200, 760, -200, 760)
+
+[node name="FloorLine" type="Polygon2D" parent="." unique_id=1518094208]
+color = Color(0.25, 0.76, 0.73, 0.65)
+polygon = PackedVector2Array(-200, 642, 2200, 642, 2200, 650, -200, 650)
+
+[node name="MapLayer" type="Node2D" parent="." unique_id=2131438224]
+
+[node name="Player" parent="MapLayer" unique_id=1190009647 instance=ExtResource("2_player")]
+position = Vector2(500, 610)
+
+[node name="FriendlyMouse" type="Area2D" parent="MapLayer" unique_id=1751975878 node_paths=PackedStringArray("ShopUI", "DialogueAnimationPlayer")]
+position = Vector2(735, 610)
+script = ExtResource("4_friendly")
+OpenShopAfterDialogue = true
+ShopUI = NodePath("../../UILayer/ShopUI")
+NpcName = "鼠鼠"
+DialogueTimeline = ExtResource("6_timeline")
+DialogueCharacter = ExtResource("7_npc_character")
+PlayerDialogueCharacter = ExtResource("8_player_character")
+AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("8b_reb_character")])
+DialogueBubbleOffset = Vector2(0, -145)
+DialogueAnimationPlayer = NodePath("AnimationPlayer")
+DisplayName = "鼠鼠（友好 NPC 示例）"
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/FriendlyMouse" unique_id=1808615476]
+modulate = Color(0.86, 0.7, 0.35, 1)
+position = Vector2(0, -62)
+scale = Vector2(0.58, 0.58)
+texture = ExtResource("11_icon")
+
+[node name="Name" type="Label" parent="MapLayer/FriendlyMouse" unique_id=80923926]
+offset_left = -120.0
+offset_top = 22.0
+offset_right = 120.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0.96, 0.89, 0.7, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.025, 0.03, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 24
+text = "友好 NPC：鼠鼠
+进入范围后左键点击"
+horizontal_alignment = 1
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/FriendlyMouse" unique_id=2023564844]
+shape = SubResource("CircleFriendlyDetection")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/FriendlyMouse" unique_id=1557481783]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/FriendlyMouse/ClickZone" unique_id=988390550]
+position = Vector2(0, -45)
+shape = SubResource("RectangleClick")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MapLayer/FriendlyMouse" unique_id=130983331]
+libraries/ = SubResource("AnimationLibraryNpc")
+
+[node name="HostileBoom" type="Area2D" parent="MapLayer" unique_id=322498520 node_paths=PackedStringArray("DialogueAnimationPlayer")]
+position = Vector2(1560, 610)
+script = ExtResource("5_hostile")
+BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
+BattleRulesPath = "res://features/enemy_ai_node/rules/boom_rules.tres"
+ReturnSpawnId = &"test_entry"
+AggroRadius = 120.0
+NpcName = "Boom"
+DialogueTimeline = ExtResource("6_timeline")
+DialogueCharacter = ExtResource("7_npc_character")
+PlayerDialogueCharacter = ExtResource("8_player_character")
+AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("8b_reb_character")])
+DialogueBubbleOffset = Vector2(0, -145)
+DialogueAnimationPlayer = NodePath("AnimationPlayer")
+DisplayName = "Boom（敌对 NPC 示例）"
+PersistenceId = "dialogue_example_boom"
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/HostileBoom" unique_id=1101643827]
+modulate = Color(0.94, 0.34, 0.25, 1)
+position = Vector2(0, -62)
+scale = Vector2(0.58, 0.58)
+texture = ExtResource("11_icon")
+
+[node name="Name" type="Label" parent="MapLayer/HostileBoom" unique_id=837020825]
+offset_left = -140.0
+offset_top = 22.0
+offset_right = 140.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(1, 0.65, 0.58, 1)
+theme_override_colors/font_outline_color = Color(0.02, 0.025, 0.03, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 24
+text = "敌对 NPC：Boom
+进入红色范围自动对话"
+horizontal_alignment = 1
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/HostileBoom" unique_id=2043250364]
+shape = SubResource("CircleHostileDetection")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/HostileBoom" unique_id=1730978496]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/HostileBoom/ClickZone" unique_id=250501868]
+position = Vector2(0, -45)
+shape = SubResource("RectangleClick")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="MapLayer/HostileBoom" unique_id=107582502]
+libraries/ = SubResource("AnimationLibraryNpc")
+
+[node name="InputRouter" type="Node" parent="." unique_id=1199946945]
+script = ExtResource("3_input")
+
+[node name="NPCDialogueCanvas" parent="." unique_id=1833772657 instance=ExtResource("9_canvas")]
+max_visible_bubbles = 7
+bubble_width = 430.0
+bubble_tween_time = 0.18
+bubble_spacing = 10.0
+
+[node name="UILayer" type="CanvasLayer" parent="." unique_id=2125471760]
+layer = 40
+
+[node name="ShopUI" parent="UILayer" unique_id=1779428148 instance=ExtResource("10_shop")]
+
+[node name="Instructions" type="CanvasLayer" parent="." unique_id=821472025]
+layer = 50
+
+[node name="Panel" type="PanelContainer" parent="Instructions" unique_id=1038995733]
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 610.0
+offset_bottom = 174.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleInstructions")
+
+[node name="Margin" type="MarginContainer" parent="Instructions/Panel" unique_id=1050995036]
+layout_mode = 2
+theme_override_constants/margin_left = 18
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 18
+theme_override_constants/margin_bottom = 12
+
+[node name="Text" type="Label" parent="Instructions/Panel/Margin" unique_id=328032254]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.9, 0.79, 1)
+theme_override_font_sizes/font_size = 20
+text = "NPC Dialogic 配置示例
+1. 对话前用 A/D 站到鼠鼠左边或右边，再点击鼠鼠。
+2. 对话期间玩家锁定；鼠标只响应对话和气泡选项。
+3. RUBBER/reb 尾巴会按玩家所在左右侧自动翻转。
+4. 对话结束打开商店；右侧 Boom 对话后进入战斗。"
