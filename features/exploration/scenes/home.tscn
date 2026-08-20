@@ -56,7 +56,6 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "home"
 _hud = NodePath("UILayer/HUD")
-MapMusic = ExtResource("31_vmofw")
 PlayerLeft = -550
 PlayerRight = 2850
 CamLeft = -1050
@@ -156,11 +155,10 @@ script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="Store" type="Area2D" parent="MapLayer" unique_id=474505502 node_paths=PackedStringArray("ShopUI", "Hud", "_blink")]
+[node name="Store" type="Area2D" parent="MapLayer" unique_id=474505502 node_paths=PackedStringArray("ShopUI", "_blink")]
 position = Vector2(2436, 343)
 script = ExtResource("12_epj53")
 ShopUI = NodePath("../../UILayer/ShopUI")
-Hud = NodePath("../../UILayer/HUD")
 _blink = NodePath("Blink")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Store" unique_id=467649211]
@@ -217,7 +215,6 @@ script = ExtResource("16_w8jpk")
 [node name="ShopUI" parent="UILayer" unique_id=111729031 instance=ExtResource("34_shopui")]
 
 [node name="WorkbenchUI" parent="UILayer" unique_id=495580737 instance=ExtResource("27_wb")]
-_tabRaiseOffset = 30.0
 
 [node name="HUD" parent="UILayer" unique_id=2129627915 instance=ExtResource("26_tv")]
 offset_bottom = 1.3399658

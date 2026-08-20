@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyDataNodeAdapter" load_steps=3 format=3]
+[ext_resource type="Script" path="res://features/enemy_ai_node/scripts/enemy_data_node_adapter.gd" id="1"]
+[ext_resource type="PackedScene" path="res://features/enemy_ai_trained/scenes/core00_body_trained_ai.tscn" id="2"]
+[resource]
+script = ExtResource("1")
+id = &"core00_body"
+display_name = "Core-00"
+subtitle = "二阶段 / 灵活远程本体"
+glyph = "核"
+tint = Color(0.18, 0.88, 0.82, 1)
+max_hp = 50
+initial_shield = 0
+ai_scene = ExtResource("2")
+provider_entry = &"select_action"
+role = &"body"

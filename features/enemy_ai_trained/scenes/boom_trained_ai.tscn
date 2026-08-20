@@ -1,0 +1,14 @@
+[gd_scene load_steps=7 format=3]
+[ext_resource type="Script" path="res://features/enemy_ai_trained/scripts/boom_trained_ai.gd" id="1"]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/boom_attack_1.tres" id="3"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/boom_attack_2.tres" id="4"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/boom_advance_1.tres" id="5"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/boom_advance_2.tres" id="6"]
+[node name="BoomTrainedAI" type="Node"]
+script = ExtResource("1")
+actions = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6")])
+deterministic_seed = 20260821
+board_min_cell = 1
+board_max_cell = 8
+blocked_cells = PackedInt32Array()

@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="EnemyActionData" format=3 uid="uid://db0pjykdieqm3"]
+
+[ext_resource type="Script" uid="uid://7hwav6op8h01" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/move_enemy_toward_1.tres" id="2"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_u8rp7"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/damage_10_player.tres" id="3"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/move_player_away_2.tres" id="4"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/profiles/charge_forward_1_4.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+id = &"trained_sharkk_charge_d3"
+display_name = "四格冲刺·距3"
+intent_text = "攻击前方4格；玩家落到起点第5格；冷却3"
+priority = 18
+base_weight = 0.65
+repeat_penalty = 0.12
+cooldown_turns = 3
+tags = PackedStringArray("attack", "movement", "charge", "state_locked")
+min_range = 3
+max_range = 3
+effects = Array[ExtResource("2_u8rp7")]([ExtResource("2"), ExtResource("2"), ExtResource("2"), ExtResource("3"), ExtResource("4")])
+danger_profile = ExtResource("5")

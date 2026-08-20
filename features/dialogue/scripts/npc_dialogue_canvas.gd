@@ -2,24 +2,29 @@ class_name NPCDialogueCanvas
 extends CanvasLayer
 
 const CANVAS_GROUP := &"npc_dialogue_canvas"
+const SPEAKER_ANCHOR_GROUP := &"npc_dialogue_speaker_anchor"
 
+@export_category("气泡历史")
 @export var bubble_scene: PackedScene = preload("res://features/dialogue/scenes/dialogue_bubble.tscn")
-@export_range(1, 12, 1) var max_visible_bubbles := 6
-@export_range(320.0, 720.0, 10.0) var bubble_width := 520.0
-@export var bubble_offset := Vector2(0.0, -108.0)
+@export_range(1, 64, 1) var max_visible_bubbles := 8
+@export_range(120.0, 720.0, 10.0) var min_bubble_width := 220.0
+@export_range(220.0, 1200.0, 10.0) var max_bubble_width := 520.0
 @export_range(0.05, 0.6, 0.01) var bubble_tween_time := 0.22
-@export_range(0.0, 40.0, 1.0) var bubble_spacing := 12.0
-@export_range(0.0, 80.0, 1.0) var screen_margin := 24.0
+@export_range(0.0, 48.0, 1.0) var bubble_spacing := 12.0
+
+@export_category("位置与边界")
+@export var bubble_offset := Vector2(0.0, -28.0)
+@export_range(0.0, 120.0, 1.0) var screen_margin := 24.0
 
 @onready var root: Control = %Root
 @onready var bubble_stack: Control = %BubbleStack
 @onready var choice_list: VBoxContainer = %ChoiceList
 
 var _dialogic: Node
-var _anchor: Node2D
+var _fallback_anchor: Node2D
 var _active_bubble: NPCDialogueBubble
 var _bubbles: Array[Control] = []
-var _stack_height := 0.0
+var _bubble_targets: Dictionary = {}
 var _layout_tween: Tween
 var _choice_tween: Tween
 var _connected := false
@@ -28,24 +33,19 @@ var _connected := false
 func _ready() -> void:
 	add_to_group(CANVAS_GROUP)
 	root.hide()
+	_apply_inspector_sizes()
 	_set_choice_list_active(false)
 	call_deferred("_connect_dialogic")
-	set_process(true)
 
 
 func _exit_tree() -> void:
 	_disconnect_dialogic()
 
 
+## 兼容旧 NPC：NPC 启动对话时把自身 BubbleAnchor 设为找不到角色锚点时的回退位置。
 func set_dialogue_anchor(anchor: Node2D) -> void:
-	_anchor = anchor
+	_fallback_anchor = anchor
 	_connect_dialogic()
-	_update_anchor_position()
-
-
-func _process(_delta: float) -> void:
-	if root.visible:
-		_update_anchor_position()
 
 
 func _connect_dialogic() -> void:
@@ -82,16 +82,16 @@ func _disconnect_dialogic() -> void:
 
 func _on_timeline_started() -> void:
 	_clear_bubbles()
+	_apply_inspector_sizes()
 	_set_choice_list_active(false)
 	root.show()
-	_update_anchor_position()
 
 
 func _on_timeline_ended() -> void:
 	_set_choice_list_active(false)
 	root.hide()
 	_clear_bubbles()
-	_anchor = null
+	_fallback_anchor = null
 
 
 func _on_about_to_show_text(info: Dictionary) -> void:
@@ -107,18 +107,16 @@ func _on_about_to_show_text(info: Dictionary) -> void:
 		push_error("DialogueBubble 场景根节点必须使用 NPCDialogueBubble 脚本。")
 		return
 
-	bubble.custom_minimum_size.x = bubble_width
 	bubble_stack.add_child(bubble)
-	bubble.setup(info)
+	bubble.setup(info, min_bubble_width, max_bubble_width)
+	bubble.set_meta(&"speaker_anchor", _resolve_speaker_anchor(info.get("character")))
 	_active_bubble = bubble
 	_bubbles.append(bubble)
 
 	while _bubbles.size() > max_visible_bubbles:
-		var oldest: Control = _bubbles.pop_front()
-		if is_instance_valid(oldest):
-			oldest.queue_free()
+		_remove_oldest_bubble()
 
-	call_deferred("_layout_bubbles", true)
+	call_deferred("_place_new_bubble", bubble, true)
 
 
 func _on_question_shown(info: Dictionary) -> void:
@@ -144,57 +142,101 @@ func _set_choice_list_active(active: bool) -> void:
 	_choice_tween.tween_property(choice_list, "modulate:a", 1.0, 0.14)
 
 
-func _layout_bubbles(animated := false) -> void:
+func _place_new_bubble(bubble: NPCDialogueBubble, animated := false) -> void:
 	await get_tree().process_frame
+	if not is_instance_valid(bubble):
+		return
+
 	_bubbles = _bubbles.filter(func(item: Control) -> bool: return is_instance_valid(item))
+	var height := maxf(bubble.get_combined_minimum_size().y, bubble.size.y)
 
-	var targets: Dictionary = {}
-	var cursor_y := 0.0
-	for index in range(_bubbles.size() - 1, -1, -1):
-		var bubble := _bubbles[index]
-		var height := maxf(bubble.get_combined_minimum_size().y, bubble.size.y)
-		cursor_y += height
-		targets[bubble] = Vector2(-bubble_width * 0.5, -cursor_y)
-		cursor_y += bubble_spacing
+	var anchor := bubble.get_meta(&"speaker_anchor", null) as Node2D
+	var placement := _get_anchor_direction(anchor)
+	var anchor_position := _get_anchor_screen_position(anchor)
+	var width := bubble.get_bubble_width()
+	var viewport_size := get_viewport().get_visible_rect().size
+	var tail_side := NPCDialogueBubble.TailSide.LEFT
+	var target_x := anchor_position.x - 34.0
+	if placement == DialogueSpeakerAnchor.BubbleDirection.EXTEND_LEFT:
+		tail_side = NPCDialogueBubble.TailSide.RIGHT
+		target_x = anchor_position.x - width + 34.0
+	elif placement == DialogueSpeakerAnchor.BubbleDirection.AUTO and anchor_position.x > viewport_size.x * 0.5:
+		tail_side = NPCDialogueBubble.TailSide.RIGHT
+		target_x = anchor_position.x - width + 34.0
 
-	_stack_height = maxf(0.0, cursor_y - bubble_spacing)
-	_update_anchor_position()
+	bubble.set_tail_side(tail_side)
+	target_x = clampf(target_x, screen_margin, viewport_size.x - screen_margin - width)
+	var target_y := anchor_position.y + bubble_offset.y - height
+	target_y = clampf(target_y, screen_margin, viewport_size.y - screen_margin - height)
+	var target := Vector2(target_x, target_y)
+	_bubble_targets[bubble] = target
+
+	# 从最新历史向最旧历史逐条排到新气泡上方。
+	# min(old_y, candidate_y) 是单向约束：角色换边、移动或文本变短都不会使旧气泡下移。
+	var history_cursor_y := target.y
+	for index in range(_bubbles.size() - 2, -1, -1):
+		var old_bubble := _bubbles[index]
+		var old_height := maxf(old_bubble.get_combined_minimum_size().y, old_bubble.size.y)
+		var old_target: Vector2 = _bubble_targets.get(old_bubble, old_bubble.position)
+		var candidate_y := history_cursor_y - bubble_spacing - old_height
+		old_target.y = minf(old_target.y, candidate_y)
+		_bubble_targets[old_bubble] = old_target
+		history_cursor_y = old_target.y
 
 	if is_instance_valid(_layout_tween):
 		_layout_tween.kill()
 	_layout_tween = create_tween().set_parallel(true)
 	_layout_tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	for item in _bubbles:
+		var item_target: Vector2 = _bubble_targets.get(item, item.position)
+		if item == bubble and animated:
+			# 新气泡从略低处向上浮入，整个生命周期不会向下移动。
+			item.position = item_target + Vector2(0.0, 22.0)
+			item.modulate.a = 0.0
+			_layout_tween.tween_property(item, "modulate:a", 1.0, bubble_tween_time)
+		_layout_tween.tween_property(item, "position", item_target, bubble_tween_time)
 
-	for bubble in _bubbles:
-		var target: Vector2 = targets[bubble]
-		if animated and bubble == _active_bubble and bubble.modulate.a >= 0.99:
-			bubble.position = target + Vector2(0.0, 22.0)
-			bubble.modulate.a = 0.0
-		_layout_tween.tween_property(bubble, "position", target, bubble_tween_time)
-		_layout_tween.tween_property(bubble, "modulate:a", 1.0, bubble_tween_time)
+func _resolve_speaker_anchor(character: Variant) -> Node2D:
+	for candidate in get_tree().get_nodes_in_group(SPEAKER_ANCHOR_GROUP):
+		if candidate is DialogueSpeakerAnchor and candidate.matches_character(character):
+			return candidate as Node2D
+	return _fallback_anchor
 
 
-func _update_anchor_position() -> void:
-	if not is_instance_valid(bubble_stack):
-		return
-
+func _get_anchor_screen_position(anchor: Node2D) -> Vector2:
 	var viewport_size := get_viewport().get_visible_rect().size
-	var anchor_position := Vector2(viewport_size.x * 0.5, viewport_size.y * 0.62)
-	if is_instance_valid(_anchor):
-		anchor_position = _anchor.get_global_transform_with_canvas().origin
+	if not is_instance_valid(anchor):
+		return Vector2(viewport_size.x * 0.5, viewport_size.y * 0.62)
+	if anchor is DialogueSpeakerAnchor:
+		return (anchor as DialogueSpeakerAnchor).get_screen_position()
+	return anchor.get_global_transform_with_canvas().origin
 
-	anchor_position += bubble_offset
-	anchor_position.x = clampf(
-		anchor_position.x,
-		screen_margin + bubble_width * 0.5,
-		viewport_size.x - screen_margin - bubble_width * 0.5
-	)
-	anchor_position.y = clampf(
-		anchor_position.y,
-		screen_margin + _stack_height,
-		viewport_size.y - screen_margin
-	)
-	bubble_stack.position = anchor_position
+
+func _get_anchor_direction(anchor: Node2D) -> int:
+	if anchor is DialogueSpeakerAnchor:
+		return (anchor as DialogueSpeakerAnchor).bubble_direction
+	return DialogueSpeakerAnchor.BubbleDirection.AUTO
+
+
+func _apply_inspector_sizes() -> void:
+	if not is_instance_valid(choice_list):
+		return
+	var choice_width := maxf(min_bubble_width, max_bubble_width)
+	choice_list.custom_minimum_size.x = choice_width
+	choice_list.offset_left = -choice_width * 0.5
+	choice_list.offset_right = choice_width * 0.5
+	for child in choice_list.get_children():
+		if child is Control:
+			(child as Control).custom_minimum_size.x = choice_width
+
+
+func _remove_oldest_bubble() -> void:
+	if _bubbles.is_empty():
+		return
+	var oldest: Control = _bubbles.pop_front()
+	_bubble_targets.erase(oldest)
+	if is_instance_valid(oldest):
+		oldest.queue_free()
 
 
 func _clear_bubbles() -> void:
@@ -206,5 +248,5 @@ func _clear_bubbles() -> void:
 				bubble.freeze_as_history()
 			bubble.queue_free()
 	_bubbles.clear()
+	_bubble_targets.clear()
 	_active_bubble = null
-	_stack_height = 0.0

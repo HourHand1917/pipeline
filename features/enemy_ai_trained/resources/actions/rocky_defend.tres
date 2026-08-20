@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=4 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/move_enemy_away_1.tres" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/shield_7_enemy.tres" id="3"]
+[resource]
+script = ExtResource("1")
+id = &"trained_rocky_defend"
+display_name = "后撤架盾"
+intent_text = "后退1格并获得7点护盾，冷却2"
+priority = 9
+base_weight = 0.15
+repeat_penalty = 0.35
+cooldown_turns = 2
+tags = PackedStringArray("movement", "defence", "reaction")
+min_range = 1
+max_range = 99
+effects = Array[CombatEffectData]([ExtResource("2"), ExtResource("3")])

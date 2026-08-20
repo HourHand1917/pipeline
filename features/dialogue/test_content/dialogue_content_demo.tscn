@@ -1,10 +1,14 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="PackedScene" path="res://features/dialogue/scenes/npc_interactables.tscn" id="1_npc"]
 [ext_resource type="PackedScene" path="res://features/dialogue/scenes/npc_dialogue_canvas.tscn" id="2_canvas"]
 [ext_resource type="PackedScene" path="res://features/exploration/scenes/player.tscn" id="3_player"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/timelines/水龙头与上层工程师.dtl" id="4_timeline"]
 [ext_resource type="Script" path="res://features/dialogue/test_content/dialogue_content_demo.gd" id="5_demo"]
+[ext_resource type="PackedScene" path="res://features/dialogue/scenes/dialogue_speaker_anchor.tscn" id="6_anchor"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="7_mouse"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="8_rubber"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="9_reb"]
 
 [sub_resource type="StyleBoxFlat" id="StyleInstructions"]
 bg_color = Color(0.055, 0.065, 0.075, 0.92)
@@ -78,7 +82,22 @@ theme_override_font_sizes/font_size = 58
 text = "R"
 horizontal_alignment = 1
 
+[node name="MouseDialogueAnchor" parent="." instance=ExtResource("6_anchor")]
+position = Vector2(360, 650)
+dialogic_character = ExtResource("7_mouse")
+
+[node name="RubberDialogueAnchor" parent="." instance=ExtResource("6_anchor")]
+position = Vector2(960, 700)
+dialogic_character = ExtResource("8_rubber")
+
+[node name="RebDialogueAnchor" parent="." instance=ExtResource("6_anchor")]
+position = Vector2(1560, 620)
+dialogic_character = ExtResource("9_reb")
+
 [node name="NPCDialogueCanvas" parent="." instance=ExtResource("2_canvas")]
+max_visible_bubbles = 10
+min_bubble_width = 220.0
+max_bubble_width = 560.0
 
 [node name="Instructions" type="CanvasLayer" parent="."]
 layer = 30
@@ -102,4 +121,4 @@ theme_override_constants/margin_bottom = 12
 layout_mode = 2
 theme_override_colors/font_color = Color(0.94, 0.9, 0.79, 1)
 theme_override_font_sizes/font_size = 20
-text = "NPC 对话 UI 测试\n靠近鼠鼠后按 E，或用鼠标点击鼠鼠。\n对话中按空格/点击继续。"
+text = "NPC 对话 UI 测试\n靠近鼠鼠后按 E，或用鼠标点击鼠鼠。\n三名角色会从各自位置向上发出气泡。"

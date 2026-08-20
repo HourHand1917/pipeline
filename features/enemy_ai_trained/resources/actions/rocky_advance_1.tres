@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=3 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/move_enemy_toward_1.tres" id="2"]
+[resource]
+script = ExtResource("1")
+id = &"trained_rocky_advance_1"
+display_name = "稳步逼近"
+intent_text = "向玩家前进1格"
+priority = 6
+base_weight = 0.35
+repeat_penalty = 0.55
+tags = PackedStringArray("movement", "approach")
+min_range = 1
+max_range = 99
+effects = Array[CombatEffectData]([ExtResource("2")])

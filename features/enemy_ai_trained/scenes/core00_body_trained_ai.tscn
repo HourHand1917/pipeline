@@ -1,0 +1,18 @@
+[gd_scene load_steps=11 format=3]
+[ext_resource type="Script" path="res://features/enemy_ai_trained/scripts/core00_body_trained_ai.gd" id="1"]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/core_body_sniper.tres" id="3"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/core_body_gunstock.tres" id="4"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/core_body_pulse.tres" id="5"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/core_body_advance_1.tres" id="6"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/core_body_advance_2.tres" id="7"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/core_body_advance_3.tres" id="8"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/core_body_teleport_guard.tres" id="9"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/core_body_disable.tres" id="10"]
+[node name="Core00BodyTrainedAI" type="Node"]
+script = ExtResource("1")
+actions = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6"), ExtResource("7"), ExtResource("8"), ExtResource("9"), ExtResource("10")])
+deterministic_seed = 20260824
+board_min_cell = 1
+board_max_cell = 13
+blocked_cells = PackedInt32Array()

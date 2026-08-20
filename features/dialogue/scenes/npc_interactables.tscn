@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://features/dialogue/scripts/NPCinteractables.cs" id="1_npc"]
+[ext_resource type="PackedScene" path="res://features/dialogue/scenes/dialogue_speaker_anchor.tscn" id="2_anchor"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 120.0
@@ -25,5 +26,5 @@ collision_mask = 0
 [node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
 shape = SubResource("RectangleClick")
 
-[node name="BubbleAnchor" type="Marker2D" parent="."]
+[node name="BubbleAnchor" parent="." instance=ExtResource("2_anchor")]
 position = Vector2(0, -92)

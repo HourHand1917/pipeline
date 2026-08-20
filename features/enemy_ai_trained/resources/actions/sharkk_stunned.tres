@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=2 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[resource]
+script = ExtResource("1")
+id = &"trained_sharkk_stunned"
+display_name = "冲刺硬直"
+intent_text = "冲刺后的下一回合眩晕：无法行动"
+priority = 30
+base_weight = 100.0
+repeat_penalty = 0.0
+tags = PackedStringArray("state_locked", "recovery", "stun")
+min_range = 1
+max_range = 99
+special_effect = &"wait"
+special_replaces_effects = true

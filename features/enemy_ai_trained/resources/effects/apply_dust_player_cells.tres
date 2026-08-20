@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="CombatEffectData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="1_effect"]
+[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/dust.svg" id="2_icon"]
+
+[sub_resource type="GDScript" id="GDScript_three_unlit_dust"]
+script/source = "extends Buff\n\nconst TARGET_COUNT: int = 3\nconst EXTRA_LIGHT_ENERGY: int = 2\n\nvar _selected_stats: Array[Stats] = []\nvar _batch_remaining: int = 0\n\n\nfunc on_apply(stats: Stats, _stacks: int) -> void:\n\tvar board := _find_board_manager()\n\tif board == null:\n\t\treturn\n\tif _batch_remaining <= 0:\n\t\t_begin_batch(board)\n\tvar keep_buff := _selected_stats.has(stats)\n\t_batch_remaining -= 1\n\tif not keep_buff:\n\t\tstats.remove_buff(id)\n\tif _batch_remaining <= 0:\n\t\t_selected_stats.clear()\n\n\nfunc on_before_light(_cell: CellRuntime, _stacks: int) -> int:\n\treturn EXTRA_LIGHT_ENERGY\n\n\nfunc get_decay_phase() -> StringName:\n\treturn &\"turn_end\"\n\n\nfunc decay_uses_stacks() -> bool:\n\treturn false\n\n\nfunc _begin_batch(board: Node) -> void:\n\tvar all_stats: Array[Stats] = []\n\tvar unlit_stats: Array[Stats] = []\n\tvar runtime_value: Variant = board.get(\"runtime_cards\")\n\tif not runtime_value is Array:\n\t\t_batch_remaining = 1\n\t\treturn\n\tfor runtime_value_entry: Variant in runtime_value as Array:\n\t\tvar runtime := runtime_value_entry as Object\n\t\tif runtime == null:\n\t\t\tcontinue\n\t\tvar occupied_value: Variant = runtime.get(\"occupied_cells\")\n\t\tif not occupied_value is Array:\n\t\t\tcontinue\n\t\tfor position_value: Variant in occupied_value as Array:\n\t\t\tvar position := position_value as Vector2i\n\t\t\tvar cell_value: Variant = board.call(\"GetCell\", position)\n\t\t\tvar cell := cell_value as Object\n\t\t\tif cell == null:\n\t\t\t\tcontinue\n\t\t\tvar stats := cell.get(\"stats\") as Stats\n\t\t\tif stats == null or all_stats.has(stats):\n\t\t\t\tcontinue\n\t\t\tall_stats.append(stats)\n\t\t\tif not bool(cell.get(\"is_lit\")):\n\t\t\t\tunlit_stats.append(stats)\n\tunlit_stats.shuffle()\n\t_selected_stats.clear()\n\tfor index in range(mini(TARGET_COUNT, unlit_stats.size())):\n\t\t_selected_stats.append(unlit_stats[index])\n\t_batch_remaining = maxi(1, all_stats.size())\n\n\nfunc _find_board_manager() -> Node:\n\tvar main_loop := Engine.get_main_loop()\n\tif not main_loop is SceneTree:\n\t\treturn null\n\tvar root := (main_loop as SceneTree).root\n\tvar board := root.find_child(\"boardmanager\", true, false)\n\tif board == null:\n\t\tboard = root.find_child(\"BoardManager\", true, false)\n\treturn board\n"
+
+[sub_resource type="Resource" id="Resource_three_unlit_dust"]
+script = SubResource("GDScript_three_unlit_dust")
+id = "dust"
+buff_name = "蒙尘"
+polarity = 1
+description = "随机施加给3个未点亮格；点亮附着格额外消耗2能量，持续1个玩家回合。"
+duration = 1
+stackable = false
+max_stacks = 1
+icon = ExtResource("2_icon")
+
+[resource]
+script = ExtResource("1_effect")
+display_name = "随机蒙尘3个未点亮格"
+description = "从玩家已放置且尚未点亮的格子中随机选择3个，各施加1回合蒙尘；点亮额外消耗2能量。"
+type = 6
+target = 0
+amount = 0
+buff = SubResource("Resource_three_unlit_dust")
+buff_stacks = 1
+buff_target = 2
+buff_target_cell = Vector2i(-1, -1)

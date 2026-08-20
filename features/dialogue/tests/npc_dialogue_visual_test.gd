@@ -22,43 +22,44 @@ func _ready() -> void:
 	header.text = "PIPELINE // 废土通讯终端"
 	background.add_child(header)
 
-	var npc_shadow := ColorRect.new()
-	npc_shadow.color = Color(0, 0, 0, 0.35)
-	npc_shadow.position = Vector2(894, 775)
-	npc_shadow.size = Vector2(132, 18)
-	background.add_child(npc_shadow)
+	_add_speaker_marker(background, Vector2(310, 745), "鼠", Color("d3a84e"))
+	_add_speaker_marker(background, Vector2(960, 805), "R", Color("69b5b3"))
+	_add_speaker_marker(background, Vector2(1600, 710), "reb", Color("8b8fc9"))
 
-	var npc_body := ColorRect.new()
-	npc_body.color = Color("35484a")
-	npc_body.position = Vector2(925, 676)
-	npc_body.size = Vector2(70, 110)
-	background.add_child(npc_body)
-	var npc_head := ColorRect.new()
-	npc_head.color = Color("69b5b3")
-	npc_head.position = Vector2(937, 635)
-	npc_head.size = Vector2(46, 46)
-	background.add_child(npc_head)
-
-	var anchor := Node2D.new()
-	anchor.position = Vector2(960, 648)
-	add_child(anchor)
+	var anchor_scene := load("res://features/dialogue/scenes/dialogue_speaker_anchor.tscn") as PackedScene
+	var characters := [
+		load("res://features/dialogue/test_content/characters/鼠鼠.dch") as DialogicCharacter,
+		load("res://features/dialogue/test_content/characters/RUBBER.dch") as DialogicCharacter,
+		load("res://features/dialogue/test_content/characters/reb.dch") as DialogicCharacter,
+	]
+	var anchor_positions := [Vector2(310, 690), Vector2(960, 750), Vector2(1600, 655)]
+	var anchors: Array[DialogueSpeakerAnchor] = []
+	for index in characters.size():
+		var anchor := anchor_scene.instantiate() as DialogueSpeakerAnchor
+		anchor.dialogic_character = characters[index]
+		anchor.position = anchor_positions[index]
+		add_child(anchor)
+		anchors.append(anchor)
 
 	var canvas := (load("res://features/dialogue/scenes/npc_dialogue_canvas.tscn") as PackedScene).instantiate()
+	canvas.max_visible_bubbles = 6
+	canvas.min_bubble_width = 190.0
+	canvas.max_bubble_width = 430.0
 	add_child(canvas)
 	await get_tree().process_frame
-	canvas.set_dialogue_anchor(anchor)
 	canvas._on_timeline_started()
 
-	for line in [
-		"你终于来了。风暴正在吞掉北侧的旧电站。",
-		"仓库里留着一份路线图，但每条路都要付出代价。",
-		"选吧。我们没有时间再等下一班车了。"
-	]:
-		canvas._on_about_to_show_text({"text": line, "character": null, "append": false})
+	var preview_lines: Array[Dictionary] = [
+		{"text": "好了，说正事。你的 reb 我检查过了。", "character": characters[0]},
+		{"text": "注意。我的机械效率高于这里两个生命体之和。", "character": characters[2]},
+		{"text": "这也要损我吗？我很努力了好吧！", "character": characters[1]},
+	]
+	for info: Dictionary in preview_lines:
+		canvas._on_about_to_show_text({"text": info.text, "character": info.character, "append": false})
 		await get_tree().process_frame
 		var active := canvas.get_node("Root/BubbleStack").get_child(-1)
-		active.get_node("Margin/Content/DialogText").text = line
-		await get_tree().process_frame
+		active.get_node("Margin/Content/DialogText").text = info.text
+		await get_tree().create_timer(0.24).timeout
 
 	var choice_buttons := get_tree().get_nodes_in_group("dialogic_choice_button")
 	choice_buttons[0]._load_info({"button_index": 1, "text": "先去仓库，找出旧地图上的安全路线", "visible": true, "disabled": false})
@@ -85,3 +86,19 @@ func _add_rect(parent: Control, position: Vector2, size: Vector2, color: Color) 
 	rect.size = size
 	rect.color = color
 	parent.add_child(rect)
+
+
+func _add_speaker_marker(parent: Control, center: Vector2, glyph: String, color: Color) -> void:
+	var body := ColorRect.new()
+	body.color = Color("35484a")
+	body.position = center - Vector2(34, 70)
+	body.size = Vector2(68, 96)
+	parent.add_child(body)
+	var label := Label.new()
+	label.position = center - Vector2(70, 128)
+	label.size = Vector2(140, 60)
+	label.text = glyph
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+	label.add_theme_font_size_override("font_size", 34)
+	label.add_theme_color_override("font_color", color)
+	parent.add_child(label)

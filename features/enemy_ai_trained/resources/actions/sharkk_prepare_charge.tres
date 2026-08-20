@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="EnemyActionData" format=3 uid="uid://btry5qyhflrwa"]
+
+[ext_resource type="Script" uid="uid://7hwav6op8h01" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/move_enemy_away_1.tres" id="2"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_fko87"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/shield_4_enemy.tres" id="3"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/profiles/prepared_charge_1_4.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"trained_sharkk_prepare_charge"
+display_name = "后撤架拳"
+intent_text = "后退1格并获得4点护盾；准备冲刺"
+priority = 10
+base_weight = 0.1
+repeat_penalty = 0.35
+tags = PackedStringArray("movement", "defence", "charge_prepare", "state_locked")
+min_range = 1
+max_range = 3
+effects = Array[ExtResource("2_fko87")]([ExtResource("2"), ExtResource("3")])
+danger_profile = ExtResource("4")

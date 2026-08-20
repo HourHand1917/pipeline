@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="DangerAreaProfile" format=3]
+[ext_resource type="Script" path="res://features/combat_prediction/scripts/danger_area_profile.gd" id="1"]
+[resource]
+script = ExtResource("1")
+shape = 1
+min_range = 6
+max_range = 12
+severity = 3
+color = Color(0.87, 0.08, 0.62, 0.82)

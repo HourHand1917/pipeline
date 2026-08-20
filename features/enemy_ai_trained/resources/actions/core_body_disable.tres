@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=4 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/apply_disabled_player_cells.tres" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/profiles/global_disable_warning.tres" id="3"]
+[resource]
+script = ExtResource("1")
+id = &"trained_core_body_disable"
+display_name = "格位禁用"
+intent_text = "距离3以上：对玩家格子施加禁用"
+priority = 11
+base_weight = 0.1
+repeat_penalty = 0.35
+tags = PackedStringArray("debuff", "control", "reaction")
+min_range = 3
+max_range = 99
+effects = Array[CombatEffectData]([ExtResource("2")])
+danger_profile = ExtResource("3")
