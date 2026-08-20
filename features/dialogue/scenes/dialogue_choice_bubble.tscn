@@ -1,7 +1,11 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://features/dialogue/scripts/dialogue_choice_bubble.gd" id="1_choice"]
 [ext_resource type="Theme" path="res://features/dialogue/themes/wasteland_industrial_dialogue_theme.tres" id="2_theme"]
+[ext_resource type="Shader" path="res://features/dialogue/shaders/dialogue_scanlines.gdshader" id="3_scanlines"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterialScanlines"]
+shader = ExtResource("3_scanlines")
 
 [node name="DialogueChoiceBubble" type="Button" node_paths=PackedStringArray("text_node")]
 custom_minimum_size = Vector2(680, 82)
@@ -15,7 +19,27 @@ text_node = NodePath("Content/Row/ChoiceText")
 [node name="BubbleTail" type="Polygon2D" parent="."]
 position = Vector2(30, 80)
 polygon = PackedVector2Array(0, 0, 19, 0, 5, 12)
-color = Color(0.105, 0.118, 0.125, 0.98)
+color = Color(0.13, 0.82, 0.96, 0.96)
+
+[node name="TailInner" type="Polygon2D" parent="BubbleTail"]
+position = Vector2(3, 0)
+polygon = PackedVector2Array(0, 0, 12, 0, 3, 8)
+color = Color(0.012, 0.075, 0.105, 0.98)
+
+[node name="ScanlineOverlay" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterialScanlines")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
 
 [node name="Content" type="MarginContainer" parent="."]
 layout_mode = 1
@@ -40,14 +64,14 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(6, 0)
 layout_mode = 2
 mouse_filter = 2
-color = Color(0.36, 0.78, 0.75, 1)
+color = Color(0.337, 0.91, 1, 1)
 
 [node name="ChoiceNumber" type="Label" parent="Content/Row"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(42, 0)
 layout_mode = 2
 mouse_filter = 2
-theme_override_colors/font_color = Color(0.91, 0.58, 0.25, 1)
+theme_override_colors/font_color = Color(0.78, 0.97, 1, 1)
 theme_override_font_sizes/font_size = 18
 text = "01"
 horizontal_alignment = 1
@@ -57,7 +81,7 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(1, 0)
 layout_mode = 2
 mouse_filter = 2
-color = Color(0.43, 0.4, 0.32, 0.75)
+color = Color(0.16, 0.4, 0.46, 0.8)
 
 [node name="ChoiceText" type="RichTextLabel" parent="Content/Row"]
 custom_minimum_size = Vector2(0, 52)

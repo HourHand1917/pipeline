@@ -34,6 +34,7 @@ public partial class HostileNPC : NPCBase, ILootSource
 
     private bool _defeated;   // 持久化：战斗胜利后消失
     private bool _triggered;  // 防重复触发（不持久化）
+    private bool _battleAfterDialogue;
 
     public override void _Ready()
     {
@@ -48,11 +49,42 @@ public partial class HostileNPC : NPCBase, ILootSource
             return;
 
         _triggered = true;
+        if (HasConfiguredDialogue)
+        {
+            _battleAfterDialogue = true;
+            if (!TryStartConfiguredDialogue())
+            {
+                // 例如另一段 Dialogic 对话仍在运行：下一帧继续等待，不抢占插件状态。
+                _triggered = false;
+                _battleAfterDialogue = false;
+            }
+            return;
+        }
+
+        // 未配置 Timeline 时保持原功能：进入警戒范围立即开战。
         TriggerBattle();
     }
 
     // 敌对 NPC 不响应点击（靠近自动触发；打败后不留尸体，也无需二次互动）。
     public override void HandleInteract() { }
+
+    protected override void OnDialogueSignalReceived(Variant argument)
+    {
+        // 可在 Dialogic 分支中放置信号 start_battle；实际切场景仍等 Timeline 正常结束。
+        if ((argument.VariantType == Variant.Type.String ||
+             argument.VariantType == Variant.Type.StringName) &&
+            argument.AsString().Equals("start_battle", System.StringComparison.OrdinalIgnoreCase))
+            _battleAfterDialogue = true;
+    }
+
+    protected override void OnDialogueCompleted()
+    {
+        if (_battleAfterDialogue && !_defeated)
+        {
+            _battleAfterDialogue = false;
+            TriggerBattle();
+        }
+    }
 
     // 没有尸体，无需持久化剩余战利品或刷新尸体视觉。
     public void OnLootClaimed() { }

@@ -1,63 +1,107 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://features/dialogue/scripts/dialogue_bubble.gd" id="1_bubble"]
 [ext_resource type="Script" path="res://addons/dialogic/Modules/Text/node_name_label.gd" id="2_name"]
 [ext_resource type="Script" path="res://addons/dialogic/Modules/Text/node_dialog_text.gd" id="3_text"]
+[ext_resource type="Shader" path="res://features/dialogue/shaders/dialogue_scanlines.gdshader" id="4_scanlines"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterialScanlines"]
+shader = ExtResource("4_scanlines")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxBubble"]
-bg_color = Color(0.965, 0.95, 0.88, 0.98)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.16, 0.18, 0.2, 0.92)
-corner_radius_top_left = 20
-corner_radius_top_right = 20
-corner_radius_bottom_right = 20
-corner_radius_bottom_left = 6
-shadow_color = Color(0, 0, 0, 0.28)
-shadow_size = 8
-shadow_offset = Vector2(0, 4)
+bg_color = Color(0.012, 0.075, 0.105, 0.97)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.13, 0.82, 0.96, 0.96)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 2
+shadow_color = Color(0.03, 0.72, 0.92, 0.24)
+shadow_size = 10
+shadow_offset = Vector2(0, 2)
+anti_aliasing = false
 
 [node name="DialogueBubble" type="PanelContainer"]
-custom_minimum_size = Vector2(520, 92)
+custom_minimum_size = Vector2(520, 98)
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxBubble")
 script = ExtResource("1_bubble")
 
 [node name="BubbleTail" type="Polygon2D" parent="."]
 unique_name_in_owner = true
-position = Vector2(34, 90)
+position = Vector2(34, 96)
 polygon = PackedVector2Array(0, 0, 22, 0, 7, 14)
-color = Color(0.965, 0.95, 0.88, 0.98)
+color = Color(0.13, 0.82, 0.96, 0.96)
+
+[node name="TailInner" type="Polygon2D" parent="BubbleTail"]
+position = Vector2(3, 0)
+polygon = PackedVector2Array(0, 0, 14, 0, 4, 9)
+color = Color(0.012, 0.075, 0.105, 0.98)
+
+[node name="ScanlineOverlay" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterialScanlines")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = 5.0
+offset_right = -5.0
+offset_bottom = -5.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 1)
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
 theme_override_constants/margin_left = 20
-theme_override_constants/margin_top = 14
+theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 20
-theme_override_constants/margin_bottom = 16
+theme_override_constants/margin_bottom = 14
 
 [node name="Content" type="VBoxContainer" parent="Margin"]
 layout_mode = 2
-theme_override_constants/separation = 5
+theme_override_constants/separation = 6
 
-[node name="SpeakerName" type="Label" parent="Margin/Content"]
+[node name="SignalHeader" type="HBoxContainer" parent="Margin/Content"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="SignalGlyph" type="Label" parent="Margin/Content/SignalHeader"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.78, 0.97, 1, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.08, 0.12, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 17
+text = "✦"
+
+[node name="SpeakerName" type="Label" parent="Margin/Content/SignalHeader"]
 unique_name_in_owner = true
 layout_mode = 2
-theme_override_colors/font_color = Color(0.16, 0.42, 0.5, 1)
-theme_override_font_sizes/font_size = 18
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.57, 0.93, 1, 1)
+theme_override_colors/font_outline_color = Color(0.01, 0.07, 0.1, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 19
 text = "NPC"
 script = ExtResource("2_name")
 hide_when_empty = true
 
 [node name="DialogText" type="RichTextLabel" parent="Margin/Content"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 44)
+custom_minimum_size = Vector2(0, 46)
 layout_mode = 2
 mouse_filter = 1
-theme_override_colors/default_color = Color(0.08, 0.09, 0.1, 1)
-theme_override_font_sizes/normal_font_size = 25
+theme_override_colors/default_color = Color(0.9, 0.98, 1, 1)
+theme_override_colors/font_outline_color = Color(0.005, 0.04, 0.065, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/normal_font_size = 24
 bbcode_enabled = true
 fit_content = true
 scroll_active = false
