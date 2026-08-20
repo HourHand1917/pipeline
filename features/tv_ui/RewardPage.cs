@@ -16,16 +16,33 @@ public partial class RewardPage : Control
 
     [Export] private AnimationPlayer _anim;
     [Export] private VBoxContainer _lootList;
-    [Export] private Button _closeButton;
+    [Export] private TextureButton _closeButton;
+    [Export] private Label _title;
 
     private ILootSource _source;
     private bool _open;
+    private Texture2D _bottleCapIcon;
+    private Texture2D _faucetIcon;
+    /// <summary>货币图标尺寸（正方形，像素）。太大就在 Inspector 里调小。</summary>
+    [Export] private float _currencyIconSize = 32f;
+    /// <summary>战利品按钮字体大小。在 Inspector 里调。</summary>
+    [Export] private int _lootFontSize = 18;
+    /// <summary>战利品按钮字体（仿手写）。留空则用系统楷体/行楷。</summary>
+    [Export] private Font _lootFont;
 
     public override void _Ready()
     {
         Visible = false;
         if (_closeButton != null)
             _closeButton.Pressed += Close;
+
+        _bottleCapIcon = GD.Load<Texture2D>("res://features/exploration/art_assets/货币/瓶盖/结算画面手绘版.png");
+        _faucetIcon = GD.Load<Texture2D>("res://features/exploration/art_assets/货币/水龙头/手绘版.png");
+
+        if (_lootFont == null)
+            _lootFont = CreateHandwritingFont();
+
+        _title?.AddThemeFontOverride("font", _lootFont);
     }
 
     // ================================================================
@@ -64,9 +81,15 @@ public partial class RewardPage : Control
     {
         if (_closeButton != null) _closeButton.Disabled = !enable;
         if (_lootList != null)
+            SetButtonsEnabled(_lootList, enable);
+    }
+
+    private static void SetButtonsEnabled(Node node, bool enable)
+    {
+        foreach (Node child in node.GetChildren())
         {
-            foreach (Node child in _lootList.GetChildren())
-                if (child is Button btn) btn.Disabled = !enable;
+            if (child is Button btn) btn.Disabled = !enable;
+            SetButtonsEnabled(child, enable);
         }
     }
 
@@ -87,8 +110,8 @@ public partial class RewardPage : Control
         var cards = loot.Get(GDScriptKeys.LootTable.Cards).As<Godot.Collections.Array<Resource>>();
         var items = loot.Get(GDScriptKeys.LootTable.Items).As<Godot.Collections.Array<Resource>>();
 
-        if (cap > 0) AddCurrencySlot("瓶盖", cap, ClaimBottleCap);
-        if (faucet > 0) AddCurrencySlot("水龙头", faucet, ClaimFaucet);
+        if (cap > 0) AddCurrencySlot("瓶盖", cap, ClaimBottleCap, _bottleCapIcon);
+        if (faucet > 0) AddCurrencySlot("水龙头", faucet, ClaimFaucet, _faucetIcon);
 
         bool bagFull = DataManager.Instance.ItemBag.Count >= DataManager.MaxItemSlots;
 
@@ -96,36 +119,81 @@ public partial class RewardPage : Control
         {
             var card = cards[i];
             int idx = i;
-            AddResourceSlot(card, $"卡牌 {GetName(card)}", hasIcon: false, disabled: false, () => ClaimCard(idx));
+            AddResourceSlot(card, $"{GetName(card)}（卡牌）", hasIcon: false, disabled: false, () => ClaimCard(idx));
         }
 
         for (int i = 0; i < items.Count; i++)
         {
             var item = items[i];
             int idx = i;
-            string label = bagFull ? $"道具 {GetName(item)}（背包已满）" : $"道具 {GetName(item)}";
+            string label = bagFull ? $"{GetName(item)}（道具）（背包已满）" : $"{GetName(item)}（道具）";
             AddResourceSlot(item, label, hasIcon: true, disabled: bagFull, () => ClaimItem(idx));
         }
     }
 
-    private void AddCurrencySlot(string label, int amount, Action onClaim)
+    private void AddCurrencySlot(string label, int amount, Action onClaim, Texture2D icon)
     {
-        var btn = new Button();
-        btn.Text = $"{label} ×{amount}";
-        btn.CustomMinimumSize = new Vector2(0, 48);
+        var row = new HBoxContainer();
+        row.AddThemeConstantOverride("separation", 8);
+
+        if (icon != null)
+        {
+            var iconRect = new TextureRect
+            {
+                Texture = icon,
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                CustomMinimumSize = new Vector2(_currencyIconSize, _currencyIconSize),
+                StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+            };
+            iconRect.SizeFlagsVertical = SizeFlags.ShrinkCenter;
+            row.AddChild(iconRect);
+        }
+
+        var btn = new LootButton
+        {
+            Text = $"{label} ×{amount}",
+            CustomMinimumSize = new Vector2(0, 48),
+            SizeFlagsHorizontal = SizeFlags.ExpandFill,
+        };
+        StyleLootButton(btn);
         btn.Pressed += () => onClaim();
-        _lootList.AddChild(btn);
+        row.AddChild(btn);
+
+        _lootList.AddChild(row);
     }
 
     private void AddResourceSlot(Resource res, string label, bool hasIcon, bool disabled, Action onClaim)
     {
-        var btn = new Button();
+        var btn = new LootButton();
         btn.Text = label;
         btn.Disabled = disabled;
         btn.CustomMinimumSize = new Vector2(0, 48);
+        StyleLootButton(btn);
         btn.Pressed += () => onClaim();
         AttachTooltip(btn, (GodotObject)res, hasIcon);
         _lootList.AddChild(btn);
+    }
+
+    /// <summary>统一战利品按钮样式：纯文字（无背景）、仿手写字体、黑色文字。</summary>
+    private void StyleLootButton(Button btn)
+    {
+        btn.Flat = true;
+        btn.AutowrapMode = TextServer.AutowrapMode.WordSmart;
+        btn.AddThemeFontOverride("font", _lootFont);
+        btn.AddThemeFontSizeOverride("font_size", _lootFontSize);
+        btn.AddThemeColorOverride("font_color", Colors.Black);
+        btn.AddThemeColorOverride("font_hover_color", Colors.Black);
+        btn.AddThemeColorOverride("font_pressed_color", Colors.Black);
+        btn.AddThemeColorOverride("font_focus_color", Colors.Black);
+        btn.AddThemeColorOverride("font_disabled_color", new Color(0.35f, 0.35f, 0.35f));
+    }
+
+    /// <summary>用系统自带的中文仿手写字体（楷体/行楷），无需随项目分发字体文件。</summary>
+    private static Font CreateHandwritingFont()
+    {
+        var sys = new SystemFont();
+        sys.FontNames = new string[] { "楷体", "KaiTi", "华文行楷", "STXingkai" };
+        return sys;
     }
 
     // 卡牌与道具都暴露 display_name / description，字段名一致，这里统一用 CardData 的键读取。

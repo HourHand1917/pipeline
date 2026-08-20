@@ -17,30 +17,62 @@ public partial class InventoryPanel : Control
     [Export] private Button _discardButton;
     [Export] private Label _bottleCapLabel;
     [Export] private Label _faucetLabel;
+    [Export] private Label _levelLabel;
 
     private int _selectedIndex = -1;
     private bool _isBattle;
 
     private TextureButton[] _slots = new TextureButton[DataManager.MaxItemSlots];
+    private TextureRect[] _slotIcons = new TextureRect[DataManager.MaxItemSlots];
+    private Texture2D _slotBg;
+    private Texture2D _buttonBg;
 
     public override void _Ready()
     {
+        _slotBg = GD.Load<Texture2D>("res://features/exploration/art_assets/workbenchUI/卡牌背景.png");
+        _buttonBg = GD.Load<Texture2D>("res://features/exploration/art_assets/battlescreen/已激活.png");
+
         for (int i = 0; i < DataManager.MaxItemSlots; i++)
         {
             var slot = _itemRow?.GetChildOrNull<TextureButton>(i);
-            if (slot != null)
+            if (slot == null) continue;
+
+            int idx = i;
+            slot.Pressed += () => SelectItem(idx);
+            _slots[i] = slot;
+
+            // 格子背景：卡牌底图铺满（各状态一致）
+            slot.StretchMode = TextureButton.StretchModeEnum.Scale;
+            slot.TextureNormal = _slotBg;
+            slot.TextureHover = _slotBg;
+            slot.TexturePressed = _slotBg;
+            slot.TextureDisabled = _slotBg;
+
+            // 物品图标：子 TextureRect 等比居中叠在背景上
+            var icon = new TextureRect
             {
-                int idx = i;
-                slot.Pressed += () => SelectItem(idx);
-                _slots[i] = slot;
-            }
+                ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+                StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
+                MouseFilter = MouseFilterEnum.Ignore,
+            };
+            icon.SetAnchorsPreset(Control.LayoutPreset.FullRect);
+            icon.OffsetLeft = 10;
+            icon.OffsetTop = 10;
+            icon.OffsetRight = -10;
+            icon.OffsetBottom = -10;
+            slot.AddChild(icon);
+            _slotIcons[i] = icon;
         }
 
         if (_useButton != null) _useButton.Pressed += OnUse;
         if (_discardButton != null) _discardButton.Pressed += OnDiscard;
 
+        ApplyButtonBg(_useButton);
+        ApplyButtonBg(_discardButton);
+
         DataManager.Instance.ItemBagChanged += Refresh;
         DataManager.Instance.CurrencyChanged += Refresh;
+        DataManager.Instance.LevelChanged += OnLevelChanged;
 
         Refresh();
     }
@@ -49,6 +81,21 @@ public partial class InventoryPanel : Control
     {
         DataManager.Instance.ItemBagChanged -= Refresh;
         DataManager.Instance.CurrencyChanged -= Refresh;
+        DataManager.Instance.LevelChanged -= OnLevelChanged;
+    }
+
+    private void ApplyButtonBg(Button btn)
+    {
+        if (btn == null || _buttonBg == null) return;
+
+        var normal = new StyleBoxTexture { Texture = _buttonBg };
+        var disabled = new StyleBoxTexture { Texture = _buttonBg, ModulateColor = new Color(0.5f, 0.5f, 0.5f) };
+
+        btn.AddThemeStyleboxOverride("normal", normal);
+        btn.AddThemeStyleboxOverride("hover", normal);
+        btn.AddThemeStyleboxOverride("pressed", normal);
+        btn.AddThemeStyleboxOverride("focus", normal);
+        btn.AddThemeStyleboxOverride("disabled", disabled);
     }
 
     public void SetMode(int mode)
@@ -61,29 +108,43 @@ public partial class InventoryPanel : Control
     {
         if (_itemRow == null) return;
 
+        bool hasSelection = _selectedIndex >= 0
+            && DataManager.Instance.GetItem(_selectedIndex) != null;
+
         for (int i = 0; i < _slots.Length; i++)
         {
             var slot = _slots[i];
             if (slot == null) continue;
 
             var item = DataManager.Instance.GetItem(i);
+            var icon = _slotIcons[i];
             if (item != null)
             {
                 var obj = (GodotObject)item;
-                slot.TextureNormal = obj.Get("icon").As<Texture2D>();
+                if (icon != null)
+                {
+                    icon.Texture = obj.Get("icon").As<Texture2D>();
+                    icon.Visible = true;
+                    icon.Modulate = Colors.White; // 图标颜色交由 slot 统一控制
+                }
+
+                // 选中道具：背景 + 图标一起变亮；其余调暗
+                bool isSelected = hasSelection && i == _selectedIndex;
+                slot.Modulate = isSelected || !hasSelection
+                    ? Colors.White
+                    : new Color(0.55f, 0.55f, 0.55f);
+
                 slot.Disabled = false;
                 AttachTooltip(slot, obj);
             }
             else
             {
-                slot.TextureNormal = null;
+                if (icon != null) { icon.Texture = null; icon.Visible = false; }
+                slot.Modulate = Colors.White;
                 slot.Disabled = true;
                 TooltipService.Instance.HideFor(slot);
             }
         }
-
-        bool hasSelection = _selectedIndex >= 0
-            && DataManager.Instance.GetItem(_selectedIndex) != null;
 
         if (_useButton != null)
         {
@@ -97,7 +158,11 @@ public partial class InventoryPanel : Control
             _bottleCapLabel.Text = DataManager.Instance.BottleCap.ToString();
         if (_faucetLabel != null)
             _faucetLabel.Text = DataManager.Instance.Faucet.ToString();
+        if (_levelLabel != null)
+            _levelLabel.Text = $"lv: {DataManager.Instance.Lv}";
     }
+
+    private void OnLevelChanged(int newLevel) => Refresh();
 
     private void AttachTooltip(TextureButton slot, GodotObject item)
     {
