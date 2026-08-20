@@ -212,22 +212,39 @@ public partial class EffectResolver : Node
         }
     }
 
-    private bool ApplyBuff(GodotObject effect, BattleManager battleManager, EnemyBattle actor)
+   private bool ApplyBuff(GodotObject effect, BattleManager battleManager, EnemyBattle actor)
+{
+    var buff = effect.Get(GDScriptKeys.CombatEffect.Buff).As<GodotObject>();
+    if (buff == null) return false;
+    int stacks = effect.Get(GDScriptKeys.CombatEffect.BuffStacks).AsInt32();
+    int target = effect.Get(GDScriptKeys.CombatEffect.BuffTarget).AsInt32();
+    Vector2I cell = effect.Get(GDScriptKeys.CombatEffect.BuffTargetCell).AsVector2I();
+
+    GD.Print($"[调试] ApplyBuff target={target}, buff={buff.Get("buff_name")}, stacks={stacks}");
+
+    switch (target)
     {
-        var buff = effect.Get(GDScriptKeys.CombatEffect.Buff).As<GodotObject>();
-        if (buff == null) return false;
-        int stacks = effect.Get(GDScriptKeys.CombatEffect.BuffStacks).AsInt32();
-        int target = effect.Get(GDScriptKeys.CombatEffect.BuffTarget).AsInt32();
-        Vector2I cell = effect.Get(GDScriptKeys.CombatEffect.BuffTargetCell).AsVector2I();
-        switch (target)
+        case 0:
         {
-            case 0: battleManager.Player?.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks); battleManager.Player?.ApplyBuff(buff, stacks);break;
-            case 1: actor?.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks); break;
-            case 2: ApplyBuffToPlayerCells(buff, stacks, cell); break;
-            default: return false;
+            var stats = battleManager.Player?.GetStats();
+            GD.Print($"[调试] case 0: stats={stats != null}, hash={stats?.GetHashCode()}");
+            if (stats != null)
+            {
+                var buffsBefore = stats.Get("buffs").As<Array>();
+                GD.Print($"[调试] 施加前 buffs.Count={buffsBefore.Count}");
+                stats.Call(GDScriptKeys.Stats.AddBuff, buff, stacks);
+                var buffsAfter = stats.Get("buffs").As<Array>();
+                GD.Print($"[调试] 施加后 buffs.Count={buffsAfter.Count}");
+            }
+            battleManager.Player?.ApplyBuff(buff, stacks);
+            break;
         }
-        return true;
+        case 1: actor?.GetStats()?.Call(GDScriptKeys.Stats.AddBuff, buff, stacks); break;
+        case 2: ApplyBuffToPlayerCells(buff, stacks, cell); break;
+        default: return false;
     }
+    return true;
+}
 
     private bool RemoveBuff(GodotObject effect, int target, EnemyBattle actor)
     {

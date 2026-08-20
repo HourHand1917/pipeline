@@ -54,13 +54,21 @@ public partial class ExplorationManager : Node2D
         _hud?.SetMode(PlayerTV.TVMode.Exploration);
     }
 
-    /// <summary>播放当前地图绑定音乐。</summary>
+    /// <summary>
+    /// 播放当前地图音乐。如果和正在播放的音乐相同，跳过（连续播放）。
+    /// 不同则淡入淡出切换。
+    /// </summary>
     private void PlayMapMusic()
     {
         if (MapMusic == null) return;
 
         var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
-        audio?.PlayMusic(MapMusic);
+        if (audio == null) return;
+
+        if (audio.IsMusicPlaying(MapMusic))
+            return; // 同一层，继续播放
+
+        audio.PlayMusicWithFade(MapMusic);
     }
 
     public void ApplyBounds()
