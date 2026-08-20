@@ -531,11 +531,12 @@ text = "123"
 script = ExtResource("8_o0qei")
 
 [node name="EnemyPanel" parent="PanelStack" unique_id=931749593 instance=ExtResource("7_butd8")]
-visible = false
 layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.014
 offset_left = 18.0
 offset_top = 0.10021973
-offset_right = 910.0
+offset_right = 2157.29
 offset_bottom = 517.97034
 scale = Vector2(0.5714649, 0.5394293)
 
