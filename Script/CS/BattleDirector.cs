@@ -18,6 +18,8 @@ public partial class BattleDirector : Node
     public StringName NpcMapId { get; private set; } = "";
     /// <summary>战斗结束返回的生成点</summary>
     public StringName ReturnSpawnId { get; private set; } = "";
+    /// <summary>刚打赢战斗的 NPC id（NPC 返回后据此一次性自动弹战利品页）</summary>
+    public StringName PendingLootNpcId { get; private set; } = "";
 
     /// <summary>地图默认音乐（战斗结束恢复用）</summary>
     [Export] public AudioStream DefaultMapMusic { get; set; }
@@ -48,6 +50,7 @@ public partial class BattleDirector : Node
                 NpcMapId.ToString(), NpcPersistenceId.ToString(),
                 new Dictionary { { "defeated", true } });
         }
+        PendingLootNpcId = NpcPersistenceId; // 返回后 NPC 据此自动弹战利品页
         ReturnToExploration();
     }
 
@@ -55,6 +58,14 @@ public partial class BattleDirector : Node
     public void OnBattleLost()
     {
         ReturnToExploration();
+    }
+
+    /// <summary>NPC 领取「刚打赢」标记。只匹配该 NPC 一次，消费后返回 false。</summary>
+    public bool ConsumePendingLoot(StringName npcId)
+    {
+        if (PendingLootNpcId != npcId) return false;
+        PendingLootNpcId = "";
+        return true;
     }
 
     private void ReturnToExploration()

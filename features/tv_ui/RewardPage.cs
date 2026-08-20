@@ -50,6 +50,11 @@ public partial class RewardPage : Control
         if (!_open) return;
         _open = false;
         PlayerController.Instance?.UnlockMovement(); // 关闭战利品页时解锁移动
+
+        // 不留尸体的来源：关闭时把没领完的全自动收进背包（放不下的道具丢弃）。
+        if (_source != null && _source.AutoClaimRemainderOnClose)
+            AutoClaimRemainder();
+
         _anim?.Play("hide_reward");
         EmitSignal(SignalName.Closed);
     }
@@ -199,6 +204,44 @@ public partial class RewardPage : Control
         else
         {
             RebuildSlots();
+        }
+    }
+
+    /// <summary>
+    /// 把剩余战利品全自动收进背包：货币/卡牌全收；道具受 4 格上限约束，放不下的丢弃。
+    /// 仅用于不留尸体的掉落源（HostileNPC），关闭战利品页时调用。
+    /// </summary>
+    private void AutoClaimRemainder()
+    {
+        if (_source == null || _source.RemainingLoot == null) return;
+        var table = (GodotObject)_source.RemainingLoot;
+
+        // 货币全收
+        int cap = table.Call(GDScriptKeys.LootTable.TakeBottleCap).AsInt32();
+        if (cap > 0) DataManager.Instance.ModifyCurrency(DataManager.CurrencyType.BottleCap, cap);
+        int faucet = table.Call(GDScriptKeys.LootTable.TakeFaucet).AsInt32();
+        if (faucet > 0) DataManager.Instance.ModifyCurrency(DataManager.CurrencyType.Faucet, faucet);
+
+        // 卡牌全收（无上限）
+        var cards = table.Get(GDScriptKeys.LootTable.Cards).As<Godot.Collections.Array<Resource>>();
+        while (cards.Count > 0)
+        {
+            var card = table.Call(GDScriptKeys.LootTable.TakeCard, 0).As<Resource>();
+            if (card == null) break;
+            DataManager.Instance.AcquireCard(card, 1);
+        }
+
+        // 道具：背包上限 4，放不下的丢弃
+        var items = table.Get(GDScriptKeys.LootTable.Items).As<Godot.Collections.Array<Resource>>();
+        while (items.Count > 0)
+        {
+            var item = table.Call(GDScriptKeys.LootTable.TakeItem, 0).As<Resource>();
+            if (item == null) break;
+            if (!DataManager.Instance.AddItem(item))
+            {
+                string name = ((GodotObject)item).Get(GDScriptKeys.ItemData.DisplayName).AsString();
+                GD.Print($"背包已满，丢弃道具：{name}");
+            }
         }
     }
 }

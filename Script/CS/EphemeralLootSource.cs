@@ -11,4 +11,5 @@ public partial class EphemeralLootSource : RefCounted, ILootSource
     public EphemeralLootSource(Resource loot) => RemainingLoot = loot;
 
     public void OnLootClaimed() { }
+    public bool AutoClaimRemainderOnClose => false;
 }
