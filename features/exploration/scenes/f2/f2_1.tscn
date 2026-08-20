@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://cgwl8pvqaalb7"]
+[gd_scene format=3 uid="uid://c2avbdnajxthc"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_rndhp"]
@@ -8,19 +8,20 @@
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
 
-[node name="ExplorationMap" type="Node2D" unique_id=1578985874 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap2" type="Node2D" unique_id=1578985874 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f2_1"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_rndhp")
-PlayerLeft = 0
-PlayerRight = 1680
+PlayerLeft = -150
+PlayerRight = 1830
 CamLeft = 0
 CamRight = 1680
 
@@ -36,23 +37,28 @@ SpawnId = &"f2_1right"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=956701218]
 
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=1128729988]
+position = Vector2(1021, 1447)
+scale = Vector2(2.1333318, 1)
+texture = ExtResource("20_floor")
+
 [node name="贫民区背景" type="Sprite2D" parent="MapLayer" unique_id=78607295]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_bg")
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1661849276]
-position = Vector2(0, 450)
+position = Vector2(-150, 450)
 script = ExtResource("4_edge")
-TargetMapId = &"f2_0"
-TargetSpawnId = &"f2_0right"
+TargetMapId = &"home"
+TargetSpawnId = &"home_entry"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge" unique_id=221310312]
 position = Vector2(-300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
 [node name="right_edge" type="Area2D" parent="MapLayer" unique_id=672989695]
-position = Vector2(1680, 450)
+position = Vector2(1830, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"f2_2"
 TargetSpawnId = &"f2_2left"

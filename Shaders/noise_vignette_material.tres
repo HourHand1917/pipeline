@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://c2uf6ubc7csl7"]
+
+[ext_resource type="Shader" uid="uid://ccbw8wvd5urb7" path="res://Shaders/noise_vignette.gdshader" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/edge_softness = 0.25

@@ -56,6 +56,13 @@ public partial class PlayerTV : Control
         _anim?.Play("switch_panel");
     }
 
+    public void OnSwitchStart()
+    {
+        // 切换开始时先隐藏当前页，让花屏盖住空屏，中点再切到新页
+        for (int i = 0; i < _panels.Length; i++)
+            if (_panels[i] != null) _panels[i].Visible = false;
+    }
+
     public void OnSwitchMidpoint()
     {
         int count = _panels.Length;

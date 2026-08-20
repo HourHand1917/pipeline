@@ -47,13 +47,6 @@ display_name = "教程2"
 scene_path = "res://features/exploration/scenes/f1/f1_2.tscn"
 default_spawn_id = &"f1_2right"
 
-[sub_resource type="Resource" id="sub_f2_0"]
-script = ExtResource("2_map")
-id = &"f2_0"
-display_name = "荒地"
-scene_path = "res://features/exploration/scenes/f2/f2_0.tscn"
-default_spawn_id = &"f2_0left"
-
 [sub_resource type="Resource" id="sub_f2_1"]
 script = ExtResource("2_map")
 id = &"f2_1"
@@ -133,4 +126,4 @@ default_spawn_id = &"f4entry"
 
 [resource]
 script = ExtResource("1_reg")
-maps = Array[ExtResource("2_map")]([SubResource("sub_home"), SubResource("sub_test"), SubResource("sub_test2"), SubResource("sub_f1_0"), SubResource("sub_f1_1"), SubResource("sub_f1_2"), SubResource("sub_f2_0"), SubResource("sub_f2_1"), SubResource("sub_f2_2"), SubResource("sub_f2_3"), SubResource("sub_f2_4"), SubResource("sub_f3_0"), SubResource("sub_f3_1"), SubResource("sub_f3_2"), SubResource("sub_f3_5"), SubResource("sub_f3_6"), SubResource("sub_f3_7"), SubResource("sub_f4")])
+maps = Array[ExtResource("2_map")]([SubResource("sub_home"), SubResource("sub_test"), SubResource("sub_test2"), SubResource("sub_f1_0"), SubResource("sub_f1_1"), SubResource("sub_f1_2"), SubResource("sub_f2_1"), SubResource("sub_f2_2"), SubResource("sub_f2_3"), SubResource("sub_f2_4"), SubResource("sub_f3_0"), SubResource("sub_f3_1"), SubResource("sub_f3_2"), SubResource("sub_f3_5"), SubResource("sub_f3_6"), SubResource("sub_f3_7"), SubResource("sub_f4")])
