@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="CombatEffectData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="1_effect"]
+
+[resource]
+script = ExtResource("1_effect")
+display_name = "致命亲亲·第二发"
+description = "第二发弹丸对敌人造成6点伤害。"
+type = 0
+target = 1
+amount = 6

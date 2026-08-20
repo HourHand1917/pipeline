@@ -1,21 +1,23 @@
-[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://tq7ksi1vjs2d"]
+[gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_script"]
-[ext_resource type="Resource" path="res://card/effects/tactical_armor_shield_4.tres" id="3_effect"]
-[ext_resource type="Resource" path="res://card/card_upgrade/card/cards/tactical_armor_up.tres" id="4_j3lmd"]
+[ext_resource type="Resource" path="res://card/effects/tactical_armor_shield_5.tres" id="3_effect"]
 
 [resource]
 script = ExtResource("1_card")
-id = &"tactical_armor"
-display_name = "战术护甲"
+id = &"tactical_armor_up"
+display_name = "战术护甲+"
 icon_text = "甲"
 glyph = "防"
 category = "defense"
-description = "点亮1格后，获得4点护盾。"
+description = "点亮1格后，获得5点护盾。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0)])
+min_range = 0
+max_range = 0
 effect_type = "shield"
-effect_value = 4
+effect_value = 5
 cooldown_turns = 2
 effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])
-upgraded_version = ExtResource("4_j3lmd")
+is_upgraded = true
 tint = Color(0.42, 0.52, 0.68, 1)

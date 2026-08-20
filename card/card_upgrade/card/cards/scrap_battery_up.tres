@@ -1,20 +1,23 @@
-[gd_resource type="Resource" script_class="CardData" format=3 uid="uid://b7i6facoalmh3"]
+[gd_resource type="Resource" script_class="CardData" format=3]
 
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_script"]
-[ext_resource type="Resource" path="res://card/effects/scrap_battery_energy_1.tres" id="3_effect"]
-[ext_resource type="Resource" path="res://card/card_upgrade/card/cards/scrap_battery_up.tres" id="4_nchxh"]
+[ext_resource type="Resource" path="res://card/effects/scrap_battery_energy_2.tres" id="3_effect"]
 
 [resource]
 script = ExtResource("1_card")
-id = &"scrap_battery"
-display_name = "废旧电池"
+id = &"scrap_battery_up"
+display_name = "废旧电池+"
 icon_text = "电"
 glyph = "辅"
 category = "defense"
-description = "点亮1格后，恢复1点能量。"
+description = "点亮1格后，恢复2点能量。"
+shape_offsets = Array[Vector2i]([Vector2i(0, 0)])
+min_range = 0
+max_range = 0
 effect_type = "energy"
+effect_value = 2
 cooldown_turns = 2
 effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])
-upgraded_version = ExtResource("4_nchxh")
+is_upgraded = true
 tint = Color(0.3, 0.74, 0.78, 1)
