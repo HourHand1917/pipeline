@@ -83,16 +83,20 @@ layout_mode = 2
 layout_mode = 2
 columns = 6
 
-[node name="messagebox" type="HBoxContainer" parent="enemymassagebox" unique_id=725493255]
+[node name="messagebox" type="VBoxContainer" parent="enemymassagebox" unique_id=725493255]
 custom_minimum_size = Vector2(0, 540)
 layout_mode = 2
 
 [node name="Label" type="Label" parent="enemymassagebox/messagebox" unique_id=1533614486]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 70
 text = "敌人意图或情报"
+autowrap_mode = 3
 
 [node name="actionlabel" type="Label" parent="enemymassagebox/messagebox" unique_id=1563682933]
 layout_mode = 2
+size_flags_vertical = 3
 theme_override_font_sizes/font_size = 70
 text = "行动为："
+autowrap_mode = 3
