@@ -1,0 +1,16 @@
+{
+  "iterations_per_matchup": 10000,
+  "seed": 20260820,
+  "targets": {
+    "base_enemy_win_min": 0.50,
+    "base_enemy_win_max": 0.60,
+    "upgraded_enemy_win_min": 0.27,
+    "upgraded_enemy_win_max": 0.33
+  },
+  "encounters": {
+    "boom": {"base": 0.53, "upgraded": 0.28},
+    "boom_rocky": {"base": 0.56, "upgraded": 0.31},
+    "sharkk": {"base": 0.57, "upgraded": 0.32},
+    "core00": {"base": 0.55, "upgraded": 0.29}
+  }
+}

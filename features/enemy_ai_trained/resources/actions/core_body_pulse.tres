@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=4 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/damage_2_player.tres" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/profiles/forward_3_4.tres" id="3"]
+[resource]
+script = ExtResource("1")
+id = &"trained_core_body_pulse"
+display_name = "连发脉冲"
+intent_text = "距离3-4：连续造成3次2点伤害，冷却2"
+priority = 13
+base_weight = 0.55
+repeat_penalty = 0.35
+cooldown_turns = 2
+tags = PackedStringArray("attack", "mid", "multi_hit")
+min_range = 3
+max_range = 4
+effects = Array[CombatEffectData]([ExtResource("2"), ExtResource("2"), ExtResource("2")])
+danger_profile = ExtResource("3")

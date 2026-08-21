@@ -41,6 +41,7 @@ public partial class EnemyBattle : Node2D
     /// <summary>The intent selected during PlayerTurn and executed unchanged in EnemyTurn.</summary>
     public GodotObject PlannedAction { get; private set; }
     public int DamageTakenThisPlayerTurn { get; private set; }
+    public EnemyAnimator Animator { get; private set; }
 
     // GDScript 数据引用
     private GodotObject _enemyData;
@@ -50,6 +51,10 @@ public partial class EnemyBattle : Node2D
     //  从 EnemyData 资源加载
     // ================================================================
 
+    public override void _Ready()
+    {
+        Animator = GetNodeOrNull<EnemyAnimator>("EnemyAnimator");
+    }
     public void LoadFromData(GodotObject enemyData)
     {
         if (enemyData == null) return;
@@ -113,20 +118,27 @@ public partial class EnemyBattle : Node2D
     // ================================================================
 
     public void TakeDamage(int amount, int minimumHp = 0)
+{
+    if (amount <= 0 || !IsAlive) return;
+    int shieldDmg = Mathf.Min(Shield, amount);
+    Shield -= shieldDmg;
+    int hpDmg = amount - shieldDmg;
+    CurrentHp = Mathf.Max(minimumHp, CurrentHp - hpDmg);
+    DamageTakenThisPlayerTurn += amount;
+
+    EmitSignal(SignalName.ShieldChanged, Shield);
+    EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
+
+    if (CurrentHp <= 0)
     {
-        if (amount <= 0 || !IsAlive) return;
-        int shieldDmg = Mathf.Min(Shield, amount);
-        Shield -= shieldDmg;
-        int hpDmg = amount - shieldDmg;
-        CurrentHp = Mathf.Max(minimumHp, CurrentHp - hpDmg);
-        DamageTakenThisPlayerTurn += amount;
-
-        EmitSignal(SignalName.ShieldChanged, Shield);
-        EmitSignal(SignalName.HealthChanged, CurrentHp, MaxHp);
-
-        if (CurrentHp <= 0)
-            EmitSignal(SignalName.Died);
+        Animator?.PlayDeath();  // ← 加这行
+        EmitSignal(SignalName.Died);
     }
+    else
+    {
+        Animator?.PlayHurt();   // ← 移到这里
+    }
+}
 
     public void ResetTurnDamage() => DamageTakenThisPlayerTurn = 0;
 

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=4 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/damage_4_player.tres" id="2"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/profiles/forward_1.tres" id="3"]
+[resource]
+script = ExtResource("1")
+id = &"trained_boom_attack_1"
+display_name = "贴身自爆"
+intent_text = "距离1：造成4点伤害"
+priority = 12
+base_weight = 1.0
+repeat_penalty = 0.35
+tags = PackedStringArray("attack", "close")
+min_range = 1
+max_range = 1
+effects = Array[CombatEffectData]([ExtResource("2")])
+danger_profile = ExtResource("3")

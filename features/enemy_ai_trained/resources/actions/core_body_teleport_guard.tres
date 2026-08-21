@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=3 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/shield_4_enemy.tres" id="2"]
+[resource]
+script = ExtResource("1")
+id = &"trained_core_body_teleport_guard"
+display_name = "闪身护卫"
+intent_text = "闪到玩家身后一格，并获得4点护盾"
+priority = 14
+base_weight = 0.25
+repeat_penalty = 0.12
+tags = PackedStringArray("movement", "defence", "reaction", "teleport")
+min_range = 1
+max_range = 99
+effects = Array[CombatEffectData]([ExtResource("2")])
+special_effect = &"move_behind_player"
+effect_target_role = &"self"

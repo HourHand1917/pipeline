@@ -1,0 +1,10 @@
+{
+  "melee_rush": 0.01,
+  "mid_poke": 0.00,
+  "ranged_kite": -0.01,
+  "shield_attrition": 0.01,
+  "heal_stall": 0.02,
+  "burst_combo": -0.02,
+  "random_legal": 0.01,
+  "move_evade": -0.02
+}

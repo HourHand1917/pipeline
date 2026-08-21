@@ -179,7 +179,7 @@ public partial class UIManager : Node
         RefreshPlayerBuffs();
     }
 
-    private void RefreshBoard(int gridWidth, int gridHeight)
+private void RefreshBoard(int gridWidth, int gridHeight)
 {
     bool canLight = battleManager.CurrentPhase == BattleManager.Phase.PlayerTurn;
 
@@ -240,6 +240,10 @@ public partial class UIManager : Node
         }
 
         btn.SetText(text);
+
+        // Buff 染色
+        var cellStats = cell?.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
+        btn.ApplyBuffTint(cellStats);
     }
 }
 

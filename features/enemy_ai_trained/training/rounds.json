@@ -1,0 +1,6 @@
+{
+  "round_1": {"candidates": 500, "games_per_profile": 500},
+  "round_2": {"top_candidates": 32, "games_per_profile": 2000},
+  "round_3": {"locked_profile": true, "games_per_profile": 10000},
+  "profiles": ["melee_rush", "mid_poke", "ranged_kite", "shield_attrition", "heal_stall", "burst_combo", "random_legal", "move_evade"]
+}

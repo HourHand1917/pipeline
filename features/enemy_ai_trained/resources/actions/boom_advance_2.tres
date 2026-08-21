@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=3 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/effects/move_enemy_toward_2.tres" id="2"]
+[resource]
+script = ExtResource("1")
+id = &"trained_boom_advance_2"
+display_name = "前进2格"
+intent_text = "向玩家前进2格，冷却2"
+priority = 6
+base_weight = 0.75
+repeat_penalty = 0.55
+cooldown_turns = 2
+tags = PackedStringArray("movement", "approach", "long_step")
+min_range = 1
+max_range = 99
+effects = Array[CombatEffectData]([ExtResource("2")])

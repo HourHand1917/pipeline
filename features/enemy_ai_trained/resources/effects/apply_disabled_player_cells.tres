@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="CombatEffectData" load_steps=3 format=3]
+[ext_resource type="Script" path="res://Script/GD/resource/combat_effect_data.gd" id="1"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/buffs/disabled.tres" id="2"]
+[resource]
+script = ExtResource("1")
+display_name = "对玩家格子施加禁用"
+type = 6
+target = 0
+amount = 0
+buff = ExtResource("2")
+buff_stacks = 1
+buff_target = 2
+buff_target_cell = Vector2i(-1, -1)

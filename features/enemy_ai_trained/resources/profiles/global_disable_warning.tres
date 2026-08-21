@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DangerAreaProfile" format=3]
+[ext_resource type="Script" path="res://features/combat_prediction/scripts/danger_area_profile.gd" id="1"]
+[resource]
+script = ExtResource("1")
+shape = 5
+severity = 2
+color = Color(0.73, 0.13, 0.9, 0.76)
+global_warning = "Core-00将禁用5个未点亮格子"
