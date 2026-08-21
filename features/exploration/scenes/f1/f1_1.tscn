@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="15_e5xpt"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="21_workbench_interact"]
-[ext_resource type="PackedScene" path="res://features/workbench/SupplyWorkbench.tscn" id="22_supply_wb"]
+[ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="22_supply_wb"]
 
 [sub_resource type="Resource" id="Resource_loot"]
 script = ExtResource("10_loot")
@@ -28,11 +28,11 @@ bottle_cap = 3
 faucet = 5
 cards = Array[ExtResource("5_2iy1r")]([ExtResource("7_8rct6")])
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_chest_detect"]
-radius = 120.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8rct6"]
+size = Vector2(397.53082, 232.09871)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_chest_click"]
-radius = 48.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vana"]
+size = Vector2(353.08624, 228.39505)
 
 [sub_resource type="Resource" id="Resource_nc6vc"]
 script = ExtResource("10_loot")
@@ -40,8 +40,20 @@ bottle_cap = 5
 faucet = 5
 metadata/_custom_type_script = "uid://48j6ej4rld81"
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_chest_detect"]
+radius = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_chest_click"]
+radius = 48.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ishdt"]
+size = Vector2(214.81485, 288.88876)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ygr4u"]
+size = Vector2(158.02477, 302.4691)
 
 [node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_o77cp")
@@ -78,7 +90,7 @@ position = Vector2(516, 139)
 texture = ExtResource("3_o77cp")
 
 [node name="宝箱" type="Area2D" parent="MapLayer" unique_id=608692210 node_paths=PackedStringArray("Hud", "_blink")]
-position = Vector2(308.642, 300.00003)
+position = Vector2(-41.97531, 300.00003)
 script = ExtResource("8_chest")
 Loot = SubResource("Resource_loot")
 Hud = NodePath("../../UILayer/HUD")
@@ -91,14 +103,18 @@ position = Vector2(198.81488, -162.4568)
 texture = ExtResource("4_h6566")
 
 [node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/宝箱" unique_id=1390218859]
-shape = SubResource("CircleShape2D_chest_detect")
+position = Vector2(3.7037964, -8.642151)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_8rct6")
 
 [node name="ClickZone" type="Area2D" parent="MapLayer/宝箱" unique_id=1617489336]
 collision_layer = 2
 collision_mask = 0
 
 [node name="ClickShape" type="CollisionShape2D" parent="MapLayer/宝箱/ClickZone" unique_id=334692847]
-shape = SubResource("CircleShape2D_chest_click")
+position = Vector2(2.4691162, -10.493835)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_6vana")
 
 [node name="Blink" type="Node" parent="MapLayer/宝箱" unique_id=993080791 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("9_blink")
@@ -164,7 +180,7 @@ position = Vector2(375.5, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
 [node name="补给机器" type="Area2D" parent="MapLayer" unique_id=627605118 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
-position = Vector2(-45.67902, 235.80246)
+position = Vector2(358.02472, 235.80246)
 script = ExtResource("21_workbench_interact")
 WorkbenchUI = NodePath("../../UILayer/SupplyWorkbench")
 Hud = NodePath("../../UILayer/HUD")
@@ -176,14 +192,18 @@ scale = Vector2(0.8, 0.8)
 texture = ExtResource("15_e5xpt")
 
 [node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/补给机器" unique_id=2110000002]
-shape = SubResource("CircleShape2D_chest_detect")
+position = Vector2(-7.4075317, 13.5802)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_ishdt")
 
 [node name="ClickZone" type="Area2D" parent="MapLayer/补给机器" unique_id=2110000003]
 collision_layer = 2
 collision_mask = 0
 
 [node name="ClickShape" type="CollisionShape2D" parent="MapLayer/补给机器/ClickZone" unique_id=2110000004]
-shape = SubResource("CircleShape2D_chest_click")
+position = Vector2(2.4690552, 15.432129)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_ygr4u")
 
 [node name="Blink" type="Node" parent="MapLayer/补给机器" unique_id=2110000005 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("9_blink")
