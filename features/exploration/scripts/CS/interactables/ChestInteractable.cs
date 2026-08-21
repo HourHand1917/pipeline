@@ -18,6 +18,8 @@ public partial class ChestInteractable : InteractableBase, ILootSource
     // ---- ILootSource ----
     public Resource RemainingLoot { get; private set; }
     public void OnLootClaimed() => PersistInteraction(_mapId);
+    // 宝箱会保留在场景里，未领完可回头再开，不自动收。
+    public bool AutoClaimRemainderOnClose => false;
 
     public override void HandleInteract()
     {

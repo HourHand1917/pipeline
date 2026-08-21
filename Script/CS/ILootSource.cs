@@ -12,4 +12,7 @@ public interface ILootSource
 
     /// <summary>每次领取后的持久化回调。</summary>
     void OnLootClaimed();
+
+    /// <summary>关闭战利品页时，若还有剩余，是否自动全收进背包（不留尸体的掉落用）。</summary>
+    bool AutoClaimRemainderOnClose { get; }
 }

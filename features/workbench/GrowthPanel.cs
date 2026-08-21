@@ -103,22 +103,25 @@ public partial class GrowthPanel : Control
             if (purchased)
             {
                 btn.Disabled = true;
-                ApplyStyles(btn, tex, 1.0f, 1.0f, 1.0f); // 已点亮：常亮
+                var yellow = new Color(1f, 0.85f, 0.2f);
+                ApplyStyles(btn, tex, yellow, yellow, yellow); // 已升级：黄色常亮
             }
             else if (GrowthManager.Instance.CanBuy(upgrade))
             {
                 btn.Disabled = false;
-                ApplyStyles(btn, tex, 1.0f, 1.35f, 0.45f); // 正常 / 悬浮亮 / 禁用暗
+                ApplyStyles(btn, tex, Gray(1.0f), Gray(1.35f), Gray(0.45f)); // 正常 / 悬浮亮 / 禁用暗
             }
             else
             {
                 btn.Disabled = true;
-                ApplyStyles(btn, tex, 0.45f, 0.45f, 0.45f); // 不可点：变暗
+                ApplyStyles(btn, tex, Gray(0.45f), Gray(0.45f), Gray(0.45f)); // 不可点：变暗
             }
         }
     }
 
-    private static void ApplyStyles(Button btn, Texture2D tex, float normal, float hover, float disabled)
+    private static Color Gray(float m) => new Color(m, m, m);
+
+    private static void ApplyStyles(Button btn, Texture2D tex, Color normal, Color hover, Color disabled)
     {
         if (tex == null) return;
         btn.AddThemeStyleboxOverride("normal", MakeStyle(tex, normal));
@@ -126,9 +129,9 @@ public partial class GrowthPanel : Control
         btn.AddThemeStyleboxOverride("disabled", MakeStyle(tex, disabled));
     }
 
-    private static StyleBoxTexture MakeStyle(Texture2D tex, float m)
+    private static StyleBoxTexture MakeStyle(Texture2D tex, Color m)
     {
-        var s = new StyleBoxTexture { Texture = tex, ModulateColor = new Color(m, m, m) };
+        var s = new StyleBoxTexture { Texture = tex, ModulateColor = m };
         s.ContentMarginLeft = 24;
         s.ContentMarginRight = 24;
         s.ContentMarginTop = 16;

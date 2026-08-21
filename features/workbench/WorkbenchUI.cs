@@ -145,6 +145,12 @@ public partial class WorkbenchUI : Control
             _basePositionsCaptured = true;
         }
 
+        // 补给机「小工作台」没有 tab 按钮：跳过升降 tween，避免空 tween 报错。
+        bool hasTabs = false;
+        for (int i = 0; i < _tabs.Length; i++)
+            if (_tabs[i] != null) { hasTabs = true; break; }
+        if (!hasTabs) return;
+
         _tabTween?.Kill();
         _tabTween = CreateTween();
         // 并行播放，让「选中升起」和「其他降下」同时进行，而不是逐个顺序播放

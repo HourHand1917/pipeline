@@ -1,17 +1,21 @@
 [gd_scene format=3 uid="uid://5umggsibdp5b"]
 
+[ext_resource type="Theme" uid="uid://datayx1r6xwiu" path="res://theme/屏幕蓝色文字.tres" id="1_a32tn"]
 [ext_resource type="Script" uid="uid://fmv0uf5griri" path="res://features/tv_ui/PlayerTV.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://dxi4ygcn3eh1f" path="res://features/exploration/art_assets/battlescreen/合起来.png" id="2_butd8"]
 [ext_resource type="Script" uid="uid://nxmjqtd653en" path="res://features/tv_ui/MapPanel.cs" id="2_map"]
 [ext_resource type="Texture2D" uid="uid://cu8ebna3j1xx2" path="res://features/exploration/art_assets/battlescreen/上.png" id="3_1tjra"]
 [ext_resource type="Script" uid="uid://doh04poco6wm7" path="res://features/tv_ui/InventoryPanel.cs" id="3_inv"]
 [ext_resource type="Texture2D" uid="uid://b0bicevu3twdc" path="res://features/exploration/art_assets/battlescreen/下.png" id="4_o0qei"]
+[ext_resource type="Texture2D" uid="uid://cisnw5p2xb85f" path="res://features/exploration/art_assets/shop/退出键.png" id="4_ulyvy"]
 [ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="6_1tjra"]
 [ext_resource type="PackedScene" uid="uid://bkikddh345mfu" path="res://Scenes/resource_scene/enemymassage.tscn" id="7_butd8"]
 [ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="8_o0qei"]
 [ext_resource type="Script" uid="uid://ciw3cgy08xxfo" path="res://features/tv_ui/RewardPage.cs" id="10_4701r"]
 [ext_resource type="Texture2D" uid="uid://seunnoggcflu" path="res://features/exploration/art_assets/battlescreen/清单.png" id="11_3rkpp"]
 [ext_resource type="Texture2D" uid="uid://xxcp33dmb853" path="res://features/exploration/art_assets/battlescreen/花屏/001.png" id="12_5kmhr"]
+[ext_resource type="Texture2D" uid="uid://46pchrwgcql" path="res://features/exploration/art_assets/货币/瓶盖/显示屏版瓶盖.png" id="12_kfoj2"]
+[ext_resource type="Texture2D" uid="uid://cgg0e51jlsa56" path="res://features/exploration/art_assets/货币/水龙头/显示屏版.png" id="13_5udeh"]
 [ext_resource type="Texture2D" uid="uid://cmoie1fa4ei48" path="res://features/exploration/art_assets/battlescreen/花屏/002.png" id="13_lbyi1"]
 [ext_resource type="Texture2D" uid="uid://c1bpm0p4jpkk7" path="res://features/exploration/art_assets/battlescreen/花屏/003.png" id="14_ulyvy"]
 [ext_resource type="Texture2D" uid="uid://cf8lxixwj4bmy" path="res://features/exploration/art_assets/battlescreen/花屏/004.png" id="15_a32tn"]
@@ -285,6 +289,7 @@ offset_bottom = 1.3497314
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = ExtResource("1_a32tn")
 script = ExtResource("1_script")
 _anim = NodePath("Anim")
 _upButton = NodePath("UpBtn")
@@ -294,7 +299,7 @@ _inventoryPanel = NodePath("PanelStack/InventoryPanel")
 _enemyPanel = NodePath("PanelStack/EnemyPanel")
 _rewardPage = NodePath("RewardPage")
 
-[node name="RewardPage" type="Control" parent="." unique_id=962686128 node_paths=PackedStringArray("_anim", "_lootList", "_closeButton")]
+[node name="RewardPage" type="Control" parent="." unique_id=962686128 node_paths=PackedStringArray("_anim", "_lootList", "_closeButton", "_title")]
 visible = false
 layout_mode = 1
 anchor_left = 0.38307488
@@ -307,8 +312,11 @@ offset_right = -0.019042969
 offset_bottom = -804.213
 script = ExtResource("10_4701r")
 _anim = NodePath("Anim")
-_lootList = NodePath("LootList")
+_lootList = NodePath("LootList/List")
 _closeButton = NodePath("CloseBtn")
+_title = NodePath("Title")
+_currencyIconSize = 100.0
+_lootFontSize = 70
 metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect2" type="TextureRect" parent="RewardPage" unique_id=1912452012]
@@ -323,42 +331,63 @@ expand_mode = 1
 stretch_mode = 5
 metadata/_edit_use_anchors_ = true
 
-[node name="Title" type="Label" parent="RewardPage" unique_id=2046933998]
+[node name="LootList" type="ScrollContainer" parent="RewardPage" unique_id=810260516]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 1.0
-offset_top = 8.0
-offset_bottom = 48.0
-theme_override_font_sizes/font_size = 24
-text = "战利品"
-horizontal_alignment = 1
-
-[node name="LootList" type="VBoxContainer" parent="RewardPage" unique_id=810260516]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 20.0
-offset_top = 56.0
-offset_right = -20.0
-offset_bottom = -20.0
+anchor_left = 0.13274704
+anchor_top = 0.21919185
+anchor_right = 0.84006625
+anchor_bottom = 0.5996844
+offset_left = -0.30400085
+offset_top = 0.14622879
+offset_right = 0.30395508
+offset_bottom = 0.107299805
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/separation = 4
+horizontal_scroll_mode = 0
+metadata/_edit_use_anchors_ = true
 
-[node name="CloseBtn" type="Button" parent="RewardPage" unique_id=188051910]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -76.0
-offset_top = 6.0
-offset_right = -12.0
-offset_bottom = 46.0
-text = "关闭"
+[node name="List" type="VBoxContainer" parent="RewardPage/LootList" unique_id=789672019]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
 
 [node name="Anim" type="AnimationPlayer" parent="RewardPage" unique_id=94734242]
 libraries/ = SubResource("AnimationLibrary_reward")
+
+[node name="CloseBtn" type="TextureButton" parent="RewardPage" unique_id=1686218655]
+z_index = -1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.6204019
+anchor_top = -0.0854146
+anchor_right = 0.8488842
+anchor_bottom = 0.049056754
+offset_left = 0.13995361
+offset_top = 0.4146223
+offset_right = -0.1560669
+offset_bottom = 0.1999054
+texture_normal = ExtResource("4_ulyvy")
+ignore_texture_size = true
+stretch_mode = 5
+metadata/_edit_use_anchors_ = true
+
+[node name="Title" type="Label" parent="RewardPage" unique_id=2046933998]
+modulate = Color(0, 0, 0, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.090853415
+anchor_top = 0.10352403
+anchor_right = 0.51165724
+anchor_bottom = 0.13415286
+offset_left = 0.13800812
+offset_top = 0.35591125
+offset_right = 0.13800049
+offset_bottom = 62.14119
+theme_override_font_sizes/font_size = 70
+text = "战利品"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="BackGround" type="TextureRect" parent="." unique_id=1611279294]
 layout_mode = 1
@@ -436,7 +465,7 @@ theme_override_constants/h_separation = 8
 theme_override_constants/v_separation = 8
 columns = 3
 
-[node name="InventoryPanel" type="Control" parent="PanelStack" unique_id=668771736 node_paths=PackedStringArray("_itemRow", "_useButton", "_discardButton", "_bottleCapLabel", "_faucetLabel")]
+[node name="InventoryPanel" type="Control" parent="PanelStack" unique_id=668771736 node_paths=PackedStringArray("_itemRow", "_useButton", "_discardButton", "_bottleCapLabel", "_faucetLabel", "_levelLabel")]
 material = ExtResource("6_1tjra")
 layout_mode = 1
 anchors_preset = 15
@@ -446,15 +475,18 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("3_inv")
 _itemRow = NodePath("itemRow")
-_useButton = NodePath("VBoxContainer/useitembutton")
-_discardButton = NodePath("VBoxContainer/discarditembutton")
-_bottleCapLabel = NodePath("itemrightVbox/bottlecapVbox/bottlecapLabel")
-_faucetLabel = NodePath("itemrightVbox/faucetVbox/faucetlabel")
+_useButton = NodePath("useitembutton")
+_discardButton = NodePath("discarditembutton")
+_bottleCapLabel = NodePath("bottlecapHbox/bottlecapLabel")
+_faucetLabel = NodePath("faucetHbox/faucetlabel")
+_levelLabel = NodePath("levelLabel")
 
 [node name="itemRow" type="HBoxContainer" parent="PanelStack/InventoryPanel" unique_id=1098505415]
 layout_mode = 0
-offset_right = 883.0
-offset_bottom = 475.0
+offset_left = 32.0
+offset_top = 18.098915
+offset_right = 1242.0
+offset_bottom = 460.0989
 theme_override_constants/separation = 4
 
 [node name="itemslot0" type="TextureButton" parent="PanelStack/InventoryPanel/itemRow" unique_id=1292089262]
@@ -473,64 +505,77 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelStack/InventoryPanel" unique_id=1628241477]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.8466403
-anchor_right = 1.0
-anchor_bottom = 0.30599368
-grow_horizontal = 2
-grow_vertical = 2
-metadata/_edit_use_anchors_ = true
-
-[node name="useitembutton" type="Button" parent="PanelStack/InventoryPanel/VBoxContainer" unique_id=2070024895]
-layout_mode = 2
+[node name="useitembutton" type="Button" parent="PanelStack/InventoryPanel" unique_id=2070024895]
+layout_mode = 0
+offset_left = 807.0
+offset_top = 471.0989
+offset_right = 937.0
+offset_bottom = 601.0989
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 60
 text = "使用"
 
-[node name="discarditembutton" type="Button" parent="PanelStack/InventoryPanel/VBoxContainer" unique_id=1491880716]
-layout_mode = 2
+[node name="discarditembutton" type="Button" parent="PanelStack/InventoryPanel" unique_id=1491880716]
+layout_mode = 0
+offset_left = 937.0
+offset_top = 471.0989
+offset_right = 1067.0
+offset_bottom = 601.0989
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 60
 text = "丢弃"
 
-[node name="itemrightVbox" type="VBoxContainer" parent="PanelStack/InventoryPanel" unique_id=1613503955]
+[node name="bottlecapHbox" type="HBoxContainer" parent="PanelStack/InventoryPanel" unique_id=1733775255]
 layout_mode = 0
-offset_left = 963.0
-offset_top = 438.0
-offset_right = 1219.0
-offset_bottom = 603.0
+offset_left = 240.0
+offset_top = 524.09894
+offset_right = 430.0
+offset_bottom = 607.09894
 
-[node name="currencytitle" type="Label" parent="PanelStack/InventoryPanel/itemrightVbox" unique_id=928290063]
+[node name="bottlecapIcon" type="TextureRect" parent="PanelStack/InventoryPanel/bottlecapHbox" unique_id=2055004726]
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "货币"
+texture = ExtResource("12_kfoj2")
+expand_mode = 3
+stretch_mode = 5
 
-[node name="bottlecapVbox" type="VBoxContainer" parent="PanelStack/InventoryPanel/itemrightVbox" unique_id=1604384867]
+[node name="bottlecapLabel" type="Label" parent="PanelStack/InventoryPanel/bottlecapHbox" unique_id=195614312]
 layout_mode = 2
-
-[node name="bottlecapIcon" type="TextureRect" parent="PanelStack/InventoryPanel/itemrightVbox/bottlecapVbox" unique_id=2055004726]
-layout_mode = 2
-
-[node name="bottlecapLabel" type="Label" parent="PanelStack/InventoryPanel/itemrightVbox/bottlecapVbox" unique_id=195614312]
-layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 60
 text = "678"
 
-[node name="faucetVbox" type="VBoxContainer" parent="PanelStack/InventoryPanel/itemrightVbox" unique_id=118648765]
-layout_mode = 2
+[node name="faucetHbox" type="HBoxContainer" parent="PanelStack/InventoryPanel" unique_id=2072023449]
+layout_mode = 0
+offset_left = 470.0
+offset_top = 524.09894
+offset_right = 638.0
+offset_bottom = 607.09894
 
-[node name="fauceticon" type="TextureRect" parent="PanelStack/InventoryPanel/itemrightVbox/faucetVbox" unique_id=1898690905]
+[node name="fauceticon" type="TextureRect" parent="PanelStack/InventoryPanel/faucetHbox" unique_id=1898690905]
 layout_mode = 2
+texture = ExtResource("13_5udeh")
+expand_mode = 3
+stretch_mode = 5
 
-[node name="faucetlabel" type="Label" parent="PanelStack/InventoryPanel/itemrightVbox/faucetVbox" unique_id=280897162]
+[node name="faucetlabel" type="Label" parent="PanelStack/InventoryPanel/faucetHbox" unique_id=280897162]
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
+theme_override_font_sizes/font_size = 60
 text = "123"
 
-[node name="machine" type="Node" parent="PanelStack/InventoryPanel" unique_id=722468187]
+[node name="levelLabel" type="Label" parent="PanelStack/InventoryPanel" unique_id=168256151]
+layout_mode = 0
+offset_left = 67.0
+offset_top = 519.09894
+offset_right = 227.0
+offset_bottom = 602.09894
+theme_override_font_sizes/font_size = 60
+text = "lv: 1"
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/InventoryPanel" unique_id=2005854200]
 script = ExtResource("8_o0qei")
+_material = ExtResource("6_1tjra")
 
 [node name="EnemyPanel" parent="PanelStack" unique_id=931749593 instance=ExtResource("7_butd8")]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.014

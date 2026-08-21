@@ -1,0 +1,10 @@
+[gd_resource type="Theme" format=3 uid="uid://datayx1r6xwiu"]
+
+[resource]
+Button/colors/font_color = Color(0.08627451, 0.81960785, 0.8901961, 0.79607844)
+Button/colors/font_disabled_color = Color(0.08627451, 0.81960785, 0.8901961, 0.79607844)
+Button/colors/font_focus_color = Color(0.08627451, 0.81960785, 0.8901961, 0.79607844)
+Button/colors/font_hover_color = Color(0.08627451, 0.81960785, 0.8901961, 0.79607844)
+Button/colors/font_hover_pressed_color = Color(0.08627451, 0.81960785, 0.8901961, 0.79607844)
+Label/colors/font_color = Color(0.08627451, 0.81960785, 0.8901961, 0.79607844)
+RichTextLabel/colors/default_color = Color(0.08627451, 0.81960785, 0.8901961, 0.79607844)

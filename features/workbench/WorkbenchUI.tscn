@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://cbgyktrrxne4a"]
 
+[ext_resource type="Theme" uid="uid://datayx1r6xwiu" path="res://theme/屏幕蓝色文字.tres" id="1_8wlkw"]
 [ext_resource type="Script" uid="uid://c45n3fdkkjvr2" path="res://features/workbench/WorkbenchUI.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://cy51lpqer8gx2" path="res://features/exploration/art_assets/workbenchUI/按钮_启用.png" id="2_3r268"]
 [ext_resource type="Texture2D" uid="uid://giwwrblnqxt" path="res://features/exploration/art_assets/workbenchUI/背景.png" id="2_qkk36"]
@@ -590,6 +591,7 @@ offset_top = 1138.0
 offset_bottom = 1137.9995
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_8wlkw")
 script = ExtResource("1_script")
 _anim = NodePath("Anim")
 _buildTab = NodePath("TabBar/BuildTab")
@@ -922,6 +924,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="PanelStack/UpgradePage/EnhanceButton/HBoxContainer" unique_id=1068980225]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 1, 1, 0.8627451)
 theme_override_font_sizes/font_size = 36
 text = "222"
 
@@ -932,6 +935,10 @@ layout_mode = 2
 texture = ExtResource("18_njf40")
 expand_mode = 1
 stretch_mode = 5
+
+[node name="MaterialApplier" type="Node" parent="PanelStack/UpgradePage/EnhanceButton/HBoxContainer" unique_id=577995020]
+script = ExtResource("9_2gsrf")
+_material = ExtResource("7_55txc")
 
 [node name="inventorybox" type="Control" parent="PanelStack/UpgradePage" unique_id=1662925272]
 layout_mode = 1

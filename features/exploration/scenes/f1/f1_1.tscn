@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="6_2qc3k"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_tvxcj"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_2iy1r"]
+[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="7_8rct6"]
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="8_chest"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="9_blink"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_loot"]
@@ -25,12 +26,19 @@
 script = ExtResource("10_loot")
 bottle_cap = 3
 faucet = 5
+cards = Array[ExtResource("5_2iy1r")]([ExtResource("7_8rct6")])
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_chest_detect"]
 radius = 120.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_chest_click"]
 radius = 48.0
+
+[sub_resource type="Resource" id="Resource_nc6vc"]
+script = ExtResource("10_loot")
+bottle_cap = 5
+faucet = 5
+metadata/_custom_type_script = "uid://48j6ej4rld81"
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
@@ -97,7 +105,7 @@ script = ExtResource("9_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="Boom" type="Area2D" parent="MapLayer" unique_id=2003954639 node_paths=PackedStringArray("_blink")]
+[node name="Boom" type="Area2D" parent="MapLayer" unique_id=2003954639 node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(800, 220)
 script = ExtResource("11_npc")
 BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
@@ -105,6 +113,8 @@ BattleRulesPath = "res://features/enemy_ai_node/rules/boom_rules.tres"
 ReturnSpawnId = &"boom_return"
 AggroRadius = 100.0
 BattleMusic = ExtResource("12_88kio")
+Loot = SubResource("Resource_nc6vc")
+Hud = NodePath("../../UILayer/HUD")
 NpcName = "Boom"
 PersistenceId = "enemy_boom_f1_1"
 _blink = NodePath("Blink")

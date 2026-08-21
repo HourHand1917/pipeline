@@ -1,11 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bvt8ghrymx8mo"]
 
+[ext_resource type="Theme" uid="uid://datayx1r6xwiu" path="res://theme/屏幕蓝色文字.tres" id="1_r24i4"]
 [ext_resource type="Script" uid="uid://c45n3fdkkjvr2" path="res://features/workbench/WorkbenchUI.cs" id="1_script"]
-[ext_resource type="Texture2D" uid="uid://cy51lpqer8gx2" path="res://features/exploration/art_assets/workbenchUI/按钮_启用.png" id="2_3r268"]
 [ext_resource type="Texture2D" uid="uid://giwwrblnqxt" path="res://features/exploration/art_assets/workbenchUI/背景.png" id="2_qkk36"]
-[ext_resource type="Texture2D" uid="uid://cxypy2bkg4jgt" path="res://features/exploration/art_assets/workbenchUI/按钮_关闭.png" id="3_5f42w"]
-[ext_resource type="Script" uid="uid://cqa0c10xlfgll" path="res://features/workbench/EnhanceWorkbenchPanel.cs" id="3_upgrade"]
-[ext_resource type="Script" uid="uid://c88dggelmp50n" path="res://features/workbench/GrowthPanel.cs" id="4_ai"]
 [ext_resource type="Script" uid="uid://cb5ujva8p6u6p" path="res://features/workbench/BuildWorkbenchPanel.cs" id="4_wrosw"]
 [ext_resource type="Texture2D" uid="uid://cpecotj4btliu" path="res://features/exploration/art_assets/workbenchUI/卡牌屏幕.png" id="5_3r268"]
 [ext_resource type="Texture2D" uid="uid://cte22305wyiiy" path="res://features/exploration/art_assets/workbenchUI/卡牌背景.png" id="5_hk37n"]
@@ -15,12 +12,6 @@
 [ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="8_bm"]
 [ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="9_2gsrf"]
 [ext_resource type="PackedScene" uid="uid://b0pq5ka3u7at7" path="res://Scenes/game_scene/gridcellbutton.tscn" id="9_cell"]
-[ext_resource type="Texture2D" uid="uid://c23atn6pgmi2e" path="res://features/exploration/art_assets/workbenchUI/卡牌升级面板.png" id="14_y6632"]
-[ext_resource type="Texture2D" uid="uid://ogc6gp320j04" path="res://features/exploration/art_assets/workbenchUI/升级！.png" id="15_6w6mp"]
-[ext_resource type="Texture2D" uid="uid://mmv8ss1afxfb" path="res://features/exploration/art_assets/workbenchUI/升级!（亮）.png" id="16_vj5mj"]
-[ext_resource type="Texture2D" uid="uid://b1lnd7a1xrm3c" path="res://features/exploration/art_assets/workbenchUI/升级！（暗）.png" id="17_njf40"]
-[ext_resource type="Texture2D" uid="uid://cgg0e51jlsa56" path="res://features/exploration/art_assets/货币/水龙头/显示屏版.png" id="18_njf40"]
-[ext_resource type="Texture2D" uid="uid://wr4oblonnkf7" path="res://features/exploration/art_assets/workbenchUI/升级界面_线.png" id="20_rq21t"]
 [ext_resource type="Texture2D" uid="uid://uyyss17pv6dw" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0023_8.png" id="21_hobfm"]
 [ext_resource type="Texture2D" uid="uid://ch67vanwlqv2v" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0022_9.png" id="22_ua4g3"]
 [ext_resource type="Texture2D" uid="uid://btuclcxq8rwv" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0021_8.png" id="23_dh1jv"]
@@ -45,14 +36,6 @@
 [ext_resource type="Texture2D" uid="uid://rhfx1l1dmssp" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0002_8.png" id="42_gbkr2"]
 [ext_resource type="Texture2D" uid="uid://drwhlxbpt4oyh" path="res://features/exploration/art_assets/workbenchUI/workbench_animation/0001_0.png" id="43_5ne73"]
 [ext_resource type="Texture2D" uid="uid://cisnw5p2xb85f" path="res://features/exploration/art_assets/shop/退出键.png" id="44_exit"]
-[ext_resource type="Texture2D" uid="uid://burhbp2ktif2h" path="res://features/exploration/art_assets/workbenchUI/玩家升级界面按钮背景.png" id="45_growthbg"]
-[ext_resource type="Texture2D" uid="uid://tjjr822chi8w" path="res://features/exploration/art_assets/workbenchUI/玩家升级界面按钮背景（反转）.png" id="46_growthbgrev"]
-
-[sub_resource type="StyleBoxTexture" id="growthbg_reversed"]
-texture = ExtResource("46_growthbgrev")
-
-[sub_resource type="StyleBoxTexture" id="growthbg_normal"]
-texture = ExtResource("45_growthbg")
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_f11c3"]
 animations = [{
@@ -332,6 +315,7 @@ offset_top = 1138.0
 offset_bottom = 1137.9995
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("1_r24i4")
 script = ExtResource("1_script")
 _anim = NodePath("Anim")
 _buildPage = NodePath("PanelStack/BuildPage")
