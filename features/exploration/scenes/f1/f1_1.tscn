@@ -1,7 +1,6 @@
 [gd_scene format=3 uid="uid://b8pya2osaixgn"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_o77cp"]
-[ext_resource type="AudioStream" uid="uid://clma4y2moycb2" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F01_Test map 1&2.ogg" id="2_6vana"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_h6566"]
 [ext_resource type="Texture2D" uid="uid://iwodhdmb12kc" path="res://features/exploration/art_assets/maps/f1/教程-1-背景.png" id="3_o77cp"]
 [ext_resource type="Texture2D" uid="uid://6i4vatwprdvx" path="res://features/exploration/art_assets/maps/f1/教程-1-箱子.png" id="4_h6566"]
@@ -17,11 +16,57 @@
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_loot"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="11_npc"]
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="12_88kio"]
-[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="12_boom_sprite"]
+[ext_resource type="Texture2D" uid="uid://vqqvmns3tixc" path="res://Animation/boom/boom-待机/0001_0.png" id="14_lar16"]
+[ext_resource type="Texture2D" uid="uid://by04fjffbrcu6" path="res://Animation/boom/boom-待机/0002_4.png" id="15_5h830"]
 [ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="15_e5xpt"]
+[ext_resource type="Texture2D" uid="uid://c2shqn8mhnf74" path="res://Animation/boom/boom-待机/0003_4.png" id="16_0tor5"]
+[ext_resource type="Texture2D" uid="uid://cfeh67eusbu4v" path="res://Animation/boom/boom-待机/0004_4.png" id="17_6q5do"]
+[ext_resource type="Texture2D" uid="uid://cnf78o0vqp6lh" path="res://Animation/boom/boom-待机/0005_4.png" id="18_s4us5"]
+[ext_resource type="Texture2D" uid="uid://dauf8a1o6tlnh" path="res://Animation/boom/boom-待机/0006_4.png" id="19_ts6qq"]
+[ext_resource type="Texture2D" uid="uid://bx8mi410qlww2" path="res://Animation/boom/boom-待机/0007_5.png" id="20_37cud"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Texture2D" uid="uid://cclom02xn6pr7" path="res://Animation/boom/boom-待机/0008_4.png" id="21_ucu0q"]
 [ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="21_workbench_interact"]
+[ext_resource type="Texture2D" uid="uid://kwsj476d5sm3" path="res://Animation/boom/boom-待机/0009_4.png" id="22_kvde0"]
 [ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="22_supply_wb"]
+[ext_resource type="Texture2D" uid="uid://mltm7ehsaqnw" path="res://Animation/boom/boom-待机/0010_4.png" id="23_1ri1c"]
+[ext_resource type="Texture2D" uid="uid://bsrcyfyxxx6v0" path="res://Animation/boom/boom-待机/0011_4.png" id="24_bkal5"]
+[ext_resource type="Texture2D" uid="uid://m8rngqumv5gu" path="res://Animation/boom/boom-待机/0012_4.png" id="25_vww36"]
+[ext_resource type="Texture2D" uid="uid://48hg6r7bjui5" path="res://Animation/boom/boom-待机/0013_5.png" id="26_k14pv"]
+[ext_resource type="Texture2D" uid="uid://h6bn1kylgthd" path="res://Animation/boom/boom-待机/0014_4.png" id="27_2e2qm"]
+[ext_resource type="Texture2D" uid="uid://dw3stae21ow4o" path="res://Animation/boom/boom-待机/0015_4.png" id="28_aesm2"]
+[ext_resource type="Texture2D" uid="uid://d4l8xryhn31bc" path="res://Animation/boom/boom-待机/0016_4.png" id="29_k12xf"]
+[ext_resource type="Texture2D" uid="uid://diyemtnyeixa1" path="res://Animation/boom/boom-待机/0017_4.png" id="30_j4d3i"]
+[ext_resource type="Texture2D" uid="uid://dqwb634ls3y8o" path="res://Animation/boom/boom-待机/0018_4.png" id="31_58mif"]
+[ext_resource type="Texture2D" uid="uid://bwp2mp1aj2ms2" path="res://Animation/boom/boom-待机/0019_5.png" id="32_n2dm7"]
+[ext_resource type="Texture2D" uid="uid://bgciayhsp4phf" path="res://Animation/boom/boom-待机/0020_4.png" id="33_8bx56"]
+[ext_resource type="Texture2D" uid="uid://2it03n73mgk1" path="res://Animation/boom/boom-待机/0021_4.png" id="34_2lyhe"]
+[ext_resource type="Texture2D" uid="uid://co41u0gftfiip" path="res://Animation/boom/boom-待机/0022_4.png" id="35_3xh7v"]
+[ext_resource type="Texture2D" uid="uid://t70mbshkhbbv" path="res://Animation/boom/boom-待机/0023_4.png" id="36_w5nyn"]
+[ext_resource type="Texture2D" uid="uid://do4nn0c65gfnq" path="res://Animation/boom/boom-待机/0024_4.png" id="37_guobw"]
+[ext_resource type="Texture2D" uid="uid://6cuvpq3jqgun" path="res://Animation/boom/boom-待机/0025_5.png" id="38_sojaj"]
+[ext_resource type="Texture2D" uid="uid://dg8jdkwt0igg1" path="res://Animation/boom/boom-待机/0026_4.png" id="39_r2txn"]
+[ext_resource type="Texture2D" uid="uid://wooh46qr6122" path="res://Animation/boom/boom-待机/0027_4.png" id="40_stfe3"]
+[ext_resource type="Texture2D" uid="uid://cwou3pwtkhgqe" path="res://Animation/boom/boom-待机/0028_4.png" id="41_tk0e3"]
+[ext_resource type="Texture2D" uid="uid://dxl0pspnhquft" path="res://Animation/boom/boom-待机/0029_4.png" id="42_2jy7l"]
+[ext_resource type="Texture2D" uid="uid://5xubd5w6fxkk" path="res://Animation/boom/boom-待机/0030_4.png" id="43_k431p"]
+[ext_resource type="Texture2D" uid="uid://b115wfr1ifssq" path="res://Animation/boom/boom-待机/0031_5.png" id="44_nqor6"]
+[ext_resource type="Texture2D" uid="uid://crvhw2j4am6bf" path="res://Animation/boom/boom-待机/0032_4.png" id="45_0pyep"]
+[ext_resource type="Texture2D" uid="uid://bvnbc5jl4h048" path="res://Animation/boom/boom-待机/0033_4.png" id="46_5ovbc"]
+[ext_resource type="Texture2D" uid="uid://dck3id1tqfp5o" path="res://Animation/boom/boom-待机/0034_4.png" id="47_e7t8t"]
+[ext_resource type="Texture2D" uid="uid://d088lfvt2hwh4" path="res://Animation/boom/boom-待机/0035_4.png" id="48_k45c7"]
+[ext_resource type="Texture2D" uid="uid://qltqqmnvhaoa" path="res://Animation/boom/boom-待机/0036_4.png" id="49_svb4f"]
+[ext_resource type="Texture2D" uid="uid://c4sjsqth5njwr" path="res://Animation/boom/boom-待机/0037_5.png" id="50_bquw3"]
+[ext_resource type="Texture2D" uid="uid://cf21c5qfxtisy" path="res://Animation/boom/boom-待机/0038_4.png" id="51_trret"]
+[ext_resource type="Texture2D" uid="uid://bj6k2t02hjs4" path="res://Animation/boom/boom-待机/0039_4.png" id="52_ilxym"]
+[ext_resource type="Texture2D" uid="uid://dh7u1u6sltun6" path="res://Animation/boom/boom-待机/0040_4.png" id="53_nfqpe"]
+[ext_resource type="Texture2D" uid="uid://b8oloarfq6im5" path="res://Animation/boom/boom-待机/0041_4.png" id="54_pxqu2"]
+[ext_resource type="Texture2D" uid="uid://cliglri327au2" path="res://Animation/boom/boom-待机/0042_4.png" id="55_u1byt"]
+[ext_resource type="Texture2D" uid="uid://coq3kbjootnd7" path="res://Animation/boom/boom-待机/0043_5.png" id="56_ocmsc"]
+[ext_resource type="Texture2D" uid="uid://djsnb2qb5siob" path="res://Animation/boom/boom-待机/0044_4.png" id="57_a0lfb"]
+[ext_resource type="Texture2D" uid="uid://d0wen1hslroxs" path="res://Animation/boom/boom-待机/0045_4.png" id="58_pdnj6"]
+[ext_resource type="Texture2D" uid="uid://bhnop144y84gf" path="res://Animation/boom/boom-待机/0046_4.png" id="59_v258w"]
+[ext_resource type="Texture2D" uid="uid://c2euj2uiquqqw" path="res://Animation/boom/boom-待机/0047_4.png" id="60_hp7yg"]
 
 [sub_resource type="Resource" id="Resource_loot"]
 script = ExtResource("10_loot")
@@ -41,11 +86,160 @@ bottle_cap = 5
 faucet = 5
 metadata/_custom_type_script = "uid://48j6ej4rld81"
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_chest_detect"]
-radius = 120.0
+[sub_resource type="SpriteFrames" id="SpriteFrames_horg7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("14_lar16")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_5h830")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_0tor5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_6q5do")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_s4us5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_ts6qq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_37cud")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_ucu0q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_kvde0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_1ri1c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_bkal5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_vww36")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_k14pv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_2e2qm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_aesm2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_k12xf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_j4d3i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_58mif")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_n2dm7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_8bx56")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_2lyhe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_3xh7v")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_w5nyn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_guobw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_sojaj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_r2txn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_stfe3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_tk0e3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_2jy7l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_k431p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_nqor6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_0pyep")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_5ovbc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_e7t8t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_k45c7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_svb4f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_bquw3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_trret")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_ilxym")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_nfqpe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_pxqu2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_u1byt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_ocmsc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_a0lfb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_pdnj6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_v258w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_hp7yg")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_chest_click"]
-radius = 48.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cenho"]
+size = Vector2(617.284, 358.02466)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_miyu1"]
+size = Vector2(287.03705, 288.5803)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
@@ -56,13 +250,12 @@ size = Vector2(214.81485, 288.88876)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ygr4u"]
 size = Vector2(158.02477, 302.4691)
 
-[node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap3" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_o77cp")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f1_1"
 _hud = NodePath("UILayer/HUD")
-MapAmbient = ExtResource("2_6vana")
 PlayerLeft = -250
 PlayerRight = 2300
 CamLeft = 150
@@ -125,6 +318,7 @@ _clickZone = NodePath("../ClickZone")
 
 [node name="Boom" type="Area2D" parent="MapLayer" unique_id=2003954639 node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(800, 220)
+scale = Vector2(0.8, 0.8)
 script = ExtResource("11_npc")
 BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/boom_rules.tres"
@@ -137,19 +331,24 @@ NpcName = "Boom"
 PersistenceId = "enemy_boom_f1_1"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Boom" unique_id=839715324]
-modulate = Color(0.92, 0.37, 0.25, 1)
-texture = ExtResource("12_boom_sprite")
+[node name="Sprite" type="AnimatedSprite2D" parent="MapLayer/Boom" unique_id=2113276543]
+position = Vector2(41.666634, -139.19753)
+sprite_frames = SubResource("SpriteFrames_horg7")
+autoplay = "default"
 
 [node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Boom" unique_id=1024237462]
-shape = SubResource("CircleShape2D_chest_detect")
+position = Vector2(23.148071, 56.7901)
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_cenho")
 
 [node name="ClickZone" type="Area2D" parent="MapLayer/Boom" unique_id=228156604]
 collision_layer = 2
 collision_mask = 0
 
 [node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Boom/ClickZone" unique_id=327671813]
-shape = SubResource("CircleShape2D_chest_click")
+position = Vector2(-9.259277, 72.993835)
+scale = Vector2(0.9999999, 0.9999999)
+shape = SubResource("RectangleShape2D_miyu1")
 
 [node name="Blink" type="Node" parent="MapLayer/Boom" unique_id=167930314 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("9_blink")

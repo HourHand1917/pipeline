@@ -12,7 +12,7 @@ public partial class BlinkComponent : Node
     /// <summary>鼠标是否在 ClickZone 内</summary>
     public bool IsHovered { get; private set; }
 
-    [Export] private Sprite2D _sprite;
+    [Export] private Node2D _sprite;
     [Export] private Area2D _clickZone;
 
     private Color _baseColor;
