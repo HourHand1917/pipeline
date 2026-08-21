@@ -17,7 +17,11 @@ public partial class ChestInteractable : InteractableBase, ILootSource
 
     // ---- ILootSource ----
     public Resource RemainingLoot { get; private set; }
-    public void OnLootClaimed() => PersistInteraction(_mapId);
+    public void OnLootClaimed()
+    {
+        PersistInteraction(_mapId);
+        UpdateVisual();
+    }
     // 宝箱会保留在场景里，未领完可回头再开，不自动收。
     public bool AutoClaimRemainderOnClose => false;
 
@@ -45,6 +49,13 @@ public partial class ChestInteractable : InteractableBase, ILootSource
     private bool IsLootEmpty() =>
         ((GodotObject)RemainingLoot).Call(GDScriptKeys.LootTable.IsEmpty).AsBool();
 
+    /// <summary>战利品领空后停闪、变灰（不可再互动）。</summary>
+    private void UpdateVisual()
+    {
+        if (RemainingLoot != null && !IsLootEmpty()) return;
+        SetBlinkEnabled(false);
+    }
+
     public override Dictionary SaveState()
     {
         var dict = new Dictionary { { "opened", IsOpened } };
@@ -64,10 +75,7 @@ public partial class ChestInteractable : InteractableBase, ILootSource
             ((GodotObject)RemainingLoot).Call(GDScriptKeys.LootTable.FromDict, lootData);
         }
 
-        if (IsOpened && (RemainingLoot == null || IsLootEmpty()))
-        {
-            sprite.Modulate = new Color(0.1f, 0.2f, 0.4f);
-            SetBlinkEnabled(false);
-        }
+        if (IsOpened)
+            UpdateVisual();
     }
 }
