@@ -25,8 +25,12 @@ public partial class GrowthPanel : Control
     private readonly Dictionary<Button, GrowthManager.Upgrade> _buttons = new();
     private readonly Dictionary<Button, Texture2D> _baseTex = new();
 
+    private AudioManager _audio;
+
     public override void _Ready()
     {
+        _audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+
         Register(_hp1Button, "hp_1");
         Register(_hp2Button, "hp_2");
         Register(_str1Button, "str_1");
@@ -60,11 +64,19 @@ public partial class GrowthPanel : Control
         _buttons[btn] = upgrade;
         _baseTex[btn] = GetBaseTexture(btn);
 
-        btn.Pressed += () => GrowthManager.Instance.Buy(upgrade);
+        _audio?.AttachUiSounds(btn);
+
+        btn.Pressed += () =>
+        {
+            if (GrowthManager.Instance.Buy(upgrade))
+                _audio?.PlayUiSuccess();
+            else
+                _audio?.PlayUiInvalid();
+        };
+
         AttachTooltip(btn, upgrade);
     }
 
-    /// <summary>读取按钮在编辑器里设的底图（theme_override_styles/normal）。</summary>
     private static Texture2D GetBaseTexture(Button btn)
     {
         return (btn.GetThemeStylebox("normal") as StyleBoxTexture)?.Texture;
@@ -104,17 +116,17 @@ public partial class GrowthPanel : Control
             {
                 btn.Disabled = true;
                 var yellow = new Color(1f, 0.85f, 0.2f);
-                ApplyStyles(btn, tex, yellow, yellow, yellow); // 已升级：黄色常亮
+                ApplyStyles(btn, tex, yellow, yellow, yellow);
             }
             else if (GrowthManager.Instance.CanBuy(upgrade))
             {
                 btn.Disabled = false;
-                ApplyStyles(btn, tex, Gray(1.0f), Gray(1.35f), Gray(0.45f)); // 正常 / 悬浮亮 / 禁用暗
+                ApplyStyles(btn, tex, Gray(1.0f), Gray(1.35f), Gray(0.45f));
             }
             else
             {
                 btn.Disabled = true;
-                ApplyStyles(btn, tex, Gray(0.45f), Gray(0.45f), Gray(0.45f)); // 不可点：变暗
+                ApplyStyles(btn, tex, Gray(0.45f), Gray(0.45f), Gray(0.45f));
             }
         }
     }

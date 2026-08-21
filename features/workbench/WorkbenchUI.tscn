@@ -770,6 +770,7 @@ script = ExtResource("9_2gsrf")
 _material = ExtResource("7_55txc")
 
 [node name="UpgradePage" type="Control" parent="PanelStack" unique_id=1490783277 node_paths=PackedStringArray("_inventoryBox", "_beforeText", "_afterText", "_faucetLabel", "_enhanceButton", "_enhanceBtnLabel")]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

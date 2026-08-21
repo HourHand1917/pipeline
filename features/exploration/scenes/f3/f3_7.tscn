@@ -1,14 +1,14 @@
 [gd_scene format=3 uid="uid://dd6n3efrgqamb"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
-[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
-[ext_resource type="AudioStream" uid="uid://b4keq52aw3vov" path="res://tileset/music_resource/OGG/music/MUS_F03_Ambience_OGG.ogg" id="2_c6egr"]
+[ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="2_dljo4"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="Texture2D" uid="uid://cejkaslqneh3b" path="res://features/exploration/art_assets/maps/f3/f3-7（复用）.png" id="3_bg"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -19,7 +19,7 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f3_7"
 _hud = NodePath("UILayer/HUD")
-MapMusic = ExtResource("2_c6egr")
+MapAmbient = ExtResource("2_dljo4")
 PlayerLeft = -150
 PlayerRight = 1830
 CamLeft = 0
@@ -37,7 +37,7 @@ SpawnId = &"f3_7right"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=1714071032]
 
-[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer"]
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=865341441]
 position = Vector2(930.7693, 1764.6154)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")

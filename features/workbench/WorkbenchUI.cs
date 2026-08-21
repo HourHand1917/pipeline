@@ -50,6 +50,7 @@ public partial class WorkbenchUI : Control
 
     public override void _Ready()
     {
+        var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
         _tabs = new[] { _buildTab, _upgradeTab, _aiTab };
         _activeTextures = new[] { _buildTabActive, _upgradeTabActive, _aiTabActive };
         _normalTextures = new Texture2D[_tabs.Length];
@@ -62,6 +63,7 @@ public partial class WorkbenchUI : Control
         {
             if (_tabs[i] != null)
             {
+                audio?.AttachUiSounds(_tabs[i]);
                 _normalTextures[i] = _tabs[i].TextureNormal;
                 int idx = i;
                 _tabs[i].Pressed += () => SwitchToPage(idx);
@@ -69,6 +71,7 @@ public partial class WorkbenchUI : Control
         }
 
         if (_closeButton != null)
+            audio?.AttachUiSounds(_closeButton);
             _closeButton.Pressed += Close;
 
         // 页面可见性和 tab 升起都推迟到 Open() 时做。

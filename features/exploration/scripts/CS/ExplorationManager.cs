@@ -10,6 +10,7 @@ public partial class ExplorationManager : Node2D
 
     [ExportGroup("音乐")]
     [Export] public AudioStream MapMusic { get; set; }
+    [Export] public AudioStream MapAmbient { get; set; }
 
     [ExportGroup("玩家边界")]
     [Export] public int PlayerLeft { get; set; } = -2000;
@@ -46,7 +47,7 @@ public partial class ExplorationManager : Node2D
 
         if (!string.IsNullOrEmpty(MapId))
             InitPersistence(this, MapId);
-
+        PlayMapAmbient();
         PlayMapMusic();
 
         GD.Print("探索场景已就绪。A/D 移动，鼠标靠近交互物变亮。");
@@ -58,17 +59,39 @@ public partial class ExplorationManager : Node2D
     /// 播放当前地图音乐。如果和正在播放的音乐相同，跳过（连续播放）。
     /// 不同则淡入淡出切换。
     /// </summary>
-    private void PlayMapMusic()
+        private void PlayMapMusic()
     {
-        if (MapMusic == null) return;
-
         var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
         if (audio == null) return;
 
+        if (MapMusic == null)
+        {
+            // 场景音乐为 null → 淡出当前音乐，不播新曲
+            audio.FadeOutMusic();
+            return;
+        }
+
         if (audio.IsMusicPlaying(MapMusic))
-            return; // 同一层，继续播放
+            return;
 
         audio.PlayMusicWithFade(MapMusic);
+    }
+
+    private void PlayMapAmbient()
+    {
+        var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+        if (audio == null) return;
+
+        if (MapAmbient == null)
+        {
+            audio.FadeOutAmbient();
+            return;
+        }
+
+        if (audio.IsAmbientPlaying(MapAmbient))
+            return;
+
+        audio.PlayAmbientWithFade(MapAmbient);
     }
 
     public void ApplyBounds()

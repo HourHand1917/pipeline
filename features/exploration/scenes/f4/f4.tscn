@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
+[ext_resource type="AudioStream" uid="uid://vhcoxq43pfer" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F04.ogg" id="2_syxpf"]
 [ext_resource type="Texture2D" uid="uid://c76d1v4e0ugm" path="res://features/exploration/art_assets/maps/f4/boss关.png" id="3_bg"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
@@ -24,6 +25,7 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f4"
 _hud = NodePath("UILayer/HUD")
+MapAmbient = ExtResource("2_syxpf")
 PlayerLeft = 0
 PlayerRight = 6400
 CamLeft = 0

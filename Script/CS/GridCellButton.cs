@@ -44,17 +44,17 @@ public partial class GridCellButton : Button
     /// </summary>
     public void ApplyBuffTint(GodotObject cellStats)
     {
-   if (cellStats == null)
-    {
-        RemoveThemeStyleboxOverride("normal");
-        return;
-    }
+    if (cellStats == null)
+        {
+            RemoveThemeStyleboxOverride("normal");
+            return;
+        }
 
-    var buffs = cellStats.Get("buffs").As<Array>();
-    if (buffs == null || buffs.Count == 0)
-    {
-        RemoveThemeStyleboxOverride("normal");
-        return;
+        var buffs = cellStats.Get("buffs").As<Array>();
+        if (buffs == null || buffs.Count == 0)
+        {
+            RemoveThemeStyleboxOverride("normal");
+            return;
     }
 
         Color tint = new Color(1f, 1f, 1f, 0f);

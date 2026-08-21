@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_f3wqq"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
+[ext_resource type="AudioStream" uid="uid://by1xef8yp0nno" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F02.ogg" id="3_vfi77"]
 [ext_resource type="Texture2D" uid="uid://ceexktas5lgbk" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-门.png" id="4_axgrs"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="Texture2D" uid="uid://dxyu8v25hnk4i" path="res://features/exploration/art_assets/maps/f2/f2-5-商铺内部.png" id="4_l7btf"]
@@ -22,6 +23,7 @@ Input = NodePath("InputRouter")
 MapId = "f2_3"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_f3wqq")
+MapAmbient = ExtResource("3_vfi77")
 PlayerLeft = -150
 PlayerRight = 1830
 CamLeft = 0

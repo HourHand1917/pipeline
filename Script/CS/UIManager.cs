@@ -105,6 +105,41 @@ public partial class UIManager : Node
         _actionButtons.Clear();
         if (EndTurnButton != null) { EndTurnButton.Pressed += () => EmitSignal(SignalName.EndTurnRequested); _actionButtons.Add(EndTurnButton); }
         if (BackButton != null) { BackButton.Pressed += () => EmitSignal(SignalName.BackToBuildRequested); _actionButtons.Add(BackButton); }
+        // 音乐按钮登记
+        var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+
+        // 行动按钮
+        if (MoveBackButton != null)
+        {
+            audio?.AttachUiSounds(MoveBackButton);
+            MoveBackButton.Pressed += () => EmitSignal(SignalName.MoveRequested, (int)BattleManager.MoveAction.Backward);
+            _actionButtons.Add(MoveBackButton);
+        }
+        if (MoveForwardButton != null)
+        {
+            audio?.AttachUiSounds(MoveForwardButton);
+            MoveForwardButton.Pressed += () => EmitSignal(SignalName.MoveRequested, (int)BattleManager.MoveAction.Forward);
+            _actionButtons.Add(MoveForwardButton);
+        }
+        if (EndTurnButton != null)
+        {
+            audio?.AttachUiSounds(EndTurnButton);
+            EndTurnButton.Pressed += () => EmitSignal(SignalName.EndTurnRequested);
+            _actionButtons.Add(EndTurnButton);
+        }
+        if (BackButton != null)
+        {
+            audio?.AttachUiSounds(BackButton);
+            BackButton.Pressed += () => EmitSignal(SignalName.BackToBuildRequested);
+            _actionButtons.Add(BackButton);
+        }
+
+        // 格按钮
+        foreach (var btn in battleButtons)
+        {
+            audio?.AttachUiSounds(btn);
+        }
+
 
         _isSetup = true;
     }

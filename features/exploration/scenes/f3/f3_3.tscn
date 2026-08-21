@@ -4,6 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://b4keq52aw3vov" path="res://tileset/music_resource/OGG/music/MUS_F03_Ambience_OGG.ogg" id="2_fw5kp"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="Texture2D" uid="uid://cjrxo7rmrnywe" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV.png" id="3_bg"]
+[ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="3_n4cb0"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
@@ -24,6 +25,7 @@ Input = NodePath("InputRouter")
 MapId = "f3_3"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_fw5kp")
+MapAmbient = ExtResource("3_n4cb0")
 PlayerLeft = 0
 PlayerRight = 1680
 CamLeft = 0

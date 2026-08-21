@@ -22,21 +22,29 @@ public partial class PlayerTV : Control
     private int _pendingDirection;
     private bool _switching;
 
-    public override void _Ready()
+public override void _Ready()
+{
+    var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+
+    _panels = new Control[] { _mapPanel, _inventoryPanel, _enemyPanel };
+
+    if (_upButton != null)
     {
-        _panels = new Control[] { _mapPanel, _inventoryPanel, _enemyPanel };
-
-        if (_upButton != null)
-            _upButton.Pressed += () => SwitchPanel(-1);
-        if (_downButton != null)
-            _downButton.Pressed += () => SwitchPanel(1);
-
-        if (_rewardPage != null)
-            _rewardPage.RewardOpened += SwitchToInventory;
-
-        for (int i = 0; i < _panels.Length; i++)
-            if (_panels[i] != null) _panels[i].Visible = i == 0;
+        audio?.AttachUiSounds(_upButton);
+        _upButton.Pressed += () => SwitchPanel(-1);
     }
+    if (_downButton != null)
+    {
+        audio?.AttachUiSounds(_downButton);
+        _downButton.Pressed += () => SwitchPanel(1);
+    }
+
+    if (_rewardPage != null)
+        _rewardPage.RewardOpened += SwitchToInventory;
+
+    for (int i = 0; i < _panels.Length; i++)
+        if (_panels[i] != null) _panels[i].Visible = i == 0;
+}
 
     private int? _queuedDirection;
 

@@ -21,20 +21,39 @@ public partial class ShopUI : Control
     /// <summary>卡片背景贴图（可选，不设则用默认按钮样式）。</summary>
     [Export] private Texture2D _cardBg;
 
+    private AudioManager _audio;
+
     public override void _Ready()
     {
+        _audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+
         Visible = false;
         if (_shopManager != null)
+        {
             _shopManager.InventoryChanged += Refresh;
+            _shopManager.TransactionResult += OnTransactionResult;
+        }
         DataManager.Instance.CurrencyChanged += Refresh;
         if (_closeButton != null)
+        {
+            _audio?.AttachUiSounds(_closeButton);
             _closeButton.Pressed += Close;
+        }
     }
 
     public override void _ExitTree()
     {
-        // 场景切换时断开全局信号，避免访问已销毁节点
         DataManager.Instance.CurrencyChanged -= Refresh;
+        if (_shopManager != null)
+            _shopManager.TransactionResult -= OnTransactionResult;
+    }
+
+    private void OnTransactionResult(bool success, string message)
+    {
+        if (success)
+             _audio?.PlayShopBuySuccess();
+        else
+            _audio?.PlayUiInvalid();
     }
 
     public void Open()
@@ -51,10 +70,8 @@ public partial class ShopUI : Control
         EmitSignal(SignalName.Closed);
     }
 
-    /// <summary>show 动画第一帧调用：重跑 Refresh，覆盖售罄/背包满等状态。</summary>
     public void EnableButtons() => Refresh();
 
-    /// <summary>hide 动画第一帧调用：禁用全部商品卡片，防止动画期间误点。</summary>
     public void DisableButtons() => SetCardsDisabled(true);
 
     private void SetCardsDisabled(bool disabled)
@@ -106,7 +123,9 @@ public partial class ShopUI : Control
         var card = MakeCard(itemRes, entry, price, bagFull);
         card.Disabled = _shopManager.PlayerGold < price || bagFull;
 
-        var e = entry; // capture for lambda
+        _audio?.AttachUiSounds(card);
+
+        var e = entry;
         card.Pressed += () => _shopManager.Buy(e);
         AttachTooltip(card, itemRes, price);
         grid.AddChild(card);
@@ -120,12 +139,11 @@ public partial class ShopUI : Control
         var icon = itemRes.Get("icon").As<Texture2D>();
         if (icon != null) data.Icon = icon;
 
-        data.Details = new Godot.Collections.Dictionary<string, string>
+        data.Details = new Dictionary<string, string>
         {
             { "价格", $"${price}" },
         };
 
-        // 卡牌特有：射程
         var script = itemRes.GetScript().As<Script>();
         if (script != null && script.ResourcePath.Contains("card_data"))
         {
@@ -137,7 +155,6 @@ public partial class ShopUI : Control
         TooltipService.Instance.ShowFor(card, data);
     }
 
-    /// <summary>构建一张商品卡片：可选背景贴图 + 图标 + 名字 + 价格。</summary>
     private Button MakeCard(Resource itemRes, Resource entry, int price, bool bagFull)
     {
         var card = new Button
@@ -164,7 +181,6 @@ public partial class ShopUI : Control
         hbox.AddThemeConstantOverride("separation", 14);
         hbox.MouseFilter = Control.MouseFilterEnum.Ignore;
 
-        // 图标（ItemData 有 icon 贴图；CardData 只有文字 icon_text，这里就不放图标）
         var iconTex = itemRes.Get("icon").As<Texture2D>();
         if (iconTex != null)
         {

@@ -24,13 +24,18 @@ public partial class BuildWorkbenchPanel : Control
     private List<GridCellButton> _buildButtons = new();
     private Vector2I[] _buttonPositions = new Vector2I[MAX_BUTTONS];
 
+    private AudioManager _audio;
+
     public override void _Ready()
     {
+        _audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+
         for (int i = 0; i < _buildGrid.GetChildCount() && i < MAX_BUTTONS; i++)
         {
             if (_buildGrid.GetChild(i) is GridCellButton cell)
             {
                 _buildButtons.Add(cell);
+                _audio?.AttachUiSounds(cell);
                 int idx = i;
                 cell.Pressed += () => OnCellPressed(idx);
                 cell.MouseEntered += () => OnCellHovered(idx);
@@ -51,10 +56,6 @@ public partial class BuildWorkbenchPanel : Control
         DataManager.Instance.CardCollectionChanged -= RefreshAll;
     }
 
-    // ================================================================
-    //  公共
-    // ================================================================
-
     public void RefreshAll()
     {
         RemoveOverPlacedCards();
@@ -62,13 +63,9 @@ public partial class BuildWorkbenchPanel : Control
         RefreshBoard();
     }
 
-    /// <summary>
-    /// 升级会消耗卡牌，若已被消耗的卡还放在棋盘上，就把多余的那张移除，
-    /// 避免同时装上升级前和升级后的卡。
-    /// </summary>
     private void RemoveOverPlacedCards()
     {
-        var placedCount = new System.Collections.Generic.Dictionary<StringName, int>();
+        var placedCount = new Dictionary<StringName, int>();
         foreach (var rt in _boardManager.runtime_cards)
         {
             var data = rt.Get(GDScriptKeys.CardRuntime.Data).As<GodotObject>();
@@ -76,7 +73,7 @@ public partial class BuildWorkbenchPanel : Control
             placedCount[cardId] = placedCount.TryGetValue(cardId, out var c) ? c + 1 : 1;
         }
 
-        var excess = new System.Collections.Generic.Dictionary<StringName, int>();
+        var excess = new Dictionary<StringName, int>();
         foreach (var kv in placedCount)
         {
             int owned = DataManager.Instance.GetCardCount(kv.Key);
@@ -98,10 +95,6 @@ public partial class BuildWorkbenchPanel : Control
         foreach (var id in toRemove)
             _boardManager.RemoveCard(id);
     }
-
-    // ================================================================
-    //  背包卡牌
-    // ================================================================
 
     private StyleBoxTexture _cardBgNormal;
     private StyleBoxTexture _cardBgHover;
@@ -159,6 +152,7 @@ public partial class BuildWorkbenchPanel : Control
                 btn.AddThemeStyleboxOverride("disabled", _cardBgDisabled);
             }
 
+            _audio?.AttachUiSounds(btn);
             btn.Pressed += () => SelectCard(cardId);
             _inventoryBox.AddChild(btn);
 
@@ -207,10 +201,6 @@ public partial class BuildWorkbenchPanel : Control
         TooltipService.Instance.ShowFor(cell, data);
     }
 
-    // ================================================================
-    //  棋盘
-    // ================================================================
-
     private void RefreshBoard()
     {
         var previewCells = new List<Vector2I>();
@@ -228,15 +218,12 @@ public partial class BuildWorkbenchPanel : Control
 
         int w = _boardManager.columns;
         int h = _boardManager.rows;
-        // 不修改 _buildGrid.Columns——保持编辑器里设的 4 列，和 battlescreen 一致。
-        // 超出逻辑棋盘范围的格子用 Disabled 状态而非隐藏。
 
         for (int i = 0; i < _buildButtons.Count && i < MAX_BUTTONS; i++)
         {
             var pos = _buttonPositions[i];
             var cell = _buildButtons[i];
 
-            // 超出棋盘范围 → 禁用而非隐藏（和 battlescreen 一致）
             if (pos.X >= w || pos.Y >= h)
             {
                 cell.SetState(CellState.Disabled);
@@ -268,10 +255,6 @@ public partial class BuildWorkbenchPanel : Control
         }
     }
 
-    // ================================================================
-    //  交互
-    // ================================================================
-
     private void SelectCard(StringName cardId)
     {
         _selectedCardId = cardId;
@@ -285,7 +268,6 @@ public partial class BuildWorkbenchPanel : Control
         int w = _boardManager.columns, h = _boardManager.rows;
         if (pos.X >= w || pos.Y >= h) return;
 
-        // 已有卡 → 移除
         var rt = _boardManager.GetCardByCell(pos);
         if (rt != null)
         {
@@ -297,7 +279,6 @@ public partial class BuildWorkbenchPanel : Control
 
         if (_selectedCardId == "") return;
 
-        // 放置
         var card = DataManager.Instance.GetCard(_selectedCardId);
         if (card == null) return;
         if (_boardManager.PlaceCard((GodotObject)card, pos, _selectedRotation) != null)
@@ -324,7 +305,6 @@ public partial class BuildWorkbenchPanel : Control
 
     public override void _Input(InputEvent @event)
     {
-        // 右键取消选中（必须在 _Input 里，_UnhandledInput 拿不到按钮消费过的事件）
         if (@event is InputEventMouseButton { Pressed: true, ButtonIndex: MouseButton.Right }
             && _selectedCardId != "")
         {
@@ -334,7 +314,6 @@ public partial class BuildWorkbenchPanel : Control
             AcceptEvent();
         }
 
-        // R 键旋转
         if (@event is InputEventKey { Pressed: true, Echo: false, Keycode: Key.R }
             && _selectedCardId != "")
         {

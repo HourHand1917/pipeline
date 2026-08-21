@@ -1,11 +1,5 @@
 using Godot;
-using Godot.Collections;
 
-/// <summary>
-/// TV 版背包面板。嵌入 PlayerTV.PanelStack 内。
-/// set_mode(0=Exploration) 隐藏"使用"按钮，set_mode(1=Battle) 显示全部。
-/// 物品详情通过 TooltipService 悬浮显示。
-/// </summary>
 [GlobalClass]
 public partial class InventoryPanel : Control
 {
@@ -29,6 +23,8 @@ public partial class InventoryPanel : Control
 
     public override void _Ready()
     {
+        var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+
         _slotBg = GD.Load<Texture2D>("res://features/exploration/art_assets/workbenchUI/卡牌背景.png");
         _buttonBg = GD.Load<Texture2D>("res://features/exploration/art_assets/battlescreen/已激活.png");
 
@@ -38,17 +34,16 @@ public partial class InventoryPanel : Control
             if (slot == null) continue;
 
             int idx = i;
+            audio?.AttachUiSounds(slot);
             slot.Pressed += () => SelectItem(idx);
             _slots[i] = slot;
 
-            // 格子背景：卡牌底图铺满（各状态一致）
             slot.StretchMode = TextureButton.StretchModeEnum.Scale;
             slot.TextureNormal = _slotBg;
             slot.TextureHover = _slotBg;
             slot.TexturePressed = _slotBg;
             slot.TextureDisabled = _slotBg;
 
-            // 物品图标：子 TextureRect 等比居中叠在背景上
             var icon = new TextureRect
             {
                 ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
@@ -64,8 +59,16 @@ public partial class InventoryPanel : Control
             _slotIcons[i] = icon;
         }
 
-        if (_useButton != null) _useButton.Pressed += OnUse;
-        if (_discardButton != null) _discardButton.Pressed += OnDiscard;
+        if (_useButton != null)
+        {
+            audio?.AttachUiSounds(_useButton);
+            _useButton.Pressed += OnUse;
+        }
+        if (_discardButton != null)
+        {
+            audio?.AttachUiSounds(_discardButton);
+            _discardButton.Pressed += OnDiscard;
+        }
 
         ApplyButtonBg(_useButton);
         ApplyButtonBg(_discardButton);
@@ -125,10 +128,9 @@ public partial class InventoryPanel : Control
                 {
                     icon.Texture = obj.Get("icon").As<Texture2D>();
                     icon.Visible = true;
-                    icon.Modulate = Colors.White; // 图标颜色交由 slot 统一控制
+                    icon.Modulate = Colors.White;
                 }
 
-                // 选中道具：背景 + 图标一起变亮；其余调暗
                 bool isSelected = hasSelection && i == _selectedIndex;
                 slot.Modulate = isSelected || !hasSelection
                     ? Colors.White

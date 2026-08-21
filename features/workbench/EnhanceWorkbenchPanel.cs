@@ -24,12 +24,17 @@ public partial class EnhanceWorkbenchPanel : Control
     private StyleBoxTexture _cardBgHover;
     private StyleBoxTexture _cardBgDisabled;
 
+    private AudioManager _audio;
+
     public override void _Ready()
     {
+        _audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+
         _enhanceButton.Pressed += OnEnhancePressed;
         _enhanceButton.Disabled = true;
 
-        // 文本自动换行
+        _audio?.AttachUiSounds(_enhanceButton);
+
         _beforeText.AutowrapMode = TextServer.AutowrapMode.Word;
         _afterText.AutowrapMode = TextServer.AutowrapMode.Word;
 
@@ -111,6 +116,8 @@ public partial class EnhanceWorkbenchPanel : Control
                 btn.AddThemeStyleboxOverride("hover", _cardBgHover);
             }
 
+            _audio?.AttachUiSounds(btn);
+
             btn.Pressed += () => SelectCard(card, upgraded);
             _inventoryBox.AddChild(btn);
 
@@ -169,11 +176,15 @@ public partial class EnhanceWorkbenchPanel : Control
         if (DataManager.Instance.Faucet < _enhanceCost)
         {
             GD.Print("水龙头不足！");
+            _audio?.PlayUiInvalid();
             return;
         }
 
         DataManager.Instance.ModifyCurrency(DataManager.CurrencyType.Faucet, -_enhanceCost);
         DataManager.Instance.UpgradeCard(cardId);
+
+        _audio?.PlayUiSuccess();
+
         Refresh();
     }
 
