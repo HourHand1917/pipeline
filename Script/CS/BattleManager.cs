@@ -362,7 +362,7 @@ public partial class BattleManager : Node
         EmitSignal(SignalName.BattleStateChanged);
     }
 
-    private void ResolveEnemyTurn()
+        private void ResolveEnemyTurn()
     {
         var deferredRoleActions = new System.Collections.Generic.List<GodotObject>();
         foreach (var enemy in EnemyManager.Enemies)
@@ -394,6 +394,9 @@ public partial class BattleManager : Node
                 continue;
             }
             Log($"{enemy.DisplayName}使用「{action.Get(GDScriptKeys.EnemyAction.DisplayName)}」。");
+
+            enemy.PlayAttackSfx();  // ← 攻击音效
+
             EffectResolver.ExecuteEnemyAction(action, this, enemy);
             EffectResolver.ExecuteEnemyPatternHitEffects(action, this, enemy);
             if (EffectResolver.HasDeferredEnemyRoleEffects(action))

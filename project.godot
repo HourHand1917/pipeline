@@ -32,11 +32,18 @@ GrowthManager="*res://Script/CS/GrowthManager.cs"
 
 directories/dch_directory={
 "RUBBER": "res://features/dialogue/test_content/characters/RUBBER.dch",
+"character/reb": "res://NPC_talking/character/reb.dch",
+"cord_00": "res://NPC_talking/character/cord_00.dch",
+"mousy": "res://NPC_talking/character/mousy.dch",
 "reb": "res://features/dialogue/test_content/characters/reb.dch",
+"rokey": "res://NPC_talking/character/rokey.dch",
+"rubber": "res://NPC_talking/character/rubber.dch",
+"sharrk": "res://NPC_talking/character/sharrk.dch",
 "鼠鼠": "res://features/dialogue/test_content/characters/鼠鼠.dch"
 }
 directories/dtl_directory={
 "npc_dialogue_example_timeline": "res://features/dialogue/examples/npc_dialogue_example_timeline.dtl",
+"timeline_test": "res://NPC_talking/timeline/timeline_test.dtl",
 "水龙头与上层工程师": "res://features/dialogue/test_content/timelines/水龙头与上层工程师.dtl"
 }
 layout/style_directory={}
