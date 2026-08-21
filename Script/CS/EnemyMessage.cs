@@ -26,10 +26,6 @@ public partial class EnemyMessage : PanelContainer
         if (shieldBar != null) shieldBar.TintProgress = new Color("#63d7e4");
     }
 
-    // ================================================================
-    //  开始跟踪敌人实例
-    // ================================================================
-
     public void TrackEnemy(EnemyBattle enemy, string actionName = "")
     {
         if (_trackedEnemy == enemy)
@@ -40,8 +36,6 @@ public partial class EnemyMessage : PanelContainer
         StopTracking();
 
         if (enemy == null) return;
-
-        GD.Print($"[调试] EnemyMessage.TrackEnemy enemy={enemy?.DisplayName}, actionName={actionName}");
 
         _trackedEnemy = enemy;
         _currentActionName = actionName;
@@ -57,10 +51,6 @@ public partial class EnemyMessage : PanelContainer
         RefreshAll();
     }
 
-    // ================================================================
-    //  停止跟踪
-    // ================================================================
-
     public void StopTracking()
     {
         if (_trackedEnemy == null) return;
@@ -73,10 +63,6 @@ public partial class EnemyMessage : PanelContainer
 
         ClearDisplay();
     }
-
-    // ================================================================
-    //  更新行动名（不重新绑定敌人）
-    // ================================================================
 
     public void UpdateActionName(string actionName)
     {
@@ -93,10 +79,6 @@ public partial class EnemyMessage : PanelContainer
         _currentIntentText = intentText ?? "";
         if (_trackedEnemy != null) RefreshIntentLabel();
     }
-
-    // ================================================================
-    //  全量刷新
-    // ================================================================
 
     private void RefreshAll()
     {
@@ -117,6 +99,7 @@ public partial class EnemyMessage : PanelContainer
 
     private void RefreshInfoLabel()
     {
+        if (_trackedEnemy == null) return;
         string actionText = string.IsNullOrEmpty(_currentActionName)
             ? ""
             : $" | 行动：{_currentActionName}";
@@ -131,10 +114,6 @@ public partial class EnemyMessage : PanelContainer
             ? "◇ 意图：等待 / 调整位置"
             : $"⚠ 下回合：{_currentIntentText}";
     }
-
-    // ================================================================
-    //  信号回调
-    // ================================================================
 
     private void OnHealthChanged(int current, int max)
     {
@@ -173,15 +152,13 @@ public partial class EnemyMessage : PanelContainer
 
     private void OnDied()
     {
+        if (_trackedEnemy == null) return;
+
         healthBar.Value = 0;
         healthLabel.Text = $"0 / {_trackedEnemy.MaxHp}";
         infoLabel.Text = $"{_trackedEnemy.DisplayName} 已倒下";
         if (intentLabel != null) intentLabel.Text = "";
     }
-
-    // ================================================================
-    //  Buff 网格
-    // ================================================================
 
     private void RefreshBuffGrid()
     {
@@ -207,10 +184,6 @@ public partial class EnemyMessage : PanelContainer
         }
     }
 
-    // ================================================================
-    //  清空显示
-    // ================================================================
-
     private void ClearDisplay()
     {
         _currentActionName = "";
@@ -229,13 +202,13 @@ public partial class EnemyMessage : PanelContainer
         }
     }
 
-        public EnemyBattle GetTrackedEnemy()
+    public EnemyBattle GetTrackedEnemy()
     {
         return _trackedEnemy;
     }
 
     public void RefreshBuffGridPublic()
-{
-    RefreshBuffGrid();
-}
+    {
+        RefreshBuffGrid();
+    }
 }
