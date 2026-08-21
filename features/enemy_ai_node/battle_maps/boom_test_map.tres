@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dtt2n86015c5" path="res://Script/GD/resource/battle_map_data.gd" id="1"]
 [ext_resource type="Script" uid="uid://qarur3c2xyfi" path="res://Script/GD/resource/enemy_data.gd" id="1_obs0u"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/enemy_data/boom.tres" id="2"]
+[ext_resource type="Resource" uid="uid://bb65xt7n24v3m" path="res://features/enemy_ai_node/enemy_data/boom.tres" id="2"]
 
 [resource]
 script = ExtResource("1")
