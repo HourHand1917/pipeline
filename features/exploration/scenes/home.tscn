@@ -40,6 +40,7 @@
 [ext_resource type="Resource" uid="uid://dor040piw1t4u" path="res://Resource/card/cards/deadly_kiss.tres" id="37_6f2dm"]
 [ext_resource type="Resource" uid="uid://btejfgildf2f0" path="res://Resource/card/cards/quad_coil_gun.tres" id="38_y1oyu"]
 [ext_resource type="Resource" uid="uid://co0hfeakyv10d" path="res://Resource/card/cards/pea_gun.tres" id="39_o7g8d"]
+[ext_resource type="Resource" path="res://features/exploration/map_selection/resources/default_home_destinations.tres" id="40_dest_config"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -85,7 +86,7 @@ position = Vector2(921, 563)
 texture = ExtResource("3_htdbx")
 
 [node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=1560915694]
-position = Vector2(930.7693, 1764.6154)
+position = Vector2(956.92316, 1633.8462)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("8_vmofw")
 
@@ -237,6 +238,7 @@ _tabRaiseOffset = 30.0
 offset_bottom = 1.3399658
 
 [node name="MapSelectUI" parent="UILayer" unique_id=184537201 instance=ExtResource("32_mapselect")]
+_configuration = ExtResource("40_dest_config")
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")
