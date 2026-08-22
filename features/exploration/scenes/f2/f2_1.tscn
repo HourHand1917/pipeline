@@ -3,13 +3,43 @@
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_rndhp"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
-[ext_resource type="Texture2D" uid="uid://ddadk8yfxwhs6" path="res://features/exploration/art_assets/maps/f2/f2-1_贫民区.png" id="3_bg"]
 [ext_resource type="AudioStream" uid="uid://by1xef8yp0nno" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F02.ogg" id="3_hxqmq"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="Texture2D" uid="uid://4x5y0tp0gvj4" path="res://features/exploration/art_assets/maps/f2/f2-6（复用）.png" id="6_hxqmq"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_aupid"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="9_402xm"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
+[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="31_npc"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="33_loot"]
+[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="34_music"]
+[ext_resource type="Texture2D" uid="uid://6i4vatwprdvx" path="res://features/exploration/art_assets/maps/f1/教程-1-箱子.png" id="35_chest_tex"]
+[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="36_boom_tex"]
+
+[sub_resource type="Resource" id="Resource_chest_loot"]
+script = ExtResource("33_loot")
+bottle_cap = 20
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_28238"]
+size = Vector2(330, 168)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kid56"]
+size = Vector2(279, 164)
+
+[sub_resource type="Resource" id="Resource_boom_loot"]
+script = ExtResource("33_loot")
+bottle_cap = 10
+faucet = 5
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_boom_detect"]
+radius = 120.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_boom_click"]
+radius = 48.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -47,7 +77,77 @@ texture = ExtResource("20_floor")
 [node name="贫民区背景" type="Sprite2D" parent="MapLayer" unique_id=78607295]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("3_bg")
+texture = ExtResource("6_hxqmq")
+
+[node name="宝箱" type="Area2D" parent="MapLayer" unique_id=1279021174 node_paths=PackedStringArray("Hud", "_blink")]
+position = Vector2(420, 500)
+script = ExtResource("30_chest")
+Loot = SubResource("Resource_chest_loot")
+Hud = NodePath("../../UILayer/HUD")
+DisplayName = "宝箱"
+PersistenceId = "chest_f2_1"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/宝箱" unique_id=371793826]
+position = Vector2(182, -51.000004)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("35_chest_tex")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/宝箱" unique_id=146979390]
+position = Vector2(13, 74)
+shape = SubResource("RectangleShape2D_28238")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/宝箱" unique_id=1583372770]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/宝箱/ClickZone" unique_id=712537446]
+position = Vector2(18.5, 79)
+shape = SubResource("RectangleShape2D_kid56")
+
+[node name="Blink" type="Node" parent="MapLayer/宝箱" unique_id=712843319 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("32_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="Boom" type="Area2D" parent="MapLayer" unique_id=2136500382 node_paths=PackedStringArray("Hud", "_blink")]
+position = Vector2(1240, 500)
+script = ExtResource("31_npc")
+BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
+BattleRulesPath = "res://features/enemy_ai_node/rules/boom_rules.tres"
+ReturnSpawnId = &"f2_1_boom_return"
+AggroRadius = 100.0
+RespawnOnReturn = true
+BattleMusic = ExtResource("34_music")
+Loot = SubResource("Resource_boom_loot")
+Hud = NodePath("../../UILayer/HUD")
+NpcName = "Boom"
+PersistenceId = "enemy_boom_f2_1"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Boom" unique_id=240697688]
+modulate = Color(0.92, 0.37, 0.25, 1)
+texture = ExtResource("36_boom_tex")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Boom" unique_id=1457167521]
+shape = SubResource("CircleShape2D_boom_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Boom" unique_id=651916840]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Boom/ClickZone" unique_id=371300053]
+shape = SubResource("CircleShape2D_boom_click")
+
+[node name="Blink" type="Node" parent="MapLayer/Boom" unique_id=259102060 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("32_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="ReturnSpawn" type="Node2D" parent="MapLayer/Boom" unique_id=47125793]
+position = Vector2(-9, 12)
+script = ExtResource("2_spawn")
+SpawnId = &"f2_1_boom_return"
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1661849276]
 position = Vector2(-150, 450)

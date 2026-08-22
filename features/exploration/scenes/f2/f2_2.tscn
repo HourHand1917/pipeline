@@ -14,9 +14,14 @@
 [ext_resource type="Script" uid="uid://bju6uaedyndmv" path="res://features/exploration/scripts/CS/RoomTransitionManager.cs" id="11_rmanager"]
 [ext_resource type="Script" uid="uid://dya0c2snh75vx" path="res://features/exploration/scripts/CS/RoomBounds.cs" id="12_rbounds"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="13_blink"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="15_gpyuw"]
 [ext_resource type="Texture2D" uid="uid://dy2qqvbf8yq1i" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-小门框.png" id="15_smalldoor"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="16_aat1y"]
 [ext_resource type="Texture2D" uid="uid://xv1drawokugm" path="res://features/exploration/art_assets/maps/f2/f2-3酒吧内部.png" id="16_bar"]
+[ext_resource type="Texture2D" uid="uid://dwvii31k3h5f6" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV-箱子.png" id="18_heonf"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_erxx1"]
 size = Vector2(373, 313)
@@ -32,6 +37,15 @@ size = Vector2(164, 205)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hvauc"]
 size = Vector2(162, 207)
+
+[sub_resource type="Resource" id="Resource_chest_loot"]
+script = ExtResource("31_loot")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chest_detect"]
+size = Vector2(240, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chest_click"]
+size = Vector2(200, 140)
 
 [node name="ExplorationMap2" type="Node2D" unique_id=1276622731 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
@@ -159,6 +173,35 @@ position = Vector2(9, 16.5)
 shape = SubResource("RectangleShape2D_hvauc")
 
 [node name="Blink" type="Node" parent="MapLayer/Room_Back/出口门" unique_id=-2084967280 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("13_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="宝箱" type="Area2D" parent="MapLayer/Room_Back" unique_id=1293729895 node_paths=PackedStringArray("Hud", "_blink")]
+position = Vector2(913, 584)
+script = ExtResource("30_chest")
+Loot = SubResource("Resource_chest_loot")
+Hud = NodePath("../../../UILayer/HUD")
+DisplayName = "宝箱"
+PersistenceId = "chest_f2_2_back"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Back/宝箱" unique_id=1847454799]
+position = Vector2(485.99997, -137.00002)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("18_heonf")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Back/宝箱" unique_id=1175729988]
+shape = SubResource("RectangleShape2D_chest_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Back/宝箱" unique_id=1757908232]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Back/宝箱/ClickZone" unique_id=488042433]
+shape = SubResource("RectangleShape2D_chest_click")
+
+[node name="Blink" type="Node" parent="MapLayer/Room_Back/宝箱" unique_id=1029544483 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("13_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")

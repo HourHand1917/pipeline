@@ -9,7 +9,24 @@
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_6stul"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="9_mq6sg"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="33_loot"]
+[ext_resource type="Texture2D" uid="uid://cv7ij2b32dvqy" path="res://features/exploration/art_assets/maps/f3/f3-6_老虎机.png" id="34_slot_tex"]
+
+[sub_resource type="Resource" id="Resource_slot_loot"]
+script = ExtResource("33_loot")
+bottle_cap = 24
+faucet = 20
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slot_detect"]
+size = Vector2(319, 309)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slot_click"]
+size = Vector2(205, 326)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -25,7 +42,7 @@ MapAmbient = ExtResource("3_4wupg")
 PlayerLeft = -150
 PlayerRight = 3527
 CamLeft = 0
-CamRight = 3377
+CamRight = 3310
 
 [node name="f3_6leftSpawn" type="Node2D" parent="." unique_id=1979213437]
 position = Vector2(150, 530)
@@ -45,9 +62,40 @@ scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")
 
 [node name="赌场背景" type="Sprite2D" parent="MapLayer" unique_id=1508770714]
-position = Vector2(1688, 450)
+position = Vector2(1664, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_bg")
+
+[node name="老虎机" type="Area2D" parent="MapLayer" unique_id=156038490 node_paths=PackedStringArray("Hud", "_blink")]
+position = Vector2(755, 494)
+script = ExtResource("30_chest")
+Loot = SubResource("Resource_slot_loot")
+Hud = NodePath("../../UILayer/HUD")
+DisplayName = "老虎机"
+PersistenceId = "chest_f3_6_slot"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/老虎机" unique_id=651947025]
+position = Vector2(908.99994, -43.999996)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("34_slot_tex")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/老虎机" unique_id=34135660]
+position = Vector2(-3.5, 24.5)
+shape = SubResource("RectangleShape2D_slot_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/老虎机" unique_id=765716937]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/老虎机/ClickZone" unique_id=1504520112]
+position = Vector2(7.5, 12)
+shape = SubResource("RectangleShape2D_slot_click")
+
+[node name="Blink" type="Node" parent="MapLayer/老虎机" unique_id=2097929578 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("32_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=2024990960]
 position = Vector2(-150, 450)
@@ -60,7 +108,7 @@ position = Vector2(-300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
 [node name="right_edge" type="Area2D" parent="MapLayer" unique_id=58545787]
-position = Vector2(3527, 450)
+position = Vector2(3499, 450)
 script = ExtResource("4_edge")
 TargetMapId = &"f3_7"
 TargetSpawnId = &"f3_7left"

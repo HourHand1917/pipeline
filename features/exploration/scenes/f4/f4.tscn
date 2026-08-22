@@ -3,13 +3,18 @@
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="AudioStream" uid="uid://vhcoxq43pfer" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F04.ogg" id="2_syxpf"]
-[ext_resource type="Texture2D" uid="uid://c76d1v4e0ugm" path="res://features/exploration/art_assets/maps/f4/boss关.png" id="3_bg"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="Texture2D" uid="uid://c8eg1tacxp1my" path="res://features/exploration/art_assets/maps/f4/boss关-背景.png" id="5_syxpf"]
+[ext_resource type="Texture2D" uid="uid://bhr7rtbraaa0j" path="res://features/exploration/art_assets/maps/f4/boss关-前景柱子.png" id="6_0cwr6"]
+[ext_resource type="Texture2D" uid="uid://dt8qf56ebpbsv" path="res://features/exploration/art_assets/maps/f4/boss关-一层台子.png" id="6_3ux7p"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="7_s2o3l"]
+[ext_resource type="Texture2D" uid="uid://xrl05raxumce" path="res://features/exploration/art_assets/maps/f4/boss关-二层台子.png" id="7_ys00k"]
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_23vsp"]
+[ext_resource type="Texture2D" uid="uid://chvpdubxhq7jo" path="res://features/exploration/art_assets/maps/f4/boss关-闸门.png" id="8_ys00k"]
 [ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="9_syxpf"]
+[ext_resource type="Texture2D" uid="uid://dfnk2jvo05uf7" path="res://features/exploration/art_assets/maps/f4/boss关-闸门光屏.png" id="9_ufvg2"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="10_0cwr6"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
@@ -39,14 +44,42 @@ SpawnId = &"f4entry"
 [node name="MapLayer" type="Node2D" parent="." unique_id=1878379614]
 
 [node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=940365319]
-position = Vector2(930.7693, 1764.6154)
-scale = Vector2(2.1333318, 1)
+position = Vector2(2826, 1423)
+scale = Vector2(3.9522896, 1)
 texture = ExtResource("20_floor")
 
 [node name="boss关背景" type="Sprite2D" parent="MapLayer" unique_id=1704790957]
 position = Vector2(3200, 450)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("3_bg")
+texture = ExtResource("5_syxpf")
+
+[node name="Boss关二层台子" type="Sprite2D" parent="MapLayer" unique_id=645461110]
+position = Vector2(3200, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("7_ys00k")
+
+[node name="Boss关一层台子" type="Sprite2D" parent="MapLayer" unique_id=2059465955]
+position = Vector2(3200, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("6_3ux7p")
+
+[node name="Boss关闸门光屏" type="Sprite2D" parent="MapLayer" unique_id=228501630]
+z_index = 1
+position = Vector2(3200, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("9_ufvg2")
+
+[node name="Boss关闸门" type="Sprite2D" parent="MapLayer" unique_id=859376871]
+z_index = 1
+position = Vector2(3200, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("8_ys00k")
+
+[node name="Boss关前景柱子" type="Sprite2D" parent="MapLayer" unique_id=937141474]
+z_index = 1
+position = Vector2(3200, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("6_0cwr6")
 
 [node name="Player" parent="." unique_id=1793969317 instance=ExtResource("5_player")]
 position = Vector2(3200, 530)

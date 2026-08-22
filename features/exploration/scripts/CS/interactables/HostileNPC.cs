@@ -19,6 +19,8 @@ public partial class HostileNPC : NPCBase, ILootSource
     [Export] public StringName ReturnSpawnId { get; set; } = "";
     /// <summary>自动触发战斗的距离阈值</summary>
     [Export] public float AggroRadius { get; set; } = 80.0f;
+    /// <summary>离开地图再回来会复活（不永久战败）；对话进度仍会持久化。</summary>
+    [Export] public bool RespawnOnReturn { get; set; } = false;
 
     [ExportGroup("音乐")]
     [Export] public AudioStream BattleMusic { get; set; }
@@ -32,9 +34,10 @@ public partial class HostileNPC : NPCBase, ILootSource
     // ---- ILootSource ----
     public Resource RemainingLoot { get; private set; }
 
-    private bool _defeated;   // 持久化：战斗胜利后消失
+    private bool _defeated;   // 持久化：战斗胜利后消失（RespawnOnReturn 时离开地图会被清除）
     private bool _triggered;  // 防重复触发（不持久化）
     private bool _battleAfterDialogue;
+    private bool _introPlayed; // 持久化：开场对话是否已播放
 
     public override void _Ready()
     {
@@ -49,7 +52,7 @@ public partial class HostileNPC : NPCBase, ILootSource
             return;
 
         _triggered = true;
-        if (HasConfiguredDialogue)
+        if (HasConfiguredDialogue && !_introPlayed)
         {
             _battleAfterDialogue = true;
             if (!TryStartConfiguredDialogue())
@@ -82,6 +85,8 @@ public partial class HostileNPC : NPCBase, ILootSource
         if (_battleAfterDialogue && !_defeated)
         {
             _battleAfterDialogue = false;
+            _introPlayed = true;
+            PersistInteraction(_mapId); // 保存对话进度
             TriggerBattle();
         }
     }
@@ -115,11 +120,18 @@ public partial class HostileNPC : NPCBase, ILootSource
 
     public override Dictionary SaveState()
     {
-        return new Dictionary { { "defeated", _defeated } };
+        return new Dictionary
+        {
+            { "defeated", _defeated },
+            { "intro_played", _introPlayed },
+        };
     }
 
     public override void LoadState(Dictionary state)
     {
+        if (state.TryGetValue("intro_played", out var ip) && ip.AsBool())
+            _introPlayed = true;
+
         bool wasDefeated = state.TryGetValue("defeated", out var v) && v.AsBool();
         if (!wasDefeated) return;
 
@@ -129,6 +141,19 @@ public partial class HostileNPC : NPCBase, ILootSource
         // 战斗胜利返回后自动弹战利品页（一次性，用 BattleDirector 标记消费掉）
         if (Loot != null && BattleDirector.Instance?.ConsumePendingLoot(PersistenceId) == true)
             Callable.From(AutoOpenReward).CallDeferred();
+    }
+
+    public override void _ExitTree()
+    {
+        // 可复活的敌人：离开地图时清掉「战败」状态（下次回来复活），但保留对话进度。
+        if (RespawnOnReturn && _defeated &&
+            !string.IsNullOrEmpty(_mapId) && !string.IsNullOrEmpty(PersistenceId))
+        {
+            var state = SaveState();
+            state["defeated"] = false; // 复活：只清战败，保留对话进度
+            GameState.Instance?.SetObjectState(_mapId, PersistenceId, state);
+        }
+        base._ExitTree();
     }
 
     private void AutoOpenReward()
