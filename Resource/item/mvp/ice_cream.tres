@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="IceCreamItemData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="IceCreamItemData" format=3 uid="uid://fo4owgb58163"]
 
-[ext_resource type="Script" path="res://Resource/item/mvp/scripts/ice_cream_item.gd" id="1_item"]
-[ext_resource type="Texture2D" path="res://Resource/item/mvp/icons/ice_cream.svg" id="2_icon"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_b2rpc"]
+[ext_resource type="Script" uid="uid://i0mnreewb5mj" path="res://Resource/item/mvp/scripts/ice_cream_item.gd" id="1_item"]
+[ext_resource type="Texture2D" uid="uid://64m1dja57q7r" path="res://Resource/item/mvp/icons/ice_cream.svg" id="2_icon"]
 
 [resource]
 script = ExtResource("1_item")
@@ -10,5 +11,3 @@ display_name = "冰淇淋"
 description = "让 Reb 开心。暂未配置战斗效果，不会消耗。"
 icon = ExtResource("2_icon")
 consume_on_use = false
-shop_price = 0
-mvp_stock = 1

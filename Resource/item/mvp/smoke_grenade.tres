@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemData" format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://db7m7tmsdlrgm"]
 
-[ext_resource type="Script" path="res://Script/GD/resource/itemdata.gd" id="1"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="2"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="1"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_w57q2"]
+[ext_resource type="Texture2D" uid="uid://b7va0e0jpk3vl" path="res://icon.svg" id="2"]
 
 [resource]
 script = ExtResource("1")
@@ -12,4 +13,3 @@ icon = ExtResource("2")
 special_effects = Array[int]([6])
 runtime_contract = "BattleManager 标记 cancel_locked_intent=true；ResolveEnemyTurn 跳过带 locked_attack 标签的动作，laser/boss_laser 标签例外；敌人回合结束清标记。"
 shop_price = 14
-mvp_stock = 1

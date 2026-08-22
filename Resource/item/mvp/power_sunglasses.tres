@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="ItemData" format=3]
+[gd_resource type="Resource" script_class="ItemData" format=3 uid="uid://dpms4ya58iuu4"]
 
-[ext_resource type="Script" path="res://Script/GD/resource/itemdata.gd" id="1"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="2"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="1"]
+[ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_vm7su"]
+[ext_resource type="Texture2D" uid="uid://b7va0e0jpk3vl" path="res://icon.svg" id="2"]
 
 [resource]
 script = ExtResource("1")

@@ -1,68 +1,165 @@
 [gd_resource type="Resource" script_class="ShopData" format=3 uid="uid://3fm7weqvvkxh"]
 
 [ext_resource type="Script" uid="uid://csmsb34ixbywo" path="res://features/shop/ShopData.gd" id="1_data"]
+[ext_resource type="Resource" uid="uid://k0c1qhtd0tr2" path="res://Resource/card/cards/armored_shield.tres" id="2_6r4me"]
 [ext_resource type="Script" uid="uid://diqp7kgpioav6" path="res://features/shop/ShopEntry.gd" id="2_entry"]
-[ext_resource type="Resource" uid="uid://s7ocm6ggcnio" path="res://Resource/card/battery.tres" id="3_battery"]
-[ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="4_medkit"]
+[ext_resource type="Resource" uid="uid://dor040piw1t4u" path="res://Resource/card/cards/deadly_kiss.tres" id="3_6al61"]
+[ext_resource type="Resource" uid="uid://q51njcymuw3f" path="res://Resource/card/cards/hemostatic_pump.tres" id="4_r58u6"]
 [ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/cards/revolver.tres" id="5_revolver"]
+[ext_resource type="Resource" uid="uid://5hkpux4h1e2h" path="res://Resource/card/cards/hydraulic_fist.tres" id="5_s36t5"]
 [ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/cards/shield.tres" id="6_shield"]
-[ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="7_swap"]
-[ext_resource type="Resource" uid="uid://b8v3gh0oykgbf" path="res://Resource/item/test_item.tres" id="8_test"]
-[ext_resource type="Resource" uid="uid://dmk3a7ohv1eub" path="res://Resource/item/healthmed.tres" id="9_hmed"]
+[ext_resource type="Resource" uid="uid://02ifbgnt2a5s" path="res://Resource/card/cards/knuckle_striker.tres" id="6_y3xoh"]
+[ext_resource type="Resource" uid="uid://bb1aodjlqq3id" path="res://Resource/card/cards/mechanical_shoes.tres" id="7_toqj7"]
+[ext_resource type="Resource" uid="uid://b1wu1dvipfsra" path="res://Resource/card/cards/military_power_pack.tres" id="8_rmo1d"]
+[ext_resource type="Resource" uid="uid://co0hfeakyv10d" path="res://Resource/card/cards/pea_gun.tres" id="9_eii1m"]
+[ext_resource type="Resource" uid="uid://btejfgildf2f0" path="res://Resource/card/cards/quad_coil_gun.tres" id="10_hfasy"]
 [ext_resource type="Resource" uid="uid://cusnq01be0yyp" path="res://Resource/item/mvp/particle_wall.tres" id="10_pwall"]
 [ext_resource type="Resource" uid="uid://db273dcl1sbbo" path="res://Resource/item/mvp/bulletproof_vest.tres" id="11_vest"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/grenade.tres" id="12_grenade"]
+[ext_resource type="Resource" uid="uid://bsw7ord7hvkw" path="res://Resource/item/mvp/grenade.tres" id="12_grenade"]
+[ext_resource type="Resource" uid="uid://bapiqixv7i6lt" path="res://Resource/card/cards/rocket_fist.tres" id="12_iufq2"]
+[ext_resource type="Resource" uid="uid://b7i6facoalmh3" path="res://Resource/card/cards/scrap_battery.tres" id="13_imlfr"]
+[ext_resource type="Resource" uid="uid://ccbhvxx0r11fc" path="res://Resource/card/cards/scrap_fist.tres" id="14_j0pov"]
+[ext_resource type="Resource" uid="uid://cufrphtj5gdwe" path="res://Resource/card/cards/simple_cannon.tres" id="16_5ti8r"]
+[ext_resource type="Resource" uid="uid://tq7ksi1vjs2d" path="res://Resource/card/cards/tactical_armor.tres" id="17_ddc8d"]
+[ext_resource type="Resource" uid="uid://du0ttbendjuyo" path="res://Resource/item/mvp/coolant.tres" id="19_aifbh"]
+[ext_resource type="Resource" uid="uid://bdcmccjy1l4kg" path="res://Resource/item/mvp/gasoline.tres" id="20_cromg"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/ice_cream.tres" id="22_15ma2"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/medkit.tres" id="23_apllu"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/roller_shoes.tres" id="25_bk425"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/spare_battery.tres" id="26_op87v"]
+[ext_resource type="Resource" uid="uid://8c7b3ffir2dh" path="res://Resource/item/mvp/spinach_powerups.tres" id="27_rysbx"]
 
-[sub_resource type="Resource" id="sub_card_0"]
+[sub_resource type="Resource" id="Resource_dgwak"]
 script = ExtResource("2_entry")
-item_res = ExtResource("3_battery")
-price = 20
+item_res = ExtResource("2_6r4me")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
-[sub_resource type="Resource" id="sub_card_1"]
+[sub_resource type="Resource" id="Resource_cmoau"]
 script = ExtResource("2_entry")
-item_res = ExtResource("4_medkit")
-price = 15
+item_res = ExtResource("3_6al61")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
-[sub_resource type="Resource" id="sub_card_2"]
+[sub_resource type="Resource" id="Resource_ksjvd"]
+script = ExtResource("2_entry")
+item_res = ExtResource("4_r58u6")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_sxj0v"]
+script = ExtResource("2_entry")
+item_res = ExtResource("5_s36t5")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_xgymq"]
+script = ExtResource("2_entry")
+item_res = ExtResource("6_y3xoh")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_2p3hn"]
+script = ExtResource("2_entry")
+item_res = ExtResource("7_toqj7")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_jocvg"]
+script = ExtResource("2_entry")
+item_res = ExtResource("8_rmo1d")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_op0kr"]
+script = ExtResource("2_entry")
+item_res = ExtResource("9_eii1m")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_06w4s"]
+script = ExtResource("2_entry")
+item_res = ExtResource("10_hfasy")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_k3sjt"]
 script = ExtResource("2_entry")
 item_res = ExtResource("5_revolver")
-price = 25
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
-[sub_resource type="Resource" id="sub_card_3"]
+[sub_resource type="Resource" id="Resource_jt4pc"]
+script = ExtResource("2_entry")
+item_res = ExtResource("12_iufq2")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_hyiyq"]
+script = ExtResource("2_entry")
+item_res = ExtResource("13_imlfr")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_s3ihf"]
+script = ExtResource("2_entry")
+item_res = ExtResource("14_j0pov")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_sde5e"]
 script = ExtResource("2_entry")
 item_res = ExtResource("6_shield")
-price = 18
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
-[sub_resource type="Resource" id="sub_card_4"]
+[sub_resource type="Resource" id="Resource_sqxjj"]
 script = ExtResource("2_entry")
-item_res = ExtResource("7_swap")
-price = 12
+item_res = ExtResource("16_5ti8r")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
-[sub_resource type="Resource" id="sub_item_0"]
+[sub_resource type="Resource" id="Resource_uvojv"]
 script = ExtResource("2_entry")
-item_res = ExtResource("8_test")
+item_res = ExtResource("17_ddc8d")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
-[sub_resource type="Resource" id="sub_item_1"]
-script = ExtResource("2_entry")
-item_res = ExtResource("9_hmed")
-price = 15
-
-[sub_resource type="Resource" id="sub_item_2"]
-script = ExtResource("2_entry")
-item_res = ExtResource("10_pwall")
-price = 30
-
-[sub_resource type="Resource" id="sub_item_3"]
+[sub_resource type="Resource" id="Resource_828ur"]
 script = ExtResource("2_entry")
 item_res = ExtResource("11_vest")
-price = 20
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
-[sub_resource type="Resource" id="sub_item_4"]
+[sub_resource type="Resource" id="Resource_25dty"]
+script = ExtResource("2_entry")
+item_res = ExtResource("19_aifbh")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_nsrls"]
+script = ExtResource("2_entry")
+item_res = ExtResource("20_cromg")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_jcuil"]
 script = ExtResource("2_entry")
 item_res = ExtResource("12_grenade")
-price = 22
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_igiic"]
+script = ExtResource("2_entry")
+item_res = ExtResource("22_15ma2")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_ccai8"]
+script = ExtResource("2_entry")
+item_res = ExtResource("23_apllu")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_drvcp"]
+script = ExtResource("2_entry")
+item_res = ExtResource("10_pwall")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_w52rd"]
+script = ExtResource("2_entry")
+item_res = ExtResource("25_bk425")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_8xy60"]
+script = ExtResource("2_entry")
+item_res = ExtResource("26_op87v")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
+
+[sub_resource type="Resource" id="Resource_ad30p"]
+script = ExtResource("2_entry")
+item_res = ExtResource("27_rysbx")
+metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [resource]
 script = ExtResource("1_data")
 shop_name = "流浪商店"
-entries = Array[ExtResource("2_entry")]([SubResource("sub_card_0"), SubResource("sub_card_1"), SubResource("sub_card_2"), SubResource("sub_card_3"), SubResource("sub_card_4"), SubResource("sub_item_0"), SubResource("sub_item_1"), SubResource("sub_item_2"), SubResource("sub_item_3"), SubResource("sub_item_4")])
+entries = Array[ExtResource("2_entry")]([SubResource("Resource_dgwak"), SubResource("Resource_cmoau"), SubResource("Resource_ksjvd"), SubResource("Resource_sxj0v"), SubResource("Resource_xgymq"), SubResource("Resource_2p3hn"), SubResource("Resource_jocvg"), SubResource("Resource_op0kr"), SubResource("Resource_06w4s"), SubResource("Resource_k3sjt"), SubResource("Resource_jt4pc"), SubResource("Resource_hyiyq"), SubResource("Resource_s3ihf"), SubResource("Resource_sde5e"), SubResource("Resource_sqxjj"), SubResource("Resource_uvojv"), SubResource("Resource_828ur"), SubResource("Resource_25dty"), SubResource("Resource_nsrls"), SubResource("Resource_jcuil"), SubResource("Resource_igiic"), SubResource("Resource_ccai8"), SubResource("Resource_drvcp"), SubResource("Resource_w52rd"), SubResource("Resource_8xy60"), SubResource("Resource_ad30p")])
