@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_kwm3y"]
 [ext_resource type="Texture2D" uid="uid://bfwqqe85jy6sn" path="res://features/exploration/art_assets/home_map/家-工作台.png" id="4_sh4v1"]
 [ext_resource type="Texture2D" uid="uid://bko2p4vl6k2t5" path="res://features/exploration/art_assets/home_map/休眠舱.png" id="6_tbw4g"]
+[ext_resource type="Texture2D" uid="uid://d2capdqyxl767" path="res://features/exploration/art_assets/home_map/场景-家-大门背后.png" id="7_8r7i5"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="8_vmofw"]
 [ext_resource type="Texture2D" uid="uid://gyf4guem0231" path="res://features/exploration/art_assets/home_map/柜子.png" id="9_3atb7"]
 [ext_resource type="Texture2D" uid="uid://cpygny8grlept" path="res://features/exploration/art_assets/home_map/大门-关闭-拉杆上.PNG" id="9_kwm3y"]
@@ -33,6 +34,7 @@
 [ext_resource type="AudioStream" uid="uid://c8gvr0gwm7lh5" path="res://tileset/music_resource/MUS_Home_Mp3.mp3" id="31_vmofw"]
 [ext_resource type="Script" uid="uid://dq8q6f6remj3d" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="32_mapselect"]
 [ext_resource type="PackedScene" uid="uid://dgf7q2omm6kf" path="res://features/shop/ShopUI.tscn" id="34_shopui"]
+[ext_resource type="Texture2D" uid="uid://doip62gs1t5u2" path="res://features/exploration/art_assets/home_map/大门-打开-拉杆下.PNG" id="35_open_door"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -52,7 +54,7 @@ radius = 682.04694
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvlmm"]
 size = Vector2(833, 862)
 
-[node name="ExplorationMap" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_lk0dn")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
@@ -62,7 +64,7 @@ MapMusic = ExtResource("2_5o1o1")
 MapAmbient = ExtResource("3_iqkbj")
 PlayerLeft = -550
 PlayerRight = 2850
-CamLeft = -1050
+CamLeft = -970
 CamRight = 2925
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
@@ -82,6 +84,10 @@ texture = ExtResource("3_htdbx")
 position = Vector2(930.7693, 1764.6154)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("8_vmofw")
+
+[node name="场景家大门背后" type="Sprite2D" parent="MapLayer" unique_id=350533809]
+position = Vector2(921.5385, 304.61536)
+texture = ExtResource("7_8r7i5")
 
 [node name="Workbench" type="Area2D" parent="MapLayer" unique_id=809413683 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
 position = Vector2(-100, 304)
@@ -158,6 +164,7 @@ metadata/_edit_lock_ = true
 script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
+_openTexture = ExtResource("35_open_door")
 
 [node name="Store" type="Area2D" parent="MapLayer" unique_id=474505502 node_paths=PackedStringArray("ShopUI", "Hud", "_blink")]
 position = Vector2(2436, 343)

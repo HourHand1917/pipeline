@@ -4,12 +4,23 @@
 [ext_resource type="AudioStream" uid="uid://b4keq52aw3vov" path="res://tileset/music_resource/OGG/music/MUS_F03_Ambience_OGG.ogg" id="2_jx45g"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="3_4q1p3"]
-[ext_resource type="Texture2D" uid="uid://duvyp3e1mamay" path="res://features/exploration/art_assets/maps/f3/f3-5_赌场门口-关门.png" id="3_bg"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="Texture2D" uid="uid://ckdqnay6he54v" path="res://features/exploration/art_assets/maps/f3/f3-5_赌场-门内背景.png" id="6_0kssv"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Texture2D" uid="uid://bg1ctl1rrdqg6" path="res://features/exploration/art_assets/maps/f3/f3-5_赌场-关门.png" id="7_qoqyq"]
+[ext_resource type="Texture2D" uid="uid://urss52ndv4cp" path="res://features/exploration/art_assets/maps/f3/f3-5_赌场.png" id="8_44ese"]
+[ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="11_mapgate"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="12_blink"]
+[ext_resource type="Texture2D" uid="uid://btrix0clhildp" path="res://features/exploration/art_assets/maps/f3/f3-5_赌场-开门.png" id="13_open"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_44ese"]
+size = Vector2(813.7501, 310.00006)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1t6g2"]
+size = Vector2(770.00037, 286.25006)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -23,7 +34,7 @@ _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_jx45g")
 MapAmbient = ExtResource("3_4q1p3")
 PlayerLeft = -150
-PlayerRight = 1830
+PlayerRight = 1680
 CamLeft = 0
 CamRight = 1680
 
@@ -33,7 +44,7 @@ script = ExtResource("2_spawn")
 SpawnId = &"f3_5left"
 
 [node name="f3_5rightSpawn" type="Node2D" parent="." unique_id=172395055]
-position = Vector2(1530, 530)
+position = Vector2(834, 530)
 script = ExtResource("2_spawn")
 SpawnId = &"f3_5right"
 
@@ -44,10 +55,47 @@ position = Vector2(930.7693, 1764.6154)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")
 
+[node name="F35赌场门内背景" type="Sprite2D" parent="MapLayer" unique_id=415983132]
+position = Vector2(840, 450)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("6_0kssv")
+
+[node name="F35赌场门" type="Area2D" parent="MapLayer" unique_id=1962944027 node_paths=PackedStringArray("_blink")]
+position = Vector2(840, 450)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("11_mapgate")
+TargetMapId = &"f3_6"
+TargetSpawnId = &"f3_6left"
+DisplayName = "赌场门"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/F35赌场门" unique_id=1020155950]
+texture = ExtResource("7_qoqyq")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/F35赌场门" unique_id=1157013384]
+position = Vector2(16.875, 115)
+scale = Vector2(0.99999964, 0.99999964)
+shape = SubResource("RectangleShape2D_44ese")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/F35赌场门" unique_id=1169002132]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/F35赌场门/ClickZone" unique_id=1708390836]
+position = Vector2(0, 123.125)
+scale = Vector2(0.9999994, 0.9999994)
+shape = SubResource("RectangleShape2D_1t6g2")
+
+[node name="Blink" type="Node" parent="MapLayer/F35赌场门" unique_id=191344933 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("12_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+_openTexture = ExtResource("13_open")
+
 [node name="赌场门口背景" type="Sprite2D" parent="MapLayer" unique_id=1046919324]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("3_bg")
+texture = ExtResource("8_44ese")
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1011029306]
 position = Vector2(-150, 450)
@@ -57,16 +105,6 @@ TargetSpawnId = &"f3_2right"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/left_edge" unique_id=1585549379]
 position = Vector2(-300, 0)
-shape = SubResource("RectangleShape2D_edge")
-
-[node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1631216544]
-position = Vector2(1830, 450)
-script = ExtResource("4_edge")
-TargetMapId = &"f3_6"
-TargetSpawnId = &"f3_6left"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MapLayer/right_edge" unique_id=239239817]
-position = Vector2(300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
 [node name="Player" parent="." unique_id=1728135148 instance=ExtResource("5_player")]

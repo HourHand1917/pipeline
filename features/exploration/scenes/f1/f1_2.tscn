@@ -11,10 +11,19 @@
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_aojsd"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_tqldu"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_tss16"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="9_mgpvb"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_kjvhc"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
+
+[sub_resource type="Resource" id="Resource_hpj5k"]
+script = ExtResource("10_kjvhc")
+bottle_cap = 5
+faucet = 10
+metadata/_custom_type_script = "uid://48j6ej4rld81"
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qhe7u"]
 radius = 120.0
@@ -77,13 +86,15 @@ TargetSpawnId = &"home_entry"
 position = Vector2(529, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
-[node name="EnemyRocky" type="Area2D" parent="MapLayer" unique_id=27718393 node_paths=PackedStringArray("_blink")]
+[node name="EnemyRocky" type="Area2D" parent="MapLayer" unique_id=27718393 node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(1703, 256)
 script = ExtResource("5_2p0fj")
 BattleScenePath = "res://Scenes/game_scene/rocky_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
 ReturnSpawnId = &"RockyReturnSpawn"
 AggroRadius = 100.0
+Loot = SubResource("Resource_hpj5k")
+Hud = NodePath("../../UILayer/HUD")
 NpcName = "岩石怪"
 PersistenceId = "enemy_rocky_f1_2"
 _blink = NodePath("Blink")

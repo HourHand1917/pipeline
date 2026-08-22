@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://cipg25f86tjk4" path="res://features/exploration/art_assets/maps/f3/f3-2_街道 (1).png" id="3_xv4l3"]
 [ext_resource type="Texture2D" uid="uid://cjrxo7rmrnywe" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV.png" id="4_ktv"]
 [ext_resource type="Texture2D" uid="uid://c07ax2805mw6w" path="res://features/exploration/art_assets/maps/f3/f3-4_影院-背景.png" id="5_cinema"]
+[ext_resource type="Texture2D" uid="uid://cbpf0584ijml7" path="res://features/exploration/art_assets/maps/f3/f3-2_背景.png" id="5_d1hbg"]
 [ext_resource type="Texture2D" uid="uid://wxrwv3apk3hr" path="res://features/exploration/art_assets/maps/f3/f3-2_影院关门.png" id="6_2qhqc"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="6_edge"]
 [ext_resource type="Texture2D" uid="uid://d35onx4yd6qw7" path="res://features/exploration/art_assets/maps/f3/f3-2_ktv关门.png" id="7_cul4s"]
@@ -19,7 +20,14 @@
 [ext_resource type="Script" uid="uid://dya0c2snh75vx" path="res://features/exploration/scripts/CS/RoomBounds.cs" id="12_rbounds"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="13_blink"]
 [ext_resource type="Texture2D" uid="uid://c2ok72qku8hji" path="res://features/exploration/art_assets/maps/f3/f3-2_影院门框.png" id="14_2qhqc"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="18_7rih4"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="19_213h2"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Texture2D" uid="uid://r77etffpq6b0" path="res://features/exploration/art_assets/maps/f3/f3-2_ktv开门.png" id="21_ktv_open"]
+[ext_resource type="Texture2D" uid="uid://dl5xn8aj67jar" path="res://features/exploration/art_assets/maps/f3/f3-2_影院开门.png" id="22_cinema_open"]
+[ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
+[ext_resource type="Texture2D" uid="uid://dwvii31k3h5f6" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV-箱子.png" id="32_ktv_chest_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xv4l3"]
 size = Vector2(313, 262)
@@ -35,6 +43,17 @@ size = Vector2(402, 254)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
+
+[sub_resource type="Resource" id="Resource_ktv_chest_loot"]
+script = ExtResource("31_loot")
+bottle_cap = 16
+faucet = 10
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ktv_chest_detect"]
+size = Vector2(220, 160)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ktv_chest_click"]
+size = Vector2(138, 152)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2qhqc"]
 size = Vector2(501, 337)
@@ -66,6 +85,10 @@ position = Vector2(1225, 1406)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")
 
+[node name="F32背景" type="Sprite2D" parent="MapLayer/Room_Street" unique_id=645597057]
+position = Vector2(1595, 571)
+texture = ExtResource("5_d1hbg")
+
 [node name="KTV门" type="Area2D" parent="MapLayer/Room_Street" unique_id=2046709548 node_paths=PackedStringArray("Manager", "_blink")]
 position = Vector2(464, 541)
 script = ExtResource("10_rgate")
@@ -95,6 +118,7 @@ shape = SubResource("RectangleShape2D_cul4s")
 script = ExtResource("13_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
+_openTexture = ExtResource("21_ktv_open")
 
 [node name="影院门" type="Area2D" parent="MapLayer/Room_Street" unique_id=941148823 node_paths=PackedStringArray("Manager", "_blink")]
 position = Vector2(1132, 553)
@@ -125,6 +149,7 @@ shape = SubResource("RectangleShape2D_d1hbg")
 script = ExtResource("13_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
+_openTexture = ExtResource("22_cinema_open")
 
 [node name="街道背景" type="Sprite2D" parent="MapLayer/Room_Street" unique_id=1145492618]
 position = Vector2(1276, 451)
@@ -173,6 +198,36 @@ CamRight = 2540
 position = Vector2(900, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("4_ktv")
+
+[node name="宝箱" type="Area2D" parent="MapLayer/Room_KTV" unique_id=837380200 node_paths=PackedStringArray("Hud", "_blink")]
+position = Vector2(1558, 586)
+script = ExtResource("30_chest")
+Loot = SubResource("Resource_ktv_chest_loot")
+Hud = NodePath("../../../UILayer/HUD")
+DisplayName = "宝箱"
+PersistenceId = "chest_f3_2_ktv"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_KTV/宝箱" unique_id=1749356622]
+position = Vector2(491.99997, -137.99998)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("32_ktv_chest_tex")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_KTV/宝箱" unique_id=1571459871]
+shape = SubResource("RectangleShape2D_ktv_chest_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Room_KTV/宝箱" unique_id=466430324]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_KTV/宝箱/ClickZone" unique_id=900975413]
+position = Vector2(-3, 1)
+shape = SubResource("RectangleShape2D_ktv_chest_click")
+
+[node name="Blink" type="Node" parent="MapLayer/Room_KTV/宝箱" unique_id=2049991504 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("13_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
 
 [node name="出口门" type="Area2D" parent="MapLayer/Room_KTV" unique_id=870296127 node_paths=PackedStringArray("Manager", "_blink")]
 position = Vector2(472, 537)

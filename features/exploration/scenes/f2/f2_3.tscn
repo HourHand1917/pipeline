@@ -12,6 +12,21 @@
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" uid="uid://d3qp3th6sj26" path="res://features/exploration/scripts/CS/interactables/FriendlyNPC.cs" id="30_friendly"]
+[ext_resource type="Script" uid="uid://cbvqd45gbyyii" path="res://features/exploration/scripts/CS/interactables/DoorInteractable.cs" id="31_door"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc_detect"]
+size = Vector2(635, 439.9999)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc_click"]
+size = Vector2(512.49994, 412.50006)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door_detect"]
+size = Vector2(646.2502, 367.50006)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_door_click"]
+size = Vector2(483.7499, 386.25006)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -46,15 +61,62 @@ position = Vector2(977, 1402)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")
 
-[node name="F25商铺内部" type="Sprite2D" parent="MapLayer" unique_id=628729570]
+[node name="F25商铺内部" type="Area2D" parent="MapLayer" unique_id=706163604 node_paths=PackedStringArray("_blink")]
 position = Vector2(840, 449.99997)
 scale = Vector2(0.8, 0.8)
+script = ExtResource("30_friendly")
+NpcName = "商铺老板"
+DisplayName = "商铺老板"
+PersistenceId = "npc_f2_3_shop"
+_blink = NodePath("")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/F25商铺内部" unique_id=1077373957]
 texture = ExtResource("4_l7btf")
 
-[node name="F31贫民区门" type="Sprite2D" parent="MapLayer" unique_id=1646620935]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/F25商铺内部" unique_id=1600328811]
+position = Vector2(-71.25, 30.000122)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_npc_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/F25商铺内部" unique_id=1892538722]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/F25商铺内部/ClickZone" unique_id=1531313914]
+position = Vector2(-56.25, 56.250122)
+scale = Vector2(0.9999998, 0.9999998)
+shape = SubResource("RectangleShape2D_npc_click")
+
+[node name="F31贫民区门" type="Area2D" parent="MapLayer" unique_id=615638359 node_paths=PackedStringArray("TargetNpc", "_blink")]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
+script = ExtResource("31_door")
+TargetNpc = NodePath("../F25商铺内部")
+DisplayName = "门"
+PersistenceId = "door_f2_3"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/F31贫民区门" unique_id=500836570]
 texture = ExtResource("4_axgrs")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/F31贫民区门" unique_id=553153924]
+position = Vector2(-66.875, 73.75)
+scale = Vector2(0.9999995, 0.9999995)
+shape = SubResource("RectangleShape2D_door_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/F31贫民区门" unique_id=648078463]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/F31贫民区门/ClickZone" unique_id=2101752725]
+position = Vector2(-66.87482, 79.375)
+scale = Vector2(0.9999997, 0.9999997)
+shape = SubResource("RectangleShape2D_door_click")
+
+[node name="Blink" type="Node" parent="MapLayer/F31贫民区门" unique_id=1205430184 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("32_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
 
 [node name="市集背景" type="Sprite2D" parent="MapLayer" unique_id=266026840]
 position = Vector2(840, 450)

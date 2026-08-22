@@ -17,7 +17,7 @@ public abstract partial class InteractableBase : Area2D, IPersistable
 
     public bool IsPlayerInRange { get; private set; }
 
-    protected Sprite2D sprite;
+    protected Node2D sprite;
     protected CollisionShape2D detectionShape;
     protected Area2D clickZone;
     protected CollisionShape2D clickShape;
@@ -27,7 +27,7 @@ public abstract partial class InteractableBase : Area2D, IPersistable
 
     public override void _Ready()
     {
-        sprite = GetNode<Sprite2D>("Sprite");
+        sprite = GetNode<Node2D>("Sprite");
         detectionShape = GetNode<CollisionShape2D>("DetectionRange");
         clickZone = GetNode<Area2D>("ClickZone");
         clickShape = clickZone.GetNode<CollisionShape2D>("ClickShape");

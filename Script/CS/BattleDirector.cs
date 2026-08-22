@@ -46,18 +46,44 @@ public partial class BattleDirector : Node
     {
         if (!string.IsNullOrEmpty(NpcPersistenceId) && !string.IsNullOrEmpty(NpcMapId))
         {
-            GameState.Instance?.SetObjectState(
-                NpcMapId.ToString(), NpcPersistenceId.ToString(),
-                new Dictionary { { "defeated", true } });
+            // 合并而非覆盖：保留 NPC 自己持久化的其它字段（如对话进度）。
+            var existing = GameState.Instance?.GetObjectState(NpcMapId.ToString(), NpcPersistenceId.ToString());
+            Dictionary state = existing != null ? existing.Duplicate() : new Dictionary();
+            state["defeated"] = true;
+            GameState.Instance?.SetObjectState(NpcMapId.ToString(), NpcPersistenceId.ToString(), state);
         }
         PendingLootNpcId = NpcPersistenceId; // 返回后 NPC 据此自动弹战利品页
         ReturnToExploration();
     }
 
-    /// <summary>战斗失败：返回探索场景（血量已归零，后续存档系统处理死亡）。</summary>
+    /// <summary>战斗失败（死亡）：教程关回 f1_0 复活，其它地方回家复活。</summary>
     public void OnBattleLost()
     {
-        ReturnToExploration();
+        StringName mapId;
+        StringName spawnId;
+        if (IsTutorialMap(NpcMapId))
+        {
+            mapId = "f1_0";
+            spawnId = ""; // 空生成点 → f1_0 默认出生位置（教程起点）
+        }
+        else
+        {
+            mapId = "home";
+            spawnId = "home_entry";
+        }
+
+        // 复活回满血
+        if (DataManager.Instance != null)
+            DataManager.Instance.SetHp(DataManager.Instance.MaxPlayerHp);
+
+        RestoreMapMusic();
+        MapManager.Instance.TravelTo(mapId, spawnId);
+    }
+
+    private static bool IsTutorialMap(StringName mapId)
+    {
+        string s = mapId.ToString();
+        return s == "f1_0" || s == "f1_1" || s == "f1_2";
     }
 
     /// <summary>NPC 领取「刚打赢」标记。只匹配该 NPC 一次，消费后返回 false。</summary>
