@@ -37,6 +37,7 @@ public partial class HostileNPC : NPCBase, ILootSource
     private bool _defeated;   // 持久化：战斗胜利后消失（RespawnOnReturn 时离开地图会被清除）
     private bool _triggered;  // 防重复触发（不持久化）
     private bool _battleAfterDialogue;
+    private bool _awaitingAggroExitAfterCancel;
     private bool _introPlayed; // 持久化：开场对话是否已播放
 
     public override void _Ready()
@@ -48,6 +49,16 @@ public partial class HostileNPC : NPCBase, ILootSource
 
     public override void _PhysicsProcess(double delta)
     {
+        if (_awaitingAggroExitAfterCancel)
+        {
+            if (!IsPlayerInRange)
+            {
+                _awaitingAggroExitAfterCancel = false;
+                _triggered = false;
+            }
+            return;
+        }
+
         if (_triggered || _defeated || !IsPlayerInRange)
             return;
 
@@ -89,6 +100,14 @@ public partial class HostileNPC : NPCBase, ILootSource
             PersistInteraction(_mapId); // 保存对话进度
             TriggerBattle();
         }
+    }
+
+    protected override void OnDialogueCancelled()
+    {
+        _battleAfterDialogue = false;
+        // 敌人是自动触发；若立刻清 _triggered，玩家仍在范围内时下一物理帧
+        // 会把刚关闭的对话重新打开。必须先离开警戒范围，之后才能再次触发。
+        _awaitingAggroExitAfterCancel = true;
     }
 
     // 没有尸体，无需持久化剩余战利品或刷新尸体视觉。

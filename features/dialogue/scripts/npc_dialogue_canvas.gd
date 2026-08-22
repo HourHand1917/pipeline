@@ -1,6 +1,8 @@
 class_name NPCDialogueCanvas
 extends CanvasLayer
 
+signal dialogue_cancel_requested
+
 const CANVAS_GROUP := &"npc_dialogue_canvas"
 const SPEAKER_ANCHOR_GROUP := &"npc_dialogue_speaker_anchor"
 
@@ -16,6 +18,10 @@ const SPEAKER_ANCHOR_GROUP := &"npc_dialogue_speaker_anchor"
 @export var bubble_offset := Vector2(0.0, -28.0)
 @export_range(0.0, 120.0, 1.0) var screen_margin := 24.0
 
+@export_category("输入")
+@export var allow_escape_to_exit := true
+@export var escape_action: StringName = &"ui_cancel"
+
 @onready var root: Control = %Root
 @onready var bubble_stack: Control = %BubbleStack
 @onready var choice_list: VBoxContainer = %ChoiceList
@@ -28,6 +34,7 @@ var _bubble_targets: Dictionary = {}
 var _layout_tween: Tween
 var _choice_tween: Tween
 var _connected := false
+var _escape_exit_pending := false
 
 
 func _ready() -> void:
@@ -40,6 +47,20 @@ func _ready() -> void:
 
 func _exit_tree() -> void:
 	_disconnect_dialogic()
+
+
+func _input(event: InputEvent) -> void:
+	if not allow_escape_to_exit or _escape_exit_pending:
+		return
+	if not is_instance_valid(_dialogic) or Dialogic.current_timeline == null:
+		return
+	if escape_action.is_empty() or not InputMap.has_action(escape_action):
+		return
+	if event.is_action_pressed(escape_action):
+		_escape_exit_pending = true
+		get_viewport().set_input_as_handled()
+		dialogue_cancel_requested.emit()
+		Dialogic.end_timeline(true)
 
 
 ## 兼容旧 NPC：NPC 启动对话时把自身 BubbleAnchor 设为找不到角色锚点时的回退位置。
@@ -81,6 +102,7 @@ func _disconnect_dialogic() -> void:
 
 
 func _on_timeline_started() -> void:
+	_escape_exit_pending = false
 	_clear_bubbles()
 	_apply_inspector_sizes()
 	_set_choice_list_active(false)
@@ -88,6 +110,7 @@ func _on_timeline_started() -> void:
 
 
 func _on_timeline_ended() -> void:
+	_escape_exit_pending = false
 	_set_choice_list_active(false)
 	root.hide()
 	_clear_bubbles()
@@ -97,6 +120,7 @@ func _on_timeline_ended() -> void:
 func _on_about_to_show_text(info: Dictionary) -> void:
 	root.show()
 	if bool(info.get("append", false)) and is_instance_valid(_active_bubble):
+		_active_bubble.append_text_snapshot(str(info.get("text", "")))
 		return
 
 	if is_instance_valid(_active_bubble):
@@ -150,7 +174,9 @@ func _place_new_bubble(bubble: NPCDialogueBubble, animated := false) -> void:
 	_bubbles = _bubbles.filter(func(item: Control) -> bool: return is_instance_valid(item))
 	var height := maxf(bubble.get_combined_minimum_size().y, bubble.size.y)
 
-	var anchor := bubble.get_meta(&"speaker_anchor", null) as Node2D
+	var anchor: Node2D = null
+	if bubble.has_meta(&"speaker_anchor"):
+		anchor = bubble.get_meta(&"speaker_anchor") as Node2D
 	var placement := _get_anchor_direction(anchor)
 	var anchor_position := _get_anchor_screen_position(anchor)
 	var width := bubble.get_bubble_width()

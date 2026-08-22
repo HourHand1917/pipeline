@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="2_mousy"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
+
+[sub_resource type="CircleShape2D" id="CircleDetection"]
+radius = 240.0
+
+[sub_resource type="RectangleShape2D" id="RectangleClick"]
+size = Vector2(150, 180)
+
+[node name="PostSharkkMousyNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+script = ExtResource("1_npc")
+DefaultTimelinePath = "res://features/dialogue/npc/timelines/Sharkk战后鼠鼠.dtl"
+DialogicCharacterIdentifier = &"鼠鼠"
+NpcName = "鼠鼠"
+DialogueCharacter = ExtResource("2_mousy")
+PlayerDialogueCharacter = ExtResource("3_rubber")
+AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
+DialogueBubbleOffset = Vector2(0, -145)
+PlayerDialogueBubbleOffset = Vector2(0, -160)
+DialogueAnimationPlayer = NodePath("AnimationPlayer")
+DisplayName = "鼠鼠（Sharkk战后）"
+PersistenceId = "post_sharkk_mousy_dialogue"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.86, 0.7, 0.35, 1)
+position = Vector2(0, -62)
+scale = Vector2(0.54, 0.54)
+texture = ExtResource("5_placeholder")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleDetection")
+
+[node name="ClickZone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+position = Vector2(0, -55)
+shape = SubResource("RectangleClick")
+
+[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("6_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

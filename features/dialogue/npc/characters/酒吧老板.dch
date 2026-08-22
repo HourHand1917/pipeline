@@ -1,0 +1,19 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(0.91, 0.65, 0.25, 1),
+"custom_info": {
+"sound_mood_default": "",
+"sound_moods": {},
+"style": ""
+},
+"default_portrait": "",
+"description": "废土酒吧老板，习惯在句尾发出吼吼的笑声。",
+"display_name": "酒吧老板",
+"mirror": false,
+"nicknames": ["酒馆老板", "老板"],
+"offset": Vector2(0, 0),
+"portraits": {},
+"scale": 1.0
+}

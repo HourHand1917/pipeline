@@ -9,11 +9,11 @@ func _init() -> void:
 	description = "该格点亮消耗额外能量"
 
 
-func on_before_light(cell: CellRuntime, stacks: int) -> int:
+func on_before_light(_cell: CellRuntime, stacks: int) -> int:
 	return stacks
 
 
-func can_light(cell: CellRuntime) -> bool:
+func can_light(_cell: CellRuntime) -> bool:
 	return true
 
 

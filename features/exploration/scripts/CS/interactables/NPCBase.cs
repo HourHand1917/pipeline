@@ -86,11 +86,14 @@ public abstract partial class NPCBase : InteractableBase
     private bool _dialogicSignalsConnected;
     private bool _movementLockedByDialogue;
     private bool _dialogueCanvasLayerRaised;
+    private bool _dialogueCancelled;
+    private bool _dialogueCancelSignalConnected;
     private int _dialogueCanvasOriginalLayer;
     private Callable _timelineEndedCallable;
     private Callable _timelineStartedCallable;
     private Callable _dialogicSignalCallable;
     private Callable _aboutToShowTextCallable;
+    private Callable _dialogueCancelRequestedCallable;
 
     public override void _Ready()
     {
@@ -104,6 +107,7 @@ public abstract partial class NPCBase : InteractableBase
         if (_dialogueOwner == this)
             _dialogueOwner = null;
         ExitDialogueModalState();
+        DisconnectDialogueCanvasCancelSignal();
         DisconnectDialogicSignals();
         base._ExitTree();
     }
@@ -159,12 +163,15 @@ public abstract partial class NPCBase : InteractableBase
         if (_dialogueCanvas == null || _dialogueAnchor == null || _playerDialogueAnchor == null)
             return false;
 
+        ConnectDialogueCanvasCancelSignal();
+
         // Canvas 仍是完全独立的场景；NPC 只提供锚点和 Timeline 配置。
         _dialogueCanvas.Call("set_dialogue_anchor", _dialogueAnchor);
         PrepareSpeakerColumns();
         EnterDialogueModalState();
 
         _dialogueOwner = this;
+        _dialogueCancelled = false;
         _dialogueActive = true;
         EmitSignal(SignalName.DialogueStarted);
 
@@ -175,6 +182,14 @@ public abstract partial class NPCBase : InteractableBase
 
     /// <summary>派生类在这里实现“对话结束后战斗/开店”等行为。</summary>
     protected virtual void OnDialogueCompleted()
+    {
+    }
+
+    /// <summary>
+    /// 玩家主动取消对话时调用。派生类只应清理尚未执行的对话后动作；
+    /// 通用输入解锁、气泡清理与 DialogueFinished 仍由基类负责。
+    /// </summary>
+    protected virtual void OnDialogueCancelled()
     {
     }
 
@@ -236,6 +251,40 @@ public abstract partial class NPCBase : InteractableBase
             _dialogicText.Disconnect("about_to_show_text", _aboutToShowTextCallable);
 
         _dialogicSignalsConnected = false;
+    }
+
+    private void ConnectDialogueCanvasCancelSignal()
+    {
+        if (!IsInstanceValid(_dialogueCanvas) ||
+            !_dialogueCanvas.HasSignal("dialogue_cancel_requested"))
+            return;
+
+        _dialogueCancelRequestedCallable = Callable.From(OnDialogueCancelRequested);
+        if (!_dialogueCanvas.IsConnected(
+                "dialogue_cancel_requested", _dialogueCancelRequestedCallable))
+            _dialogueCanvas.Connect(
+                "dialogue_cancel_requested", _dialogueCancelRequestedCallable);
+        _dialogueCancelSignalConnected = true;
+    }
+
+    private void DisconnectDialogueCanvasCancelSignal()
+    {
+        if (!IsInstanceValid(_dialogueCanvas) ||
+            !_dialogueCanvas.HasSignal("dialogue_cancel_requested") ||
+            !_dialogueCancelSignalConnected)
+            return;
+
+        if (_dialogueCanvas.IsConnected(
+                "dialogue_cancel_requested", _dialogueCancelRequestedCallable))
+            _dialogueCanvas.Disconnect(
+                "dialogue_cancel_requested", _dialogueCancelRequestedCallable);
+        _dialogueCancelSignalConnected = false;
+    }
+
+    private void OnDialogueCancelRequested()
+    {
+        if (_dialogueActive && _dialogueOwner == this)
+            _dialogueCancelled = true;
     }
 
     private Node EnsureDialogueCanvas()
@@ -377,6 +426,8 @@ public abstract partial class NPCBase : InteractableBase
         if (!_dialogueActive)
             return;
 
+        bool wasCancelled = _dialogueCancelled;
+        _dialogueCancelled = false;
         _dialogueActive = false;
         if (_dialogueOwner == this)
             _dialogueOwner = null;
@@ -386,6 +437,12 @@ public abstract partial class NPCBase : InteractableBase
         _pendingRouteDelayFrames = 0;
         _choiceSpaceReserved = false;
         EmitSignal(SignalName.DialogueFinished);
+
+        if (wasCancelled)
+        {
+            OnDialogueCancelled();
+            return;
+        }
 
         // 让 Dialogic 与气泡 Canvas 先完成 timeline_ended 清理，再切战斗或打开商店。
         Callable.From(OnDialogueCompleted).CallDeferred();

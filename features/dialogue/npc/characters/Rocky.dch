@@ -1,0 +1,19 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(0.78, 0.31, 0.27, 1),
+"custom_info": {
+"sound_mood_default": "",
+"sound_moods": {},
+"style": ""
+},
+"default_portrait": "",
+"description": "鲨牙帮头目，携带锯子。",
+"display_name": "Rocky",
+"mirror": false,
+"nicknames": ["rocky", "Rokey"],
+"offset": Vector2(0, 0),
+"portraits": {},
+"scale": 1.0
+}

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/npc/tests/tavern_owner_npc_test.gd" id="1_test"]
+
+[node name="TavernOwnerNPCTest" type="Node"]
+script = ExtResource("1_test")

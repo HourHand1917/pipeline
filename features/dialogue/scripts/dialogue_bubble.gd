@@ -11,6 +11,9 @@ enum TailSide {
 @onready var bubble_tail: Polygon2D = %BubbleTail
 
 var _tail_side := TailSide.LEFT
+var _speaker_snapshot := ""
+var _speaker_color_snapshot := Color.WHITE
+var _text_snapshot := ""
 
 
 func _ready() -> void:
@@ -25,12 +28,15 @@ func _notification(what: int) -> void:
 func setup(info: Dictionary, minimum_width := 220.0, maximum_width := 520.0) -> void:
 	var character: Variant = info.get("character")
 	if character != null:
-		speaker_name.text = character.get_display_name_translated()
+		_speaker_snapshot = character.get_display_name_translated()
 		# 保留 Dialogic 角色色作为身份提示，同时提亮到青白屏幕色域以保证可读性。
-		speaker_name.self_modulate = character.color.lerp(Color("c9f8ff"), 0.58)
+		_speaker_color_snapshot = character.color.lerp(Color("c9f8ff"), 0.58)
 	else:
-		speaker_name.text = ""
-		speaker_name.self_modulate = Color.WHITE
+		_speaker_snapshot = ""
+		_speaker_color_snapshot = Color.WHITE
+	_text_snapshot = str(info.get("text", ""))
+	speaker_name.text = _speaker_snapshot
+	speaker_name.self_modulate = _speaker_color_snapshot
 
 	var desired_width := _measure_bubble_width(str(info.get("text", "")), minimum_width, maximum_width)
 	custom_minimum_size.x = desired_width
@@ -42,6 +48,10 @@ func set_tail_side(side: TailSide) -> void:
 	_update_tail_position()
 
 
+func append_text_snapshot(text: String) -> void:
+	_text_snapshot += text
+
+
 func get_bubble_width() -> float:
 	return maxf(custom_minimum_size.x, size.x)
 
@@ -51,8 +61,14 @@ func freeze_as_history() -> void:
 		dialog_text.set("enabled", false)
 		dialog_text.remove_from_group("dialogic_dialog_text")
 		dialog_text.set_process(false)
+		# Dialogic may have already prepared the next line. Restore this bubble's
+		# immutable snapshot after detaching it from all global update groups.
+		dialog_text.text = _text_snapshot
+		dialog_text.visible_ratio = 1.0
 	if speaker_name:
 		speaker_name.remove_from_group("dialogic_name_label")
+		speaker_name.text = _speaker_snapshot
+		speaker_name.self_modulate = _speaker_color_snapshot
 	self_modulate = Color(0.76, 0.9, 0.94, 0.9)
 
 

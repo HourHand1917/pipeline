@@ -64,7 +64,7 @@ func get_action_for_distance(current_distance: int) -> EnemyActionData:
 		if _cached_action != null:
 			return _cached_action
 	# Safe compatibility fallback for a missing/misconfigured node.
-	var best: EnemyActionData
+	var best: EnemyActionData = null
 	for action in actions:
 		if action != null and action.is_available(current_distance):
 			if best == null or action.priority > best.priority:

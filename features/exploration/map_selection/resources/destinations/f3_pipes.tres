@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MapDestinationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/map_selection/scripts/MapDestinationData.cs" id="1_dest"]
+
+[resource]
+script = ExtResource("1_dest")
+Title = "废弃管道"
+Description = "从管道入口开始探索。路线更危险，但更容易遇到稀有工件与有价值的情报。"
+Category = 3
+RewardHint = "稀有零件、情报"
+Risk = 2
+MapId = &"f3_0"
+SpawnId = &"f3_0left"
+Unlocked = true
+LockedHint = "调查贫民区后开放"

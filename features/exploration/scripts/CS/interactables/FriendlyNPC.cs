@@ -55,6 +55,11 @@ public partial class FriendlyNPC : NPCBase
 		_shopRequestedByDialogic = false;
 	}
 
+	protected override void OnDialogueCancelled()
+	{
+		_shopRequestedByDialogic = false;
+	}
+
 	private void OpenConfiguredShop()
 	{
 		if (ShopUI == null)

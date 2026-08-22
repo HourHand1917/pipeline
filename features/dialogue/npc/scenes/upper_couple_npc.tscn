@@ -1,0 +1,56 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/characters/富婆.dch" id="2_rich"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/characters/细狗.dch" id="3_dog"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="4_rubber"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="5_reb"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="6_placeholder"]
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
+
+[sub_resource type="CircleShape2D" id="CircleDetection"]
+radius = 240.0
+
+[sub_resource type="RectangleShape2D" id="RectangleClick"]
+size = Vector2(190, 200)
+
+[node name="UpperCoupleNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+script = ExtResource("1_npc")
+DefaultTimelinePath = "res://features/dialogue/npc/timelines/上层富婆细狗.dtl"
+DialogicCharacterIdentifier = &"富婆"
+ExtraDialogicCharacterIdentifiers = PackedStringArray("细狗")
+ExtraDialogicCharacters = Array[Resource]([ExtResource("3_dog")])
+NpcName = "富婆与细狗"
+DialogueCharacter = ExtResource("2_rich")
+PlayerDialogueCharacter = ExtResource("4_rubber")
+AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("5_reb")])
+DialogueBubbleOffset = Vector2(0, -155)
+PlayerDialogueBubbleOffset = Vector2(0, -160)
+DialogueAnimationPlayer = NodePath("AnimationPlayer")
+DisplayName = "富婆与细狗（上层对话）"
+PersistenceId = "upper_couple_dialogue"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.76, 0.38, 0.58, 1)
+position = Vector2(0, -68)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("6_placeholder")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleDetection")
+
+[node name="ClickZone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+position = Vector2(0, -62)
+shape = SubResource("RectangleClick")
+
+[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("7_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

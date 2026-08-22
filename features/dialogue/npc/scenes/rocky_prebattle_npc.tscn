@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedHostileNPC.cs" id="1_npc"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/characters/Rocky.dch" id="2_rocky"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="5_mousy"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="6_placeholder"]
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
+
+[sub_resource type="CircleShape2D" id="CircleDetection"]
+radius = 110.0
+
+[sub_resource type="RectangleShape2D" id="RectangleClick"]
+size = Vector2(170, 200)
+
+[node name="RockyPrebattleNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+script = ExtResource("1_npc")
+DefaultTimelinePath = "res://features/dialogue/npc/timelines/Rocky战前.dtl"
+DialogicCharacterIdentifier = &"Rocky"
+BattleScenePath = "res://Scenes/game_scene/rocky_battle_scene.tscn"
+BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
+ReturnSpawnId = &"RockyReturnSpawn"
+AggroRadius = 110.0
+NpcName = "Rocky"
+DialogueCharacter = ExtResource("2_rocky")
+PlayerDialogueCharacter = ExtResource("3_rubber")
+AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
+ExtraDialogicCharacterIdentifiers = ["鼠鼠"]
+ExtraDialogicCharacters = Array[Resource]([ExtResource("5_mousy")])
+DialogueBubbleOffset = Vector2(0, -165)
+PlayerDialogueBubbleOffset = Vector2(0, -160)
+DialogueAnimationPlayer = NodePath("AnimationPlayer")
+DisplayName = "Rocky（战前对话）"
+PersistenceId = "enemy_rocky_dialogue"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.8, 0.3, 0.27, 1)
+position = Vector2(0, -72)
+scale = Vector2(0.62, 0.62)
+texture = ExtResource("6_placeholder")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleDetection")
+
+[node name="ClickZone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+position = Vector2(0, -65)
+shape = SubResource("RectangleClick")
+
+[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("7_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

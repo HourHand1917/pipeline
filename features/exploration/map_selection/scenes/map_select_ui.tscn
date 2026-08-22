@@ -1,0 +1,183 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="1_ui"]
+[ext_resource type="Resource" path="res://features/exploration/map_selection/resources/default_home_destinations.tres" id="2_config"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/art/home_destination_selector.png" id="3_bg"]
+[ext_resource type="PackedScene" path="res://features/exploration/map_selection/front_view_ui/scenes/front_view_visual_layer.tscn" id="4_front"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBox_detail"]
+bg_color = Color(0.075, 0.052, 0.09, 0.92)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.46, 0.36, 0.48, 0.95)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="MapSelectUI" type="Control" node_paths=PackedStringArray("_destinationList", "_titleLabel", "_subtitleLabel", "_detailTitleLabel", "_detailMetaLabel", "_detailDescriptionLabel", "_statusLabel", "_confirmButton", "_closeButton")]
+visible = false
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_ui")
+_configuration = ExtResource("2_config")
+_destinationList = NodePath("Design/DestinationList")
+_titleLabel = NodePath("Design/Title")
+_subtitleLabel = NodePath("Design/Subtitle")
+_detailTitleLabel = NodePath("Design/DetailPanel/DetailTitle")
+_detailMetaLabel = NodePath("Design/DetailPanel/DetailMeta")
+_detailDescriptionLabel = NodePath("Design/DetailPanel/DetailDescription")
+_statusLabel = NodePath("Design/DetailPanel/Status")
+_confirmButton = NodePath("FrontViewVisualLayer/DesignCanvas/EntranceLayer/ConfirmButton")
+_closeButton = NodePath("FrontViewVisualLayer/DesignCanvas/EntranceLayer/CloseButton")
+
+[node name="ModalShield" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.015, 0.01, 0.025, 0.96)
+
+[node name="Design" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="PaintedBackground" type="TextureRect" parent="Design"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Title" type="Label" parent="Design"]
+layout_mode = 0
+offset_left = 420.0
+offset_top = 116.0
+offset_right = 1020.0
+offset_bottom = 174.0
+theme_override_colors/font_color = Color(0.96, 0.89, 0.75, 1)
+theme_override_colors/font_shadow_color = Color(0.08, 0.04, 0.11, 0.9)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 42
+text = "选择下一站"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Design"]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 176.0
+offset_right = 1090.0
+offset_bottom = 214.0
+theme_override_colors/font_color = Color(0.77, 0.7, 0.67, 1)
+theme_override_font_sizes/font_size = 20
+text = "家中的大门只提供已知目的地捷径。"
+horizontal_alignment = 1
+
+[node name="DestinationList" type="VBoxContainer" parent="Design"]
+layout_mode = 0
+offset_left = 410.0
+offset_top = 238.0
+offset_right = 1030.0
+offset_bottom = 630.0
+theme_override_constants/separation = 14
+
+[node name="DetailPanel" type="Panel" parent="Design"]
+layout_mode = 0
+offset_left = 410.0
+offset_top = 652.0
+offset_right = 1030.0
+offset_bottom = 900.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBox_detail")
+
+[node name="DetailTitle" type="Label" parent="Design/DetailPanel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 16.0
+offset_right = 596.0
+offset_bottom = 52.0
+theme_override_colors/font_color = Color(0.95, 0.78, 0.44, 1)
+theme_override_font_sizes/font_size = 28
+text = "目的地"
+
+[node name="DetailMeta" type="Label" parent="Design/DetailPanel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 58.0
+offset_right = 596.0
+offset_bottom = 86.0
+theme_override_colors/font_color = Color(0.72, 0.77, 0.78, 1)
+theme_override_font_sizes/font_size = 17
+text = "地图：--    出生点：--"
+
+[node name="DetailDescription" type="Label" parent="Design/DetailPanel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 92.0
+offset_right = 596.0
+offset_bottom = 166.0
+theme_override_colors/font_color = Color(0.9, 0.86, 0.82, 1)
+theme_override_font_sizes/font_size = 20
+text = "目的地说明"
+autowrap_mode = 2
+
+[node name="Status" type="Label" parent="Design/DetailPanel"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 178.0
+offset_right = 596.0
+offset_bottom = 230.0
+theme_override_colors/font_color = Color(0.94, 0.77, 0.43, 1)
+theme_override_font_sizes/font_size = 19
+text = "奖励提示与风险"
+autowrap_mode = 2
+
+[node name="CloseButton" type="Button" parent="Design"]
+layout_mode = 0
+offset_left = 1028.0
+offset_top = 78.0
+offset_right = 1198.0
+offset_bottom = 228.0
+mouse_default_cursor_shape = 2
+focus_mode = 1
+flat = true
+tooltip_text = "关闭地图"
+
+[node name="ConfirmButton" type="Button" parent="Design"]
+layout_mode = 0
+offset_left = 1008.0
+offset_top = 842.0
+offset_right = 1225.0
+offset_bottom = 932.0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.18, 0.11, 0.17, 1)
+theme_override_colors/font_hover_color = Color(0.11, 0.07, 0.12, 1)
+theme_override_colors/font_disabled_color = Color(0.31, 0.27, 0.31, 1)
+theme_override_font_sizes/font_size = 26
+text = "确认出发"
+flat = true
+
+[node name="FrontViewVisualLayer" parent="." instance=ExtResource("4_front")]

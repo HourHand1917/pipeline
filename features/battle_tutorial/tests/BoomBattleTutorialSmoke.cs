@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 
 /// <summary>
-/// Drives the five highlighted production controls through the real viewport
+/// Drives the six highlighted production controls through the real viewport
 /// input route.  The test therefore catches both state-machine regressions and
 /// tutorial overlays that accidentally swallow the highlighted click.
 /// </summary>
@@ -35,6 +35,7 @@ public partial class BoomBattleTutorialSmoke : Node
 
             Check(tutorial != null, "Boom tutorial must activate in the demo encounter");
             if (tutorial == null) return;
+            Check(tutorial.Configuration != null, "tutorial exposes an Inspector configuration resource");
             Check(tutorial.CurrentTutorialStep == BoomBattleTutorial.TutorialStep.LightCells,
                 "tutorial starts at lighting cells");
             Check(tutorial.CurrentInputRect.IsEqualApprox(tutorial.CurrentTarget.GetGlobalRect()),
@@ -57,12 +58,16 @@ public partial class BoomBattleTutorialSmoke : Node
                 "panel button reveals the enemy panel");
 
             await AdvanceStepByClicking(tutorial, BoomBattleTutorial.TutorialStep.InspectEnemy, 4);
+            Check(tutorial.CurrentTutorialStep == BoomBattleTutorial.TutorialStep.EndTurn,
+                "inspecting Boom advances to the final end-turn lesson");
+
+            await AdvanceStepByClicking(tutorial, BoomBattleTutorial.TutorialStep.EndTurn, 4, 16);
             Check(tutorial.CurrentTutorialStep == BoomBattleTutorial.TutorialStep.Complete,
-                "clicking Boom's track slot completes the tutorial");
+                "clicking the original end-turn button completes the tutorial");
             Check(!tutorial.IsTutorialActive && !tutorial.Visible,
                 "completed tutorial releases the original battle UI");
 
-            GD.Print($"BOOM_BATTLE_TUTORIAL_SMOKE_PASS checks={_checks} steps=5");
+            GD.Print($"BOOM_BATTLE_TUTORIAL_SMOKE_PASS checks={_checks} steps=6");
             GetTree().Quit(0);
         }
         catch (Exception exception)
