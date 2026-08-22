@@ -6,10 +6,10 @@
 [resource]
 script = ExtResource("1_effect")
 display_name = "部署治疗包"
-description = "目标下回合开始恢复5点生命。"
+description = "目标下回合开始恢复12点生命。"
 type = 6
 target = 1
 amount = 0
 buff = ExtResource("2_buff")
-buff_stacks = 5
+buff_stacks = 12
 buff_target = 1

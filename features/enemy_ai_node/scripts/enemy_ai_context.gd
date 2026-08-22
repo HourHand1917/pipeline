@@ -24,6 +24,7 @@ var battle_phase: int = -1
 var true_hand_hp: int = 21
 var false_hand_hp: int = 21
 var body_hp: int = 50
+var enemy_has_true_buff: bool = false
 var metadata: Dictionary = {}
 
 
@@ -51,6 +52,7 @@ func update_from_dictionary(values: Dictionary) -> EnemyAIContext:
 			&"true_hand_hp": true_hand_hp = int(values[key])
 			&"false_hand_hp": false_hand_hp = int(values[key])
 			&"body_hp": body_hp = int(values[key])
+			&"enemy_has_true_buff": enemy_has_true_buff = bool(values[key])
 			_: metadata[key] = values[key]
 	return self
 
@@ -76,4 +78,5 @@ func decision_signature() -> int:
 		round_number, damage_taken_last_turn, last_player_damage,
 		last_player_action_type, player_has_unlit_cell, phase,
 		true_hand_hp, false_hand_hp, body_hp,
+		enemy_has_true_buff,
 	])

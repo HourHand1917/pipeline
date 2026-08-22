@@ -55,9 +55,10 @@ public partial class EffectResolver : Node
         bool replacesEffects = action.Get(GDScriptKeys.EnemyAction.SpecialReplacesEffects).AsBool();
         var effects = action.Get(GDScriptKeys.EnemyAction.Effects).As<Array>();
 
-        // Core's beams have a board pattern rather than a normal range check.
-        bool evenBeam = id == "core_true_guard_beam" || id == "core_false_break_beam";
-        bool patternedHit = !evenBeam || battleManager.IsPlayerOnEvenCell();
+        // Patterned attacks use fixed board parity rather than facing/range.
+        bool patternedAttack = BattleManager.EnemyActionUsesFixedTargets(action);
+        bool patternedHit = !patternedAttack
+            || battleManager.IsPlayerTargetedByAction(action);
         bool specialExecuted = ExecuteEnemySpecial(
             special, specialValue, targetRole, id, patternedHit, battleManager, actor);
         // Pattern miss is still a successfully resolved telegraphed action: its
@@ -75,7 +76,7 @@ public partial class EffectResolver : Node
                 actor,
                 0,
                 skipMovement: special == "move_behind_player",
-                skipDamage: evenBeam && !patternedHit);
+                skipDamage: patternedAttack && !patternedHit);
         }
 
         return specialExecuted || effectsExecuted;

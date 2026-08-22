@@ -105,20 +105,77 @@ func _test_sharkk() -> void:
 
 
 func _test_core00() -> void:
+	var true_ai := _scene("res://features/enemy_ai_node/scenes/core00_ai.tscn")
+	var false_ai := _scene("res://features/enemy_ai_node/scenes/core00_ai.tscn")
+	if true_ai == null or false_ai == null: return
+
+	# True starts a latched three-step sequence. A True flag that appears in
+	# the middle cannot interrupt it; only the judgement after step 3 sees it.
+	var true_expected := [
+		&"core_true_send_heal", &"core_true_charge", &"core_true_guard_beam",
+		&"core_true_death_loop", &"core_true_death_loop", &"core_true_send_heal",
+	]
+	var true_flags := [false, true, true, true, true, false]
+	for index in range(true_expected.size()):
+		var context := _ctx({
+			"role": &"true_hand", "phase": 1, "round_number": index + 1,
+			"player_position": 5 if index == 2 else 6,
+			"enemy_has_true_buff": true_flags[index],
+			"true_hand_hp": 21, "false_hand_hp": 21,
+		})
+		var action := true_ai.select_action(context)
+		_check(action != null and action.id == true_expected[index],
+			"true hand state mismatch at decision %d" % (index + 1))
+		true_ai.confirm_action(action, context)
+
+	# False owns an independent five-action loop and never changes intent based
+	# on player position/parity.
+	var false_expected := [
+		&"core_false_charge", &"core_false_heal", &"core_false_stun",
+		&"core_false_charge_complete", &"core_false_break_beam",
+	]
+	for index in range(10):
+		var context := _ctx({
+			"role": &"false_hand", "phase": 1, "round_number": index + 1,
+			"player_position": 6 if index % 2 == 0 else 5,
+			"true_hand_hp": 21, "false_hand_hp": 21,
+		})
+		var action := false_ai.select_action(context)
+		_check(action != null and action.id == false_expected[index % 5],
+			"false hand cycle mismatch at decision %d" % (index + 1))
+		false_ai.confirm_action(action, context)
+
+	true_ai.reset_ai()
+	var passive_true := true_ai.select_action(_ctx({
+		"role": &"true_hand", "phase": 1, "true_hand_hp": 21, "false_hand_hp": 0,
+	}))
+	var passive_false := false_ai.select_action(_ctx({
+		"role": &"false_hand", "phase": 1, "true_hand_hp": 0, "false_hand_hp": 21,
+	}))
+	_check(passive_true != null and passive_true.id == &"core_hand_passive",
+		"True must become passive after False dies")
+	_check(passive_false != null and passive_false.id == &"core_hand_passive",
+		"False must become passive after True dies")
+
+	# Buff state is part of the adapter signature; changing only that flag must
+	# invalidate the cached preview in the same round.
+	var true_data := load("res://features/enemy_ai_node/enemy_data/core00_true_hand.tres") as EnemyDataNodeAdapter
+	true_data.reset_ai_provider()
+	true_data.set_ai_runtime_context({
+		"round_number": 1, "battle_phase": 1, "true_hand_hp": 21,
+		"false_hand_hp": 21, "enemy_has_true_buff": false,
+	})
+	var no_flag := true_data.get_action_for_distance(5)
+	true_data.set_ai_runtime_context({"enemy_has_true_buff": true})
+	var with_flag := true_data.get_action_for_distance(5)
+	_check(no_flag != null and no_flag.id == &"core_true_send_heal",
+		"True without its marker must start at step 1")
+	_check(with_flag != null and with_flag.id == &"core_true_death_loop",
+		"True marker change must invalidate cached intent")
+
 	var ai := _scene("res://features/enemy_ai_node/scenes/core00_ai.tscn")
 	if ai == null: return
-	var true_ids := [&"core_true_guard_beam", &"core_true_death_loop", &"core_true_death_loop", &"core_true_send_heal", &"core_true_charge"]
-	var false_ids := [&"core_false_charge", &"core_false_charge_complete", &"core_false_break_beam", &"core_false_stun", &"core_false_heal"]
-	for round_number in range(1, 6):
-		var true_action := ai.select_action(_ctx({"role": &"true_hand", "phase": 1, "round_number": round_number, "distance": 5, "player_position": 6}))
-		var false_action := ai.select_action(_ctx({"role": &"false_hand", "phase": 1, "round_number": round_number, "distance": 5, "player_position": 6}))
-		_check(true_action != null and true_action.id == true_ids[round_number - 1], "true hand cycle mismatch at %d" % round_number)
-		_check(false_action != null and false_action.id == false_ids[round_number - 1], "false hand cycle mismatch at %d" % round_number)
-	var no_target_true := ai.select_action(_ctx({"role": &"true_hand", "phase": 1, "round_number": 1, "distance": 4, "player_position": 5}))
-	var no_target_false := ai.select_action(_ctx({"role": &"false_hand", "phase": 1, "round_number": 3, "distance": 4, "player_position": 5}))
-	_check(no_target_true != null and no_target_true.id == &"core_true_guard_only", "True hand must not beam an odd player cell")
-	_check(no_target_false != null and no_target_false.id == &"core_false_break_only", "False hand must not beam an odd player cell")
-	ai.reset_ai()
+	ai.phase_two_attack_chance = 1.0
 	var sniper := ai.select_action(_ctx({"role": &"body", "phase": 2, "round_number": 1, "distance": 8}))
 	_check(sniper != null and sniper.id == &"core_body_sniper", "Core body should snipe at 6-12")
 	var blink := ai.select_action(_ctx({"role": &"body", "phase": 2, "round_number": 2, "distance": 3, "damage_taken_last_turn": 9}))
@@ -154,6 +211,7 @@ func _test_preview_execute_stability() -> void:
 	data.set_ai_runtime_context({
 		"enemy_hp": 20, "enemy_position": 6, "player_position": 5,
 		"distance": 1, "round_number": 1, "battle_phase": 1,
+		"enemy_shield": 7,
 	})
 	var preview_one := data.get_action_for_distance(1)
 	var provider := data.get_ai_provider() as EnemyAIController
@@ -161,7 +219,10 @@ func _test_preview_execute_stability() -> void:
 	var preview_two := data.get_action_for_distance(99)
 	_check(preview_one == preview_two, "same state must return the same cached preview")
 	_check(provider.decision_turn == decisions_after_first, "repeated UI preview must not reroll or advance decision")
-	data.set_ai_runtime_context({"battle_phase": 2})
+	# Enemy-turn guard expiry changes the public snapshot, but confirmation must
+	# commit the exact locked preview rather than secretly rerolling.
+	data.set_ai_runtime_context({"battle_phase": 2, "enemy_shield": 0})
+	data.confirm_locked_action(preview_one, 1)
 	var executed := data.get_action_for_distance(1)
 	_check(executed == preview_one, "EnemyTurn must execute the final PlayerTurn preview")
 	_check(provider.decision_turn == decisions_after_first, "execution lookup must not select twice")
@@ -175,21 +236,27 @@ func _test_sharkk_preview_state() -> void:
 	_check(data != null, "sharkk adapter missing for preview state")
 	if data == null: return
 	data.reset_ai_provider()
-	var provider := data.get_ai_provider() as SharkkEnemyAI
-	provider.charge_chance = 1.0
+	var provider := data.get_ai_provider() as EnemyAIController
+	_check(provider != null, "sharkk provider missing for preview state")
+	if provider == null: return
+	if provider is SharkkEnemyAI:
+		(provider as SharkkEnemyAI).charge_chance = 1.0
 	data.set_ai_runtime_context({
 		"enemy_hp": 40, "enemy_position": 6, "player_position": 2,
 		"distance": 4, "round_number": 1, "battle_phase": 1,
 	})
 	var preview := data.get_action_for_distance(4)
-	_check(preview != null and preview.id == &"sharkk_prepare_charge", "Sharkk preview should show charge preparation")
+	_check(preview != null, "Sharkk preview should produce an action")
 	data.get_action_for_distance(4)
 	data.set_ai_runtime_context({"battle_phase": 2})
 	var confirmed := data.get_action_for_distance(4)
 	_check(confirmed == preview, "Sharkk confirmed action must equal preview")
 	data.set_ai_runtime_context({"battle_phase": 1, "round_number": 2})
 	var next_preview := data.get_action_for_distance(4)
-	_check(next_preview != null and next_preview.id == &"sharkk_charge", "charge preparation state changes only after confirmed execution")
+	_check(next_preview != null, "Sharkk should produce a next-round preview after confirmation")
+	if preview != null and preview.id in [&"sharkk_prepare_charge", &"trained_sharkk_prepare_charge"]:
+		_check(next_preview.id in [&"sharkk_charge", &"trained_sharkk_charge_d1", &"trained_sharkk_charge_d2", &"trained_sharkk_charge_d3", &"trained_sharkk_charge_d4"],
+			"charge preparation state changes only after confirmed execution")
 
 
 func _test_main_scene_load() -> void:

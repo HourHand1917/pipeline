@@ -1,7 +1,0 @@
-[gd_scene format=3]
-
-[ext_resource type="Script" uid="uid://fukl8k1n067i" path="res://card/tests/card_config_test.gd" id="1_test"]
-
-[node name="CardConfigTest" type="Node"]
-script = ExtResource("1_test")
-

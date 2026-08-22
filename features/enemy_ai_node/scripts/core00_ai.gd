@@ -2,13 +2,23 @@ extends EnemyAIController
 class_name Core00EnemyAI
 
 @export_group("Core-00 phase one")
-@export_range(1, 20, 1) var phase_one_cycle_length: int = 5
 @export var left_hand_role: StringName = &"true_hand"
 @export var right_hand_role: StringName = &"false_hand"
 
 @export_group("Core-00 phase two")
 @export_range(1, 30, 1) var teleport_reaction_damage: int = 8
 @export_range(0.0, 1.0, 0.05) var phase_two_attack_chance: float = 0.72
+
+## True uses 0 as its judgement state. Once step 1 starts, confirmation moves
+## this through 2 and 3 without re-checking the Buff until the chain finishes.
+var _true_step: int = 0
+var _false_cycle: int = 1
+
+
+func reset_ai() -> void:
+	super.reset_ai()
+	_true_step = 0
+	_false_cycle = 1
 
 
 func select_action(context: EnemyAIContext) -> EnemyActionData:
@@ -19,29 +29,50 @@ func select_action(context: EnemyAIContext) -> EnemyActionData:
 
 
 func _select_hand_action(context: EnemyAIContext) -> EnemyActionData:
-	var step := ((context.round_number - 1) % phase_one_cycle_length) + 1
 	var is_true := context.role == left_hand_role
+	var counterpart_alive := context.false_hand_hp > 0 if is_true else context.true_hand_hp > 0
+	if not counterpart_alive:
+		return commit_action(action_by_id(&"core_hand_passive"))
+	if is_true:
+		return _select_true_hand_action(context)
+	return _select_false_hand_action()
+
+
+func _select_true_hand_action(context: EnemyAIContext) -> EnemyActionData:
 	var selected_id: StringName
-	match step:
-		1:
-			if is_true:
-				selected_id = &"core_true_guard_beam" if context.player_is_on_even_cell() else &"core_true_guard_only"
-			else:
-				selected_id = &"core_false_charge"
-		2:
-			selected_id = &"core_true_death_loop" if is_true else &"core_false_charge_complete"
-		3:
-			if is_true:
-				selected_id = &"core_true_death_loop"
-			else:
-				selected_id = &"core_false_break_beam" if context.player_is_on_even_cell() else &"core_false_break_only"
-		4:
-			selected_id = &"core_true_send_heal" if is_true else &"core_false_stun"
-		5:
-			selected_id = &"core_true_charge" if is_true else &"core_false_heal"
-	# The two hands are fixed choreography: cooldown/range never changes intent.
-	var action := action_by_id(selected_id)
-	return commit_action(action)
+	if _true_step == 0:
+		selected_id = &"core_true_death_loop" if context.enemy_has_true_buff else &"core_true_send_heal"
+	elif _true_step == 2:
+		selected_id = &"core_true_charge"
+	else:
+		selected_id = &"core_true_guard_beam"
+	return commit_action(action_by_id(selected_id))
+
+
+func _select_false_hand_action() -> EnemyActionData:
+	var ids: Array[StringName] = [
+		&"core_false_charge",
+		&"core_false_heal",
+		&"core_false_stun",
+		&"core_false_charge_complete",
+		&"core_false_break_beam",
+	]
+	var index := clampi(_false_cycle, 1, ids.size()) - 1
+	return commit_action(action_by_id(ids[index]))
+
+
+func _on_action_confirmed(action: EnemyActionData, context: EnemyAIContext) -> void:
+	if action == null or context.phase > 1:
+		return
+	if context.role == left_hand_role:
+		match action.id:
+			&"core_true_send_heal": _true_step = 2
+			&"core_true_charge": _true_step = 3
+			&"core_true_guard_beam": _true_step = 0
+	elif context.role == right_hand_role:
+		match action.id:
+			&"core_false_charge", &"core_false_heal", &"core_false_stun", &"core_false_charge_complete", &"core_false_break_beam":
+				_false_cycle = (_false_cycle % 5) + 1
 
 
 func _select_body_action(context: EnemyAIContext) -> EnemyActionData:

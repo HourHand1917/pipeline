@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/sharkk_frames.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+profile_id = &"sharkk"
+enemy_ids = PackedStringArray("sharkk")
+roles = PackedStringArray("sharkk")
+sprite_frames = ExtResource("2")
+action_animations = {
+&"sharkk_advance": &"move_forward",
+&"sharkk_attack": &"attack",
+&"sharkk_punch": &"attack",
+&"sharkk_prepare_charge": &"charge_prepare",
+&"sharkk_charge": &"charge",
+&"sharkk_sand_retreat": &"sand_retreat",
+&"sharkk_stunned": &"stunned",
+&"trained_sharkk_advance": &"move_forward",
+&"trained_sharkk_attack": &"attack",
+&"trained_sharkk_prepare_charge": &"charge_prepare",
+&"trained_sharkk_charge_d1": &"charge",
+&"trained_sharkk_charge_d2": &"charge",
+&"trained_sharkk_charge_d3": &"charge",
+&"trained_sharkk_charge_d4": &"charge",
+&"trained_sharkk_sand_retreat": &"sand_retreat",
+&"trained_sharkk_stunned": &"stunned"
+}
+target_visual_height = 136.0
+visual_scale = Vector2(1, 1)
+visual_offset = Vector2(0, -70)

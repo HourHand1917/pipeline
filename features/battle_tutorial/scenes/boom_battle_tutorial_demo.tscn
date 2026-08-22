@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://anime/scenes/battle_rule_presets/boom_animation_test.tscn" id="1_demo"]
+[ext_resource type="PackedScene" path="res://features/battle_tutorial/scenes/boom_battle_tutorial.tscn" id="2_tutorial"]
+
+[node name="BoomBattleTutorialDemo" instance=ExtResource("1_demo")]
+
+[node name="BoomBattleTutorial" parent="." instance=ExtResource("2_tutorial")]

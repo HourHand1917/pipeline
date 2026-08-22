@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="CoreTrueLoopBuff" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://features/buff_system/behaviors/core_true_loop_buff.gd" id="1_buff"]
+[ext_resource type="Script" path="res://features/buff_system/scripts/data/pipeline_combat_effect_data.gd" id="2_effect_script"]
+[ext_resource type="Resource" path="res://features/buff_system/resources/effects/true_half_damage_floor.tres" id="3_effect"]
+[ext_resource type="Texture2D" path="res://features/buff_system/resources/buffs/true.svg" id="4_icon"]
+
+[resource]
+script = ExtResource("1_buff")
+id = "true"
+buff_name = "True"
+polarity = 0
+description = "Core-00死循环标记；造成和受到的伤害减半，仅由False破坏光束移除。"
+duration = 0
+stackable = false
+max_stacks = 3
+icon = ExtResource("4_icon")
+outgoing_damage_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])
+incoming_damage_effects = Array[ExtResource("2_effect_script")]([ExtResource("3_effect")])

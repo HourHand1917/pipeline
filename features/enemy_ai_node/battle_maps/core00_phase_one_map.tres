@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="BattleMapData" format=3]
-[ext_resource type="Script" path="res://Script/GD/resource/battle_map_data.gd" id="1"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/enemy_data/core00_true_hand.tres" id="2"]
+[gd_resource type="Resource" script_class="BattleMapData" format=3 uid="uid://4otwra48cvy3"]
+
+[ext_resource type="Script" uid="uid://dtt2n86015c5" path="res://Script/GD/resource/battle_map_data.gd" id="1"]
+[ext_resource type="Script" uid="uid://qarur3c2xyfi" path="res://Script/GD/resource/enemy_data.gd" id="1_12fdl"]
+[ext_resource type="Resource" uid="uid://dxvo7ftk3sjku" path="res://features/enemy_ai_node/enemy_data/core00_true_hand.tres" id="2"]
 [ext_resource type="Resource" path="res://features/enemy_ai_node/enemy_data/core00_false_hand.tres" id="3"]
+
 [resource]
 script = ExtResource("1")
-cell_count = 13
-player_start_cell = 6
-enemy_data_list = Array[EnemyData]([ExtResource("2"), ExtResource("3")])
+cell_count = 12
+player_start_cell = 7
+enemy_data_list = Array[ExtResource("1_12fdl")]([ExtResource("2"), ExtResource("3")])
 enemy_start_cells = Array[int]([1, 12])
 include_occupied_cells_in_distance = false
-

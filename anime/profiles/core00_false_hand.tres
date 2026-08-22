@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/core_hand_frames.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+profile_id = &"core00_false_hand"
+enemy_ids = PackedStringArray("core00_false_hand")
+roles = PackedStringArray("false_hand")
+sprite_frames = ExtResource("2")
+idle_animation = &"idle_2"
+entry_animation = &"enter_right"
+action_animations = {
+&"core_false_charge": &"heavy_punch",
+&"core_false_charge_complete": &"heavy_punch",
+&"core_false_break_beam": &"finger_flick",
+&"core_false_break_only": &"finger_flick",
+&"core_false_stun": &"finger_flick",
+&"core_false_heal": &"heal_snap"
+}
+target_visual_height = 142.0
+visual_scale = Vector2(1, 1)
+visual_offset = Vector2(0, -71)
+allow_horizontal_flip = true

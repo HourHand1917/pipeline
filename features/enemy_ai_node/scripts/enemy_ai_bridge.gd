@@ -47,6 +47,8 @@ func refresh_runtime_contexts() -> void:
 		player_has_unlit_cell = false
 	var battle_phase := int(_read_property(battle_manager, [&"CurrentPhase", &"current_phase"], -1))
 	var runtime_enemies := _runtime_enemies(enemy_manager)
+	var true_hand_hp := _role_hp(runtime_enemies, &"true_hand")
+	var false_hand_hp := _role_hp(runtime_enemies, &"false_hand")
 	for enemy in runtime_enemies:
 		var data: Variant = _call_first(enemy, [&"GetEnemyData", &"get_enemy_data"])
 		if not data is EnemyDataNodeAdapter:
@@ -78,7 +80,23 @@ func refresh_runtime_contexts() -> void:
 			"battle_phase": battle_phase,
 			"last_player_action_type": last_player_action_type,
 			"player_has_unlit_cell": player_has_unlit_cell,
+			"true_hand_hp": true_hand_hp,
+			"false_hand_hp": false_hand_hp,
+			"enemy_has_true_buff": _enemy_has_buff(enemy, "true"),
 		})
+
+
+func _role_hp(enemies: Array, expected_role: StringName) -> int:
+	for enemy in enemies:
+		var data: Variant = _call_first(enemy, [&"GetEnemyData", &"get_enemy_data"])
+		if data is EnemyDataNodeAdapter and data.role == expected_role:
+			return maxi(0, int(_read_property(enemy, [&"CurrentHp", &"current_hp"], 0)))
+	return 0
+
+
+func _enemy_has_buff(enemy: Object, buff_id: String) -> bool:
+	var stats: Variant = _call_first(enemy, [&"GetStats", &"get_stats"])
+	return stats != null and stats.has_method(&"has_buff") and bool(stats.call(&"has_buff", buff_id))
 
 
 func report_player_action(damage: int, action_type: StringName, has_unlit_cell: bool = false) -> void:

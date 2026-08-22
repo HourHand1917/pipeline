@@ -18,14 +18,25 @@ class_name EnemyActionData
 @export var tags: PackedStringArray = PackedStringArray()
 
 @export_group("Availability")
-@export_range(1, 99, 1, "or_greater") var min_range: int = 2
-@export_range(1, 99, 1, "or_greater") var max_range: int = 99
+@export_range(0, 99, 1, "or_greater") var min_range: int = 2
+@export_range(0, 99, 1, "or_greater") var max_range: int = 99
 
 @export_group("Effects")
 @export var effects: Array[CombatEffectData] = []
 ## Effects that are resolved only when a patterned attack (for example a
 ## Core-00 even-cell beam) actually hits its board condition.
 @export var pattern_hit_effects: Array[CombatEffectData] = []
+## -1 = no fixed board pattern, 0 = even cells, 1 = odd cells.
+## A patterned action keeps the same intent when it misses; only its damage
+## and conditional effects are skipped.
+@export_range(-1, 1, 1) var pattern_parity: int = -1
+## Optional absolute board cells. When populated, these cells replace the
+## ordinary facing/range test (used by Core-00's fixed-position hands).
+@export var fixed_target_cells: PackedInt32Array = PackedInt32Array()
+## Conditional effects resolved against `effect_target_role` when the board
+## pattern hits. This supports cross-enemy protection/buff interactions while
+## keeping every number in a draggable resource.
+@export var pattern_hit_role_effects: Array[CombatEffectData] = []
 ## Effects resolved against `effect_target_role` after every enemy has acted.
 ## This keeps cross-enemy packages deterministic and prevents them from
 ## triggering during the recipient's current turn-start window.

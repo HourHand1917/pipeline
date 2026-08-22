@@ -63,17 +63,26 @@ public partial class EffectResolver
         BattleManager battleManager,
         EnemyBattle actor)
     {
-        if (action == null || battleManager == null || actor == null
-            || !battleManager.IsPlayerOnEvenCell())
+        if (action == null || battleManager == null || actor == null)
+            return false;
+
+        if (!BattleManager.EnemyActionUsesFixedTargets(action)
+            || !battleManager.IsPlayerTargetedByAction(action))
             return false;
 
         var effects = action.Get(GDScriptKeys.EnemyAction.PatternHitEffects).As<Array>();
-        if (effects == null || effects.Count == 0) return false;
-        bool any = ExecuteConfiguredEffects(
-            action.Get(GDScriptKeys.EnemyAction.DisplayName).AsString(),
-            effects,
-            battleManager,
-            actor);
+        string displayName = action.Get(GDScriptKeys.EnemyAction.DisplayName).AsString();
+        bool any = effects != null && effects.Count > 0
+            && ExecuteConfiguredEffects(displayName, effects, battleManager, actor);
+
+        var roleEffects = action.Get(GDScriptKeys.EnemyAction.PatternHitRoleEffects).As<Array>();
+        if (roleEffects != null && roleEffects.Count > 0)
+        {
+            StringName role = action.Get(GDScriptKeys.EnemyAction.EffectTargetRole).AsStringName();
+            EnemyBattle target = battleManager.EnemyManager?.GetAliveByRole(role);
+            if (target != null)
+                any |= ExecuteConfiguredEffects(displayName, roleEffects, battleManager, target);
+        }
         ResolvePendingBuffApplications(battleManager);
         return any;
     }

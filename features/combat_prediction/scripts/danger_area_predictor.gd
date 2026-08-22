@@ -47,6 +47,8 @@ func predict_action(
 				cells.append(destination)
 		DangerAreaProfile.Shape.GLOBAL_WARNING:
 			result.global_warning = profile.global_warning
+		DangerAreaProfile.Shape.FIXED_CELLS:
+			cells = profile.fixed_cells
 		_:
 			pass
 	if profile.telegraph_turn_offset > 0:
@@ -152,4 +154,3 @@ func _unique_valid(cells: PackedInt32Array, cell_count: int) -> PackedInt32Array
 		if cell >= 1 and cell <= cell_count and not unique.has(cell):
 			unique.append(cell)
 	return unique
-

@@ -1,18 +1,20 @@
-[gd_resource type="Resource" script_class="EnemyActionData" load_steps=5 format=3]
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=7 format=3]
 [ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/damage_12_player.tres" id="2"]
-[ext_resource type="Resource" path="res://features/combat_prediction/profiles/even_cells.tres" id="3"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/apply_false_player_stats.tres" id="4"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/damage_25_player.tres" id="2_damage"]
+[ext_resource type="Resource" path="res://features/combat_prediction/profiles/core_false_break_cells.tres" id="3_danger"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/apply_false_player_stats.tres" id="4_player_false"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/apply_false_enemy_stats.tres" id="5_true_false"]
 [resource]
 script = ExtResource("1")
 id = &"core_false_break_beam"
 display_name = "破坏光束"
-intent_text = "偶数格有玩家则攻击并破除循环"
+intent_text = "循环5：奇数格25伤；命中施加False并破坏True死循环"
 priority = 20
-min_range = 1
-max_range = 99
-effects = Array[CombatEffectData]([ExtResource("2")])
-pattern_hit_effects = Array[CombatEffectData]([ExtResource("4")])
-special_effect = &"clear_true_death_loop"
+min_range = 0
+max_range = 0
+effects = Array[CombatEffectData]([ExtResource("2_damage")])
+pattern_hit_effects = Array[CombatEffectData]([ExtResource("4_player_false")])
+fixed_target_cells = PackedInt32Array(1, 3, 5, 7, 9, 11)
+pattern_hit_role_effects = Array[CombatEffectData]([ExtResource("5_true_false")])
 effect_target_role = &"true_hand"
-danger_profile = ExtResource("3")
+danger_profile = ExtResource("3_danger")

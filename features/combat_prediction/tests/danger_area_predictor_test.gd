@@ -6,7 +6,7 @@ var checks := 0
 
 func _ready() -> void:
 	_test_forward_ranges()
-	_test_even_cells()
+	_test_core00_fixed_cells()
 	_test_charge_and_push()
 	_test_prepared_and_global_warning()
 	_test_prediction_has_no_ai_side_effect()
@@ -43,11 +43,27 @@ func _test_forward_ranges() -> void:
 	predictor.free()
 
 
-func _test_even_cells() -> void:
+func _test_core00_fixed_cells() -> void:
 	var predictor := _predictor()
+	var package := load("res://features/enemy_ai_node/resources/actions/core_true_send_heal.tres") as EnemyActionData
+	var package_result := predictor.predict_action(package, 1, 0, 6, 12)
+	_check(package_result.current_cells == PackedInt32Array([2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
+		"Core treatment-package telegraph must cover absolute cells 2-11")
+
 	var beam := load("res://features/enemy_ai_node/resources/actions/core_true_guard_beam.tres") as EnemyActionData
-	var result := predictor.predict_action(beam, 1, 0, 6, 13)
-	_check(result.current_cells == PackedInt32Array([2, 4, 6, 8, 10, 12]), "Core even-cell beam telegraph is wrong")
+	var beam_result := predictor.predict_action(beam, 1, 0, 6, 12)
+	_check(beam_result.current_cells == PackedInt32Array([2, 4, 6, 8, 10, 12]),
+		"Core protection beam telegraph must cover every even cell")
+
+	var charge := load("res://features/enemy_ai_node/resources/actions/core_false_charge_complete.tres") as EnemyActionData
+	var charge_result := predictor.predict_action(charge, 12, 1, 6, 12)
+	_check(charge_result.current_cells == PackedInt32Array([1, 2, 3]),
+		"Core False completed charge telegraph must cover absolute cells 1-3")
+
+	var break_beam := load("res://features/enemy_ai_node/resources/actions/core_false_break_beam.tres") as EnemyActionData
+	var break_result := predictor.predict_action(break_beam, 12, 1, 6, 12)
+	_check(break_result.current_cells == PackedInt32Array([1, 3, 5, 7, 9, 11]),
+		"Core False break beam telegraph must cover odd cells 1-11 only")
 	predictor.free()
 
 
@@ -97,7 +113,7 @@ func _test_prediction_has_no_ai_side_effect() -> void:
 func _test_sharkk_state_machine() -> void:
 	var packed := load("res://features/enemy_ai_node/scenes/sharkk_ai.tscn") as PackedScene
 	var ai := packed.instantiate() as SharkkEnemyAI
-	var hit := EnemyAIContext.new().update_from_dictionary({"distance": 3, "round_number": 1, "damage_taken_last_turn": 10})
+	var hit := EnemyAIContext.new().update_from_dictionary({"distance": 2, "round_number": 1, "damage_taken_last_turn": 10})
 	var retreat := ai.select_action(hit)
 	_check(retreat.id == &"sharkk_sand_retreat", "10+ middle-range hit must force sand retreat")
 	ai.confirm_action(retreat, hit)

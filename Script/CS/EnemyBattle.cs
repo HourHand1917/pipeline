@@ -9,6 +9,7 @@ using Godot.Collections;
 [GlobalClass]
 public partial class EnemyBattle : Node2D
 {
+    private const string FrameAudioMeta = "anime_frame_audio";
     [Signal] public delegate void HealthChangedEventHandler(int current, int max);
     [Signal] public delegate void ShieldChangedEventHandler(int current);
     [Signal] public delegate void PositionChangedEventHandler(int newPosition);
@@ -128,6 +129,18 @@ public partial class EnemyBattle : Node2D
         EmitSignal(SignalName.ShieldChanged, Shield);
     }
 
+    /// <summary>
+    /// Removes this enemy's carried shield at the shared enemy-turn boundary.
+    /// This is intentionally separate from TakeDamage: expiring guard must not
+    /// count as damage, trigger hit feedback, or influence reactive AI.
+    /// </summary>
+    public void ClearShield()
+    {
+        if (Shield <= 0) return;
+        Shield = 0;
+        EmitSignal(SignalName.ShieldChanged, Shield);
+    }
+
     public void Heal(int amount)
     {
         CurrentHp = Mathf.Min(MaxHp, CurrentHp + amount);
@@ -150,6 +163,10 @@ public partial class EnemyBattle : Node2D
     private void PlaySfx(AudioStream sfx)
     {
         if (sfx == null) return;
+        // A BattleAnimationMachine with frame cues owns timing for this actor.
+        // Keep the original immediate sound as a fallback for enemies without
+        // an animation-audio profile.
+        if (HasMeta(FrameAudioMeta)) return;
         GetNodeOrNull<AudioManager>("/root/AudioManager")?.PlaySfx(sfx);
     }
 

@@ -342,6 +342,14 @@ public partial class BattleManager : Node
     {
         if (CurrentPhase != Phase.PlayerTurn || turnTransitionLocked) return;
         turnTransitionLocked = true;
+
+        // Enemy guard expires as the enemy turn begins. Clear every living
+        // enemy together before the phase signal and before anyone acts;
+        // shield granted later this same enemy turn must remain intact.
+        foreach (var enemy in EnemyManager.Enemies)
+            if (enemy != null && enemy.IsAlive)
+                enemy.ClearShield();
+
         SetPhase(Phase.EnemyTurn);
         bool preserve = rules.Get(GDScriptKeys.GameRules.PreservePartialCharge).AsBool();
         if (!preserve) BoardManager.ClearAllLights();
@@ -362,7 +370,7 @@ public partial class BattleManager : Node
         EmitSignal(SignalName.BattleStateChanged);
     }
 
-        private void ResolveEnemyTurn()
+    private void ResolveEnemyTurn()
     {
         var deferredRoleActions = new System.Collections.Generic.List<GodotObject>();
         foreach (var enemy in EnemyManager.Enemies)
@@ -378,7 +386,7 @@ public partial class BattleManager : Node
                 EffectResolver?.TickActorBuffs(enemy, this, false);
                 continue;
             }
-            ConfirmPlannedAction(enemy, dist);
+            ConfirmPlannedAction(enemy, action, dist);
             if (_cancelLockedIntent && enemy == _smokeCancelledEnemy && CanSmokeCancel(action))
             {
                 Log($"烟雾弹取消了{enemy.DisplayName}的锁定攻击。");
@@ -386,11 +394,13 @@ public partial class BattleManager : Node
                 EffectResolver?.TickActorBuffs(enemy, this, false);
                 continue;
             }
-            if (!IsInRange(enemy.MapPosition, Player.MapPosition, enemy.Facing,
+            if (!EnemyActionUsesFixedTargets(action)
+                && !IsInRange(enemy.MapPosition, Player.MapPosition, enemy.Facing,
                 action.Get(GDScriptKeys.EnemyAction.MinRange).AsInt32(),
                 action.Get(GDScriptKeys.EnemyAction.MaxRange).AsInt32()))
             {
                 EffectResolver?.TickActorBuffs(enemy, this, false);
+                enemy.ClearPlannedAction();
                 continue;
             }
             Log($"{enemy.DisplayName}使用「{action.Get(GDScriptKeys.EnemyAction.DisplayName)}」。");
@@ -427,14 +437,18 @@ public partial class BattleManager : Node
         return enemyData.Call("get_action_for_distance", distance).As<GodotObject>();
     }
 
-    private void ConfirmPlannedAction(EnemyBattle enemy, int distance)
+    private void ConfirmPlannedAction(EnemyBattle enemy, GodotObject lockedAction, int distance)
     {
         var enemyData = enemy?.GetEnemyData();
         if (enemyData == null) return;
         UpdateEnemyAIContext(enemy, true);
-        // EnemyDataNodeAdapter excludes battle_phase from its decision signature:
-        // this call confirms cooldown/state without rerolling the PlayerTurn plan.
-        enemyData.Call("get_action_for_distance", distance);
+        // Guard expiry is part of the public context, but it must not reroll an
+        // intent after the player has ended the turn. Node adapters can confirm
+        // the exact locked preview; legacy data keeps the old lookup fallback.
+        if (enemyData.HasMethod("confirm_locked_action"))
+            enemyData.Call("confirm_locked_action", lockedAction, distance);
+        else
+            enemyData.Call("get_action_for_distance", distance);
     }
 
     private void UpdateEnemyAIContext(EnemyBattle enemy, bool confirm)
@@ -463,6 +477,7 @@ public partial class BattleManager : Node
             { "true_hand_hp", trueHand?.CurrentHp ?? 0 },
             { "false_hand_hp", falseHand?.CurrentHp ?? 0 },
             { "body_hp", body?.CurrentHp ?? 0 },
+            { "enemy_has_true_buff", EnemyHasBuff(enemy, "true") },
             { "last_player_damage", _lastPlayerDamage },
             { "damage_taken_last_turn", enemy.DamageTakenThisPlayerTurn },
             { "last_player_action_type", _lastPlayerActionType },
@@ -470,6 +485,14 @@ public partial class BattleManager : Node
             { "player_has_unlit_cell", BoardHasUnlitCell() },
         };
         enemyData.Call("set_ai_runtime_context", context);
+    }
+
+    private static bool EnemyHasBuff(EnemyBattle enemy, string buffId)
+    {
+        var stats = enemy?.GetStats();
+        return stats != null
+            && stats.HasMethod(GDScriptKeys.Stats.HasBuff)
+            && stats.Call(GDScriptKeys.Stats.HasBuff, buffId).AsBool();
     }
 
     public int GetDistanceTo(EnemyBattle enemy) => enemy == null ? 0 : CalcDistanceTo(enemy.MapPosition);
@@ -777,7 +800,27 @@ public partial class BattleManager : Node
 
     public void DiscardItem(int itemIndex) => DataManager.Instance.DiscardItem(itemIndex);
 
-    public bool IsPlayerOnEvenCell() => Player != null && Player.MapPosition % 2 == 0;
+    public bool IsPlayerOnEvenCell() => IsPlayerOnCellParity(0);
+
+    public bool IsPlayerOnCellParity(int parity)
+        => Player != null && Player.MapPosition % 2 == Mathf.PosMod(parity, 2);
+
+    public bool IsPlayerTargetedByAction(GodotObject action)
+    {
+        if (Player == null || action == null) return false;
+        int[] fixedCells = action.Get(GDScriptKeys.EnemyAction.FixedTargetCells).AsInt32Array();
+        if (fixedCells.Length > 0)
+            return System.Array.IndexOf(fixedCells, Player.MapPosition) >= 0;
+        int parity = action.Get(GDScriptKeys.EnemyAction.PatternParity).AsInt32();
+        return parity < 0 || IsPlayerOnCellParity(parity);
+    }
+
+    public static bool EnemyActionUsesFixedTargets(GodotObject action)
+    {
+        if (action == null) return false;
+        if (action.Get(GDScriptKeys.EnemyAction.PatternParity).AsInt32() >= 0) return true;
+        return action.Get(GDScriptKeys.EnemyAction.FixedTargetCells).AsInt32Array().Length > 0;
+    }
 
     public void SetTrueDeathLoop(bool active)
     {

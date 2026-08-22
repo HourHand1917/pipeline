@@ -1,18 +1,21 @@
-[gd_resource type="Resource" script_class="EnemyActionData" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="EnemyActionData" load_steps=8 format=3]
 [ext_resource type="Script" path="res://Script/GD/resource/enemy_action_data.gd" id="1"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/damage_10_player.tres" id="2"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/shield_7_enemy.tres" id="3"]
-[ext_resource type="Resource" path="res://features/combat_prediction/profiles/even_cells.tres" id="4"]
-[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/apply_true_player_stats.tres" id="5"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/damage_7_player.tres" id="2_damage"]
+[ext_resource type="Resource" path="res://features/combat_prediction/profiles/even_cells.tres" id="3_danger"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/apply_true_player_stats.tres" id="4_player_true"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/apply_core_true_enemy_stats.tres" id="5_self_true"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/resources/effects/shield_25_enemy.tres" id="6_false_shield"]
 [resource]
 script = ExtResource("1")
 id = &"core_true_guard_beam"
 display_name = "保护光束"
-intent_text = "偶数格有玩家则攻击；自身获得格挡"
+intent_text = "步骤3：偶数格7伤；命中后链接True并使False获得25格挡"
 priority = 20
-min_range = 1
-max_range = 99
-effects = Array[CombatEffectData]([ExtResource("2"), ExtResource("3")])
-pattern_hit_effects = Array[CombatEffectData]([ExtResource("5")])
-effect_target_role = &"self"
-danger_profile = ExtResource("4")
+min_range = 0
+max_range = 0
+effects = Array[CombatEffectData]([ExtResource("2_damage")])
+pattern_hit_effects = Array[CombatEffectData]([ExtResource("4_player_true"), ExtResource("5_self_true")])
+pattern_parity = 0
+pattern_hit_role_effects = Array[CombatEffectData]([ExtResource("6_false_shield")])
+effect_target_role = &"false_hand"
+danger_profile = ExtResource("3_danger")

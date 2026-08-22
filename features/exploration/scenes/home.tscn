@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="2_vdmol"]
 [ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="3_3atb7"]
 [ext_resource type="Texture2D" uid="uid://baplauefd4kpy" path="res://features/exploration/art_assets/home_map/加厚地板.PNG" id="3_htdbx"]
-[ext_resource type="AudioStream" uid="uid://3nu4kj4r735y" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F01_Home.ogg" id="3_iqkbj"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_kwm3y"]
 [ext_resource type="Texture2D" uid="uid://bfwqqe85jy6sn" path="res://features/exploration/art_assets/home_map/家-工作台.png" id="4_sh4v1"]
 [ext_resource type="Texture2D" uid="uid://bko2p4vl6k2t5" path="res://features/exploration/art_assets/home_map/休眠舱.png" id="6_tbw4g"]
@@ -61,7 +60,6 @@ Input = NodePath("InputRouter")
 MapId = "home"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_5o1o1")
-MapAmbient = ExtResource("3_iqkbj")
 PlayerLeft = -550
 PlayerRight = 2850
 CamLeft = -970

@@ -1,7 +1,7 @@
 extends Node
 
 const ITEM_CATALOG := preload("res://Resource/item/mvp/item_catalog.gd")
-const CARD_CATALOG := preload("res://card/card_catalog.gd")
+const CARD_CATALOG := preload("res://Resource/card/card_catalog.gd")
 const ITEM_DATA_SCRIPT := preload("res://Script/GD/resource/itemdata.gd")
 
 const EXPECTED_ITEMS := {

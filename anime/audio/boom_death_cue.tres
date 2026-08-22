@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BattleAnimationAudioCue" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_audio_cue.gd" id="1"]
+[ext_resource type="AudioStream" path="res://tileset/music_resource/OGG/SFX/战斗反馈/小怪/COM_Enemy_Death.ogg" id="2"]
+
+[resource]
+script = ExtResource("1")
+animation_name = &"death"
+trigger_frame = 5
+stream = ExtResource("2")
+volume_db = -1.0
+pitch_scale = 1.0
+bus = &"SFX"

@@ -51,19 +51,7 @@ func get_ai_provider() -> Node:
 func get_action_for_distance(current_distance: int) -> EnemyActionData:
 	_ensure_provider()
 	if _provider != null and _provider.has_method(provider_entry):
-		var context := EnemyAIContext.new()
-		context.update_from_dictionary(_runtime_context)
-		context.enemy_id = id
-		context.role = role
-		context.enemy_max_hp = max_hp
-		if not _runtime_context.has("distance"):
-			context.distance = current_distance
-		# Core-00 body resources are phase two by construction.  A bridge may
-		# still override this explicitly through `set_ai_runtime_context`.
-		if role == &"body" and not _runtime_context.has("phase"):
-			context.phase = 2
-		if context.enemy_hp <= 0:
-			context.enemy_hp = max_hp
+		var context := _build_context(current_distance)
 		var signature := context.decision_signature()
 		if signature != _cached_signature:
 			var selected: Variant = _provider.call(provider_entry, context)
@@ -82,6 +70,37 @@ func get_action_for_distance(current_distance: int) -> EnemyActionData:
 			if best == null or action.priority > best.priority:
 				best = action
 	return best
+
+
+## Confirms the exact PlayerTurn preview even when a turn-boundary rule (for
+## example expiring enemy shield) changed the observable context immediately
+## before execution. This prevents a hidden reroll during confirmation.
+func confirm_locked_action(action: EnemyActionData, current_distance: int) -> void:
+	_ensure_provider()
+	if _provider == null or not _provider.has_method(&"confirm_action"):
+		return
+	var context := _build_context(current_distance)
+	context.battle_phase = 2
+	_provider.call(&"confirm_action", action, context)
+	_cached_action = action
+	_cached_signature = context.decision_signature()
+
+
+func _build_context(current_distance: int) -> EnemyAIContext:
+	var context := EnemyAIContext.new()
+	context.update_from_dictionary(_runtime_context)
+	context.enemy_id = id
+	context.role = role
+	context.enemy_max_hp = max_hp
+	if not _runtime_context.has("distance"):
+		context.distance = current_distance
+	# Core-00 body resources are phase two by construction. A bridge may still
+	# override this explicitly through `set_ai_runtime_context`.
+	if role == &"body" and not _runtime_context.has("phase"):
+		context.phase = 2
+	if context.enemy_hp <= 0:
+		context.enemy_hp = max_hp
+	return context
 
 
 func _ensure_provider() -> void:

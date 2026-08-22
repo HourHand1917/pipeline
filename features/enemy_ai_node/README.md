@@ -22,7 +22,7 @@ reroll or consume the action that will actually execute.
 - boom: 8 HP, approach/attack.
 - rocky: 20 HP, mid/close attacks, advance, shield/retreat response to heavy damage.
 - sharkk: 40 HP, attack-first melee AI, prepared charge, gun adaptation, forced sand retreat after 10+ damage.
-- Core-00: two 21 HP hand resources with fixed five-turn choreography, plus a 50 HP dynamic ranged body.
+- Core-00: fixed True/False hands with independent three-step/five-step state machines, plus a 50 HP dynamic ranged body.
 
 ## Integration note
 
@@ -35,7 +35,11 @@ original `game.tscn`:
 - `main_core00_phase_one.tscn`: True/False hands (21 HP each)
 - `main_core00_phase_two.tscn`: body (50 HP)
 
-The last two remain separate encounters because automatic two-hand-to-body
-transition needs a battle lifecycle hook the original framework does not expose.
+The campaign controller joins the two Core presets into one encounter and
+preserves player state across the hand-to-body transition.
 
-The existing C# combat loop only asks an `EnemyData` for one action. All actions here therefore remain ordinary `EnemyActionData` resources, so the existing `EffectResolver` executes them unchanged. Conditional boss mechanics such as "beam only on even cells", cross-hand healing, true death-loop persistence, exact teleport-to-behind, and disabling every card require callbacks that the original resolver currently does not expose. Their intent selection/configuration is present here; full runtime side effects should be wired by the programmer through `EnemyAINodeBridge.report_player_action()` or future resolver hooks.
+Core fixed-cell attacks, hit-only Buffs, cross-hand package/shield effects,
+teleport, card jam, and phase transition are connected through the current
+`BattleManager`/`EffectResolver`. The UI reads each cached planned action; it
+never asks the AI to select again. At execution, the adapter explicitly confirms
+that locked action so turn-boundary shield expiry cannot cause a hidden reroll.

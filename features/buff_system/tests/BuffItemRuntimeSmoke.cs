@@ -163,7 +163,7 @@ public partial class BuffItemRuntimeSmoke : Node
         var battle = _host.BattleManager;
         var resolver = _host.EffectResolver;
         board.ConfigureBoard(new Vector2I(4, 3), false);
-        var card = GD.Load<Resource>("res://card/cards/knuckle_striker.tres");
+        var card = GD.Load<Resource>("res://Resource/card/cards/knuckle_striker.tres");
         var runtime = board.PlaceCard(card, Vector2I.Zero, 0);
         Check(runtime != null, "one-cell card must be placeable for cooldown tests");
         if (runtime == null) return;

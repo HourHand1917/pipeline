@@ -109,7 +109,7 @@ public partial class RuntimeCampaignSmoke : Node
         // Battle 4 phase one: two fixed hands.
         StartPreparedWave();
         CheckWave(3, 4, 1, ("true_hand", 21), ("false_hand", 21));
-        ValidateCoreBuffActionIntegration();
+        await ValidateCoreRuntimeRules();
         int hpBeforePhaseChange = _host.Player.CurrentHp;
         int positionBeforePhaseChange = _host.Player.MapPosition;
         KillCurrentWave();
@@ -174,15 +174,21 @@ public partial class RuntimeCampaignSmoke : Node
         sharkk.UpdateFacing(_host.Player.MapPosition);
         battle.DamageEnemy(10, sharkk);
         battle.ReplanEnemyTurns();
-        Check(ActionId(sharkk) == "sharkk_sand_retreat",
-            $"Sharkk mid-range heavy-hit response must be sand retreat, got {ActionId(sharkk)}");
+        string responseId = ActionId(sharkk);
+        bool usesTrainedAi = responseId.StartsWith("trained_sharkk_", StringComparison.Ordinal);
+        Check(responseId is "sharkk_sand_retreat" or "trained_sharkk_sand_retreat",
+            $"Sharkk mid-range heavy-hit response must be sand retreat, got {responseId}");
 
         battle.EndTurn();
         await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn && battle.RoundNumber == 2,
             "Sharkk retreat turn did not resolve");
         Check(sharkk.MapPosition == 7, $"Sharkk's sand retreat must move two cells from 5 to 7, got {sharkk.MapPosition}");
-        Check(ActionId(sharkk) == "sharkk_charge",
-            $"prepared Sharkk must lock charge next turn, got {ActionId(sharkk)}");
+        if (usesTrainedAi)
+            Check(ActionId(sharkk).StartsWith("trained_sharkk_", StringComparison.Ordinal),
+                $"trained Sharkk must keep a trained follow-up intent, got {ActionId(sharkk)}");
+        else
+            Check(ActionId(sharkk) == "sharkk_charge",
+                $"prepared legacy Sharkk must lock charge next turn, got {ActionId(sharkk)}");
 
         // Reading the danger predictor repeatedly must not reroll or confirm AI.
         var provider = sharkk.GetEnemyData().Call("get_ai_provider").As<GodotObject>();
@@ -206,77 +212,168 @@ public partial class RuntimeCampaignSmoke : Node
         Check(provider?.Get("charge_state").AsInt32() == stateBefore,
             "danger prediction must not advance Sharkk charge state");
         var dangerCells = prediction?["current_cells"].AsInt32Array() ?? System.Array.Empty<int>();
-        Check(dangerCells.Length > 0 && System.Array.IndexOf(dangerCells, 1) >= 0,
-            "charge danger area must include the final wall cell");
+        if (!usesTrainedAi)
+            Check(dangerCells.Length > 0 && System.Array.IndexOf(dangerCells, 1) >= 0,
+                "legacy charge danger area must include the final wall cell");
         predictor?.QueueFree();
 
-        // Charge approaches, damages, and pushes the player to the last legal wall cell.
+        // The legacy controller deterministically follows preparation with a
+        // charge. The trained controller may choose any legal configured
+        // follow-up, so its smoke contract is stable planning and resolution.
         int hpBeforeCharge = _host.Player.CurrentHp;
         battle.EndTurn();
         await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn && battle.RoundNumber == 3,
-            "Sharkk charge turn did not resolve");
-        Check(_host.Player.MapPosition == 1,
-            $"leftward Sharkk charge must push the player to wall cell 1, got {_host.Player.MapPosition}");
-        Check(_host.Player.CurrentHp == hpBeforeCharge - 10,
-            $"Sharkk charge must deal 10 damage, HP {hpBeforeCharge} -> {_host.Player.CurrentHp}");
-        Check(ActionId(sharkk) == "sharkk_stunned",
-            $"post-charge Sharkk must expose the hard-recovery intent, got {ActionId(sharkk)}");
+            "Sharkk follow-up turn did not resolve");
+        if (usesTrainedAi)
+        {
+            Check(sharkk.IsAlive && ActionId(sharkk).StartsWith("trained_sharkk_", StringComparison.Ordinal),
+                $"trained Sharkk must resolve and replan a trained action, got {ActionId(sharkk)}");
+        }
+        else
+        {
+            Check(_host.Player.MapPosition == 1,
+                $"leftward Sharkk charge must push the player to wall cell 1, got {_host.Player.MapPosition}");
+            Check(_host.Player.CurrentHp == hpBeforeCharge - 10,
+                $"Sharkk charge must deal 10 damage, HP {hpBeforeCharge} -> {_host.Player.CurrentHp}");
+            Check(ActionId(sharkk) == "sharkk_stunned",
+                $"post-charge Sharkk must expose the hard-recovery intent, got {ActionId(sharkk)}");
+        }
     }
 
-    private void ValidateCoreBuffActionIntegration()
+    private async Task ValidateCoreRuntimeRules()
     {
-        var resolver = _host.EffectResolver;
         var battle = _host.BattleManager;
         var playerStats = _host.Player.GetStats();
         var trueHand = _host.EnemyManager.GetAliveByRole("true_hand");
         var falseHand = _host.EnemyManager.GetAliveByRole("false_hand");
-        Check(resolver != null && trueHand != null && falseHand != null,
-            "Core Buff integration requires resolver and both hands");
-        if (resolver == null || trueHand == null || falseHand == null) return;
+        Check(battle != null && playerStats != null && trueHand != null && falseHand != null,
+            "Core runtime rules require BattleManager, player stats, and both hands");
+        if (battle == null || playerStats == null || trueHand == null || falseHand == null) return;
 
         playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+        Check(ActionId(trueHand) == "core_true_send_heal"
+            && ActionId(falseHand) == "core_false_charge",
+            $"Core round 1 must plan package/cooldown, got {ActionId(trueHand)}/{ActionId(falseHand)}");
+
+        // Round 1: both carried shields expire together before either hand
+        // acts. The package attacks cells 2-11, then deploys 12 healing stacks
+        // only after False has completed this turn.
         _host.Player.SetMapPosition(4);
-        var trueBeam = GD.Load<Resource>(
-            "res://features/enemy_ai_node/resources/actions/core_true_guard_beam.tres");
-        Check(resolver.ExecuteEnemyPatternHitEffects(trueBeam, battle, trueHand),
-            "True beam even-cell hit must execute its mounted Buff effect");
-        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "true").AsInt32() == 3,
-            "True beam must apply three True layers");
-
-        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
-        var falseBeam = GD.Load<Resource>(
-            "res://features/enemy_ai_node/resources/actions/core_false_break_beam.tres");
-        Check(resolver.ExecuteEnemyPatternHitEffects(falseBeam, battle, falseHand),
-            "False beam even-cell hit must execute its mounted Buff effect");
-        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "false").AsInt32() == 3,
-            "False beam must apply three False layers");
-
-        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
-        var disable = GD.Load<Resource>(
-            "res://features/enemy_ai_node/resources/actions/core_false_stun.tres");
-        Check(resolver.ExecuteEnemyAction(disable, battle, falseHand),
-            "Core disable action must execute through CombatEffectData");
-        resolver.ResolvePendingBuffApplications(battle);
-        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "disabled").AsInt32() == 1,
-            "Core disable action must apply one Disabled layer");
-        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
-
-        falseHand.TakeDamage(5);
-        int wounded = falseHand.CurrentHp;
-        var healPackage = GD.Load<Resource>(
-            "res://features/enemy_ai_node/resources/actions/core_true_send_heal.tres");
-        Check(resolver.HasDeferredEnemyRoleEffects(healPackage),
-            "Core heal action must expose a deferred role effect");
-        Check(resolver.ExecuteDeferredEnemyRoleEffects(healPackage, battle),
-            "Core heal package must target False hand through EffectResolver");
-        Check(falseHand.CurrentHp == wounded,
-            "deployed medkit must not heal before the recipient turn starts");
+        falseHand.TakeDamage(12);
+        trueHand.AddShield(6);
+        falseHand.AddShield(7);
+        int hpBeforePackage = _host.Player.CurrentHp;
+        battle.EndTurn();
+        await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn
+            && battle.RoundNumber == 2,
+            "Core round 1 did not resolve");
+        Check(trueHand.Shield == 0 && falseHand.Shield == 0,
+            $"enemy-turn start must clear all carried enemy shield, got True {trueHand.Shield}, False {falseHand.Shield}");
+        Check(_host.Player.CurrentHp == hpBeforePackage - 5,
+            $"Core package must deal 5 damage on cell 4, HP {hpBeforePackage} -> {_host.Player.CurrentHp}");
+        Check(falseHand.CurrentHp == 9,
+            $"deployed medkit must not heal during its deployment turn, got False HP {falseHand.CurrentHp}");
         Check(falseHand.GetStats().Call(GDScriptKeys.Stats.GetBuffStacks,
-            "deployed_medkit").AsInt32() == 5,
-            "False hand must hold a five-point deployed medkit");
-        resolver.TickActorBuffs(falseHand, battle, true);
+            "deployed_medkit").AsInt32() == 12,
+            "False hand must hold a 12-point deployed medkit after round 1");
+        Check(ActionId(trueHand) == "core_true_charge"
+            && ActionId(falseHand) == "core_false_heal",
+            $"Core round 2 must plan charge/recovery, got {ActionId(trueHand)}/{ActionId(falseHand)}");
+
+        // Round 2: False consumes the package at its own turn start. Enemy
+        // shield expiry must never clear the player's own guard.
+        _host.Player.AddShield(9);
+        battle.EndTurn();
+        await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn
+            && battle.RoundNumber == 3,
+            "Core round 2 did not resolve");
         Check(falseHand.CurrentHp == falseHand.MaxHp,
-            "deployed medkit must heal False hand at its next turn start");
+            $"12-layer medkit must heal False at its next turn start, got {falseHand.CurrentHp}/{falseHand.MaxHp}");
+        Check(falseHand.GetStats().Call(GDScriptKeys.Stats.GetBuffStacks,
+            "deployed_medkit").AsInt32() == 0,
+            "deployed medkit must be consumed after its turn-start heal");
+        Check(_host.Player.Shield == 9,
+            $"enemy-turn shield expiry must not clear player guard, got {_host.Player.Shield}");
+        int hpBeforeShieldCleanup = _host.Player.CurrentHp;
+        _host.Player.TakeDamage(9);
+        Check(_host.Player.CurrentHp == hpBeforeShieldCleanup && _host.Player.Shield == 0,
+            "test cleanup must consume only the preserved player guard");
+        Check(ActionId(trueHand) == "core_true_guard_beam"
+            && ActionId(falseHand) == "core_false_stun",
+            $"Core round 3 must plan guard beam/charge wait, got {ActionId(trueHand)}/{ActionId(falseHand)}");
+
+        // Round 3: old guard on both hands is cleared before True acts. The
+        // newly granted 25 guard on False must survive False's later action in
+        // the same enemy turn (it must not be cleared inside the actor loop).
+        _host.Player.SetMapPosition(4);
+        trueHand.AddShield(6);
+        falseHand.AddShield(7);
+        int hpBeforeGuardBeam = _host.Player.CurrentHp;
+        battle.EndTurn();
+        await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn
+            && battle.RoundNumber == 4,
+            "Core round 3 did not resolve");
+        Check(_host.Player.CurrentHp == hpBeforeGuardBeam - 7,
+            $"guard beam must deal 7 damage on even cell 4, HP {hpBeforeGuardBeam} -> {_host.Player.CurrentHp}");
+        Check(trueHand.Shield == 0 && falseHand.Shield == 25,
+            $"shared clear must remove old guard but preserve same-turn False guard 25, got True {trueHand.Shield}, False {falseHand.Shield}");
+        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "true").AsInt32() == 3,
+            "guard beam hit must apply three True layers to the player");
+        Check(trueHand.GetStats().Call(GDScriptKeys.Stats.HasBuff, "true").AsBool(),
+            "guard beam hit must leave True hand in the persistent True state");
+        Check(ActionId(trueHand) == "core_true_death_loop"
+            && ActionId(falseHand) == "core_false_charge_complete",
+            $"Core round 4 must plan death loop/charged shot, got {ActionId(trueHand)}/{ActionId(falseHand)}");
+
+        // Round 4: False's previous 25 guard expires at the shared boundary;
+        // True's newly created 15 guard remains, and cells 1-3 take 11 damage.
+        // Clear the player's prior True here so this assertion isolates the
+        // charged shot's configured base damage and False application.
+        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+        _host.Player.SetMapPosition(1);
+        int hpBeforeChargedShot = _host.Player.CurrentHp;
+        battle.EndTurn();
+        await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn
+            && battle.RoundNumber == 5,
+            "Core round 4 did not resolve");
+        Check(_host.Player.CurrentHp == hpBeforeChargedShot - 11,
+            $"charged shot must deal 11 damage on cell 1, HP {hpBeforeChargedShot} -> {_host.Player.CurrentHp}");
+        Check(trueHand.Shield == 15 && falseHand.Shield == 0,
+            $"round 4 must clear False's old guard and retain True's new 15 guard, got True {trueHand.Shield}, False {falseHand.Shield}");
+        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "false").AsInt32() == 3,
+            "charged shot hit must apply three False layers to the player");
+        Check(ActionId(trueHand) == "core_true_death_loop"
+            && ActionId(falseHand) == "core_false_break_beam",
+            $"Core round 5 must plan death loop/break beam, got {ActionId(trueHand)}/{ActionId(falseHand)}");
+
+        // Round 5: odd-cell break beam deals 25, reapplies player False, and
+        // applies False to True hand so mutual cancellation ends its loop.
+        // Clear the previously asserted player False so its incoming-damage
+        // modifier does not obscure the break beam's configured base value.
+        playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+        _host.Player.Heal(_host.Player.MaxHp);
+        _host.Player.SetMapPosition(3);
+        int hpBeforeBreakBeam = _host.Player.CurrentHp;
+        battle.EndTurn();
+        await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn
+            && battle.RoundNumber == 6,
+            "Core round 5 did not resolve");
+        Check(_host.Player.CurrentHp == hpBeforeBreakBeam - 25,
+            $"break beam must deal 25 damage on odd cell 3, HP {hpBeforeBreakBeam} -> {_host.Player.CurrentHp}");
+        Check(playerStats.Call(GDScriptKeys.Stats.GetBuffStacks, "false").AsInt32() == 3,
+            "break beam hit must apply three False layers to the player");
+        Check(!trueHand.GetStats().Call(GDScriptKeys.Stats.HasBuff, "true").AsBool()
+            && !trueHand.GetStats().Call(GDScriptKeys.Stats.HasBuff, "false").AsBool(),
+            "break beam must mutually cancel True hand's True/False markers");
+        Check(ActionId(trueHand) == "core_true_send_heal"
+            && ActionId(falseHand) == "core_false_charge",
+            $"Core round 6 must restart both cycles, got {ActionId(trueHand)}/{ActionId(falseHand)}");
+
+        // If one hand dies, its counterpart becomes passive.
+        battle.DamageEnemy(9999, falseHand);
+        battle.ReplanEnemyTurns();
+        Check(ActionId(trueHand) == "core_hand_passive",
+            $"surviving Core hand must become passive, got {ActionId(trueHand)}");
 
         playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
         _host.Player.SetMapPosition(6);

@@ -8,6 +8,7 @@ enum Shape {
 	CHARGE_PUSH_PATH,
 	DESTINATION,
 	GLOBAL_WARNING,
+	FIXED_CELLS,
 }
 
 @export_group("Shape")
@@ -17,6 +18,7 @@ enum Shape {
 @export_range(0, 1, 1) var parity: int = 0
 @export_range(0, 99, 1, "or_greater") var movement_amount: int = 0
 @export var movement_toward_player: bool = true
+@export var fixed_cells: PackedInt32Array = PackedInt32Array()
 
 @export_group("Telegraph")
 ## 0 = this enemy turn; 1 = a prepared attack on the following turn.
@@ -24,4 +26,3 @@ enum Shape {
 @export_range(0, 9, 1, "or_greater") var severity: int = 1
 @export var color: Color = Color(0.95, 0.22, 0.16, 0.72)
 @export_multiline var global_warning: String = ""
-

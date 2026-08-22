@@ -1,0 +1,87 @@
+{
+  "version": 1,
+  "assets_root": "res://anime_assets/frames",
+  "output_root": "res://anime/generated",
+  "actors": [
+	{
+	  "id": "player",
+	  "clips": [
+		{"name": "idle", "folder": "player/idle", "fps": 24.0, "loop": true},
+		{"name": "move_forward", "folder": "player/move_forward", "fps": 60.0, "loop": false},
+		{"name": "move_backward", "folder": "player/move_backward", "fps": 60.0, "loop": false},
+		{"name": "attack", "folder": "player/move_forward", "fps": 60.0, "loop": false},
+		{"name": "hurt", "folder": "player/move_backward", "fps": 60.0, "loop": false},
+		{"name": "buff", "folder": "player/idle", "fps": 60.0, "loop": false},
+		{"name": "death", "folder": "player/death", "fps": 30.0, "loop": false},
+		{"name": "heal", "folder": "player/heal", "fps": 48.0, "loop": false},
+		{"name": "defend", "folder": "player/defend", "fps": 48.0, "loop": false}
+	  ]
+	},
+	{
+	  "id": "boom",
+	  "clips": [
+		{"name": "idle", "folder": "boom/idle", "fps": 24.0, "loop": true},
+		{"name": "move_forward", "folder": "boom/move_forward", "fps": 60.0, "loop": false},
+		{"name": "attack", "folder": "boom/attack", "fps": 72.0, "loop": false},
+		{"name": "hurt", "folder": "boom/hurt", "fps": 60.0, "loop": false},
+		{"name": "death", "folder": "boom/death", "fps": 30.0, "loop": false}
+	  ]
+	},
+	{
+	  "id": "rocky",
+	  "clips": [
+		{"name": "idle", "folder": "rocky/idle", "fps": 24.0, "loop": true},
+		{"name": "move_forward", "folder": "rocky/move_forward", "fps": 60.0, "loop": false},
+		{"name": "retreat", "folder": "rocky/retreat", "fps": 60.0, "loop": false},
+		{"name": "attack_mid", "folder": "rocky/attack_mid", "fps": 60.0, "loop": false},
+		{"name": "attack_close", "folder": "rocky/attack_close", "fps": 60.0, "loop": false},
+		{"name": "defend", "folder": "rocky/defend", "fps": 48.0, "loop": false},
+		{"name": "hurt", "folder": "rocky/hurt", "fps": 60.0, "loop": false},
+		{"name": "death", "folder": "rocky/death", "fps": 30.0, "loop": false}
+	  ]
+	},
+	{
+	  "id": "sharkk",
+	  "clips": [
+		{"name": "idle", "folder": "sharkk/idle", "fps": 24.0, "loop": true},
+		{"name": "move_forward", "folder": "sharkk/move_forward", "fps": 60.0, "loop": false},
+		{"name": "attack", "folder": "sharkk/attack", "fps": 60.0, "loop": false},
+		{"name": "charge_prepare", "folder": "sharkk/charge_prepare", "fps": 48.0, "loop": false},
+		{"name": "charge", "folder": "sharkk/charge", "fps": 72.0, "loop": false},
+		{"name": "sand_retreat", "folder": "sharkk/sand_retreat", "fps": 60.0, "loop": false},
+		{"name": "stunned", "folder": "sharkk/stunned", "fps": 24.0, "loop": false},
+		{"name": "hurt", "folder": "sharkk/hurt", "fps": 60.0, "loop": false},
+		{"name": "death", "folder": "sharkk/death", "fps": 30.0, "loop": false}
+	  ]
+	},
+	{
+	  "id": "core_hand",
+	  "clips": [
+		{"name": "enter_left", "folder": "core_hand/enter_left", "fps": 48.0, "loop": false},
+		{"name": "enter_right", "folder": "core_hand/enter_right", "fps": 48.0, "loop": false},
+		{"name": "idle_1", "folder": "core_hand/idle_1", "fps": 24.0, "loop": true},
+		{"name": "idle_2", "folder": "core_hand/idle_2", "fps": 24.0, "loop": true},
+		{"name": "hurt", "folder": "core_hand/hurt", "fps": 60.0, "loop": false},
+		{"name": "heal_snap", "folder": "core_hand/heal_snap", "fps": 96.0, "loop": false},
+		{"name": "finger_flick", "folder": "core_hand/finger_flick", "fps": 96.0, "loop": false},
+		{"name": "heavy_punch", "folder": "core_hand/heavy_punch", "fps": 96.0, "loop": false},
+		{"name": "death", "folder": "core_hand/death", "fps": 48.0, "loop": false}
+	  ]
+	},
+	{
+	  "id": "core_body",
+	  "clips": [
+		{"name": "idle", "folder": "core_body/idle", "fps": 24.0, "loop": true},
+		{"name": "move_forward", "folder": "core_body/move_forward", "fps": 60.0, "loop": false},
+		{"name": "retreat", "folder": "core_body/retreat", "fps": 60.0, "loop": false},
+		{"name": "sniper", "folder": "core_body/sniper", "fps": 60.0, "loop": false},
+		{"name": "attack_close", "folder": "core_body/attack_close", "fps": 60.0, "loop": false},
+		{"name": "pulse_3", "folder": "core_body/pulse_3", "fps": 72.0, "loop": false},
+		{"name": "teleport_guard", "folder": "core_body/teleport_guard", "fps": 60.0, "loop": false},
+		{"name": "jam_cast", "folder": "core_body/jam_cast", "fps": 48.0, "loop": false},
+		{"name": "hurt", "folder": "core_body/hurt", "fps": 60.0, "loop": false},
+		{"name": "death", "folder": "core_body/death", "fps": 30.0, "loop": false}
+	  ]
+	}
+  ]
+}

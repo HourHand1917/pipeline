@@ -166,6 +166,9 @@ public static class GDScriptKeys
         public static readonly StringName MaxRange = "max_range";
         public static readonly StringName Effects = "effects";
         public static readonly StringName PatternHitEffects = "pattern_hit_effects";
+        public static readonly StringName PatternParity = "pattern_parity";
+        public static readonly StringName FixedTargetCells = "fixed_target_cells";
+        public static readonly StringName PatternHitRoleEffects = "pattern_hit_role_effects";
         public static readonly StringName DeferredRoleEffects = "deferred_role_effects";
         public static readonly StringName Priority = "priority";
         public static readonly StringName Tags = "tags";
