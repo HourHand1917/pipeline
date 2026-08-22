@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_resolver"]
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_battle"]
 [ext_resource type="PackedScene" uid="uid://q1ojg1hovxf7" path="res://Scenes/game_scene/battlescreen.tscn" id="5_screen"]
-[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="7_card"]
+[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/cards/revolver.tres" id="7_card"]
 [ext_resource type="PackedScene" path="res://anime/scenes/battle_animation_display.tscn" id="8_display"]
 [ext_resource type="PackedScene" path="res://anime/scenes/components/animation_trackslot.tscn" id="9_slot"]
 
