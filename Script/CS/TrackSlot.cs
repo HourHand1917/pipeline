@@ -10,6 +10,7 @@ public partial class TrackSlot : PanelContainer
     [Export] private AnimatedSprite2D animatedSprite;
     [Export] private Label glyphLabel;
     [Export] private Label slotLabel;
+    [Export] private Label dangerLabel;
 
     public int CellNumber { get; private set; }
     public GodotObject OccupantRef { get; private set; }
@@ -54,25 +55,36 @@ public partial class TrackSlot : PanelContainer
     private void ApplyPredictionVisual()
     {
         EnsureStyles();
+        slotLabel.Text = $"{CellNumber}";
+        slotLabel.Modulate = new Color("#a8bdc1");
+        if (dangerLabel != null)
+            dangerLabel.Visible = _isDanger || _isFutureDanger;
+
         if (_isDanger)
         {
             AddThemeStyleboxOverride("panel", _dangerStyle);
-            slotLabel.Text = $"{CellNumber}\n⚠ 危险";
-            slotLabel.Modulate = Colors.White;
+            if (dangerLabel != null)
+            {
+                dangerLabel.Text = "⚠ 危险";
+                dangerLabel.Modulate = Colors.White;
+            }
             TooltipText = "危险：敌人下回合会攻击这里";
         }
         else if (_isFutureDanger)
         {
             AddThemeStyleboxOverride("panel", _warningStyle);
-            slotLabel.Text = $"{CellNumber}\n◇ 预警";
-            slotLabel.Modulate = new Color("#ffe8a0");
+            if (dangerLabel != null)
+            {
+                dangerLabel.Text = "◇ 预警";
+                dangerLabel.Modulate = new Color("#ffe8a0");
+            }
             TooltipText = "预警：敌人正在准备覆盖这里";
         }
         else
         {
             AddThemeStyleboxOverride("panel", _normalStyle);
-            slotLabel.Text = $"{CellNumber}";
-            slotLabel.Modulate = new Color("#a8bdc1");
+            if (dangerLabel != null)
+                dangerLabel.Text = "";
             TooltipText = "";
         }
         SelfModulate = Colors.White;

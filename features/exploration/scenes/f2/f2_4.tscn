@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://b77bjm7uttxkl"]
 
+[ext_resource type="SpriteFrames" path="res://anime/generated/sharkk_frames.tres" id="40_sharkk_frames"]
+
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_bomua"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
@@ -47,6 +49,51 @@ position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("4_bomua")
 
+<<<<<<< Updated upstream
+=======
+[node name="Sharkk" type="Area2D" parent="MapLayer" node_paths=PackedStringArray("Hud", "_blink")]
+position = Vector2(1240, 500)
+script = ExtResource("30_npc")
+BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
+BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
+PlayerLevelAfterVictory = 2
+ReturnSpawnId = &"f2_4_sharkk_return"
+AggroRadius = 100.0
+BattleMusic = ExtResource("34_music")
+Loot = SubResource("Resource_sharkk_loot")
+Hud = NodePath("../../UILayer/HUD")
+NpcName = "Sharkk"
+PersistenceId = "enemy_sharkk_f2_4"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="MapLayer/Sharkk"]
+position = Vector2(0, -110)
+scale = Vector2(0.22, 0.22)
+sprite_frames = ExtResource("40_sharkk_frames")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Sharkk"]
+shape = SubResource("RectangleShape2D_sharkk_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Sharkk"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Sharkk/ClickZone"]
+shape = SubResource("RectangleShape2D_sharkk_click")
+
+[node name="Blink" type="Node" parent="MapLayer/Sharkk" node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("32_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="ReturnSpawn" type="Node2D" parent="MapLayer/Sharkk"]
+position = Vector2(-9, 12)
+script = ExtResource("2_spawn")
+SpawnId = &"f2_4_sharkk_return"
+
+>>>>>>> Stashed changes
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1291970118]
 position = Vector2(-150, 450)
 script = ExtResource("4_edge")

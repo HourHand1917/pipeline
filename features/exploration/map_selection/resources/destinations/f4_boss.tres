@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MapDestinationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/map_selection/scripts/MapDestinationData.cs" id="1_dest"]
+
+[resource]
+script = ExtResource("1_dest")
+Title = "首领隔离区"
+Description = "直接前往首领区域。这里没有安全的退路，请在装备与补给充足后再确认出发。"
+Category = 4
+RewardHint = "关键工件、首领战利品"
+Risk = 3
+MapId = &"f4"
+SpawnId = &"f4entry"
+Unlocked = true
+RequiredPlayerLevel = 3
+LockedHint = "击败前置首领后开放"

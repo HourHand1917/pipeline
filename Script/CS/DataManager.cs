@@ -34,7 +34,7 @@ public partial class DataManager : Node
     public int Faucet { get; private set; } = 0;
 
     // ============ 等级 ============
-    public int Lv { get; private set; } = 1;
+    public int Lv { get; private set; } = 0;
 
     // ============ 血量（探索/战斗间继承） ============
     public int PlayerHp { get; private set; } = 30;
@@ -276,9 +276,23 @@ public partial class DataManager : Node
     public void AddLevel(int amount)
     {
         Lv += amount;
-        if (Lv < 1) Lv = 1;
+        if (Lv < 0) Lv = 0;
         EmitSignal(SignalName.LevelChanged, Lv);
         GD.Print($"等级变化：{(amount >= 0 ? "+" : "")}{amount}，当前等级 {Lv}");
+    }
+
+    /// <summary>
+    /// Story rewards are checkpoints rather than additive XP. Replaying a scene
+    /// can never grant the same level twice or lower an already higher level.
+    /// </summary>
+    public bool SetLevelAtLeast(int level)
+    {
+        int target = Mathf.Max(0, level);
+        if (target <= Lv) return false;
+        Lv = target;
+        EmitSignal(SignalName.LevelChanged, Lv);
+        GD.Print($"剧情等级到达 {Lv}");
+        return true;
     }
 
     // ================================================================

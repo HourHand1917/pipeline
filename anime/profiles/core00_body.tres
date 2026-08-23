@@ -1,0 +1,38 @@
+[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/core_body_frames.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+profile_id = &"core00_body"
+enemy_ids = PackedStringArray("core00_body")
+roles = PackedStringArray("body")
+sprite_frames = ExtResource("2")
+move_backward_animation = &"retreat"
+action_animations = {
+&"core_body_advance_1": &"move_forward",
+&"core_body_advance_2": &"move_forward",
+&"core_body_advance_3": &"move_forward",
+&"core_body_sniper": &"sniper",
+&"core_body_gunstock": &"attack_close",
+&"core_body_pulse": &"pulse_3",
+&"core_body_teleport_guard": &"teleport_guard",
+&"core_body_jam": &"jam_cast",
+&"core_body_reposition": &"retreat",
+&"trained_core_body_advance_1": &"move_forward",
+&"trained_core_body_advance_2": &"move_forward",
+&"trained_core_body_advance_3": &"move_forward",
+&"trained_core_body_sniper": &"sniper",
+&"trained_core_body_gunstock": &"attack_close",
+&"trained_core_body_pulse": &"pulse_3",
+&"trained_core_body_teleport_guard": &"teleport_guard",
+&"trained_core_body_disable": &"jam_cast"
+}
+action_animation_sequences = {
+&"core_body_teleport_guard": PackedStringArray("jam_cast", "move_backward"),
+&"trained_core_body_teleport_guard": PackedStringArray("jam_cast", "move_backward")
+}
+target_visual_height = 136.0
+visual_scale = Vector2(1, 1)
+visual_offset = Vector2(0, -70)

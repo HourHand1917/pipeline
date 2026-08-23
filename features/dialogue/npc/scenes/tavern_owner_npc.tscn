@@ -1,0 +1,57 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/TavernOwnerNPC.cs" id="1_npc"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/characters/酒吧老板.dch" id="2_owner"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/tavern_purchase_state.gd" id="6_state"]
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/hard_bone.tres" id="8_hard_bone"]
+
+[sub_resource type="CircleShape2D" id="CircleDetection"]
+radius = 240.0
+
+[sub_resource type="RectangleShape2D" id="RectangleClick"]
+size = Vector2(150, 190)
+
+[node name="TavernOwnerNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+script = ExtResource("1_npc")
+NpcName = "酒吧老板"
+DialogueCharacter = ExtResource("2_owner")
+PlayerDialogueCharacter = ExtResource("3_rubber")
+AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
+DialogueBubbleOffset = Vector2(0, -150)
+PlayerDialogueBubbleOffset = Vector2(0, -160)
+DialogueAnimationPlayer = NodePath("AnimationPlayer")
+DisplayName = "酒吧老板"
+PersistenceId = "tavern_owner_dialogue"
+_blink = NodePath("Blink")
+HardBoneItem = ExtResource("8_hard_bone")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+modulate = Color(0.86, 0.66, 0.32, 1)
+position = Vector2(0, -68)
+scale = Vector2(0.58, 0.58)
+texture = ExtResource("5_placeholder")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleDetection")
+
+[node name="ClickZone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+position = Vector2(0, -55)
+shape = SubResource("RectangleClick")
+
+[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("7_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="TavernPurchaseState" type="Node" parent="."]
+script = ExtResource("6_state")

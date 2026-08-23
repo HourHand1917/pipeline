@@ -16,6 +16,15 @@ public partial class HostileNPC : NPCBase
     [Export] public StringName ReturnSpawnId { get; set; } = "";
     /// <summary>自动触发战斗的距离阈值</summary>
     [Export] public float AggroRadius { get; set; } = 80.0f;
+<<<<<<< Updated upstream
+=======
+    /// <summary>离开地图再回来会复活（不永久战败）；对话进度仍会持久化。</summary>
+    [Export] public bool RespawnOnReturn { get; set; } = false;
+    [ExportGroup("触发与剧情")]
+    [Export] public bool AutoTriggerByRange { get; set; } = true;
+    [Export] public bool AutoStartBattleAfterDialogue { get; set; } = true;
+    [Export(PropertyHint.Range, "-1,99,1")] public int PlayerLevelAfterVictory { get; set; } = -1;
+>>>>>>> Stashed changes
 
     [ExportGroup("音乐")]
 [Export] public AudioStream BattleMusic { get; set; }
@@ -32,6 +41,21 @@ public partial class HostileNPC : NPCBase
 
     public override void _PhysicsProcess(double delta)
     {
+<<<<<<< Updated upstream
+=======
+        if (!AutoTriggerByRange)
+            return;
+        if (_awaitingAggroExitAfterCancel)
+        {
+            if (!IsPlayerInRange)
+            {
+                _awaitingAggroExitAfterCancel = false;
+                _triggered = false;
+            }
+            return;
+        }
+
+>>>>>>> Stashed changes
         if (_triggered || _defeated || !IsPlayerInRange)
             return;
 
@@ -44,6 +68,41 @@ public partial class HostileNPC : NPCBase
         // 敌对 NPC 不响应点击，靠近即触发
     }
 
+<<<<<<< Updated upstream
+=======
+    protected override void OnDialogueCompleted()
+    {
+        if (!AutoStartBattleAfterDialogue)
+        {
+            _battleAfterDialogue = false;
+            _introPlayed = true;
+            PersistInteraction(_mapId);
+            return;
+        }
+        if (_battleAfterDialogue && !_defeated)
+        {
+            _battleAfterDialogue = false;
+            _introPlayed = true;
+            PersistInteraction(_mapId); // 保存对话进度
+            TriggerBattle();
+        }
+    }
+
+    protected override void OnDialogueCancelled()
+    {
+        _battleAfterDialogue = false;
+        // 敌人是自动触发；若立刻清 _triggered，玩家仍在范围内时下一物理帧
+        // 会把刚关闭的对话重新打开。必须先离开警戒范围，之后才能再次触发。
+        _awaitingAggroExitAfterCancel = true;
+    }
+
+    // 没有尸体，无需持久化剩余战利品或刷新尸体视觉。
+    public void OnLootClaimed() { }
+
+    // 没有尸体可回头补领：关闭战利品页时把没领完的全自动收进背包。
+    public bool AutoClaimRemainderOnClose => true;
+
+>>>>>>> Stashed changes
     private void TriggerBattle()
     {
         if (string.IsNullOrEmpty(BattleRulesPath))
@@ -53,12 +112,28 @@ public partial class HostileNPC : NPCBase
         }
 
         if (BattleMusic != null)
+<<<<<<< Updated upstream
     {
         var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
         audio?.PlayMusicWithFade(BattleMusic);
     }
     
         BattleDirector.Instance?.StartBattle(BattleScenePath, BattleRulesPath, PersistenceId, _mapId, ReturnSpawnId);
+=======
+        {
+            var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+            audio?.PlayMusicWithFade(BattleMusic);
+        }
+
+        BattleDirector.Instance?.StartBattle(
+            BattleScenePath,
+            BattleRulesPath,
+            PersistenceId,
+            _mapId,
+            ReturnSpawnId,
+            this,
+            PlayerLevelAfterVictory);
+>>>>>>> Stashed changes
     }
 
     // ================================================================

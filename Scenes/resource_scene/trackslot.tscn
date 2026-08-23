@@ -4,13 +4,14 @@
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_mf0wf"]
 
-[node name="trackslot" type="PanelContainer" unique_id=1999530165 node_paths=PackedStringArray("occupant", "animatedSprite", "glyphLabel", "slotLabel")]
+[node name="trackslot" type="PanelContainer" unique_id=1999530165 node_paths=PackedStringArray("occupant", "animatedSprite", "glyphLabel", "slotLabel", "dangerLabel")]
 custom_minimum_size = Vector2(144, 144)
 script = ExtResource("1_ryyaf")
 occupant = NodePath("Vbox/occupant")
 animatedSprite = NodePath("Vbox/occupant/animatedsprite")
 glyphLabel = NodePath("Vbox/occupant/glyphlabel")
 slotLabel = NodePath("Vbox/slotlabel")
+dangerLabel = NodePath("DangerLabel")
 
 [node name="Vbox" type="VBoxContainer" parent="." unique_id=508496084]
 layout_mode = 2
@@ -35,3 +36,19 @@ vertical_alignment = 1
 [node name="slotlabel" type="Label" parent="Vbox" unique_id=229158132]
 layout_mode = 2
 horizontal_alignment = 1
+
+[node name="DangerLabel" type="Label" parent="."]
+visible = false
+z_index = 20
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 4.0
+offset_bottom = 31.0
+grow_horizontal = 2
+mouse_filter = 2
+theme_override_colors/font_outline_color = Color(0.08, 0.02, 0.02, 1)
+theme_override_constants/outline_size = 5
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1

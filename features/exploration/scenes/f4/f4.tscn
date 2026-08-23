@@ -11,6 +11,14 @@
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_23vsp"]
 [ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="9_syxpf"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="10_0cwr6"]
+<<<<<<< Updated upstream
+=======
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" path="res://features/exploration/f4_sequence/F4BossSequence.cs" id="21_sequence"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/core_hand_frames.tres" id="22_core_frames"]
+[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/code00_prebattle_npc.tscn" id="23_code_dialogue"]
+[ext_resource type="VideoStream" path="res://features/exploration/f4_sequence/assets/core00_phase1_intro_no_subtitles.ogv" id="24_phase1_intro"]
+>>>>>>> Stashed changes
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nqeu"]
 radius = 120.0
@@ -47,7 +55,7 @@ scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_bg")
 
 [node name="Player" parent="." unique_id=1793969317 instance=ExtResource("5_player")]
-position = Vector2(3200, 530)
+position = Vector2(150, 530)
 
 [node name="InputRouter" type="Node" parent="." unique_id=1123736394]
 script = ExtResource("6_input")
@@ -57,6 +65,7 @@ script = ExtResource("6_input")
 [node name="HUD" parent="UILayer" unique_id=1501444498 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658
 
+<<<<<<< Updated upstream
 [node name="Boom" type="Area2D" parent="." unique_id=654666680 node_paths=PackedStringArray("_blink")]
 position = Vector2(3596, 438)
 script = ExtResource("7_s2o3l")
@@ -64,31 +73,68 @@ BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
 ReturnSpawnId = &"sharrk"
 AggroRadius = 100.0
+=======
+[node name="f4_core_return" type="Node2D" parent="."]
+position = Vector2(3200, 530)
+script = ExtResource("2_spawn")
+SpawnId = &"f4_core_return"
+
+[node name="Core00Encounter" type="Area2D" parent="." node_paths=PackedStringArray("Player", "LeftStageActor", "RightStageActor", "PhaseOneIntroVideo", "ForcedDialogueNpc")]
+position = Vector2(3200, 530)
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("21_sequence")
+Player = NodePath("../Player")
+LeftStageActor = NodePath("LeftStageActor")
+RightStageActor = NodePath("RightStageActor")
+PhaseOneIntroVideo = NodePath("PhaseOneIntroLayer/PhaseOneIntroVideo")
+ForcedDialogueNpc = NodePath("Code00Dialogue")
+>>>>>>> Stashed changes
 BattleMusic = ExtResource("8_23vsp")
-NpcName = "Boom"
-PersistenceId = "enemy_boom_f1_1"
-_blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="Boom" unique_id=1814432796]
-modulate = Color(0.92, 0.37, 0.25, 1)
-texture = ExtResource("9_syxpf")
-
-[node name="DetectionRange" type="CollisionShape2D" parent="Boom" unique_id=410469157]
+[node name="Trigger" type="CollisionShape2D" parent="Core00Encounter"]
 shape = SubResource("CircleShape2D_2nqeu")
 
-[node name="ClickZone" type="Area2D" parent="Boom" unique_id=2072368548]
-collision_layer = 2
-collision_mask = 0
+[node name="LeftStageActor" type="AnimatedSprite2D" parent="Core00Encounter"]
+visible = false
+z_index = 1
+position = Vector2(-270, -170)
+scale = Vector2(0.27, 0.27)
+sprite_frames = ExtResource("22_core_frames")
+animation = &"enter_left"
 
-[node name="ClickShape" type="CollisionShape2D" parent="Boom/ClickZone" unique_id=315292968]
-shape = SubResource("CircleShape2D_3ux7p")
+[node name="RightStageActor" type="AnimatedSprite2D" parent="Core00Encounter"]
+visible = false
+z_index = 1
+position = Vector2(270, -170)
+scale = Vector2(0.27, 0.27)
+sprite_frames = ExtResource("22_core_frames")
+animation = &"enter_right"
 
-[node name="Blink" type="Node" parent="Boom" unique_id=22375298 node_paths=PackedStringArray("_sprite", "_clickZone")]
-script = ExtResource("10_0cwr6")
-_sprite = NodePath("../Sprite")
-_clickZone = NodePath("../ClickZone")
+[node name="PhaseOneIntroLayer" type="CanvasLayer" parent="Core00Encounter"]
+layer = 90
 
-[node name="ReturnSpawn" type="Node2D" parent="Boom" unique_id=218581825]
-position = Vector2(-9, 12)
-script = ExtResource("2_spawn")
-SpawnId = &"boom_return"
+[node name="PhaseOneIntroVideo" type="VideoStreamPlayer" parent="Core00Encounter/PhaseOneIntroLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+stream = ExtResource("24_phase1_intro")
+expand = true
+
+[node name="Code00Dialogue" parent="Core00Encounter" instance=ExtResource("23_code_dialogue")]
+AutoTriggerByRange = false
+AutoStartBattleAfterDialogue = false
+AllowEscapeToExitDialogue = false
+
+[node name="Sprite" parent="Core00Encounter/Code00Dialogue"]
+visible = false
+
+[node name="DetectionRange" parent="Core00Encounter/Code00Dialogue"]
+disabled = true
+
+[node name="ClickShape" parent="Core00Encounter/Code00Dialogue/ClickZone"]
+disabled = true

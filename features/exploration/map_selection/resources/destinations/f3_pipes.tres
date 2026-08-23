@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MapDestinationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/map_selection/scripts/MapDestinationData.cs" id="1_dest"]
+
+[resource]
+script = ExtResource("1_dest")
+Title = "无人赌场"
+Description = "前往无人赌场。这里仍在运转，但每一次选择都带着风险。"
+Category = 2
+RewardHint = "筹码、稀有道具"
+Risk = 2
+MapId = &"f3_0"
+SpawnId = &"f3_0left"
+Unlocked = true
+RequiredPlayerLevel = 2
+LockedHint = "完成前置调查后开放"

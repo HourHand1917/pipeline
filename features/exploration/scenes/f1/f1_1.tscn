@@ -1,5 +1,7 @@
 [gd_scene format=3 uid="uid://b8pya2osaixgn"]
 
+[ext_resource type="SpriteFrames" path="res://anime/generated/boom_frames.tres" id="40_boom_frames"]
+
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_o77cp"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_h6566"]
 [ext_resource type="Texture2D" uid="uid://iwodhdmb12kc" path="res://features/exploration/art_assets/maps/f1/教程-1-背景.png" id="3_o77cp"]
@@ -109,9 +111,18 @@ NpcName = "Boom"
 PersistenceId = "enemy_boom_f1_1"
 _blink = NodePath("Blink")
 
+<<<<<<< Updated upstream
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Boom" unique_id=839715324]
 modulate = Color(0.92, 0.37, 0.25, 1)
 texture = ExtResource("12_boom_sprite")
+=======
+[node name="Sprite" type="AnimatedSprite2D" parent="MapLayer/Boom" unique_id=2113276543]
+position = Vector2(0, -110)
+scale = Vector2(0.22, 0.22)
+sprite_frames = ExtResource("40_boom_frames")
+animation = &"idle"
+autoplay = "idle"
+>>>>>>> Stashed changes
 
 [node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Boom" unique_id=1024237462]
 shape = SubResource("CircleShape2D_chest_detect")

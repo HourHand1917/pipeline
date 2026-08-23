@@ -1,0 +1,68 @@
+[gd_scene load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedHostileNPC.cs" id="1_npc"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/characters/Rocky.dch" id="2_rocky"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
+[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="5_mousy"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="6_placeholder"]
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="8_spawn"]
+
+[sub_resource type="CircleShape2D" id="CircleDetection"]
+radius = 110.0
+
+[sub_resource type="RectangleShape2D" id="RectangleClick"]
+size = Vector2(170, 200)
+
+[node name="RockyPrebattleNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+script = ExtResource("1_npc")
+DefaultTimelinePath = "res://features/dialogue/npc/timelines/Rocky战前.dtl"
+DialogicCharacterIdentifier = &"Rocky"
+BattleScenePath = "res://Scenes/game_scene/rocky_battle_scene.tscn"
+BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
+PlayerLevelAfterVictory = 1
+ReturnSpawnId = &"RockyReturnSpawn"
+AggroRadius = 110.0
+NpcName = "Rocky"
+DialogueCharacter = ExtResource("2_rocky")
+PlayerDialogueCharacter = ExtResource("3_rubber")
+AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
+ExtraDialogicCharacterIdentifiers = ["鼠鼠"]
+ExtraDialogicCharacters = Array[Resource]([ExtResource("5_mousy")])
+DialogueBubbleOffset = Vector2(0, -165)
+PlayerDialogueBubbleOffset = Vector2(0, -160)
+DialogueAnimationPlayer = NodePath("AnimationPlayer")
+DisplayName = "Rocky（战前对话）"
+PersistenceId = "enemy_rocky_dialogue"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -110)
+scale = Vector2(0.22, 0.22)
+sprite_frames = ExtResource("6_placeholder")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="DetectionRange" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleDetection")
+
+[node name="ClickZone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+position = Vector2(0, -65)
+shape = SubResource("RectangleClick")
+
+[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("7_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="ReturnSpawn" type="Node2D" parent="."]
+position = Vector2(-90, 0)
+script = ExtResource("8_spawn")
+SpawnId = &"RockyReturnSpawn"

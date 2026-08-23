@@ -1,0 +1,305 @@
+[gd_scene load_steps=29 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/map_selection/front_view_ui/scripts/FrontMapPresenter.cs" id="1_presenter"]
+[ext_resource type="Script" path="res://features/exploration/map_selection/front_view_ui/scripts/FrontMapChoice.cs" id="2_choice"]
+[ext_resource type="Script" path="res://features/exploration/map_selection/front_view_ui/scripts/PaintedImageButton.cs" id="3_button"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/BackgroundBoard_1920x1080.png" id="4_board"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Boss_Selected.png" id="5_boss_s"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Boss_Unselected.png" id="6_boss_u"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Casino_Selected.png" id="7_casino_s"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Casino_Unselected.png" id="8_casino_u"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Market_Selected.png" id="9_market_s"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Market_Unselected.png" id="10_market_u"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Pipe_Selected.png" id="11_pipe_s"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Pipe_Unselected.png" id="12_pipe_u"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Wasteland_Selected.png" id="13_waste_s"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/maps/Map_Wasteland_Unselected.png" id="14_waste_u"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/buttons/Button_Close_Normal.png" id="15_close_n"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/buttons/Button_Close_Pressed.png" id="16_close_p"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/buttons/Button_Confirm_Normal.png" id="17_confirm_n"]
+[ext_resource type="Texture2D" path="res://features/exploration/map_selection/front_view_ui/assets/buttons/Button_Confirm_Pressed.png" id="18_confirm_p"]
+
+[sub_resource type="AtlasTexture" id="Atlas_boss_s"]
+atlas = ExtResource("5_boss_s")
+region = Rect2(45, 230, 755, 465)
+
+[sub_resource type="AtlasTexture" id="Atlas_boss_u"]
+atlas = ExtResource("6_boss_u")
+region = Rect2(45, 230, 755, 465)
+
+[sub_resource type="AtlasTexture" id="Atlas_casino_s"]
+atlas = ExtResource("7_casino_s")
+region = Rect2(25, 210, 840, 440)
+
+[sub_resource type="AtlasTexture" id="Atlas_casino_u"]
+atlas = ExtResource("8_casino_u")
+region = Rect2(25, 210, 840, 440)
+
+[sub_resource type="AtlasTexture" id="Atlas_market_s"]
+atlas = ExtResource("9_market_s")
+region = Rect2(0, 282, 830, 370)
+
+[sub_resource type="AtlasTexture" id="Atlas_market_u"]
+atlas = ExtResource("10_market_u")
+region = Rect2(0, 282, 830, 370)
+
+[sub_resource type="AtlasTexture" id="Atlas_pipe_s"]
+atlas = ExtResource("11_pipe_s")
+region = Rect2(20, 100, 1050, 515)
+
+[sub_resource type="AtlasTexture" id="Atlas_pipe_u"]
+atlas = ExtResource("12_pipe_u")
+region = Rect2(20, 100, 1050, 515)
+
+[sub_resource type="AtlasTexture" id="Atlas_waste_s"]
+atlas = ExtResource("13_waste_s")
+region = Rect2(10, 112, 1065, 475)
+
+[sub_resource type="AtlasTexture" id="Atlas_waste_u"]
+atlas = ExtResource("14_waste_u")
+region = Rect2(10, 112, 1065, 475)
+
+[node name="FrontViewVisualLayer" type="Control" node_paths=PackedStringArray("_owner", "_designCanvas", "_entranceLayer", "_bossChoice", "_casinoChoice", "_marketChoice", "_pipeChoice", "_wastelandChoice", "_confirmButton", "_closeButton")]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_presenter")
+_owner = NodePath("..")
+_designCanvas = NodePath("DesignCanvas")
+_entranceLayer = NodePath("DesignCanvas/EntranceLayer")
+_bossChoice = NodePath("DesignCanvas/EntranceLayer/Boss")
+_casinoChoice = NodePath("DesignCanvas/EntranceLayer/Casino")
+_marketChoice = NodePath("DesignCanvas/EntranceLayer/Market")
+_pipeChoice = NodePath("")
+_wastelandChoice = NodePath("DesignCanvas/EntranceLayer/Wasteland")
+_confirmButton = NodePath("DesignCanvas/EntranceLayer/ConfirmButton")
+_closeButton = NodePath("DesignCanvas/EntranceLayer/CloseButton")
+
+[node name="DesignCanvas" type="Control" parent="."]
+layout_mode = 0
+offset_left = -240.0
+offset_right = 1680.0
+offset_bottom = 1080.0
+mouse_filter = 1
+
+[node name="EntranceLayer" type="Control" parent="DesignCanvas"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="BackgroundBoard" type="TextureRect" parent="DesignCanvas/EntranceLayer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_board")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Boss" type="Button" parent="DesignCanvas/EntranceLayer" node_paths=PackedStringArray("_art")]
+layout_mode = 0
+offset_left = 750.0
+offset_top = 82.0
+offset_right = 1170.0
+offset_bottom = 292.0
+focus_mode = 1
+mouse_default_cursor_shape = 2
+flat = true
+script = ExtResource("2_choice")
+DestinationMapId = &"f4"
+LockedDisplayName = "首领区域"
+_art = NodePath("Art")
+_selectedTexture = SubResource("Atlas_boss_s")
+_unselectedTexture = SubResource("Atlas_boss_u")
+
+[node name="Art" type="TextureRect" parent="DesignCanvas/EntranceLayer/Boss"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("Atlas_boss_u")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Casino" type="Button" parent="DesignCanvas/EntranceLayer" node_paths=PackedStringArray("_art")]
+layout_mode = 0
+offset_left = 765.0
+offset_top = 294.0
+offset_right = 1155.0
+offset_bottom = 464.0
+focus_mode = 1
+mouse_default_cursor_shape = 2
+flat = true
+script = ExtResource("2_choice")
+DestinationMapId = &"f3_0"
+LockedDisplayName = "无人赌场"
+_art = NodePath("Art")
+_selectedTexture = SubResource("Atlas_casino_s")
+_unselectedTexture = SubResource("Atlas_casino_u")
+
+[node name="Art" type="TextureRect" parent="DesignCanvas/EntranceLayer/Casino"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("Atlas_casino_u")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Market" type="Button" parent="DesignCanvas/EntranceLayer" node_paths=PackedStringArray("_art")]
+layout_mode = 0
+offset_left = 730.0
+offset_top = 482.0
+offset_right = 1190.0
+offset_bottom = 657.0
+focus_mode = 1
+mouse_default_cursor_shape = 2
+flat = true
+script = ExtResource("2_choice")
+DestinationMapId = &"f2_1"
+LockedDisplayName = "下层市集"
+_art = NodePath("Art")
+_selectedTexture = SubResource("Atlas_market_s")
+_unselectedTexture = SubResource("Atlas_market_u")
+_selectedScale = 1.055
+
+[node name="Art" type="TextureRect" parent="DesignCanvas/EntranceLayer/Market"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("Atlas_market_u")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Pipe" type="Button" parent="DesignCanvas/EntranceLayer" node_paths=PackedStringArray("_art")]
+visible = false
+layout_mode = 0
+offset_left = 760.0
+offset_top = 676.0
+offset_right = 1160.0
+offset_bottom = 837.0
+focus_mode = 0
+mouse_filter = 2
+mouse_default_cursor_shape = 2
+flat = true
+script = ExtResource("2_choice")
+DestinationMapId = &"f3_0"
+LockedDisplayName = "管道区"
+_art = NodePath("Art")
+_selectedTexture = SubResource("Atlas_pipe_s")
+_unselectedTexture = SubResource("Atlas_pipe_u")
+
+[node name="Art" type="TextureRect" parent="DesignCanvas/EntranceLayer/Pipe"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("Atlas_pipe_u")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="Wasteland" type="Button" parent="DesignCanvas/EntranceLayer" node_paths=PackedStringArray("_art")]
+layout_mode = 0
+offset_left = 760.0
+offset_top = 850.0
+offset_right = 1160.0
+offset_bottom = 1006.0
+focus_mode = 1
+mouse_default_cursor_shape = 2
+flat = true
+script = ExtResource("2_choice")
+DestinationMapId = &"f1_0"
+Locked = true
+LockedDisplayName = "荒地"
+LockedDescription = "这是你来的地方，你已然带走你该带走的，不可再进入"
+_art = NodePath("Art")
+_selectedTexture = SubResource("Atlas_waste_s")
+_unselectedTexture = SubResource("Atlas_waste_u")
+
+[node name="Art" type="TextureRect" parent="DesignCanvas/EntranceLayer/Wasteland"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("Atlas_waste_u")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="CloseButton" type="Button" parent="DesignCanvas/EntranceLayer" node_paths=PackedStringArray("_art")]
+layout_mode = 0
+offset_left = 1338.0
+offset_top = 76.0
+offset_right = 1578.0
+offset_bottom = 296.0
+focus_mode = 1
+mouse_default_cursor_shape = 2
+flat = true
+script = ExtResource("3_button")
+_art = NodePath("Art")
+_normalTexture = ExtResource("15_close_n")
+_pressedTexture = ExtResource("16_close_p")
+
+[node name="Art" type="TextureRect" parent="DesignCanvas/EntranceLayer/CloseButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("15_close_n")
+expand_mode = 1
+stretch_mode = 0
+
+[node name="ConfirmButton" type="Button" parent="DesignCanvas/EntranceLayer" node_paths=PackedStringArray("_art")]
+layout_mode = 0
+offset_left = 1338.0
+offset_top = 790.0
+offset_right = 1578.0
+offset_bottom = 1010.0
+focus_mode = 1
+mouse_default_cursor_shape = 2
+flat = true
+script = ExtResource("3_button")
+_art = NodePath("Art")
+_normalTexture = ExtResource("17_confirm_n")
+_pressedTexture = ExtResource("18_confirm_p")
+
+[node name="Art" type="TextureRect" parent="DesignCanvas/EntranceLayer/ConfirmButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("17_confirm_n")
+expand_mode = 1
+stretch_mode = 0
