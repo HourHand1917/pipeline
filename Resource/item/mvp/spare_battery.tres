@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://cpfjxhb0sobbi" path="res://Resource/item/mvp/scripts/spare_battery_item.gd" id="1_item"]
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_type"]
 [ext_resource type="Resource" path="res://Resource/item/mvp/effects/spare_battery_energy_2.tres" id="3_effect"]
-[ext_resource type="Texture2D" uid="uid://bb87xxek1cy73" path="res://Resource/item/mvp/icons/spare_battery.svg" id="4_icon"]
+[ext_resource type="Texture2D" uid="uid://b78src5h1s7qw" path="res://Resource/item/mvp/icons/电池.png" id="3_rri6v"]
 
 [resource]
 script = ExtResource("1_item")
 id = &"spare_battery"
 display_name = "备用电池"
 description = "立即获得2点能量。"
-icon = ExtResource("4_icon")
+icon = ExtResource("3_rri6v")
 effects = Array[ExtResource("2_effect_type")]([ExtResource("3_effect")])

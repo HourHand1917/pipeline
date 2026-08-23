@@ -3,12 +3,12 @@
 [ext_resource type="Script" uid="uid://cxse1uernmadg" path="res://Resource/item/mvp/scripts/coolant_item.gd" id="1_item"]
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_type"]
 [ext_resource type="Resource" path="res://Resource/item/mvp/effects/coolant_apply_anneal.tres" id="3_effect"]
-[ext_resource type="Texture2D" uid="uid://d2wimha7rifbs" path="res://Resource/item/mvp/icons/coolant.svg" id="4_icon"]
+[ext_resource type="Texture2D" uid="uid://c3cklp4js1cjr" path="res://Resource/item/mvp/icons/汽油.png" id="3_fonl8"]
 
 [resource]
 script = ExtResource("1_item")
 id = &"coolant"
 display_name = "冷却剂"
 description = "解除全部已构筑卡牌的冷却。"
-icon = ExtResource("4_icon")
+icon = ExtResource("3_fonl8")
 effects = Array[ExtResource("2_effect_type")]([ExtResource("3_effect")])

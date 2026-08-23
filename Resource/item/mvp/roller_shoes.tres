@@ -4,12 +4,12 @@
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="2_effect_type"]
 [ext_resource type="Resource" path="res://Resource/item/mvp/effects/roller_shoes_move_forward_1_a.tres" id="3_first"]
 [ext_resource type="Resource" path="res://Resource/item/mvp/effects/roller_shoes_move_forward_1_b.tres" id="4_second"]
-[ext_resource type="Texture2D" uid="uid://dd4v1ihannw3x" path="res://Resource/item/mvp/icons/roller_shoes.svg" id="5_icon"]
+[ext_resource type="Texture2D" uid="uid://c7xmquly2bcw0" path="res://Resource/item/mvp/icons/轮滑鞋.png" id="4_xp4rf"]
 
 [resource]
 script = ExtResource("1_item")
 id = &"roller_shoes"
 display_name = "滑轮鞋"
 description = "依次触发两次前进判定，每次最多移动1格；遇阻停止。"
-icon = ExtResource("5_icon")
+icon = ExtResource("4_xp4rf")
 effects = Array[ExtResource("2_effect_type")]([ExtResource("3_first"), ExtResource("4_second")])

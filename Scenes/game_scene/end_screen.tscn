@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://cxbpbse0jt5r3"]
+
+[ext_resource type="Script" uid="uid://yl6atppe7vx6" path="res://Script/CS/EndScreen.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://biwg5bo02ceuu" path="res://features/exploration/art_assets/结束界面.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="2_kw1gm"]
+[ext_resource type="Texture2D" uid="uid://b8533hdhayn50" path="res://features/exploration/art_assets/标题.png" id="3_yjqwk"]
+
+[node name="EndScreen" type="Control" unique_id=76727669 node_paths=PackedStringArray("_closeButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+_closeButton = NodePath("CloseButton")
+
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="." unique_id=379648067]
+position = Vector2(789, 531)
+texture = ExtResource("2_kw1gm")
+
+[node name="Background" type="TextureRect" parent="." unique_id=236663732]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CloseButton" type="Button" parent="." unique_id=2039102374]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.85
+anchor_right = 0.5
+anchor_bottom = 0.85
+offset_left = -120.0
+offset_top = 33.0
+offset_right = 120.0
+offset_bottom = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "回到主菜单"
+flat = true
+
+[node name="标题" type="Sprite2D" parent="." unique_id=729371320]
+position = Vector2(719, 341.99997)
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("3_yjqwk")
+
+[node name="Label" type="Label" parent="." unique_id=49937007]
+layout_mode = 0
+offset_left = 573.0
+offset_top = 410.0
+offset_right = 873.0
+offset_bottom = 503.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 60
+text = "感谢游玩！"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="." unique_id=736839727]
+layout_mode = 0
+offset_left = 556.0
+offset_top = 511.0
+offset_right = 880.0
+offset_bottom = 921.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "黑匣子工作室
+程序/策划  海桐
+策划  隐水
+主美  Popkey19
+程序 时针
+美术 PPY
+音乐  Josie"
+horizontal_alignment = 1
+vertical_alignment = 1

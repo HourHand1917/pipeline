@@ -21,7 +21,6 @@
 [ext_resource type="Resource" uid="uid://tq7ksi1vjs2d" path="res://Resource/card/cards/tactical_armor.tres" id="17_ddc8d"]
 [ext_resource type="Resource" uid="uid://du0ttbendjuyo" path="res://Resource/item/mvp/coolant.tres" id="19_aifbh"]
 [ext_resource type="Resource" uid="uid://bdcmccjy1l4kg" path="res://Resource/item/mvp/gasoline.tres" id="20_cromg"]
-[ext_resource type="Resource" uid="uid://fo4owgb58163" path="res://Resource/item/mvp/ice_cream.tres" id="22_15ma2"]
 [ext_resource type="Resource" uid="uid://8mun7fos3upr" path="res://Resource/item/mvp/medkit.tres" id="23_apllu"]
 [ext_resource type="Resource" uid="uid://b8a5buk5c0tla" path="res://Resource/item/mvp/roller_shoes.tres" id="25_bk425"]
 [ext_resource type="Resource" uid="uid://ch6r2wcwwemu8" path="res://Resource/item/mvp/spare_battery.tres" id="26_op87v"]
@@ -129,11 +128,6 @@ script = ExtResource("2_entry")
 item_res = ExtResource("12_grenade")
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
-[sub_resource type="Resource" id="Resource_igiic"]
-script = ExtResource("2_entry")
-item_res = ExtResource("22_15ma2")
-metadata/_custom_type_script = "uid://diqp7kgpioav6"
-
 [sub_resource type="Resource" id="Resource_ccai8"]
 script = ExtResource("2_entry")
 item_res = ExtResource("23_apllu")
@@ -167,4 +161,4 @@ metadata/_custom_type_script = "uid://diqp7kgpioav6"
 [resource]
 script = ExtResource("1_data")
 shop_name = "流浪商店"
-entries = Array[ExtResource("2_entry")]([SubResource("Resource_dgwak"), SubResource("Resource_cmoau"), SubResource("Resource_ksjvd"), SubResource("Resource_sxj0v"), SubResource("Resource_xgymq"), SubResource("Resource_2p3hn"), SubResource("Resource_jocvg"), SubResource("Resource_op0kr"), SubResource("Resource_06w4s"), SubResource("Resource_jt4pc"), SubResource("Resource_hyiyq"), SubResource("Resource_s3ihf"), SubResource("Resource_sqxjj"), SubResource("Resource_uvojv"), SubResource("Resource_828ur"), SubResource("Resource_25dty"), SubResource("Resource_nsrls"), SubResource("Resource_jcuil"), SubResource("Resource_igiic"), SubResource("Resource_ccai8"), SubResource("Resource_drvcp"), SubResource("Resource_w52rd"), SubResource("Resource_8xy60"), SubResource("Resource_ad30p")])
+entries = Array[ExtResource("2_entry")]([SubResource("Resource_dgwak"), SubResource("Resource_cmoau"), SubResource("Resource_ksjvd"), SubResource("Resource_sxj0v"), SubResource("Resource_xgymq"), SubResource("Resource_2p3hn"), SubResource("Resource_jocvg"), SubResource("Resource_op0kr"), SubResource("Resource_06w4s"), SubResource("Resource_jt4pc"), SubResource("Resource_hyiyq"), SubResource("Resource_s3ihf"), SubResource("Resource_sqxjj"), SubResource("Resource_uvojv"), SubResource("Resource_828ur"), SubResource("Resource_25dty"), SubResource("Resource_nsrls"), SubResource("Resource_jcuil"), SubResource("Resource_ccai8"), SubResource("Resource_drvcp"), SubResource("Resource_w52rd"), SubResource("Resource_8xy60"), SubResource("Resource_ad30p")])
