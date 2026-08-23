@@ -30,12 +30,14 @@ public partial class MainMenu : Control
 
 	private void OnStartPressed()
 	{
+		SaveManager.Instance?.NewGame();
 		SceneTransition.Instance.ChangeScene("res://features/exploration/scenes/f1/f1_0.tscn");
 	}
 
 	private void OnLoadPressed()
 	{
-		GD.Print("Load Pressed");
+		if (SaveManager.Instance == null || !SaveManager.Instance.Load())
+			GD.Print("没有存档，无法加载。");
 	}
 
 	private void OnCreditsPressed()

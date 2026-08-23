@@ -143,4 +143,29 @@ public partial class GrowthManager : Node
 			if (u.Effect == EffectType.EnergyPerTurn && _purchased.Contains(u.Id)) sum += u.Value;
 		return sum;
 	}
+
+	// ================================================================
+	//  存档
+	// ================================================================
+
+	public Godot.Collections.Array<string> SaveState()
+	{
+		var arr = new Godot.Collections.Array<string>();
+		foreach (var id in _purchased) arr.Add(id);
+		return arr;
+	}
+
+	public void LoadState(string[] purchased)
+	{
+		_purchased.Clear();
+		if (purchased == null) return;
+		foreach (var id in purchased) _purchased.Add(id);
+		EmitSignal(SignalName.Changed);
+	}
+
+	public void Reset()
+	{
+		_purchased.Clear();
+		EmitSignal(SignalName.Changed);
+	}
 }
