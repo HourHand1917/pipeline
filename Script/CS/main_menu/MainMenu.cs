@@ -42,7 +42,7 @@ public partial class MainMenu : Control
 
 	private void OnCreditsPressed()
 	{
-		GD.Print("Credits Pressed");
+		SceneTransition.Instance.ChangeScene("res://Scenes/game_scene/credits_screen.tscn");
 	}
 
 	private void OnExitPressed()
