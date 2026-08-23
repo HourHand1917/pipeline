@@ -68,9 +68,9 @@ MapId = "home"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_5o1o1")
 PlayerLeft = -550
-PlayerRight = 2850
+PlayerRight = 1660
 CamLeft = -970
-CamRight = 2925
+CamRight = 1660
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 position = Vector2(-251.00002, 159.00002)
