@@ -34,7 +34,6 @@
 [ext_resource type="PackedScene" path="res://features/exploration/map_selection/scenes/map_select_ui.tscn" id="32_mapselect"]
 [ext_resource type="Resource" uid="uid://k0c1qhtd0tr2" path="res://Resource/card/cards/armored_shield.tres" id="34_d7amb"]
 [ext_resource type="PackedScene" uid="uid://dgf7q2omm6kf" path="res://features/shop/ShopUI.tscn" id="34_shopui"]
-[ext_resource type="Texture2D" uid="uid://doip62gs1t5u2" path="res://features/exploration/art_assets/home_map/大门-打开-拉杆下.PNG" id="35_open_door"]
 [ext_resource type="Resource" uid="uid://5hkpux4h1e2h" path="res://Resource/card/cards/hydraulic_fist.tres" id="35_vaj0l"]
 [ext_resource type="Resource" uid="uid://q51njcymuw3f" path="res://Resource/card/cards/hemostatic_pump.tres" id="36_tpbnl"]
 [ext_resource type="Resource" uid="uid://dor040piw1t4u" path="res://Resource/card/cards/deadly_kiss.tres" id="37_6f2dm"]
@@ -169,7 +168,6 @@ metadata/_edit_lock_ = true
 script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
-_openTexture = ExtResource("35_open_door")
 
 [node name="Store" type="Area2D" parent="MapLayer" unique_id=474505502 node_paths=PackedStringArray("ShopUI", "Hud", "_blink")]
 position = Vector2(2436, 343)
