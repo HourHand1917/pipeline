@@ -3,8 +3,12 @@
 [ext_resource type="Script" uid="uid://unxmpcudbtks" path="res://features/shop/ShopUI.cs" id="1_ui"]
 [ext_resource type="Texture2D" uid="uid://dqmc4yd8vqlk7" path="res://features/exploration/art_assets/shop/价格牌.png" id="2_ho1k5"]
 [ext_resource type="Script" uid="uid://cnkxsvpsj36u4" path="res://features/shop/ShopManager.cs" id="2_mgr"]
+[ext_resource type="Texture2D" uid="uid://cte22305wyiiy" path="res://features/exploration/art_assets/workbenchUI/卡牌背景.png" id="2_ugsmq"]
 [ext_resource type="Resource" uid="uid://3fm7weqvvkxh" path="res://features/shop/resources/default_shop.tres" id="3_data"]
 [ext_resource type="Texture2D" uid="uid://cisnw5p2xb85f" path="res://features/exploration/art_assets/shop/退出键.png" id="5_close"]
+[ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="5_mpgdj"]
+[ext_resource type="Texture2D" uid="uid://dsf43q035qe0e" path="res://features/exploration/art_assets/货币/瓶盖/结算画面手绘版.png" id="6_bottlecap"]
+[ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="6_ejnc7"]
 
 [sub_resource type="Animation" id="anim_reset"]
 length = 0.001
@@ -20,9 +24,22 @@ tracks/0/keys = {
 "update": 1,
 "values": [false]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 1099)]
+}
 
 [sub_resource type="Animation" id="anim_hide"]
 resource_name = "hide_shopUI"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -30,10 +47,10 @@ tracks/0/path = NodePath(".:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [false]
+"values": [true, false]
 }
 tracks/1/type = "method"
 tracks/1/imported = false
@@ -49,9 +66,22 @@ tracks/1/keys = {
 "method": &"DisableButtons"
 }]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 1099)]
+}
 
 [sub_resource type="Animation" id="anim_show"]
 resource_name = "show_shopUI"
+length = 0.5
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -71,12 +101,24 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
+"times": PackedFloat32Array(0.5),
 "transitions": PackedFloat32Array(1),
 "values": [{
 "args": [],
 "method": &"EnableButtons"
 }]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(0, 1099), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="anim_lib"]
@@ -86,21 +128,25 @@ _data = {
 &"show_shopUI": SubResource("anim_show")
 }
 
-[node name="ShopUI" type="Control" unique_id=2094376065 node_paths=PackedStringArray("_anim", "_cardGrid", "_itemGrid", "_goldLabel", "_closeButton", "_shopManager")]
+[node name="ShopUI" type="Control" unique_id=2094376065 node_paths=PackedStringArray("_anim", "_cardGrid", "_goldLabel", "_closeButton", "_shopManager")]
 visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 1099.0
+offset_bottom = 1098.998
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ui")
 _anim = NodePath("Anim")
-_cardGrid = NodePath("CardGrid")
-_itemGrid = NodePath("ItemGrid")
-_goldLabel = NodePath("GoldLabel")
+_cardGrid = NodePath("CardShop/CardGrid")
+_goldLabel = NodePath("GoldLabel/Price")
 _closeButton = NodePath("CloseButton")
 _shopManager = NodePath("ShopManager")
+_cardBg = ExtResource("2_ugsmq")
+_bottleCapIcon = ExtResource("6_bottlecap")
+metadata/_edit_use_anchors_ = true
 
 [node name="Background" type="TextureRect" parent="." unique_id=2048552384]
 layout_mode = 1
@@ -113,41 +159,273 @@ mouse_filter = 2
 texture = ExtResource("2_ho1k5")
 expand_mode = 1
 stretch_mode = 5
-
-[node name="CardGrid" type="GridContainer" parent="." unique_id=436663278]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.12
-anchor_top = 0.32
-anchor_right = 0.88
-anchor_bottom = 0.56
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 16
-columns = 4
-
-[node name="ItemGrid" type="GridContainer" parent="." unique_id=1308855236]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.31527779
-anchor_top = 0.6537037
-anchor_right = 0.85486114
-anchor_bottom = 0.83981484
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/h_separation = 16
-theme_override_constants/v_separation = 16
-columns = 4
 metadata/_edit_use_anchors_ = true
 
-[node name="GoldLabel" type="Label" parent="." unique_id=12211322]
+[node name="ItemShop" type="Control" parent="." unique_id=1339610589]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="ItemIcon0" type="TextureButton" parent="ItemShop" unique_id=521320819]
 layout_mode = 0
-offset_left = 60.0
-offset_top = 40.0
-offset_right = 500.0
-offset_bottom = 90.0
-theme_override_font_sizes/font_size = 32
+offset_left = 559.0
+offset_top = 785.0
+offset_right = 679.0
+offset_bottom = 905.0
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemPriceRow0" type="HBoxContainer" parent="ItemShop" unique_id=1431998033]
+layout_mode = 0
+offset_left = 665.0
+offset_top = 805.0
+offset_right = 757.0
+offset_bottom = 860.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="ItemShop/ItemPriceRow0" unique_id=1066432553]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="ItemShop/ItemPriceRow0" unique_id=515083936]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "20"
+
+[node name="ItemIcon1" type="TextureButton" parent="ItemShop" unique_id=1669462150]
+layout_mode = 0
+offset_left = 751.0
+offset_top = 794.0
+offset_right = 871.0
+offset_bottom = 914.0
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemPriceRow1" type="HBoxContainer" parent="ItemShop" unique_id=1352620913]
+layout_mode = 0
+offset_left = 851.0
+offset_top = 806.0
+offset_right = 943.0
+offset_bottom = 861.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="ItemShop/ItemPriceRow1" unique_id=1293170425]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="ItemShop/ItemPriceRow1" unique_id=2081119838]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "30"
+
+[node name="ItemIcon2" type="TextureButton" parent="ItemShop" unique_id=1395611067]
+layout_mode = 0
+offset_left = 951.0
+offset_top = 795.0
+offset_right = 1071.0
+offset_bottom = 915.0
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemPriceRow2" type="HBoxContainer" parent="ItemShop" unique_id=888212013]
+layout_mode = 0
+offset_left = 1046.0
+offset_top = 802.0
+offset_right = 1138.0
+offset_bottom = 857.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="ItemShop/ItemPriceRow2" unique_id=1224843595]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="ItemShop/ItemPriceRow2" unique_id=2296811]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "10"
+
+[node name="ItemIcon3" type="TextureButton" parent="ItemShop" unique_id=180770258]
+layout_mode = 0
+offset_left = 1144.0
+offset_top = 789.0
+offset_right = 1264.0
+offset_bottom = 909.0
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="ItemPriceRow3" type="HBoxContainer" parent="ItemShop" unique_id=436012901]
+layout_mode = 0
+offset_left = 1235.0
+offset_top = 802.0
+offset_right = 1327.0
+offset_bottom = 857.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="ItemShop/ItemPriceRow3" unique_id=475165026]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="ItemShop/ItemPriceRow3" unique_id=429038880]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "10"
+
+[node name="CardShop" type="Control" parent="." unique_id=1238365909]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CardGrid" type="GridContainer" parent="CardShop" unique_id=436663278]
+modulate = Color(0.3218192, 0.9973951, 0.9999996, 0.654902)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.48194444
+anchor_top = 0.30555612
+anchor_right = 0.9201389
+anchor_bottom = 0.51018614
+offset_left = 674.7222
+offset_top = 317.77777
+offset_right = 1264.1945
+offset_bottom = 530.5925
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 4
+
+[node name="MaterialApplier" type="Node" parent="CardShop/CardGrid" unique_id=136850757]
+script = ExtResource("5_mpgdj")
+_material = ExtResource("6_ejnc7")
+
+[node name="CardPriceRow0" type="HBoxContainer" parent="CardShop" unique_id=652008762]
+layout_mode = 0
+offset_left = 722.0
+offset_top = 596.0
+offset_right = 814.0
+offset_bottom = 651.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="CardShop/CardPriceRow0" unique_id=2050877705]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="CardShop/CardPriceRow0" unique_id=679987339]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "20"
+
+[node name="CardPriceRow1" type="HBoxContainer" parent="CardShop" unique_id=1557664583]
+layout_mode = 0
+offset_left = 894.0
+offset_top = 569.0
+offset_right = 986.0
+offset_bottom = 624.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="CardShop/CardPriceRow1" unique_id=1975901395]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="CardShop/CardPriceRow1" unique_id=32127099]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "20"
+
+[node name="CardPriceRow2" type="HBoxContainer" parent="CardShop" unique_id=1145484656]
+layout_mode = 0
+offset_left = 1041.0
+offset_top = 589.0
+offset_right = 1133.0
+offset_bottom = 644.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="CardShop/CardPriceRow2" unique_id=536540712]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="CardShop/CardPriceRow2" unique_id=1519178692]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "20"
+
+[node name="CardPriceRow3" type="HBoxContainer" parent="CardShop" unique_id=1200983380]
+layout_mode = 0
+offset_left = 1182.0
+offset_top = 583.0
+offset_right = 1274.0
+offset_bottom = 638.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="CardShop/CardPriceRow3" unique_id=788888348]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="CardShop/CardPriceRow3" unique_id=244451937]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "20"
+
+[node name="GoldLabel" type="HBoxContainer" parent="." unique_id=899550314]
+layout_mode = 0
+offset_left = 266.0
+offset_top = 871.0
+offset_right = 358.0
+offset_bottom = 926.0
+theme_override_constants/separation = 6
+
+[node name="Cap" type="TextureRect" parent="GoldLabel" unique_id=655102357]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+size_flags_vertical = 4
+texture = ExtResource("6_bottlecap")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Price" type="Label" parent="GoldLabel" unique_id=1828276480]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "20"
 
 [node name="CloseButton" type="TextureButton" parent="." unique_id=438214947]
 z_index = -1

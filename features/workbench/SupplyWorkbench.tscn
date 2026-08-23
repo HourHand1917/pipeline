@@ -342,7 +342,6 @@ grow_vertical = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="BuildPage" type="Control" parent="PanelStack" unique_id=1969213508 node_paths=PackedStringArray("_boardManager", "_buildGrid", "_inventoryBox")]
-visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -394,7 +393,7 @@ anchors_preset = -1
 anchor_left = 0.1383249
 anchor_top = 0.11766215
 anchor_right = 0.8842123
-anchor_bottom = 0.6691391
+anchor_bottom = 0.7084647
 offset_left = 0.18399811
 offset_top = 0.049995422
 offset_right = -0.0960083
@@ -412,6 +411,16 @@ columns = 4
 [node name="MaterialApplier" type="Node" parent="PanelStack/BuildPage/inventorybox/ScrollContainer" unique_id=1214724546]
 script = ExtResource("9_2gsrf")
 _material = ExtResource("7_55txc")
+
+[node name="Label" type="Label" parent="PanelStack/BuildPage/inventorybox" unique_id=1874180278]
+material = ExtResource("7_55txc")
+layout_mode = 0
+offset_left = 207.0
+offset_top = 426.00012
+offset_right = 460.0
+offset_bottom = 454.00012
+theme_override_font_sizes/font_size = 20
+text = "R键旋转卡牌，右键取消选择"
 
 [node name="build" type="Control" parent="PanelStack/BuildPage" unique_id=247130625]
 layout_mode = 1

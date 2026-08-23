@@ -5,9 +5,7 @@
 [ext_resource type="Script" uid="uid://diqp7kgpioav6" path="res://features/shop/ShopEntry.gd" id="2_entry"]
 [ext_resource type="Resource" uid="uid://dor040piw1t4u" path="res://Resource/card/cards/deadly_kiss.tres" id="3_6al61"]
 [ext_resource type="Resource" uid="uid://q51njcymuw3f" path="res://Resource/card/cards/hemostatic_pump.tres" id="4_r58u6"]
-[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/cards/revolver.tres" id="5_revolver"]
 [ext_resource type="Resource" uid="uid://5hkpux4h1e2h" path="res://Resource/card/cards/hydraulic_fist.tres" id="5_s36t5"]
-[ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/cards/shield.tres" id="6_shield"]
 [ext_resource type="Resource" uid="uid://02ifbgnt2a5s" path="res://Resource/card/cards/knuckle_striker.tres" id="6_y3xoh"]
 [ext_resource type="Resource" uid="uid://bb1aodjlqq3id" path="res://Resource/card/cards/mechanical_shoes.tres" id="7_toqj7"]
 [ext_resource type="Resource" uid="uid://b1wu1dvipfsra" path="res://Resource/card/cards/military_power_pack.tres" id="8_rmo1d"]
@@ -23,10 +21,10 @@
 [ext_resource type="Resource" uid="uid://tq7ksi1vjs2d" path="res://Resource/card/cards/tactical_armor.tres" id="17_ddc8d"]
 [ext_resource type="Resource" uid="uid://du0ttbendjuyo" path="res://Resource/item/mvp/coolant.tres" id="19_aifbh"]
 [ext_resource type="Resource" uid="uid://bdcmccjy1l4kg" path="res://Resource/item/mvp/gasoline.tres" id="20_cromg"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/ice_cream.tres" id="22_15ma2"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/medkit.tres" id="23_apllu"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/roller_shoes.tres" id="25_bk425"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/spare_battery.tres" id="26_op87v"]
+[ext_resource type="Resource" uid="uid://fo4owgb58163" path="res://Resource/item/mvp/ice_cream.tres" id="22_15ma2"]
+[ext_resource type="Resource" uid="uid://8mun7fos3upr" path="res://Resource/item/mvp/medkit.tres" id="23_apllu"]
+[ext_resource type="Resource" uid="uid://b8a5buk5c0tla" path="res://Resource/item/mvp/roller_shoes.tres" id="25_bk425"]
+[ext_resource type="Resource" uid="uid://ch6r2wcwwemu8" path="res://Resource/item/mvp/spare_battery.tres" id="26_op87v"]
 [ext_resource type="Resource" uid="uid://8c7b3ffir2dh" path="res://Resource/item/mvp/spinach_powerups.tres" id="27_rysbx"]
 
 [sub_resource type="Resource" id="Resource_dgwak"]
@@ -37,11 +35,13 @@ metadata/_custom_type_script = "uid://diqp7kgpioav6"
 [sub_resource type="Resource" id="Resource_cmoau"]
 script = ExtResource("2_entry")
 item_res = ExtResource("3_6al61")
+price = 12
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_ksjvd"]
 script = ExtResource("2_entry")
 item_res = ExtResource("4_r58u6")
+price = 12
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_sxj0v"]
@@ -52,56 +52,55 @@ metadata/_custom_type_script = "uid://diqp7kgpioav6"
 [sub_resource type="Resource" id="Resource_xgymq"]
 script = ExtResource("2_entry")
 item_res = ExtResource("6_y3xoh")
+price = 6
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_2p3hn"]
 script = ExtResource("2_entry")
 item_res = ExtResource("7_toqj7")
+price = 8
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_jocvg"]
 script = ExtResource("2_entry")
 item_res = ExtResource("8_rmo1d")
+price = 16
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_op0kr"]
 script = ExtResource("2_entry")
 item_res = ExtResource("9_eii1m")
+price = 8
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_06w4s"]
 script = ExtResource("2_entry")
 item_res = ExtResource("10_hfasy")
-metadata/_custom_type_script = "uid://diqp7kgpioav6"
-
-[sub_resource type="Resource" id="Resource_k3sjt"]
-script = ExtResource("2_entry")
-item_res = ExtResource("5_revolver")
+price = 20
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_jt4pc"]
 script = ExtResource("2_entry")
 item_res = ExtResource("12_iufq2")
+price = 12
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_hyiyq"]
 script = ExtResource("2_entry")
 item_res = ExtResource("13_imlfr")
+price = 12
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_s3ihf"]
 script = ExtResource("2_entry")
 item_res = ExtResource("14_j0pov")
-metadata/_custom_type_script = "uid://diqp7kgpioav6"
-
-[sub_resource type="Resource" id="Resource_sde5e"]
-script = ExtResource("2_entry")
-item_res = ExtResource("6_shield")
+price = 8
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_sqxjj"]
 script = ExtResource("2_entry")
 item_res = ExtResource("16_5ti8r")
+price = 16
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_uvojv"]
@@ -117,6 +116,7 @@ metadata/_custom_type_script = "uid://diqp7kgpioav6"
 [sub_resource type="Resource" id="Resource_25dty"]
 script = ExtResource("2_entry")
 item_res = ExtResource("19_aifbh")
+price = 8
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_nsrls"]
@@ -137,29 +137,34 @@ metadata/_custom_type_script = "uid://diqp7kgpioav6"
 [sub_resource type="Resource" id="Resource_ccai8"]
 script = ExtResource("2_entry")
 item_res = ExtResource("23_apllu")
+price = 12
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_drvcp"]
 script = ExtResource("2_entry")
 item_res = ExtResource("10_pwall")
+price = 15
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_w52rd"]
 script = ExtResource("2_entry")
 item_res = ExtResource("25_bk425")
+price = 8
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_8xy60"]
 script = ExtResource("2_entry")
 item_res = ExtResource("26_op87v")
+price = 12
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [sub_resource type="Resource" id="Resource_ad30p"]
 script = ExtResource("2_entry")
 item_res = ExtResource("27_rysbx")
+price = 12
 metadata/_custom_type_script = "uid://diqp7kgpioav6"
 
 [resource]
 script = ExtResource("1_data")
 shop_name = "流浪商店"
-entries = Array[ExtResource("2_entry")]([SubResource("Resource_dgwak"), SubResource("Resource_cmoau"), SubResource("Resource_ksjvd"), SubResource("Resource_sxj0v"), SubResource("Resource_xgymq"), SubResource("Resource_2p3hn"), SubResource("Resource_jocvg"), SubResource("Resource_op0kr"), SubResource("Resource_06w4s"), SubResource("Resource_k3sjt"), SubResource("Resource_jt4pc"), SubResource("Resource_hyiyq"), SubResource("Resource_s3ihf"), SubResource("Resource_sde5e"), SubResource("Resource_sqxjj"), SubResource("Resource_uvojv"), SubResource("Resource_828ur"), SubResource("Resource_25dty"), SubResource("Resource_nsrls"), SubResource("Resource_jcuil"), SubResource("Resource_igiic"), SubResource("Resource_ccai8"), SubResource("Resource_drvcp"), SubResource("Resource_w52rd"), SubResource("Resource_8xy60"), SubResource("Resource_ad30p")])
+entries = Array[ExtResource("2_entry")]([SubResource("Resource_dgwak"), SubResource("Resource_cmoau"), SubResource("Resource_ksjvd"), SubResource("Resource_sxj0v"), SubResource("Resource_xgymq"), SubResource("Resource_2p3hn"), SubResource("Resource_jocvg"), SubResource("Resource_op0kr"), SubResource("Resource_06w4s"), SubResource("Resource_jt4pc"), SubResource("Resource_hyiyq"), SubResource("Resource_s3ihf"), SubResource("Resource_sqxjj"), SubResource("Resource_uvojv"), SubResource("Resource_828ur"), SubResource("Resource_25dty"), SubResource("Resource_nsrls"), SubResource("Resource_jcuil"), SubResource("Resource_igiic"), SubResource("Resource_ccai8"), SubResource("Resource_drvcp"), SubResource("Resource_w52rd"), SubResource("Resource_8xy60"), SubResource("Resource_ad30p")])

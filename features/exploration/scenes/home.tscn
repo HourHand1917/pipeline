@@ -24,11 +24,11 @@
 [ext_resource type="Resource" uid="uid://m2m6umk3whxc" path="res://Resource/card/medkit.tres" id="22_fxped"]
 [ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/cards/revolver.tres" id="23_tis6c"]
 [ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/cards/shield.tres" id="24_w2wh5"]
-[ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/swap.tres" id="25_hp3pq"]
+[ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/cards/swap.tres" id="25_hp3pq"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="26_tv"]
 [ext_resource type="PackedScene" uid="uid://cbgyktrrxne4a" path="res://features/workbench/WorkbenchUI.tscn" id="27_wb"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="29_spawn"]
-[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="30_hp3pq"]
+[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/cards/ex咖喱棒.tres" id="30_hp3pq"]
 [ext_resource type="Script" uid="uid://cqaav03k6hg6q" path="res://features/exploration/scripts/CS/interactables/GateInteractable.cs" id="31_gate"]
 [ext_resource type="AudioStream" uid="uid://c8gvr0gwm7lh5" path="res://tileset/music_resource/MUS_Home_Mp3.mp3" id="31_vmofw"]
 [ext_resource type="PackedScene" path="res://features/exploration/map_selection/scenes/map_select_ui.tscn" id="32_mapselect"]
@@ -40,7 +40,7 @@
 [ext_resource type="Resource" uid="uid://dor040piw1t4u" path="res://Resource/card/cards/deadly_kiss.tres" id="37_6f2dm"]
 [ext_resource type="Resource" uid="uid://btejfgildf2f0" path="res://Resource/card/cards/quad_coil_gun.tres" id="38_y1oyu"]
 [ext_resource type="Resource" uid="uid://co0hfeakyv10d" path="res://Resource/card/cards/pea_gun.tres" id="39_o7g8d"]
-[ext_resource type="Resource" path="res://features/exploration/map_selection/resources/default_home_destinations.tres" id="40_dest_config"]
+[ext_resource type="Texture2D" uid="uid://dflwbai4oacqy" path="res://features/exploration/art_assets/home_map/商店（开）.png" id="40_open_shop"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -178,6 +178,10 @@ ShopUI = NodePath("../../UILayer/ShopUI")
 Hud = NodePath("../../UILayer/HUD")
 _blink = NodePath("Blink")
 
+[node name="SpriteOpen" type="Sprite2D" parent="MapLayer/Store" unique_id=1005907590]
+position = Vector2(-1495.9999, -33.76927)
+texture = ExtResource("40_open_shop")
+
 [node name="Sprite" type="Sprite2D" parent="MapLayer/Store" unique_id=467649211]
 position = Vector2(47, -7)
 texture = ExtResource("10_kwm3y")
@@ -201,7 +205,7 @@ metadata/_edit_lock_ = true
 
 [node name="Blink" type="Node" parent="MapLayer/Store" unique_id=963315539 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("4_kwm3y")
-_sprite = NodePath("../Sprite")
+_sprite = NodePath("..")
 _clickZone = NodePath("../ClickZone")
 
 [node name="HomeSpawn" type="Node2D" parent="MapLayer" unique_id=1284719890]
@@ -238,11 +242,10 @@ _tabRaiseOffset = 30.0
 offset_bottom = 1.3399658
 
 [node name="MapSelectUI" parent="UILayer" unique_id=184537201 instance=ExtResource("32_mapselect")]
-_configuration = ExtResource("40_dest_config")
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")
-Cards = [ExtResource("21_awyto"), ExtResource("22_fxped"), ExtResource("23_tis6c"), ExtResource("24_w2wh5"), ExtResource("25_hp3pq"), ExtResource("30_hp3pq"), ExtResource("34_d7amb"), ExtResource("35_vaj0l"), ExtResource("36_tpbnl"), ExtResource("37_6f2dm"), ExtResource("38_y1oyu"), ExtResource("39_o7g8d")]
+Cards = [ExtResource("21_awyto"), ExtResource("22_fxped"), ExtResource("23_tis6c"), ExtResource("24_w2wh5"), ExtResource("25_hp3pq"), ExtResource("30_hp3pq"), ExtResource("34_d7amb"), ExtResource("35_vaj0l"), ExtResource("36_tpbnl"), ExtResource("37_6f2dm"), ExtResource("38_y1oyu"), ExtResource("39_o7g8d"), ExtResource("25_hp3pq")]
 
 [node name="RadioStream2D" type="AudioStreamPlayer2D" parent="." unique_id=2064125179]
 position = Vector2(331, 571)

@@ -10,8 +10,9 @@
 [ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="6_2qc3k"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_tvxcj"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_2iy1r"]
-[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/ex咖喱棒.tres" id="7_8rct6"]
+[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/cards/revolver.tres" id="7_6vana"]
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="8_chest"]
+[ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/cards/shield.tres" id="8_ishdt"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="9_blink"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_loot"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="11_npc"]
@@ -25,7 +26,7 @@
 [sub_resource type="Resource" id="Resource_loot"]
 script = ExtResource("10_loot")
 bottle_cap = 10
-cards = Array[ExtResource("5_2iy1r")]([ExtResource("7_8rct6")])
+cards = Array[ExtResource("5_2iy1r")]([ExtResource("7_6vana"), ExtResource("8_ishdt")])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8rct6"]
 size = Vector2(397.53082, 232.09871)

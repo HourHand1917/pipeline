@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource("1_card")
 id = &"quad_coil_gun"
-display_name = "四握式线圈铳"
+display_name = "四握线圈铳"
 icon_text = "铳"
 glyph = "枪"
 category = "attack"

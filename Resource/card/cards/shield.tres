@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_card"]
 [ext_resource type="Script" uid="uid://d6txs258a48w" path="res://Script/GD/resource/combat_effect_data.gd" id="1_xbiaw"]
 [ext_resource type="Resource" uid="uid://b715dnj40bvor" path="res://Resource/effect/playereffect/playerdefence.tres" id="2_ln2rx"]
-[ext_resource type="Resource" path="res://Resource/card/upgrades/shield_up.tres" id="3_upgrade"]
+[ext_resource type="Resource" uid="uid://dhnwjox2pnvwl" path="res://Resource/card/upgrades/shield_up.tres" id="3_upgrade"]
 
 [resource]
 script = ExtResource("1_card")

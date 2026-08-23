@@ -93,10 +93,11 @@ public partial class BlinkComponent : Node
 	/// <summary>进入/离开判定区时切换门贴图（开门/关门）。</summary>
 	private void SetDoorTexture(bool open)
 	{
+		if (_openTexture == null) return; // 未配置开门贴图（如商店），不切换
 		if (_sprite is not Sprite2D sprite) return;
-		if (open && _openTexture != null)
+		if (open)
 			sprite.Texture = _openTexture;
-		else if (!open && _closedTexture != null)
+		else if (_closedTexture != null)
 			sprite.Texture = _closedTexture;
 	}
 }
