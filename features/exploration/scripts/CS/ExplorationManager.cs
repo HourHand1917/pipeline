@@ -53,6 +53,13 @@ public partial class ExplorationManager : Node2D
         GD.Print("探索场景已就绪。A/D 移动，鼠标靠近交互物变亮。");
 
         _hud?.SetMode(PlayerTV.TVMode.Exploration);
+
+        // 回到「家」时回满血并自动保存
+        if (MapId == "home")
+        {
+            DataManager.Instance?.FullHeal();
+            SaveManager.Instance?.Save();
+        }
     }
 
     /// <summary>

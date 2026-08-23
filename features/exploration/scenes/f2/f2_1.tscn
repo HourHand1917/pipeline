@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://by1xef8yp0nno" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F02.ogg" id="3_hxqmq"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
-[ext_resource type="Texture2D" uid="uid://4x5y0tp0gvj4" path="res://features/exploration/art_assets/maps/f2/f2-6（复用）.png" id="6_hxqmq"]
+[ext_resource type="Texture2D" uid="uid://cfjpb2rsxed1" path="res://features/exploration/art_assets/maps/f2/f2_小巷.png" id="6_aupid"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_aupid"]
@@ -77,7 +77,7 @@ texture = ExtResource("20_floor")
 [node name="贫民区背景" type="Sprite2D" parent="MapLayer" unique_id=78607295]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("6_hxqmq")
+texture = ExtResource("6_aupid")
 
 [node name="宝箱" type="Area2D" parent="MapLayer" unique_id=1279021174 node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(420, 500)

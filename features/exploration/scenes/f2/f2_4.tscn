@@ -4,11 +4,13 @@
 [ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_bomua"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="AudioStream" uid="uid://by1xef8yp0nno" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F02.ogg" id="3_af5pe"]
-[ext_resource type="Texture2D" uid="uid://4x5y0tp0gvj4" path="res://features/exploration/art_assets/maps/f2/f2-6（复用）.png" id="4_bomua"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
+[ext_resource type="Texture2D" uid="uid://caefcvor3rp66" path="res://features/exploration/art_assets/maps/f2/f2_拳击馆.png" id="6_suul2"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="9_llaid"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="10_c24m6"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="30_npc"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
@@ -16,8 +18,10 @@
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="34_music"]
 [ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="36_sharkk_tex"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
-size = Vector2(643, 374)
+[sub_resource type="Resource" id="Resource_sharkk_loot"]
+script = ExtResource("33_loot")
+bottle_cap = 20
+faucet = 20
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sharkk_detect"]
 size = Vector2(300, 260)
@@ -25,10 +29,8 @@ size = Vector2(300, 260)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sharkk_click"]
 size = Vector2(240, 200)
 
-[sub_resource type="Resource" id="Resource_sharkk_loot"]
-script = ExtResource("33_loot")
-bottle_cap = 20
-faucet = 20
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
+size = Vector2(643, 374)
 
 [node name="ExplorationMap2" type="Node2D" unique_id=1027938863 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
@@ -63,9 +65,9 @@ texture = ExtResource("20_floor")
 [node name="拳击馆背景" type="Sprite2D" parent="MapLayer" unique_id=1576515868]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
-texture = ExtResource("4_bomua")
+texture = ExtResource("6_suul2")
 
-[node name="Sharkk" type="Area2D" parent="MapLayer" node_paths=PackedStringArray("Hud", "_blink")]
+[node name="Sharkk" type="Area2D" parent="MapLayer" unique_id=1363876583 node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(1240, 500)
 script = ExtResource("30_npc")
 BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
@@ -79,26 +81,26 @@ NpcName = "Sharkk"
 PersistenceId = "enemy_sharkk_f2_4"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Sharkk"]
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Sharkk" unique_id=1306272006]
 modulate = Color(0.92, 0.37, 0.25, 1)
 texture = ExtResource("36_sharkk_tex")
 
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Sharkk"]
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Sharkk" unique_id=1882734971]
 shape = SubResource("RectangleShape2D_sharkk_detect")
 
-[node name="ClickZone" type="Area2D" parent="MapLayer/Sharkk"]
+[node name="ClickZone" type="Area2D" parent="MapLayer/Sharkk" unique_id=811534069]
 collision_layer = 2
 collision_mask = 0
 
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Sharkk/ClickZone"]
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Sharkk/ClickZone" unique_id=587283119]
 shape = SubResource("RectangleShape2D_sharkk_click")
 
-[node name="Blink" type="Node" parent="MapLayer/Sharkk" node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="MapLayer/Sharkk" unique_id=1038021442 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("32_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="ReturnSpawn" type="Node2D" parent="MapLayer/Sharkk"]
+[node name="ReturnSpawn" type="Node2D" parent="MapLayer/Sharkk" unique_id=296247196]
 position = Vector2(-9, 12)
 script = ExtResource("2_spawn")
 SpawnId = &"f2_4_sharkk_return"

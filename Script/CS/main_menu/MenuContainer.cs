@@ -10,7 +10,11 @@ public partial class MenuContainer : VBoxContainer
 		{
 			if (button is Button btn)
 			{
-				btn.Disabled = !enable;
+				bool disabled = !enable;
+				// 「加载游戏」在没有存档时保持置灰，不能被 show_menu 动画重新点亮
+				if (enable && btn.Name == "Load" && (SaveManager.Instance == null || !SaveManager.Instance.HasSave()))
+					disabled = true;
+				btn.Disabled = disabled;
 			}
 		}
 	}

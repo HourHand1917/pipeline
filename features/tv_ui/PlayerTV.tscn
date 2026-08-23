@@ -551,6 +551,7 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_roomtile")
 text = "拳击馆"
 
 [node name="Floor3" type="Control" parent="PanelStack/MapPanel/MapGrid" unique_id=273026689]
+visible = false
 anchors_preset = 0
 
 [node name="f3_0" type="Button" parent="PanelStack/MapPanel/MapGrid/Floor3" unique_id=570344590]
@@ -608,13 +609,14 @@ theme_override_styles/normal = SubResource("StyleBoxTexture_roomtile")
 text = "管道"
 
 [node name="Floor4" type="Control" parent="PanelStack/MapPanel/MapGrid" unique_id=1558758143]
-visible = false
 anchors_preset = 0
 
 [node name="f4" type="Button" parent="PanelStack/MapPanel/MapGrid/Floor4" unique_id=1530897266]
 layout_mode = 0
-offset_right = 120.0
-offset_bottom = 120.0
+offset_left = 420.0
+offset_top = 279.0989
+offset_right = 854.0
+offset_bottom = 399.0989
 theme_override_styles/normal = SubResource("StyleBoxTexture_roomtile")
 text = "Boss关"
 
