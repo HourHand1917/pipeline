@@ -10,26 +10,16 @@
 3. 点击轨道空格并成功移动。
 4. 点击电视上箭头，切换到敌人面板。
 5. 点击 Boom 脚下，查看血量、Buff 和行动意图。
-6. 点击原战斗界面的结束回合按钮，让敌人开始行动。
 
 ## 配置
 
 把 `boom_battle_tutorial.tscn` 拖到战斗场景根节点即可。组件会自动寻找
 `BattleManager`、`BattleScreen`、`BoardManager` 和运行时 Boom，不需要填写 NodePath。
 
-场景的 `Configuration` 已指向：
-
-`res://features/battle_tutorial/configs/boom_tutorial_default.tres`
-
-在 Inspector 点击该资源即可由策划直接配置，无需修改代码：
-
-- 是否启用、是否仅允许单只 Boom 战触发。
-- 六个步骤各自的标题和说明文字。
-- 聚光外扩、背景暗度、说明框宽高、间距和屏幕边距。
-- 遮罩、描边、步骤标题、正文和说明框颜色。
-
-如需不同关卡使用不同文案，复制这份 `.tres`，修改后拖回教程节点的
-`Configuration` 即可。
+- `Tutorial Enabled`：是否启用。
+- `Require Single Boom Encounter`：默认开启，仅单只 Boom 的教学战触发。
+- `Target Padding`：聚光框相对目标的外扩像素。
+- `Dim Opacity`：非目标区域暗度。
 
 四块输入遮罩只挡住目标外区域；聚光洞内仍是原来的卡牌按钮、TrackSlot
 和 PlayerTV 按钮。动画镜头移动或窗口缩放时，目标框会逐帧重新贴合。
@@ -57,8 +47,8 @@
 Godot_v4.6.1-stable_mono_win64_console.exe --headless --path D:\Godot\Pipeline2\pipeline --scene res://features/battle_tutorial/tests/boom_battle_tutorial_smoke.tscn
 ```
 
-测试通过 `Viewport.PushInput` 点击真实控件，完整走完六个步骤；通过标记：
+测试通过 `Viewport.PushInput` 点击真实控件，完整走完五个步骤；通过标记：
 
 ```text
-BOOM_BATTLE_TUTORIAL_SMOKE_PASS checks=19 steps=6
+BOOM_BATTLE_TUTORIAL_SMOKE_PASS checks=16 steps=5
 ```

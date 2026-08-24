@@ -11,7 +11,7 @@ using System.Collections.Generic;
 ///
 /// 花费水龙头（Faucet）购买。已购买状态存内存（Autoload 跨场景保留）。
 /// 增益通过查询方法提供给战斗侧：
-///   GetMaxHpBonus()     → 血上限加成（25 / 55）
+///   GetMaxHpBonus()     → 血上限加成（5 / 10）
 ///   GetStrengthStacks() → 入场力量 buff 层数（1 / 2）
 ///   GetBoardSize()      → 棋盘尺寸（3x3 / 4x3），未点返回 null
 ///   GetEnergyBonus()    → 每回合能量加成（0 / 1）
@@ -27,7 +27,7 @@ public partial class GrowthManager : Node
 		public string Name;
 		public string Description;
 		public int Cost;
-		public int Level;              // 1 = 一级（无前置），2 = 二级（有前置）
+		public int RequireLevel;         // 所需玩家等级（低于此等级不可购买）
 		public string Prerequisite;    // 前置 id，一级为 ""
 		public EffectType Effect;
 		public int Value;              // MaxHp / Strength / EnergyPerTurn 用
@@ -42,13 +42,13 @@ public partial class GrowthManager : Node
 
 	public static readonly Upgrade[] Upgrades =
 	{
-		new Upgrade { Id = "hp_1",     Name = "生命提升I",    Description = "提升 25 点血上限。",              Cost = 10, Level = 1, Prerequisite = "",        Effect = EffectType.MaxHp,        Value = 25 },
-		new Upgrade { Id = "hp_2",     Name = "生命提升II",   Description = "再提升 30 点血上限。",            Cost = 20, Level = 2, Prerequisite = "hp_1",    Effect = EffectType.MaxHp,        Value = 30 },
-		new Upgrade { Id = "str_1",    Name = "力量提升I",    Description = "进入战斗时获得 1 点力量。",        Cost = 10, Level = 1, Prerequisite = "",        Effect = EffectType.Strength,     Value = 1 },
-		new Upgrade { Id = "str_2",    Name = "力量提升II",   Description = "进入战斗时再获得 1 点力量。",      Cost = 20, Level = 2, Prerequisite = "str_1",   Effect = EffectType.Strength,     Value = 1 },
-		new Upgrade { Id = "board_1",  Name = "棋盘扩容I",    Description = "棋盘变为 3×3。",                  Cost = 10, Level = 1, Prerequisite = "",        Effect = EffectType.BoardSize,    Board = new Vector2I(3, 3) },
-		new Upgrade { Id = "board_2",  Name = "棋盘扩容II",   Description = "棋盘变为 4×3。",                  Cost = 20, Level = 2, Prerequisite = "board_1", Effect = EffectType.BoardSize,    Board = new Vector2I(4, 3) },
-		new Upgrade { Id = "energy",   Name = "能量提升",     Description = "每回合能量 +1。",                  Cost = 20, Level = 2, Prerequisite = "board_1", Effect = EffectType.EnergyPerTurn, Value = 1 },
+		new Upgrade { Id = "hp_1",     Name = "生命提升I",    Description = "提升 5 点血上限。",              Cost = 10, RequireLevel = 1, Prerequisite = "",        Effect = EffectType.MaxHp,        Value = 5 },
+		new Upgrade { Id = "hp_2",     Name = "生命提升II",   Description = "再提升 5 点血上限。",            Cost = 20, RequireLevel = 2, Prerequisite = "hp_1",    Effect = EffectType.MaxHp,        Value = 5 },
+		new Upgrade { Id = "str_1",    Name = "力量提升I",    Description = "进入战斗时获得 1 点力量。",        Cost = 10, RequireLevel = 1, Prerequisite = "",        Effect = EffectType.Strength,     Value = 1 },
+		new Upgrade { Id = "str_2",    Name = "力量提升II",   Description = "进入战斗时再获得 1 点力量。",      Cost = 20, RequireLevel = 2, Prerequisite = "str_1",   Effect = EffectType.Strength,     Value = 1 },
+		new Upgrade { Id = "board_1",  Name = "棋盘扩容I",    Description = "棋盘变为 3×3。",                  Cost = 10, RequireLevel = 1, Prerequisite = "",        Effect = EffectType.BoardSize,    Board = new Vector2I(3, 3) },
+		new Upgrade { Id = "board_2",  Name = "棋盘扩容II",   Description = "棋盘变为 4×3。",                  Cost = 20, RequireLevel = 2, Prerequisite = "board_1", Effect = EffectType.BoardSize,    Board = new Vector2I(4, 3) },
+		new Upgrade { Id = "energy",   Name = "能量提升",     Description = "每回合能量 +1。",                  Cost = 20, RequireLevel = 2, Prerequisite = "board_1", Effect = EffectType.EnergyPerTurn, Value = 1 },
 	};
 
 	private static readonly Dictionary<string, Upgrade> _byId = BuildIndex();
@@ -82,7 +82,11 @@ public partial class GrowthManager : Node
 		u == null || string.IsNullOrEmpty(u.Prerequisite) || _purchased.Contains(u.Prerequisite);
 
 	public bool CanBuy(Upgrade u) =>
-		u != null && !_purchased.Contains(u.Id) && PrerequisiteMet(u) && Faucet >= u.Cost;
+		u != null
+		&& !_purchased.Contains(u.Id)
+		&& PrerequisiteMet(u)
+		&& (DataManager.Instance?.Lv ?? 0) >= u.RequireLevel
+		&& Faucet >= u.Cost;
 
 	public bool Buy(Upgrade u)
 	{

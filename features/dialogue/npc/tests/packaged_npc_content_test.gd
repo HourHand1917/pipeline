@@ -135,9 +135,12 @@ func _test_case(spec: Dictionary) -> void:
 	await get_tree().process_frame
 
 	_check(npc is NPCBase, "%s reuses NPCBase" % scene_path)
-	_check(npc.get_node_or_null("Sprite") is Sprite2D, "%s has replaceable Sprite" % scene_path)
-	_check((npc.get_node_or_null("Sprite") as Sprite2D).texture != null,
-		"%s has a visible placeholder image" % scene_path)
+	var visual := npc.get_node_or_null("Sprite")
+	_check(visual is Sprite2D or visual is AnimatedSprite2D,
+		"%s has a replaceable static or animated visual" % scene_path)
+	var has_visual_asset := (visual is Sprite2D and (visual as Sprite2D).texture != null) \
+		or (visual is AnimatedSprite2D and (visual as AnimatedSprite2D).sprite_frames != null)
+	_check(has_visual_asset, "%s has a configured visible asset" % scene_path)
 	_check(npc.get_node_or_null("DetectionRange") is CollisionShape2D,
 		"%s has DetectionRange" % scene_path)
 	_check(npc.get_node_or_null("ClickZone/ClickShape") is CollisionShape2D,

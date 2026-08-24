@@ -11,6 +11,8 @@ public partial class FrontMapChoice : Button
     [Export] public StringName DestinationMapId { get; set; } = "";
     [Export] public bool Locked { get; set; }
     [Export] public string LockedDisplayName { get; set; } = "尚未开放";
+    [Export(PropertyHint.MultilineText)]
+    public string LockedDescription { get; set; } = "这条路线尚未开放，当前无法前往。";
 
     [ExportGroup("Presentation")]
     [Export] private TextureRect _art;

@@ -71,7 +71,7 @@ size = Vector2(691.2501, 378.75006)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ws5fq"]
 size = Vector2(697.5, 422.50006)
 
-[node name="ExplorationMap3" type="Node2D" unique_id=1069699050 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap6" type="Node2D" unique_id=1069699050 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")

@@ -22,16 +22,26 @@
 [ext_resource type="Texture2D" uid="uid://dy2qqvbf8yq1i" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-小门框.png" id="15_smalldoor"]
 [ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="16_aat1y"]
 [ext_resource type="Texture2D" uid="uid://xv1drawokugm" path="res://features/exploration/art_assets/maps/f2/f2-3酒吧内部.png" id="16_bar"]
+[ext_resource type="Resource" uid="uid://dor040piw1t4u" path="res://Resource/card/cards/deadly_kiss.tres" id="16_heonf"]
 [ext_resource type="Texture2D" uid="uid://dwvii31k3h5f6" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV-箱子.png" id="18_heonf"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
+[ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="32_supply_tex"]
+[ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="33_workbench_interact"]
+[ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="34_supply_wb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_erxx1"]
 size = Vector2(373, 313)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a2tor"]
 size = Vector2(379, 310)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_supply_detect"]
+size = Vector2(214.81485, 288.88876)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_supply_click"]
+size = Vector2(158.02477, 302.4691)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -44,6 +54,7 @@ size = Vector2(162, 207)
 
 [sub_resource type="Resource" id="Resource_chest_loot"]
 script = ExtResource("31_loot")
+cards = Array[ExtResource("15_gpyuw")]([ExtResource("16_heonf")])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chest_detect"]
 size = Vector2(240, 180)
@@ -102,6 +113,37 @@ _clickZone = NodePath("../ClickZone")
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("5_ardu1")
+
+[node name="补给机器" type="Area2D" parent="MapLayer/Room_Front" unique_id=1233206848 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
+position = Vector2(1194, 493)
+script = ExtResource("33_workbench_interact")
+WorkbenchUI = NodePath("../../../UILayer/SupplyWorkbench")
+Hud = NodePath("../../../UILayer/HUD")
+DisplayName = "补给机器"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Front/补给机器" unique_id=1592993301]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("32_supply_tex")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Front/补给机器" unique_id=1256381296]
+position = Vector2(-7.4075317, 13.5802)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_supply_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Front/补给机器" unique_id=1163683283]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Front/补给机器/ClickZone" unique_id=221820163]
+position = Vector2(2.4690552, 15.432129)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_supply_click")
+
+[node name="Blink" type="Node" parent="MapLayer/Room_Front/补给机器" unique_id=1969401488 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("13_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
 
 [node name="f2_2leftSpawn" type="Node2D" parent="MapLayer/Room_Front" unique_id=1993548058]
 position = Vector2(150, 530)
@@ -233,6 +275,8 @@ script = ExtResource("11_rmanager")
 script = ExtResource("6_input")
 
 [node name="UILayer" type="CanvasLayer" parent="." unique_id=227963362]
+
+[node name="SupplyWorkbench" parent="UILayer" unique_id=1834695836 instance=ExtResource("34_supply_wb")]
 
 [node name="HUD" parent="UILayer" unique_id=708708241 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658

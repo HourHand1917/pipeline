@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://oehus6gnse86" path="res://features/enemy_ai_trained/resources/actions/sharkk_charge_d2.tres" id="7"]
 [ext_resource type="Resource" uid="uid://db0pjykdieqm3" path="res://features/enemy_ai_trained/resources/actions/sharkk_charge_d3.tres" id="8"]
 [ext_resource type="Resource" uid="uid://coduy5kq48yxp" path="res://features/enemy_ai_trained/resources/actions/sharkk_charge_d4.tres" id="9"]
-[ext_resource type="Resource" uid="uid://c1ploj020xvwu" path="res://features/enemy_ai_trained/resources/actions/sharkk_sand_retreat.tres" id="10"]
+[ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/sharkk_sand_retreat.tres" id="10"]
 [ext_resource type="Resource" path="res://features/enemy_ai_trained/resources/actions/sharkk_stunned.tres" id="11"]
 
 [node name="SharkkTrainedAI" type="Node" unique_id=1433527897]

@@ -49,8 +49,8 @@ position = Vector2(677.5, 98.000015)
 scale = Vector2(0.81, 0.81)
 texture = ExtResource("2_u8q1t")
 
-[node name="教程0指示牌" type="Sprite2D" parent="MapLayer" unique_id=2060645289]
-position = Vector2(677.5, 98.000015)
+[node name="教程0告示牌" type="Sprite2D" parent="MapLayer" unique_id=1608806415]
+position = Vector2(678.00006, 95.00001)
 scale = Vector2(0.81, 0.81)
 texture = ExtResource("7_u8q1t")
 

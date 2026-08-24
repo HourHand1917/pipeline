@@ -252,7 +252,7 @@ public partial class FrontMapPresenter : Control
             return new TooltipData
             {
                 Title = choice.LockedDisplayName,
-                Description = "这条路线尚未开放，当前无法前往。",
+                Description = choice.LockedDescription,
                 Icon = choice.TooltipIcon,
                 Details = new Godot.Collections.Dictionary<string, string>
                 {

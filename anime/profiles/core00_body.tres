@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="BattleAnimationProfile" format=3 uid="uid://das8mt4w46fth"]
 
-[ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
-[ext_resource type="SpriteFrames" path="res://anime/generated/core_body_frames.tres" id="2"]
+[ext_resource type="Script" uid="uid://b3wd0h0cfhuy7" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
+[ext_resource type="SpriteFrames" uid="uid://fj08mjg2wjx6" path="res://anime/generated/core_body_frames.tres" id="2"]
+[ext_resource type="Resource" path="res://anime/audio/core_body_death_cue.tres" id="3_death"]
+[ext_resource type="Script" uid="uid://c6jod5x8ahaaa" path="res://anime/scripts/battle_animation_audio_cue.gd" id="4_cue_script"]
 
 [resource]
 script = ExtResource("1")
@@ -14,21 +16,25 @@ action_animations = {
 &"core_body_advance_1": &"move_forward",
 &"core_body_advance_2": &"move_forward",
 &"core_body_advance_3": &"move_forward",
-&"core_body_sniper": &"sniper",
 &"core_body_gunstock": &"attack_close",
-&"core_body_pulse": &"pulse_3",
-&"core_body_teleport_guard": &"teleport_guard",
 &"core_body_jam": &"jam_cast",
+&"core_body_pulse": &"pulse_3",
 &"core_body_reposition": &"retreat",
+&"core_body_sniper": &"sniper",
+&"core_body_teleport_guard": &"teleport_guard",
 &"trained_core_body_advance_1": &"move_forward",
 &"trained_core_body_advance_2": &"move_forward",
 &"trained_core_body_advance_3": &"move_forward",
-&"trained_core_body_sniper": &"sniper",
+&"trained_core_body_disable": &"jam_cast",
 &"trained_core_body_gunstock": &"attack_close",
 &"trained_core_body_pulse": &"pulse_3",
-&"trained_core_body_teleport_guard": &"teleport_guard",
-&"trained_core_body_disable": &"jam_cast"
+&"trained_core_body_sniper": &"sniper",
+&"trained_core_body_teleport_guard": &"teleport_guard"
 }
-target_visual_height = 136.0
-visual_scale = Vector2(1, 1)
+action_animation_sequences = {
+&"core_body_teleport_guard": PackedStringArray("jam_cast", "move_backward"),
+&"trained_core_body_teleport_guard": PackedStringArray("jam_cast", "move_backward")
+}
+audio_cues = Array[ExtResource("4_cue_script")]([ExtResource("3_death")])
 visual_offset = Vector2(0, -70)
+source_faces_right = false

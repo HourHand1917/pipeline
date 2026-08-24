@@ -1,5 +1,9 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene format=3 uid="uid://dlb3o5tijthdo"]
 
 [ext_resource type="PackedScene" path="res://anime/scenes/battle_rule_presets/boom_animation_test.tscn" id="1_preset"]
 
-[node name="BoomBattleWithAnimation" instance=ExtResource("1_preset")]
+[node name="BoomBattleWithAnimation" unique_id=1885430518 instance=ExtResource("1_preset")]
+
+[node name="BattleAnimationDisplay" parent="." index="4" unique_id=441800724]
+PlayerScaleMultiplier = 2.6300000000000003
+EnemyScaleMultiplier = 3.16

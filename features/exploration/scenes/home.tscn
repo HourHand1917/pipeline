@@ -35,12 +35,14 @@
 [ext_resource type="PackedScene" path="res://features/exploration/map_selection/scenes/map_select_ui.tscn" id="32_mapselect"]
 [ext_resource type="Resource" uid="uid://k0c1qhtd0tr2" path="res://Resource/card/cards/armored_shield.tres" id="34_d7amb"]
 [ext_resource type="PackedScene" uid="uid://dgf7q2omm6kf" path="res://features/shop/ShopUI.tscn" id="34_shopui"]
+[ext_resource type="Texture2D" uid="uid://doip62gs1t5u2" path="res://features/exploration/art_assets/home_map/大门-打开-拉杆下.PNG" id="35_open_door"]
 [ext_resource type="Resource" uid="uid://5hkpux4h1e2h" path="res://Resource/card/cards/hydraulic_fist.tres" id="35_vaj0l"]
 [ext_resource type="Resource" uid="uid://q51njcymuw3f" path="res://Resource/card/cards/hemostatic_pump.tres" id="36_tpbnl"]
 [ext_resource type="Resource" uid="uid://dor040piw1t4u" path="res://Resource/card/cards/deadly_kiss.tres" id="37_6f2dm"]
 [ext_resource type="Resource" uid="uid://btejfgildf2f0" path="res://Resource/card/cards/quad_coil_gun.tres" id="38_y1oyu"]
 [ext_resource type="Resource" uid="uid://co0hfeakyv10d" path="res://Resource/card/cards/pea_gun.tres" id="39_o7g8d"]
 [ext_resource type="Texture2D" uid="uid://dflwbai4oacqy" path="res://features/exploration/art_assets/home_map/商店（开）.png" id="40_open_shop"]
+[ext_resource type="PackedScene" path="res://features/exploration/story_guides/home_story_guides.tscn" id="41_story_guides"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -60,7 +62,7 @@ radius = 682.04694
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kvlmm"]
 size = Vector2(833, 862)
 
-[node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap3" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_lk0dn")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
@@ -170,6 +172,7 @@ metadata/_edit_lock_ = true
 script = ExtResource("4_kwm3y")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
+_openTexture = ExtResource("35_open_door")
 
 [node name="Store" type="Area2D" parent="MapLayer" unique_id=474505502 node_paths=PackedStringArray("ShopUI", "Hud", "_blink")]
 position = Vector2(2436, 343)
@@ -243,9 +246,12 @@ offset_bottom = 1.3399658
 
 [node name="MapSelectUI" parent="UILayer" unique_id=184537201 instance=ExtResource("32_mapselect")]
 
+[node name="HomeStoryGuides" parent="." unique_id=100217752 instance=ExtResource("41_story_guides")]
+
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")
 Cards = [ExtResource("21_awyto"), ExtResource("22_fxped"), ExtResource("23_tis6c"), ExtResource("24_w2wh5"), ExtResource("25_hp3pq"), ExtResource("30_hp3pq"), ExtResource("34_d7amb"), ExtResource("35_vaj0l"), ExtResource("36_tpbnl"), ExtResource("37_6f2dm"), ExtResource("38_y1oyu"), ExtResource("39_o7g8d"), ExtResource("25_hp3pq")]
+InitialLevel = 2
 
 [node name="RadioStream2D" type="AudioStreamPlayer2D" parent="." unique_id=2064125179]
 position = Vector2(331, 571)

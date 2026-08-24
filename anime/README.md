@@ -61,11 +61,11 @@
 | Rubber | 待机、前进、后退；攻击/受伤/强化占位别名 | 源帧 53 / 27 / 23 | 攻击复用前进、受伤复用后退、强化复用加速待机 |
 | Boom | 待机、攻击、受伤、死亡 | 47 / 41 / 30 / 30 | 前进使用待机画面配合换格 |
 | Core 双手 | 入场、待机、受伤、治疗、弹指、重拳、死亡 | 532 总帧 | True/False 手分别匹配 Profile |
-| Rocky | 暂无源帧 | 0 | 保留原战斗字形，不显示空白 |
-| Sharkk | 暂无源帧 | 0 | 保留原战斗字形，不显示空白 |
-| Core 本体 | 暂无源帧 | 0 | 保留原战斗字形，不显示空白 |
+| Rocky | 待机、前进、后退、中/近攻击、防御、受伤、死亡 | 源帧 230，生成 297 | 行为 ID 全部映射 |
+| Sharkk | 待机、前进、后退、攻击/冲刺、受伤/眩晕 | 源帧 111，生成 183 | 扬尘后撤串联“攻击→后退” |
+| Core 本体 | 待机、前进、后退、攻击、受伤（语义别名覆盖全部动作） | 源帧 136，生成 305 | 负面效果用攻击，闪身/后撤串联“攻击→后退”，死亡暂复用受伤 |
 
-模块已为无素材角色配置完整动作 ID 映射和动画机。以后只需补入对应序列帧并重新生成 `SpriteFrames`，无需改战斗逻辑。完整映射见 `res://anime/ACTION_MAPPING.md`。
+模块已为所有角色配置完整动作 ID 映射和动画机。Core 二阶段本体的五套新源序列已全部导入；完整映射见 `res://anime/ACTION_MAPPING.md`。
 
 ## 添加序列帧
 
@@ -86,10 +86,10 @@ res://anime_assets/frames/<角色>/<动作>/0002.png
   --script res://anime/tools/build_spriteframes.gd
 ```
 
-当前生成结果（783 张源 PNG；玩家三个占位动画复用已有纹理）：
+当前生成结果（1260 张源 PNG；语义动画会复用对应源序列）：
 
 ```text
-ANIME_BUILD_PASS actors=6 clips=19 frames=886
+ANIME_BUILD_PASS actors=6 clips=48 frames=1671
 ```
 
 ## Profile 常用字段
@@ -114,8 +114,10 @@ ANIME_BUILD_PASS actors=6 clips=19 frames=886
 在 Inspector 中配置动画名、从 0 开始的触发帧、AudioStream、音量、音高和总线，
 再拖入角色 Profile 的 `audio_cues` 即可。动画机在该序列帧出现时播放音效；同一段
 动画同一个 Cue 只播放一次，连续受击时会先把动画归零再重播，因此不会漏掉受击声。
-实际的一次性播放器挂在常驻 `AudioManager` 下，即使敌人在死亡后切波并释放，较长的
-死亡音效也会继续完整播放；没有全局音频管理器的最小测试场景会自动使用本地播放器。
+每个角色动画机持有且仅持有一个 `AudioStreamPlayer`，继续使用 Cue 配置的 `SFX`
+总线。不同角色可以同时发声；同一角色切换/重播动画时会先停止旧音效，动作自然结束、
+离开格子或动画机释放时也会立即停止并清除音频。因此较长的素材不会串到下一动作，
+同一个角色的攻击、受击、死亡等音效也不会互相叠加。
 
 Boom 当前配置：
 
@@ -128,12 +130,37 @@ Boom 当前配置：
 配置了帧音效的敌人不再同时播放旧的即时音效，避免重音；尚未配置 Cue 的敌人仍走
 原有即时音效作为兼容回退。
 
+Rocky、Sharkk 与 Core-00 一阶段也已按 `D:/Godot/Pipeline2/music` 的现有素材配置：
+
+- Rocky：待机/移动/后撤、远近攻击、防御、受伤、死亡。
+- Sharkk：攻击、冲刺、受伤、眩晕与死亡；扬尘后撤按“攻击 → 后退”播放。
+- Core-00 双手：左右入场、弹指、治疗响指、重拳、受伤、死亡。
+
+Sharkk 原始序列默认朝左，因此 `sharkk.tres/source_faces_right=false`；动画机会继续根据
+敌我逻辑格位置动态镜像，保证 Sharkk 始终面向玩家，不会修改战斗层的 Facing 数据。
+
+## 探索背景与角色脚线
+
+`BattleBackdropPresenter` 把进入战斗前由 `BattleDirector` 截取的探索背景显示在战斗上方
+舞台。背景保持静止；长地图只滚动逻辑轨道，所以角色看起来在同一背景空间中移动。
+舞台下边界同时作为角色脚线，`stageVbox` 使用底对齐；危险/预警文字是 TrackSlot 根下的
+独立覆盖层，不参与角色 VBox 布局，显示时不会把玩家或敌人顶起来。背景舞台以下全部由
+鼠标穿透的纯黑 `ColorRect` 填充，项目分辨率仍为 1440×1080（4:3）。
+
+格子 VBox 底边默认上抬 `88 px`，贴住探索背景画面内的地面并避开下方电视 UI；该值可在
+`BattleAnimationDisplay/TrackBottomClearancePixels` 中调整。独立层中的角色动画锚点会随格子坐标一起
+上移，脚底继续使用 occupant 底线，因此玩家与敌人始终是“站”在场地上，而不是单独漂浮。
+探索背景默认不透明度为 30%，可在 `BattleBackdropPresenter/BackdropOpacity` 中继续微调；
+该透明度只作用于背景，不影响角色、格子文字和下方战斗 UI。
+
 ## 自动测试
 
 ```powershell
 dotnet build Pipeline.sln --no-restore
 
 & "D:\Godot\Pipeline2\tools\godot-4.6.1-mono\editor-20260813\Godot_v4.6.1-stable_mono_win64\Godot_v4.6.1-stable_mono_win64_console.exe" --headless --path "D:\Godot\Pipeline2\pipeline" --script res://anime/tests/animation_resource_test.gd
+
+& "D:\Godot\Pipeline2\tools\godot-4.6.1-mono\editor-20260813\Godot_v4.6.1-stable_mono_win64\Godot_v4.6.1-stable_mono_win64_console.exe" --headless --path "D:\Godot\Pipeline2\pipeline" --script res://anime/tests/audio_lifecycle_test.gd
 
 & "D:\Godot\Pipeline2\tools\godot-4.6.1-mono\editor-20260813\Godot_v4.6.1-stable_mono_win64\Godot_v4.6.1-stable_mono_win64_console.exe" --headless --path "D:\Godot\Pipeline2\pipeline" --scene res://anime/tests/animation_battle_scenes_smoke.tscn
 
@@ -143,9 +170,11 @@ dotnet build Pipeline.sln --no-restore
 当前通过标记：
 
 ```text
-ANIMATION_RESOURCE_TEST_PASS checks=286 source_frames=783 generated_frames=886 profiles=7
-ANIMATION_BATTLE_SCENES_SMOKE_PASS checks=308 scenes=5 turns=5 completed=5
-ANIMATION_RUNTIME_SMOKE_PASS checks=34 waves=5 profiles=7 local_anchors=1
+ANIMATION_RESOURCE_TEST_PASS checks=621 source_frames=1260 generated_frames=1671 profiles=7
+ANIMATION_BATTLE_SCENES_SMOKE_PASS checks=305 scenes=5 turns=5 completed=5
+ANIMATION_RUNTIME_SMOKE_PASS checks=34 waves=5 profiles=7 independent_overlay=1
+BATTLE_PRESENTATION_CONTRACT_PASS checks=24 backdrop=exploration_size lower=black ground=locked inspector=configurable
+AUDIO_LIFECYCLE_TEST_PASS: actor-owned cues stop on replace, finish, detach and free
 ```
 
 五场测试使用 `Viewport.PushInput` 向屏幕坐标发送真实鼠标移动、按下和松开，走 `TrackSlot.GuiInput → BattleScreen.MoveToCellRequested → BattleManager.TryMoveToCell`，再以玩家位置和能量变化作为硬断言；测试还检查格子全部装饰 Control 均为鼠标穿透，并检查每个玩家/敌人动画的格子局部锚点。

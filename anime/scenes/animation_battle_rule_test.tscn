@@ -39,3 +39,4 @@ grow_horizontal = 1
 grow_vertical = 1
 
 [node name="BattleAnimationDisplay" parent="." unique_id=441800724 instance=ExtResource("8_display")]
+EnemyScaleMultiplier = 1.4900000000000002

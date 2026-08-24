@@ -45,7 +45,7 @@
 | `sharkk_attack`、`sharkk_punch`、`trained_sharkk_attack` | `attack` |
 | `sharkk_prepare_charge`、`trained_sharkk_prepare_charge` | `charge_prepare` |
 | `sharkk_charge`、`trained_sharkk_charge_d1..d4` | `charge` |
-| `sharkk_sand_retreat`、`trained_sharkk_sand_retreat` | `sand_retreat` |
+| `sharkk_sand_retreat`、`trained_sharkk_sand_retreat` | 串联 `attack` → `move_backward` |
 | `sharkk_stunned`、`trained_sharkk_stunned` | `stunned` |
 
 通用状态：`idle`、`hurt`、`death`。
@@ -78,14 +78,14 @@
 | `core_body_sniper` | `sniper` |
 | `core_body_gunstock` | `attack_close` |
 | `core_body_pulse` | `pulse_3` |
-| `core_body_teleport_guard` | `teleport_guard` |
-| `core_body_jam` | `jam_cast` |
+| `core_body_teleport_guard` | `jam_cast → move_backward` |
+| `core_body_jam` | `jam_cast`（负面效果使用攻击动画） |
 | `core_body_reposition` | `retreat` |
 | `trained_core_body_advance_1/2/3` | `move_forward` |
 | `trained_core_body_sniper` | `sniper` |
 | `trained_core_body_gunstock` | `attack_close` |
 | `trained_core_body_pulse` | `pulse_3` |
-| `trained_core_body_teleport_guard` | `teleport_guard` |
-| `trained_core_body_disable` | `jam_cast` |
+| `trained_core_body_teleport_guard` | `jam_cast → move_backward` |
+| `trained_core_body_disable` | `jam_cast`（负面效果使用攻击动画） |
 
 通用状态：`idle`、`hurt`、`death`。

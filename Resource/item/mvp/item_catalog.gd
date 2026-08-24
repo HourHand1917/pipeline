@@ -12,6 +12,7 @@ const ITEM_PATHS: Array[String] = [
 	"res://Resource/item/mvp/particle_wall.tres",
 	"res://Resource/item/mvp/ice_cream.tres",
 	"res://Resource/item/mvp/medkit.tres",
+	"res://Resource/item/mvp/hard_bone.tres",
 ]
 
 

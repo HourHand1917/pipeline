@@ -12,4 +12,5 @@ Risk = 3
 MapId = &"f4"
 SpawnId = &"f4entry"
 Unlocked = true
+RequiredPlayerLevel = 3
 LockedHint = "击败前置首领后开放"

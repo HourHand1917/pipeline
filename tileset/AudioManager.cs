@@ -2,11 +2,12 @@ using Godot;
 
 public partial class AudioManager : Node
 {
-    public enum Bus { MASTER, MUSIC, SFX }
+    public enum Bus { MASTER, MUSIC, SFX, AMBIENT }
 
     private const string MASTER_BUS = "Master";
     private const string MUSIC_BUS = "Music";
     private const string SFX_BUS = "SFX";
+    private const string AMBIENT_BUS = "Ambient";
 
     private const int MUSIC_PLAYER_COUNT = 2;
     private const int SFX_PLAYER_COUNT = 6;
@@ -86,7 +87,7 @@ public partial class AudioManager : Node
             var player = new AudioStreamPlayer
             {
                 Name = $"AmbientPlayer{i}",
-                Bus = SFX_BUS,
+                Bus = AMBIENT_BUS,
                 VolumeDb = AMBIENT_VOLUME_DB,
                 ProcessMode = ProcessModeEnum.Always
             };
@@ -324,6 +325,7 @@ public partial class AudioManager : Node
             Bus.MASTER => MASTER_BUS,
             Bus.MUSIC => MUSIC_BUS,
             Bus.SFX => SFX_BUS,
+            Bus.AMBIENT => AMBIENT_BUS,
             _ => MASTER_BUS
         };
 

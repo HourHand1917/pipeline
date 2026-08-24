@@ -1,12 +1,16 @@
-[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="BattleAnimationProfile" format=3 uid="uid://j57nnir1g46t"]
 
-[ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
+[ext_resource type="Script" uid="uid://b3wd0h0cfhuy7" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/player_frames.tres" id="2"]
+[ext_resource type="Resource" path="res://anime/audio/player_attack_cue.tres" id="3_attack"]
+[ext_resource type="Script" uid="uid://c6jod5x8ahaaa" path="res://anime/scripts/battle_animation_audio_cue.gd" id="4_cue_script"]
 
 [resource]
 script = ExtResource("1")
 profile_id = &"player"
 is_player = true
+enemy_ids = null
+roles = null
 sprite_frames = ExtResource("2")
 action_animations = {
 &"armored_shield": &"buff",
@@ -24,8 +28,6 @@ action_animations = {
 &"simple_cannon": &"attack",
 &"tactical_armor": &"buff"
 }
-target_visual_height = 136.0
-visual_scale = Vector2(1, 1)
+audio_cues = Array[ExtResource("4_cue_script")]([ExtResource("3_attack")])
 visual_offset = Vector2(0, -70)
 source_faces_right = false
-move_tween_duration = 0.18

@@ -151,11 +151,13 @@ public partial class ShopManager : Node, IPersistable
         }
 
         slots.Remove(entry);
-        Persist();
 
         // 卖空 → 立即从货池随机补 4 个
         if (isCard && _cardSlots.Count == 0) RestockCards();
         else if (!isCard && _itemSlots.Count == 0) RestockItems();
+
+        // 补货之后再存，确保补货结果也被持久化（否则卖空时存的是空货架）
+        Persist();
 
         EmitSignal(SignalName.InventoryChanged);
         var boughtName = entry.Call("get_display_name").AsString();
@@ -178,8 +180,8 @@ public partial class ShopManager : Node, IPersistable
     {
         if (state == null) return;
 
-        var cardPaths = state.ContainsKey("cards") ? state["cards"].AsStringArray() : null;
-        var itemPaths = state.ContainsKey("items") ? state["items"].AsStringArray() : null;
+        var cardPaths = state.ContainsKey("cards") ? SaveManager.ReadStringArray(state["cards"]) : null;
+        var itemPaths = state.ContainsKey("items") ? SaveManager.ReadStringArray(state["items"]) : null;
 
         _cardSlots.Clear();
         _cardSlots.AddRange(FromPathArray(cardPaths, _cardPool));
@@ -198,6 +200,11 @@ public partial class ShopManager : Node, IPersistable
         {
             LoadState(saved);
             EmitSignal(SignalName.InventoryChanged);
+        }
+        else
+        {
+            // 首次进入：把初始随机货架也存下来，否则下次重进会重新随机
+            Persist();
         }
     }
 

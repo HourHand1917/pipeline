@@ -37,6 +37,7 @@ public partial class MapDestinationData : Resource
 
     [ExportGroup("Lock")]
     [Export] public bool Unlocked { get; set; } = true;
+    [Export(PropertyHint.Range, "0,99,1")] public int RequiredPlayerLevel { get; set; } = 0;
     [Export] public string LockedHint { get; set; } = "Locked";
 
     public string CategoryText => Category switch

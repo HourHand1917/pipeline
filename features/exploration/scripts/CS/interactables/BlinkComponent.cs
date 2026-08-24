@@ -14,7 +14,6 @@ public partial class BlinkComponent : Node
 
 	[Export] private Node2D _sprite;
 	[Export] private Area2D _clickZone;
-	/// <summary>可选：玩家进入判定区时切换的「开门」贴图（仅 Sprite2D 生效）。</summary>
 	[Export] private Texture2D _openTexture;
 
 	private Color _baseColor;
@@ -49,9 +48,14 @@ public partial class BlinkComponent : Node
 
 	public override void _Ready()
 	{
+		if (_sprite == null || _clickZone == null)
+		{
+			GD.PushWarning($"{Name}: BlinkComponent 缺少 Sprite 或 ClickZone 配置。");
+			return;
+		}
 		_baseColor = _sprite.Modulate;
-		if (_sprite is Sprite2D sprite)
-			_closedTexture = sprite.Texture;
+		if (_sprite is Sprite2D sprite2D)
+			_closedTexture = sprite2D.Texture;
 		_clickZone.MouseEntered += () => { IsHovered = true; OnHoverChanged(); };
 		_clickZone.MouseExited += () => { IsHovered = false; OnHoverChanged(); };
 	}
@@ -90,14 +94,12 @@ public partial class BlinkComponent : Node
 		_sprite.Modulate = _baseColor;
 	}
 
-	/// <summary>进入/离开判定区时切换门贴图（开门/关门）。</summary>
 	private void SetDoorTexture(bool open)
 	{
-		if (_openTexture == null) return; // 未配置开门贴图（如商店），不切换
-		if (_sprite is not Sprite2D sprite) return;
-		if (open)
-			sprite.Texture = _openTexture;
-		else if (_closedTexture != null)
-			sprite.Texture = _closedTexture;
+		if (_sprite is not Sprite2D sprite2D) return;
+		if (open && _openTexture != null)
+			sprite2D.Texture = _openTexture;
+		else if (!open && _closedTexture != null)
+			sprite2D.Texture = _closedTexture;
 	}
 }

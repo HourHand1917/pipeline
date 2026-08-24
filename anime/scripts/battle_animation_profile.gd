@@ -18,6 +18,9 @@ extends Resource
 
 @export_group("Mappings")
 @export var action_animations: Dictionary = {}
+## Optional ordered clips for compound actions, for example attack then retreat.
+## Keys are action IDs; values are PackedStringArray animation names.
+@export var action_animation_sequences: Dictionary = {}
 @export var effect_animations: Dictionary = {
 	"damage": &"attack",
 	"move_toward_opponent": &"move_forward",
@@ -86,6 +89,19 @@ func resolve_action(action_id: StringName) -> StringName:
 	if _looks_like(action_id, ["guard", "defend", "shield"]):
 		return fallback_animation(&"defend")
 	return fallback_animation(idle_animation)
+
+
+func resolve_action_sequence(action_id: StringName) -> Array[StringName]:
+	var result: Array[StringName] = []
+	var configured: Variant = action_animation_sequences.get(action_id)
+	if configured is PackedStringArray or configured is Array:
+		for value: Variant in configured:
+			var animation_name := StringName(str(value))
+			if has_animation(animation_name):
+				result.append(animation_name)
+	if result.is_empty():
+		result.append(resolve_action(action_id))
+	return result
 
 
 func resolve_effect(effect_type: StringName) -> StringName:

@@ -1,0 +1,49 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/cinema_recording_item/characters/录音.dch" id="2_recording"]
+[ext_resource type="Texture2D" path="res://icon.svg" id="3_placeholder"]
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_blink"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/cinema_recording_item/characters/Coral.dch" id="5_coral"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/cinema_recording_item/characters/Lichen.dch" id="6_lichen"]
+
+[sub_resource type="CircleShape2D" id="CircleDetection"]
+radius = 180.0
+
+[sub_resource type="RectangleShape2D" id="RectangleClick"]
+size = Vector2(128, 128)
+
+[node name="CinemaRecordingItem" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+script = ExtResource("1_npc")
+DefaultTimelinePath = "res://features/dialogue/npc/cinema_recording_item/timelines/电影院录音副本.dtl"
+DialogicCharacterIdentifier = &"录音"
+ExtraDialogicCharacterIdentifiers = PackedStringArray("Coral", "Lichen")
+ExtraDialogicCharacters = Array[Resource]([ExtResource("5_coral"), ExtResource("6_lichen")])
+NpcName = "电影院录音副本"
+DialogueCharacter = ExtResource("2_recording")
+DialogueBubbleOffset = Vector2(0, -96)
+DialogueAnimationPlayer = NodePath("AnimationPlayer")
+DisplayName = "电影院录音副本"
+PersistenceId = "cinema_recording_item"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("3_placeholder")
+scale = Vector2(0.25, 0.25)
+
+[node name="DetectionRange" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleDetection")
+
+[node name="ClickZone" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+shape = SubResource("RectangleClick")
+
+[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("4_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

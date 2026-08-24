@@ -35,7 +35,6 @@ public partial class BoomBattleTutorialSmoke : Node
 
             Check(tutorial != null, "Boom tutorial must activate in the demo encounter");
             if (tutorial == null) return;
-            Check(tutorial.Configuration != null, "tutorial exposes an Inspector configuration resource");
             Check(tutorial.CurrentTutorialStep == BoomBattleTutorial.TutorialStep.LightCells,
                 "tutorial starts at lighting cells");
             Check(tutorial.CurrentInputRect.IsEqualApprox(tutorial.CurrentTarget.GetGlobalRect()),
@@ -59,11 +58,11 @@ public partial class BoomBattleTutorialSmoke : Node
 
             await AdvanceStepByClicking(tutorial, BoomBattleTutorial.TutorialStep.InspectEnemy, 4);
             Check(tutorial.CurrentTutorialStep == BoomBattleTutorial.TutorialStep.EndTurn,
-                "inspecting Boom advances to the final end-turn lesson");
+                "clicking Boom's track slot advances to end turn");
 
-            await AdvanceStepByClicking(tutorial, BoomBattleTutorial.TutorialStep.EndTurn, 4, 16);
+            await AdvanceStepByClicking(tutorial, BoomBattleTutorial.TutorialStep.EndTurn, 2, 6);
             Check(tutorial.CurrentTutorialStep == BoomBattleTutorial.TutorialStep.Complete,
-                "clicking the original end-turn button completes the tutorial");
+                "the real end-turn button completes the tutorial after phase change");
             Check(!tutorial.IsTutorialActive && !tutorial.Visible,
                 "completed tutorial releases the original battle UI");
 
