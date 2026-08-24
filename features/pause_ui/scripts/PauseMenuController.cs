@@ -108,6 +108,14 @@ public partial class PauseMenuController : CanvasLayer
     {
         if (@event is not InputEventKey key || !key.Pressed || key.Echo)
             return;
+
+        if (key.Keycode == Key.F11)
+        {
+            ToggleFullscreen();
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+
         if (key.Keycode != Key.Escape && !@event.IsActionPressed("ui_cancel"))
             return;
         if (DisplayServer.GetName() == "headless" && !AllowInputInHeadlessTests)
@@ -147,6 +155,15 @@ public partial class PauseMenuController : CanvasLayer
             return false;
 
         return true;
+    }
+
+    private void ToggleFullscreen()
+    {
+        DisplayServer.WindowMode mode = DisplayServer.WindowGetMode();
+        if (mode == DisplayServer.WindowMode.Fullscreen || mode == DisplayServer.WindowMode.ExclusiveFullscreen)
+            DisplayServer.WindowSetMode(DisplayServer.WindowMode.Windowed);
+        else
+            DisplayServer.WindowSetMode(DisplayServer.WindowMode.Fullscreen);
     }
 
     public static bool IsScenePathExcluded(string scenePath) =>
