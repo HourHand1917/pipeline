@@ -32,6 +32,12 @@ public partial class F4SequenceContractTest : Node
                 "phase-one hand-entry animations remain a safe fallback");
             Check(sequence.PhaseOneIntroVideo?.Stream != null,
                 "phase one uses the subtitle-free authored intro video");
+            Check(sequence.PhaseOneIntroVideo.Material is ShaderMaterial,
+                "phase-one movie uses the non-destructive transparency shader");
+            Check(sequence.HideDuringPhaseOneIntro.Count >= 2,
+                "phase-one movie temporarily hides the player and exploration HUD");
+            Check(sequence.PhaseOneDefeatTimeline == null,
+                "phase-one defeat dialogue is an empty, non-blocking Inspector hook");
             Check(sequence.PhaseTwoLeftAnimation.IsEmpty && sequence.PhaseTwoRightAnimation.IsEmpty,
                 "phase-two entrance remains an explicit empty Inspector hook");
             Check(!sequence.ForcedDialogueNpc.AutoTriggerByRange
@@ -43,6 +49,19 @@ public partial class F4SequenceContractTest : Node
                 && !string.IsNullOrWhiteSpace(packagedDialogue.DefaultTimelinePath)
                 && ResourceLoader.Exists(packagedDialogue.DefaultTimelinePath),
                 "existing Code_00 timeline is configured for runtime loading");
+
+            Resource phaseTwoMap = ResourceLoader.Load<Resource>(
+                "res://features/enemy_ai_node/battle_maps/core00_phase_two_map.tres");
+            Check(phaseTwoMap != null
+                && phaseTwoMap.Get("cell_count").AsInt32() == 7
+                && phaseTwoMap.Get("player_start_cell").AsInt32() == 1,
+                "Core-00 phase two is a seven-cell track with player at cell 1");
+            Godot.Collections.Array<int> enemyStarts =
+                phaseTwoMap.Get("enemy_start_cells").As<Godot.Collections.Array<int>>();
+            Check(enemyStarts.Count == 1 && enemyStarts[0] == 7,
+                "Core-00 phase-two body starts at the opposite endpoint");
+            Check(phaseTwoMap.Call("is_configuration_valid").AsBool(),
+                "Core-00 phase-two seven-cell map remains valid");
 
             PackedScene rockyPacked = ResourceLoader.Load<PackedScene>(
                 "res://features/exploration/scenes/f1/f1_2.tscn");

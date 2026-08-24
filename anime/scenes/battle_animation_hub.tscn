@@ -1,0 +1,14 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://anime/scripts/BattleAnimationHub.cs" id="1_hub"]
+[ext_resource type="Resource" path="res://anime/profiles/player.tres" id="3_player"]
+[ext_resource type="Resource" path="res://anime/profiles/boom.tres" id="4_boom"]
+[ext_resource type="Resource" path="res://anime/profiles/rocky.tres" id="5_rocky"]
+[ext_resource type="Resource" path="res://anime/profiles/sharkk.tres" id="6_sharkk"]
+[ext_resource type="Resource" path="res://anime/profiles/core00_true_hand.tres" id="7_true"]
+[ext_resource type="Resource" path="res://anime/profiles/core00_false_hand.tres" id="8_false"]
+[ext_resource type="Resource" path="res://anime/profiles/core00_body.tres" id="9_body"]
+
+[node name="BattleAnimationHub" type="Node"]
+script = ExtResource("1_hub")
+Profiles = Array[Resource]([ExtResource("3_player"), ExtResource("4_boom"), ExtResource("5_rocky"), ExtResource("6_sharkk"), ExtResource("7_true"), ExtResource("8_false"), ExtResource("9_body")])

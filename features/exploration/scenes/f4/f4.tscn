@@ -11,14 +11,19 @@
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_23vsp"]
 [ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="9_syxpf"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="10_0cwr6"]
-<<<<<<< Updated upstream
-=======
-[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" path="res://features/exploration/f4_sequence/F4BossSequence.cs" id="21_sequence"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/core_hand_frames.tres" id="22_core_frames"]
-[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/code00_prebattle_npc.tscn" id="23_code_dialogue"]
+[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/core00_phase_one_enemy_npc.tscn" id="23_code_dialogue"]
 [ext_resource type="VideoStream" path="res://features/exploration/f4_sequence/assets/core00_phase1_intro_no_subtitles.ogv" id="24_phase1_intro"]
->>>>>>> Stashed changes
+[ext_resource type="Shader" path="res://features/exploration/f4_sequence/core00_intro_transparency.gdshader" id="25_intro_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_core_intro"]
+shader = ExtResource("25_intro_shader")
+shader_parameter/key_color = Color(0.839216, 0.839216, 0.839216, 1)
+shader_parameter/key_similarity = 0.008
+shader_parameter/key_softness = 0.018
+shader_parameter/keep_from_y = 0.0
+shader_parameter/edge_softness = 0.012
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nqeu"]
 radius = 120.0
@@ -65,15 +70,6 @@ script = ExtResource("6_input")
 [node name="HUD" parent="UILayer" unique_id=1501444498 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658
 
-<<<<<<< Updated upstream
-[node name="Boom" type="Area2D" parent="." unique_id=654666680 node_paths=PackedStringArray("_blink")]
-position = Vector2(3596, 438)
-script = ExtResource("7_s2o3l")
-BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
-BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
-ReturnSpawnId = &"sharrk"
-AggroRadius = 100.0
-=======
 [node name="f4_core_return" type="Node2D" parent="."]
 position = Vector2(3200, 530)
 script = ExtResource("2_spawn")
@@ -89,7 +85,7 @@ LeftStageActor = NodePath("LeftStageActor")
 RightStageActor = NodePath("RightStageActor")
 PhaseOneIntroVideo = NodePath("PhaseOneIntroLayer/PhaseOneIntroVideo")
 ForcedDialogueNpc = NodePath("Code00Dialogue")
->>>>>>> Stashed changes
+HideDuringPhaseOneIntro = Array[NodePath]([NodePath("../Player"), NodePath("../UILayer/HUD")])
 BattleMusic = ExtResource("8_23vsp")
 
 [node name="Trigger" type="CollisionShape2D" parent="Core00Encounter"]
@@ -122,6 +118,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+material = SubResource("ShaderMaterial_core_intro")
 stream = ExtResource("24_phase1_intro")
 expand = true
 

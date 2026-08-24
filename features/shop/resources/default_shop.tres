@@ -11,23 +11,7 @@
 [ext_resource type="Resource" uid="uid://dmk3a7ohv1eub" path="res://Resource/item/healthmed.tres" id="9_hmed"]
 [ext_resource type="Resource" uid="uid://cusnq01be0yyp" path="res://Resource/item/mvp/particle_wall.tres" id="10_pwall"]
 [ext_resource type="Resource" uid="uid://db273dcl1sbbo" path="res://Resource/item/mvp/bulletproof_vest.tres" id="11_vest"]
-<<<<<<< Updated upstream
 [ext_resource type="Resource" path="res://Resource/item/mvp/grenade.tres" id="12_grenade"]
-=======
-[ext_resource type="Resource" uid="uid://bsw7ord7hvkw" path="res://Resource/item/mvp/grenade.tres" id="12_grenade"]
-[ext_resource type="Resource" uid="uid://bapiqixv7i6lt" path="res://Resource/card/cards/rocket_fist.tres" id="12_iufq2"]
-[ext_resource type="Resource" uid="uid://b7i6facoalmh3" path="res://Resource/card/cards/scrap_battery.tres" id="13_imlfr"]
-[ext_resource type="Resource" uid="uid://ccbhvxx0r11fc" path="res://Resource/card/cards/scrap_fist.tres" id="14_j0pov"]
-[ext_resource type="Resource" uid="uid://cufrphtj5gdwe" path="res://Resource/card/cards/simple_cannon.tres" id="16_5ti8r"]
-[ext_resource type="Resource" uid="uid://tq7ksi1vjs2d" path="res://Resource/card/cards/tactical_armor.tres" id="17_ddc8d"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/coolant.tres" id="19_aifbh"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/gasoline.tres" id="20_cromg"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/ice_cream.tres" id="22_15ma2"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/medkit.tres" id="23_apllu"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/roller_shoes.tres" id="25_bk425"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/spare_battery.tres" id="26_op87v"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/spinach_powerups.tres" id="27_rysbx"]
->>>>>>> Stashed changes
 
 [sub_resource type="Resource" id="sub_card_0"]
 script = ExtResource("2_entry")

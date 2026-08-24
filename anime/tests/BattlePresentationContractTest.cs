@@ -19,7 +19,8 @@ public partial class BattlePresentationContractTest : Node2D
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
             await CheckDangerOverlay();
             await CheckBackdropCapture();
-            GD.Print($"BATTLE_PRESENTATION_CONTRACT_PASS checks={_checks} backdrop=exploration_size lower=black ground=locked");
+            await CheckInspectorPresentationControls();
+            GD.Print($"BATTLE_PRESENTATION_CONTRACT_PASS checks={_checks} backdrop=exploration_size lower=black ground=locked inspector=configurable");
             GetTree().Quit(0);
         }
         catch (Exception exception)
@@ -121,6 +122,61 @@ public partial class BattlePresentationContractTest : Node2D
         screen.QueueFree();
         background.QueueFree();
         focus.QueueFree();
+    }
+
+    private async System.Threading.Tasks.Task CheckInspectorPresentationControls()
+    {
+        var display = new BattleAnimationDisplay
+        {
+            Name = "ConfigurableBattleAnimationDisplay",
+            TrackOffset = new Vector2(24.0f, -18.0f),
+            PlayerScaleMultiplier = 1.25f,
+            EnemyScaleMultiplier = 0.8f,
+            EnemiesAlwaysFacePlayer = false,
+            ForceEnemyFacing = true,
+            ForcedEnemyFacing = BattleAnimationHub.FacingDirection.Right,
+            PlayerInitialFacing = BattleAnimationHub.FacingDirection.Left,
+            EnemyInitialFacing = BattleAnimationHub.FacingDirection.Right,
+            CameraEnabled = false,
+            SmoothCamera = true,
+            CameraFollowSpeed = 9.0f,
+        };
+        var hub = new BattleAnimationHub { Name = "BattleAnimationHub" };
+        var camera = new BattleTrackCamera { Name = "BattleTrackCamera" };
+        var presenter = new BattleBackdropPresenter { Name = "BattleBackdropPresenter" };
+        display.AddChild(hub);
+        display.AddChild(camera);
+        display.AddChild(presenter);
+        AddChild(display);
+        await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+        Check(hub.ForceEnemyFacing
+            && hub.ForcedEnemyFacing == BattleAnimationHub.FacingDirection.Right
+            && !hub.EnemiesAlwaysFacePlayer,
+            "Inspector can force the enemy visual facing without changing combat facing");
+        Check(Mathf.Abs(hub.PlayerScaleMultiplier - 1.25f) <= 0.001f
+            && Mathf.Abs(hub.EnemyScaleMultiplier - 0.8f) <= 0.001f,
+            "Inspector independently scales all player and enemy animation machines");
+        Check(presenter.TrackOffset.IsEqualApprox(new Vector2(24.0f, -18.0f)),
+            "Inspector moves the complete battle track as one presentation unit");
+        Check(!camera.Enabled && camera.SmoothFollow
+            && Mathf.Abs(camera.FollowSpeed - 9.0f) <= 0.001f,
+            "packaged display keeps camera presentation settings on the same root");
+
+        GDScript machineScript = GD.Load<GDScript>(
+            "res://anime/scripts/battle_animation_machine.gd");
+        Node machine = machineScript.New().As<Node>();
+        AddChild(machine);
+        machine.Set("profile", GD.Load<Resource>("res://anime/profiles/player.tres"));
+        machine.Call("set_visual_scale_multiplier", 1.6f);
+        Check(Mathf.Abs(machine.Get("visual_scale_multiplier").AsSingle() - 1.6f) <= 0.001f,
+            "animation machine accepts a display-only scale override");
+        Vector2 scaleCompensation = machine.Call("_ground_preserving_sprite_offset").AsVector2();
+        Check(scaleCompensation.X == 0.0f && scaleCompensation.Y < 0.0f,
+            "global animation scaling compensates vertically to preserve the authored foot line");
+
+        machine.QueueFree();
+        display.QueueFree();
     }
 
     private void Check(bool condition, string message)

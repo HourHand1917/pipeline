@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/player_frames.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+profile_id = &"player"
+is_player = true
+sprite_frames = ExtResource("2")
+action_animations = {
+&"armored_shield": &"buff",
+&"deadly_kiss": &"attack",
+&"hemostatic_pump": &"buff",
+&"hydraulic_fist": &"attack",
+&"knuckle_striker": &"attack",
+&"mechanical_shoes": &"buff",
+&"military_power_pack": &"buff",
+&"pea_gun": &"attack",
+&"quad_coil_gun": &"attack",
+&"rocket_fist": &"attack",
+&"scrap_battery": &"buff",
+&"scrap_fist": &"attack",
+&"simple_cannon": &"attack",
+&"tactical_armor": &"buff"
+}
+target_visual_height = 136.0
+visual_scale = Vector2(1, 1)
+visual_offset = Vector2(0, -70)
+source_faces_right = false
+move_tween_duration = 0.18

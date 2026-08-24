@@ -20,6 +20,7 @@ public partial class BattleBackdropPresenter : Node
     public float StageTopRatio { get; set; } = 0.17f;
     [Export(PropertyHint.Range, "0,160,1")]
     public float TrackBottomClearancePixels { get; set; } = 76.0f;
+    [Export] public Vector2 TrackOffset { get; set; } = Vector2.Zero;
 
     public bool IsInstalled => GodotObject.IsInstanceValid(_backdrop);
     public Texture2D DisplayedSourceTexture => _sourceTexture;
@@ -35,16 +36,27 @@ public partial class BattleBackdropPresenter : Node
         if (!Enabled || IsInstalled)
             return;
 
+        // Scene transitions and contract tests can free a previously found
+        // BattleScreen between frames. Clear the stale C# wrapper before any
+        // GetNode call so presentation teardown never logs an exception.
+        if (!GodotObject.IsInstanceValid(_screen))
+            _screen = null;
         _screen ??= FindInAncestorScopes<BattleScreen>(this);
-        BattleDirector director = BattleDirector.Instance;
-        if (_screen == null || director?.PendingBattleBackdropTexture == null)
+        if (_screen == null)
             return;
 
         PanelContainer stagePanel = _screen.GetNodeOrNull<PanelContainer>("stagepanel");
         if (stagePanel == null)
             return;
 
+        // Track layout and its Inspector offset do not depend on an
+        // exploration screenshot. Direct/test battles therefore receive the
+        // same authored foot line and adjustable frame position.
         InstallStageGeometry(stagePanel);
+
+        BattleDirector director = BattleDirector.Instance;
+        if (director?.PendingBattleBackdropTexture == null)
+            return;
 
         _sourceTexture = director.PendingBattleBackdropTexture;
         Texture2D displayed = _sourceTexture;
@@ -119,13 +131,13 @@ public partial class BattleBackdropPresenter : Node
         stagePanel.AnchorTop = StageTopRatio;
         stagePanel.AnchorRight = 1.0f;
         stagePanel.AnchorBottom = BackdropBottomRatio;
-        stagePanel.OffsetLeft = 0.0f;
-        stagePanel.OffsetTop = 0.0f;
-        stagePanel.OffsetRight = 0.0f;
+        stagePanel.OffsetLeft = TrackOffset.X;
+        stagePanel.OffsetTop = TrackOffset.Y;
+        stagePanel.OffsetRight = TrackOffset.X;
         // 76 px is approximately 2 cm at the project's 96-DPI reference.
         // Lift the whole track, including combatant anchors, without changing
         // the exploration backdrop or any of the lower battle UI.
-        stagePanel.OffsetBottom = -TrackBottomClearancePixels;
+        stagePanel.OffsetBottom = TrackOffset.Y - TrackBottomClearancePixels;
 
         // End alignment puts the 144px TrackSlot row at the exploration floor.
         // Its occupant ends immediately above the cell-number label, so the

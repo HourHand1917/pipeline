@@ -35,6 +35,7 @@ var _move_tween: Tween
 var runtime_facing := 0
 var _played_audio_cues := {}
 var _locked_ground_y := NAN
+var visual_scale_multiplier := 1.0
 
 
 func bind(combatant: Node, animation_profile: BattleAnimationProfile, manager: Node) -> void:
@@ -63,6 +64,13 @@ func sync_runtime_state(map_position: int, facing: int, current_hp: int, current
 	if last_shield == 0 and current_shield > 0:
 		last_shield = current_shield
 	sync_facing()
+
+
+func set_visual_scale_multiplier(multiplier: float) -> void:
+	visual_scale_multiplier = maxf(0.01, multiplier)
+	if sprite != null and is_instance_valid(sprite):
+		sprite.scale = _effective_scale() * visual_scale_multiplier
+		sprite.position = _ground_preserving_sprite_offset()
 
 
 func notify_health_changed(current: int, maximum: int) -> void:
@@ -220,7 +228,7 @@ func _create_visual_nodes() -> void:
 	sprite.name = "BattleAnimatedSprite"
 	sprite.centered = true
 	sprite.sprite_frames = profile.sprite_frames
-	sprite.scale = _effective_scale()
+	sprite.scale = _effective_scale() * visual_scale_multiplier
 	sprite.z_index = profile.z_index
 	sprite.visible = false
 	anchor.add_child(sprite)
@@ -420,8 +428,8 @@ func _layout_sprite(_animate_move := false) -> void:
 	if _move_tween != null and _move_tween.is_valid():
 		_move_tween.kill()
 	anchor.position = target
-	sprite.position = Vector2.ZERO
-	sprite.scale = _effective_scale()
+	sprite.position = _ground_preserving_sprite_offset()
+	sprite.scale = _effective_scale() * visual_scale_multiplier
 	sprite.z_index = profile.z_index
 	sync_facing()
 
@@ -475,6 +483,18 @@ func _effective_scale() -> Vector2:
 		return profile.visual_scale
 	var factor := profile.target_visual_height / float(texture.get_height())
 	return profile.visual_scale * factor
+
+
+func _ground_preserving_sprite_offset() -> Vector2:
+	if profile == null or is_equal_approx(visual_scale_multiplier, 1.0):
+		return Vector2.ZERO
+	# Profiles are authored with their base frame bottom on the TrackSlot foot
+	# line. Scaling a centered sprite would otherwise push half of the added
+	# height below that line. Lift by exactly that amount; X remains untouched.
+	var base_height := absf(profile.target_visual_height * profile.visual_scale.y)
+	if base_height <= 0.0:
+		return Vector2.ZERO
+	return Vector2(0.0, -base_height * (visual_scale_multiplier - 1.0) * 0.5)
 
 
 func _exit_tree() -> void:

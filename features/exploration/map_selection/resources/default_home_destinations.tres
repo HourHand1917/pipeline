@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MapSelectionConfig" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/map_selection/scripts/MapSelectionConfig.cs" id="1_config"]
+[ext_resource type="Script" path="res://features/exploration/map_selection/scripts/MapDestinationData.cs" id="2_dest"]
+[ext_resource type="Resource" path="res://features/exploration/map_selection/resources/destinations/f2_slums.tres" id="3_f2"]
+[ext_resource type="Resource" path="res://features/exploration/map_selection/resources/destinations/f3_pipes.tres" id="4_f3"]
+[ext_resource type="Resource" path="res://features/exploration/map_selection/resources/destinations/f4_boss.tres" id="5_f4"]
+
+[resource]
+script = ExtResource("1_config")
+Title = "选择下一站"
+Subtitle = "家中的大门只提供已知目的地捷径；选择后再次确认才会出发。"
+ConfirmText = "确认出发"
+CloseText = "关闭地图"
+MapRegistryPath = "res://features/exploration/resources/map_registry.tres"
+Destinations = Array[ExtResource("2_dest")]([ExtResource("3_f2"), ExtResource("4_f3"), ExtResource("5_f4")])

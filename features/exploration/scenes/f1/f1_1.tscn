@@ -1,7 +1,5 @@
 [gd_scene format=3 uid="uid://b8pya2osaixgn"]
 
-[ext_resource type="SpriteFrames" path="res://anime/generated/boom_frames.tres" id="40_boom_frames"]
-
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_o77cp"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_h6566"]
 [ext_resource type="Texture2D" uid="uid://iwodhdmb12kc" path="res://features/exploration/art_assets/maps/f1/教程-1-背景.png" id="3_o77cp"]
@@ -22,6 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="21_workbench_interact"]
 [ext_resource type="PackedScene" path="res://features/workbench/SupplyWorkbench.tscn" id="22_supply_wb"]
+[ext_resource type="PackedScene" path="res://features/chest_tutorial/scenes/chest_tutorial.tscn" id="23_chest_tutorial"]
 
 [sub_resource type="Resource" id="Resource_loot"]
 script = ExtResource("10_loot")
@@ -36,6 +35,17 @@ radius = 48.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_boom_fallback"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("12_boom_sprite")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
 
 [node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_o77cp")
@@ -111,18 +121,12 @@ NpcName = "Boom"
 PersistenceId = "enemy_boom_f1_1"
 _blink = NodePath("Blink")
 
-<<<<<<< Updated upstream
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Boom" unique_id=839715324]
-modulate = Color(0.92, 0.37, 0.25, 1)
-texture = ExtResource("12_boom_sprite")
-=======
 [node name="Sprite" type="AnimatedSprite2D" parent="MapLayer/Boom" unique_id=2113276543]
 position = Vector2(0, -110)
 scale = Vector2(0.22, 0.22)
-sprite_frames = ExtResource("40_boom_frames")
+sprite_frames = SubResource("SpriteFrames_boom_fallback")
 animation = &"idle"
 autoplay = "idle"
->>>>>>> Stashed changes
 
 [node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Boom" unique_id=1024237462]
 shape = SubResource("CircleShape2D_chest_detect")
@@ -203,3 +207,5 @@ script = ExtResource("6_tvxcj")
 
 [node name="HUD" parent="UILayer" unique_id=653107426 instance=ExtResource("7_2iy1r")]
 offset_bottom = 1.3399658
+
+[node name="ChestTutorial" parent="." instance=ExtResource("23_chest_tutorial")]

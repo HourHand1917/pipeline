@@ -15,14 +15,7 @@ RUBBER: 先看看货。你这里还卖别的？
 label tavern_menu
 - 购买“硬骨头”酒（可重复购买）
 	[signal arg="tavern_purchase_drink"]
-	if {tavern_drink_purchase_result} == 1:
-		酒吧老板: 嘿嘿，好眼光，吼吼吼！硬骨头装进你的道具栏了。祝你身子骨硬啊，吼吼吼！
-	elif {tavern_drink_purchase_result} == 2:
-		酒吧老板: 吼吼，硬骨头要16个瓶盖。钱不够，我可不能赊账。
-	elif {tavern_drink_purchase_result} == 3:
-		酒吧老板: 你的道具栏满了，吼吼。先腾出一个格子再来。
-	else:
-		酒吧老板: 酒桶好像卡住了，吼吼。现在还卖不了。
+	酒吧老板: 嘿嘿，好眼光，吼吼吼！祝你身子骨硬啊，吼吼吼！
 	jump tavern_menu
 - 购买水龙头（只能购买一次） | [if {tavern_faucet_purchased} == false] [else="hide"]
 	[signal arg="tavern_purchase_faucet"]

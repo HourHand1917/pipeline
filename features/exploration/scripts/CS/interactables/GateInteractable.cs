@@ -6,19 +6,19 @@ using Godot;
 [GlobalClass]
 public partial class GateInteractable : InteractableBase
 {
-    [Export] public MapSelectUI MapSelectUI { get; set; }
-    [Export] public ExplorationHUD Hud { get; set; }
+	[Export] public MapSelectUI MapSelectUI { get; set; }
+	[Export] public ExplorationHUD Hud { get; set; }
 
-    public override void _Ready()
-    {
-        base._Ready();
-        if (MapSelectUI != null)
-            MapSelectUI.Closed += () => Hud?.ShowHUD();
-    }
+	public override void _Ready()
+	{
+		base._Ready();
+		if (MapSelectUI != null)
+			MapSelectUI.Closed += () => Hud?.ShowHUD();
+	}
 
-    public override void HandleInteract()
-    {
-        Hud?.HideHUD();
-        MapSelectUI?.Open();
-    }
+	public override void HandleInteract()
+	{
+		Hud?.HideHUD();
+		MapSelectUI?.Open();
+	}
 }

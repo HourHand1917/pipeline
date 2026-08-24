@@ -215,6 +215,28 @@ func _test_profiles() -> void:
 		"core00_true_hand": 6,
 		"core00_false_hand": 6,
 	}
+	# These frames are the first drawn contact/reaction frames in the authored
+	# sequences.  Keeping the table in the contract test prevents later asset
+	# imports from silently shifting an impact sound back to animation start.
+	var audio_contact_frames := {
+		"boom": {&"attack": 12, &"hurt": 4, &"death": 5},
+		"rocky": {
+			&"idle": 0, &"move_forward": 0, &"move_backward": 0, &"retreat": 0,
+			&"attack_mid": 8, &"attack_close": 8, &"defend": 0,
+			&"hurt": 3, &"death": 5,
+		},
+		"sharkk": {
+			&"attack": 13, &"charge": 13, &"hurt": 3, &"stunned": 3, &"death": 3,
+		},
+		"core00_true_hand": {
+			&"enter_left": 0, &"finger_flick": 24, &"heal_snap": 22,
+			&"heavy_punch": 30, &"hurt": 3, &"death": 5,
+		},
+		"core00_false_hand": {
+			&"enter_right": 0, &"finger_flick": 24, &"heal_snap": 22,
+			&"heavy_punch": 30, &"hurt": 3, &"death": 5,
+		},
+	}
 	for profile_id: String in profiles_by_id:
 		var configured := profiles_by_id[profile_id] as BattleAnimationProfile
 		if audio_counts.has(profile_id):
@@ -223,6 +245,13 @@ func _test_profiles() -> void:
 			for cue: BattleAnimationAudioCue in configured.audio_cues:
 				_check(cue != null and cue.stream != null,
 					"%s cue loads its audio stream" % profile_id)
+				var expected_frames: Dictionary = audio_contact_frames[profile_id]
+				_check(cue != null and expected_frames.has(cue.animation_name),
+					"%s cue has an authored contact-frame contract" % profile_id)
+				if cue != null and expected_frames.has(cue.animation_name):
+					_check(cue.trigger_frame == expected_frames[cue.animation_name],
+						"%s/%s audio stays on contact frame %s" % [
+							profile_id, cue.animation_name, expected_frames[cue.animation_name]])
 				_check(cue != null and configured.sprite_frames.has_animation(cue.animation_name),
 					"%s cue targets an existing animation" % profile_id)
 				if cue != null and configured.sprite_frames.has_animation(cue.animation_name):

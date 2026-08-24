@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://clma4y2moycb2"
+path="res://.godot/imported/AMB_F01_Test map 1&2.ogg-778f27eaa25f62d4efa1c024170c2ef1.oggvorbisstr"
+
+[deps]
+
+source_file="res://tileset/music_resource/OGG/SFX/环境/AMB_F01_Test map 1&2.ogg"
+dest_files=["res://.godot/imported/AMB_F01_Test map 1&2.ogg-778f27eaa25f62d4efa1c024170c2ef1.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0.0
+bpm=0.0
+beat_count=0
+bar_beats=4

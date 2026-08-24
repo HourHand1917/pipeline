@@ -1,5 +1,6 @@
 using Godot;
 using Godot.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 /// <summary>F4 Core-00 two-stage encounter, using the existing battles and Dialogic NPC.</summary>
@@ -12,6 +13,14 @@ public partial class F4BossSequence : Area2D
     [Export] public AnimatedSprite2D RightStageActor { get; set; }
     [Export] public VideoStreamPlayer PhaseOneIntroVideo { get; set; }
     [Export] public HostileNPC ForcedDialogueNpc { get; set; }
+
+    [ExportGroup("Phase-one intro presentation")]
+    [Export]
+    public Godot.Collections.Array<NodePath> HideDuringPhaseOneIntro { get; set; } = new();
+
+    [ExportGroup("Phase-one defeat dialogue")]
+    [Export]
+    public Resource PhaseOneDefeatTimeline { get; set; }
 
     [ExportGroup("Battle configuration")]
     [Export(PropertyHint.File, "*.tscn")] public string BattleScenePath { get; set; } = "res://Scenes/game_scene/boom_battle_scene.tscn";
@@ -37,6 +46,7 @@ public partial class F4BossSequence : Area2D
 
     private bool _sequenceRunning;
     private bool _dialogueFinished;
+    private readonly List<(CanvasItem Item, bool WasVisible)> _introHiddenItems = new();
 
     public override void _Ready()
     {
@@ -60,6 +70,7 @@ public partial class F4BossSequence : Area2D
 
     public override void _ExitTree()
     {
+        EndPhaseOneIntroPresentation();
         if (ForcedDialogueNpc != null && GodotObject.IsInstanceValid(ForcedDialogueNpc))
             ForcedDialogueNpc.DialogueFinished -= OnForcedDialogueFinished;
         base._ExitTree();
@@ -92,25 +103,7 @@ public partial class F4BossSequence : Area2D
         Player?.LockMovement();
 
         AudioManager audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
-        audio?.SetBusVolume(AudioManager.Bus.MUSIC, DialogueMusicVolume);
-        _dialogueFinished = false;
-        bool started = ForcedDialogueNpc?.StartConfiguredDialogueNow() == true;
-        for (int retry = 0; !started && retry < 120; retry++)
-        {
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-            started = ForcedDialogueNpc?.StartConfiguredDialogueNow() == true;
-        }
-        if (!started)
-        {
-            GD.PushError("F4BossSequence: unable to start the forced Core-00 dialogue.");
-            audio?.SetBusVolume(AudioManager.Bus.MUSIC, 1.0f);
-            Player?.UnlockMovement();
-            _sequenceRunning = false;
-            return;
-        }
-
-        while (!_dialogueFinished)
-            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        await PlayOptionalPhaseOneDefeatDialogue(audio);
 
         if (!PhaseTwoLeftAnimation.IsEmpty || !PhaseTwoRightAnimation.IsEmpty)
             await PlayStagePair(PhaseTwoLeftAnimation, PhaseTwoRightAnimation);
@@ -121,18 +114,76 @@ public partial class F4BossSequence : Area2D
 
     private void OnForcedDialogueFinished() => _dialogueFinished = true;
 
+    /// <summary>
+    /// Inspector hook for tomorrow's authored timeline.  Leaving it empty is
+    /// intentionally valid: the sequence proceeds straight to phase two.
+    /// </summary>
+    private async Task PlayOptionalPhaseOneDefeatDialogue(AudioManager audio)
+    {
+        if (PhaseOneDefeatTimeline == null || ForcedDialogueNpc == null)
+            return;
+
+        ForcedDialogueNpc.DialogueTimeline = PhaseOneDefeatTimeline;
+        audio?.SetBusVolume(AudioManager.Bus.MUSIC, DialogueMusicVolume);
+        _dialogueFinished = false;
+        bool started = ForcedDialogueNpc.StartConfiguredDialogueNow();
+        for (int retry = 0; !started && retry < 120; retry++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            started = ForcedDialogueNpc.StartConfiguredDialogueNow();
+        }
+
+        if (!started)
+        {
+            // Missing/temporarily invalid dialogue content must never strand
+            // the boss sequence.  Designers can repair the dragged resource
+            // later without touching this controller.
+            GD.PushWarning("F4BossSequence: phase-one defeat dialogue could not start; continuing to phase two.");
+            audio?.SetBusVolume(AudioManager.Bus.MUSIC, 1.0f);
+            return;
+        }
+
+        while (!_dialogueFinished)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+    }
+
     private async Task<bool> PlayPhaseOneIntroVideo()
     {
         if (PhaseOneIntroVideo?.Stream == null)
             return false;
 
+        BeginPhaseOneIntroPresentation();
         PhaseOneIntroVideo.Visible = true;
         PhaseOneIntroVideo.Stop();
         PhaseOneIntroVideo.Play();
         await ToSignal(PhaseOneIntroVideo, VideoStreamPlayer.SignalName.Finished);
         PhaseOneIntroVideo.Stop();
         PhaseOneIntroVideo.Visible = false;
+        EndPhaseOneIntroPresentation();
         return true;
+    }
+
+    private void BeginPhaseOneIntroPresentation()
+    {
+        EndPhaseOneIntroPresentation();
+        foreach (NodePath path in HideDuringPhaseOneIntro)
+        {
+            CanvasItem item = GetNodeOrNull<CanvasItem>(path);
+            if (item == null || item == PhaseOneIntroVideo)
+                continue;
+            _introHiddenItems.Add((item, item.Visible));
+            item.Visible = false;
+        }
+    }
+
+    private void EndPhaseOneIntroPresentation()
+    {
+        foreach ((CanvasItem item, bool wasVisible) in _introHiddenItems)
+        {
+            if (GodotObject.IsInstanceValid(item))
+                item.Visible = wasVisible;
+        }
+        _introHiddenItems.Clear();
     }
 
     private async Task PlayStagePair(StringName leftAnimation, StringName rightAnimation)

@@ -31,12 +31,30 @@ GrowthManager="*res://Script/CS/GrowthManager.cs"
 [dialogic]
 
 directories/dch_directory={
+"Code_00": "res://features/dialogue/npc/characters/Code_00.dch",
 "RUBBER": "res://features/dialogue/test_content/characters/RUBBER.dch",
+"Rocky": "res://features/dialogue/npc/characters/Rocky.dch",
+"Sharkk": "res://features/dialogue/npc/characters/Sharkk.dch",
 "reb": "res://features/dialogue/test_content/characters/reb.dch",
+"告示牌": "res://features/dialogue/npc/characters/告示牌.dch",
+"富婆": "res://features/dialogue/npc/characters/富婆.dch",
+"细狗": "res://features/dialogue/npc/characters/细狗.dch",
+"荷官": "res://features/dialogue/npc/characters/荷官.dch",
+"酒吧老板": "res://features/dialogue/npc/characters/酒吧老板.dch",
 "鼠鼠": "res://features/dialogue/test_content/characters/鼠鼠.dch"
 }
 directories/dtl_directory={
-"水龙头与上层工程师": "res://features/dialogue/test_content/timelines/水龙头与上层工程师.dtl"
+"Code_00战前": "res://features/dialogue/npc/timelines/Code_00战前.dtl",
+"Rocky战前": "res://features/dialogue/npc/timelines/Rocky战前.dtl",
+"Sharkk战前": "res://features/dialogue/npc/timelines/Sharkk战前.dtl",
+"Sharkk战后鼠鼠": "res://features/dialogue/npc/timelines/Sharkk战后鼠鼠.dtl",
+"home鼠鼠": "res://features/dialogue/npc/timelines/home鼠鼠.dtl",
+"上层富婆细狗": "res://features/dialogue/npc/timelines/上层富婆细狗.dtl",
+"无人赌场荷官": "res://features/dialogue/npc/timelines/无人赌场荷官.dtl",
+"水龙头与上层工程师": "res://features/dialogue/test_content/timelines/水龙头与上层工程师.dtl",
+"酒吧老板商店对话": "res://features/dialogue/npc/timelines/酒吧老板商店对话.dtl",
+"鲨牙帮告示牌": "res://features/dialogue/npc/timelines/鲨牙帮告示牌.dtl",
+"鼠鼠战后": "res://features/dialogue/npc/timelines/鼠鼠战后.dtl"
 }
 layout/style_directory={}
 glossary/default_case_sensitive=true

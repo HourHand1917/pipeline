@@ -1,7 +1,5 @@
 [gd_scene format=3 uid="uid://b77bjm7uttxkl"]
 
-[ext_resource type="SpriteFrames" path="res://anime/generated/sharkk_frames.tres" id="40_sharkk_frames"]
-
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="AudioStream" uid="uid://b02a446b0uo8l" path="res://tileset/music_resource/OGG/music/MUS_F02_Ambience_OGG.ogg" id="2_bomua"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
@@ -11,9 +9,25 @@
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/sharkk_frames.tres" id="30_sharkk_frames"]
+[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="31_npc"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="33_loot"]
+[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="34_music"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sharkk_detect"]
+size = Vector2(300, 260)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sharkk_click"]
+size = Vector2(240, 200)
+
+[sub_resource type="Resource" id="Resource_sharkk_loot"]
+script = ExtResource("33_loot")
+bottle_cap = 20
+faucet = 20
 
 [node name="ExplorationMap2" type="Node2D" unique_id=1027938863 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
@@ -49,11 +63,9 @@ position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("4_bomua")
 
-<<<<<<< Updated upstream
-=======
 [node name="Sharkk" type="Area2D" parent="MapLayer" node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(1240, 500)
-script = ExtResource("30_npc")
+script = ExtResource("31_npc")
 BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
 PlayerLevelAfterVictory = 2
@@ -69,7 +81,7 @@ _blink = NodePath("Blink")
 [node name="Sprite" type="AnimatedSprite2D" parent="MapLayer/Sharkk"]
 position = Vector2(0, -110)
 scale = Vector2(0.22, 0.22)
-sprite_frames = ExtResource("40_sharkk_frames")
+sprite_frames = ExtResource("30_sharkk_frames")
 animation = &"idle"
 autoplay = "idle"
 
@@ -93,7 +105,6 @@ position = Vector2(-9, 12)
 script = ExtResource("2_spawn")
 SpawnId = &"f2_4_sharkk_return"
 
->>>>>>> Stashed changes
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1291970118]
 position = Vector2(-150, 450)
 script = ExtResource("4_edge")

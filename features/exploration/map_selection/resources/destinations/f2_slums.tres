@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MapDestinationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/map_selection/scripts/MapDestinationData.cs" id="1_dest"]
+
+[resource]
+script = ExtResource("1_dest")
+Title = "下层贫民区"
+Description = "从家门直接抵达贫民区入口。这里物资常见，敌人强度适中，适合作为本轮探索的起点。"
+Category = 0
+RewardHint = "基础物资、瓶盖"
+Risk = 1
+MapId = &"f2_1"
+SpawnId = &"f2_1left"
+Unlocked = true
+LockedHint = "完成教程后开放"

@@ -3,48 +3,58 @@ using Godot.Collections;
 
 /// <summary>
 /// 敌对 NPC。玩家足够靠近时自动触发战斗。
-/// 被打败后留下「尸体」（变灰、不触发、不响应），并通过 GameState 持久化。
+/// 被打败后直接消失（不留尸体），并通过 GameState 持久化，重进地图不再出现。
+/// 战斗胜利返回后可自动打开战利品页。
 /// </summary>
 [GlobalClass]
-public partial class HostileNPC : NPCBase
+public partial class HostileNPC : NPCBase, ILootSource
 {
-    /// <summary>指向战斗场景 .tscn（默认共用 battle_scene，想换背景就换这里）</summary>
+    /// <summary>指向战斗场景 .tscn。</summary>
     [Export] public string BattleScenePath { get; set; } = "res://Scenes/game_scene/battle_scene.tscn";
-    /// <summary>指向战斗规则 .tres（如 rocky_boom_rules）</summary>
+    /// <summary>指向战斗规则 .tres。</summary>
     [Export] public string BattleRulesPath { get; set; } = "";
-    /// <summary>战斗结束返回地图的生成点</summary>
+    /// <summary>战斗结束返回地图的生成点。</summary>
     [Export] public StringName ReturnSpawnId { get; set; } = "";
-    /// <summary>自动触发战斗的距离阈值</summary>
+    /// <summary>自动触发战斗的距离阈值。</summary>
     [Export] public float AggroRadius { get; set; } = 80.0f;
-<<<<<<< Updated upstream
-=======
-    /// <summary>离开地图再回来会复活（不永久战败）；对话进度仍会持久化。</summary>
+    /// <summary>离开地图再回来会复活；对话进度仍会持久化。</summary>
     [Export] public bool RespawnOnReturn { get; set; } = false;
+
     [ExportGroup("触发与剧情")]
     [Export] public bool AutoTriggerByRange { get; set; } = true;
     [Export] public bool AutoStartBattleAfterDialogue { get; set; } = true;
-    [Export(PropertyHint.Range, "-1,99,1")] public int PlayerLevelAfterVictory { get; set; } = -1;
->>>>>>> Stashed changes
+    [Export(PropertyHint.Range, "-1,99,1")]
+    public int PlayerLevelAfterVictory { get; set; } = -1;
 
     [ExportGroup("音乐")]
-[Export] public AudioStream BattleMusic { get; set; }
+    [Export] public AudioStream BattleMusic { get; set; }
 
-    private bool _defeated;   // 持久化：战斗胜利后变尸体
-    private bool _triggered;  // 防重复触发（不持久化）
+    [ExportGroup("战利品")]
+    /// <summary>战利品定义（GDScript LootTable 资源）。</summary>
+    [Export] public Resource Loot { get; set; }
+    /// <summary>探索 HUD，用来打开战利品页。</summary>
+    [Export] public ExplorationHUD Hud { get; set; }
+
+    public Resource RemainingLoot { get; private set; }
+
+    private bool _defeated;
+    private bool _triggered;
+    private bool _battleAfterDialogue;
+    private bool _awaitingAggroExitAfterCancel;
+    private bool _introPlayed;
 
     public override void _Ready()
     {
         base._Ready();
-        if (detectionShape.Shape is CircleShape2D circle)
+        if (detectionShape?.Shape is CircleShape2D circle)
             circle.Radius = AggroRadius;
     }
 
     public override void _PhysicsProcess(double delta)
     {
-<<<<<<< Updated upstream
-=======
         if (!AutoTriggerByRange)
             return;
+
         if (_awaitingAggroExitAfterCancel)
         {
             if (!IsPlayerInRange)
@@ -55,35 +65,51 @@ public partial class HostileNPC : NPCBase
             return;
         }
 
->>>>>>> Stashed changes
         if (_triggered || _defeated || !IsPlayerInRange)
             return;
 
         _triggered = true;
+        if (HasConfiguredDialogue && !_introPlayed)
+        {
+            _battleAfterDialogue = true;
+            if (!TryStartConfiguredDialogue())
+            {
+                // 另一段对话仍在运行时不抢占，下一物理帧继续等待。
+                _triggered = false;
+                _battleAfterDialogue = false;
+            }
+            return;
+        }
+
         TriggerBattle();
     }
 
-    public override void HandleInteract()
+    // 敌对 NPC 不响应点击，靠近自动触发。
+    public override void HandleInteract() { }
+
+    protected override void OnDialogueSignalReceived(Variant argument)
     {
-        // 敌对 NPC 不响应点击，靠近即触发
+        // Dialogic 中可使用 start_battle；实际切场景仍等待 Timeline 正常结束。
+        if ((argument.VariantType == Variant.Type.String ||
+             argument.VariantType == Variant.Type.StringName) &&
+            argument.AsString().Equals("start_battle", System.StringComparison.OrdinalIgnoreCase))
+            _battleAfterDialogue = true;
     }
 
-<<<<<<< Updated upstream
-=======
     protected override void OnDialogueCompleted()
     {
+        _introPlayed = true;
+        PersistInteraction(_mapId);
+
         if (!AutoStartBattleAfterDialogue)
         {
             _battleAfterDialogue = false;
-            _introPlayed = true;
-            PersistInteraction(_mapId);
             return;
         }
+
         if (_battleAfterDialogue && !_defeated)
         {
             _battleAfterDialogue = false;
-            _introPlayed = true;
-            PersistInteraction(_mapId); // 保存对话进度
             TriggerBattle();
         }
     }
@@ -91,35 +117,24 @@ public partial class HostileNPC : NPCBase
     protected override void OnDialogueCancelled()
     {
         _battleAfterDialogue = false;
-        // 敌人是自动触发；若立刻清 _triggered，玩家仍在范围内时下一物理帧
-        // 会把刚关闭的对话重新打开。必须先离开警戒范围，之后才能再次触发。
+        // 必须先离开警戒范围，避免关闭对话后下一物理帧立即重新打开。
         _awaitingAggroExitAfterCancel = true;
     }
 
-    // 没有尸体，无需持久化剩余战利品或刷新尸体视觉。
     public void OnLootClaimed() { }
 
-    // 没有尸体可回头补领：关闭战利品页时把没领完的全自动收进背包。
     public bool AutoClaimRemainderOnClose => true;
 
->>>>>>> Stashed changes
     private void TriggerBattle()
     {
         if (string.IsNullOrEmpty(BattleRulesPath))
         {
             GD.PrintErr($"HostileNPC「{NpcName}」未设置 BattleRulesPath");
+            _triggered = false;
             return;
         }
 
         if (BattleMusic != null)
-<<<<<<< Updated upstream
-    {
-        var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
-        audio?.PlayMusicWithFade(BattleMusic);
-    }
-    
-        BattleDirector.Instance?.StartBattle(BattleScenePath, BattleRulesPath, PersistenceId, _mapId, ReturnSpawnId);
-=======
         {
             var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
             audio?.PlayMusicWithFade(BattleMusic);
@@ -133,36 +148,74 @@ public partial class HostileNPC : NPCBase
             ReturnSpawnId,
             this,
             PlayerLevelAfterVictory);
->>>>>>> Stashed changes
     }
-
-    // ================================================================
-    //  持久化（尸体）
-    // ================================================================
 
     public override Dictionary SaveState()
     {
-        return new Dictionary { { "defeated", _defeated } };
+        return new Dictionary
+        {
+            { "defeated", _defeated },
+            { "intro_played", _introPlayed },
+        };
     }
 
     public override void LoadState(Dictionary state)
     {
-        if (state.TryGetValue("defeated", out var v) && v.AsBool())
-        {
-            _defeated = true;
-            ShowCorpse();
-        }
+        if (state.TryGetValue("intro_played", out var intro) && intro.AsBool())
+            _introPlayed = true;
+
+        bool wasDefeated = state.TryGetValue("defeated", out var defeated) && defeated.AsBool();
+        if (!wasDefeated)
+            return;
+
+        _defeated = true;
+        HideDefeated();
+
+        if (Loot != null && BattleDirector.Instance?.ConsumePendingLoot(PersistenceId) == true)
+            Callable.From(AutoOpenReward).CallDeferred();
     }
 
-    private void ShowCorpse()
+    public override void _ExitTree()
     {
-        // 视觉变灰 + 停止闪烁 + 禁用碰撞（尸体可穿过）
-        if (sprite != null)
-            sprite.Modulate = new Color(0.4f, 0.4f, 0.4f, 1f);
-        SetBlinkEnabled(false);
-        if (detectionShape != null) detectionShape.Disabled = true;
-        if (clickShape != null) clickShape.Disabled = true;
+        if (RespawnOnReturn && _defeated &&
+            !string.IsNullOrEmpty(_mapId) && !string.IsNullOrEmpty(PersistenceId))
+        {
+            Dictionary state = SaveState();
+            state["defeated"] = false;
+            GameState.Instance?.SetObjectState(_mapId, PersistenceId, state);
+        }
+        base._ExitTree();
     }
 
-    
+    private void AutoOpenReward()
+    {
+        EnsureRemainingLoot();
+        if (HasLoot())
+            Hud?.ShowReward(this);
+    }
+
+    private void HideDefeated()
+    {
+        SetBlinkEnabled(false);
+        Monitoring = false;
+        if (clickZone != null)
+        {
+            clickZone.Monitoring = false;
+            clickZone.Monitorable = false;
+        }
+        if (sprite != null)
+            sprite.Visible = false;
+    }
+
+    private void EnsureRemainingLoot()
+    {
+        if (RemainingLoot != null || Loot == null)
+            return;
+        RemainingLoot = (Resource)Loot.Duplicate(false);
+    }
+
+    private bool HasLoot() => RemainingLoot != null && !IsLootEmpty();
+
+    private bool IsLootEmpty() =>
+        ((GodotObject)RemainingLoot).Call(GDScriptKeys.LootTable.IsEmpty).AsBool();
 }

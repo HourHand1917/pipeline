@@ -1,29 +1,65 @@
 using Godot;
+using System.Collections.Generic;
 
 /// <summary>
-/// 地图选择 UI。大门点击后弹出，三个按钮分别传送到 f2/f3/f4 第 0 房间的左边。
+/// Home gate destination selector. It presents a flat, configurable shortcut list,
+/// validates map/spawn ids before travel, and owns its movement/mouse modal lifetime.
 /// </summary>
 [GlobalClass]
 public partial class MapSelectUI : Control
 {
     private const string DefaultConfigurationPath =
         "res://features/exploration/map_selection/resources/default_home_destinations.tres";
-    [Signal] public delegate void ClosedEventHandler();
 
-    [Export] private Button _f2Button;
-    [Export] private Button _f3Button;
-    [Export] private Button _f4Button;
+    [Signal] public delegate void ClosedEventHandler();
+    [Signal] public delegate void OpenedEventHandler();
+    [Signal] public delegate void DestinationSelectionChangedEventHandler(int index);
+
+    [ExportGroup("Configuration")]
+    [Export] private MapSelectionConfig _configuration;
+
+    [ExportGroup("Scene References")]
+    [Export] private VBoxContainer _destinationList;
+    [Export] private Label _titleLabel;
+    [Export] private Label _subtitleLabel;
+    [Export] private Label _detailTitleLabel;
+    [Export] private Label _detailMetaLabel;
+    [Export] private Label _detailDescriptionLabel;
+    [Export] private Label _statusLabel;
+    [Export] private Button _confirmButton;
     [Export] private Button _closeButton;
+
+    public bool IsOpen => _isOpen;
+    public int DestinationButtonCount => _destinationButtons.Count;
+    public int SelectedIndex => _selectedIndex;
+    public MapSelectionConfig Configuration => _configuration;
+
+    /// <summary>
+    /// Visual adapters use this method to select an existing configured row.
+    /// It intentionally does not travel; only the existing confirm button does that.
+    /// </summary>
+    public void SelectDestinationAt(int index) => SelectDestination(index);
+
+    public bool IsDestinationAvailable(int index)
+    {
+        return index >= 0
+            && index < _destinationAvailable.Count
+            && _destinationAvailable[index];
+    }
+
+    private readonly List<Button> _destinationButtons = new();
+    private readonly List<bool> _destinationAvailable = new();
+    private readonly List<string> _destinationUnavailableReasons = new();
+    private readonly ButtonGroup _destinationButtonGroup = new();
+
+    private PlayerController _lockedPlayer;
+    private int _selectedIndex = -1;
+    private bool _isOpen;
+    private bool _travelPending;
 
     public override void _Ready()
     {
         Visible = false;
-<<<<<<< Updated upstream
-        if (_f2Button != null) _f2Button.Pressed += () => Travel("f2_1", "f2_1left");
-        if (_f3Button != null) _f3Button.Pressed += () => Travel("f3_0", "f3_0left");
-        if (_f4Button != null) _f4Button.Pressed += () => Travel("f4", "f4entry");
-        if (_closeButton != null) _closeButton.Pressed += Close;
-=======
         MouseFilter = MouseFilterEnum.Stop;
 
         if (_closeButton != null)
@@ -34,33 +70,60 @@ public partial class MapSelectUI : Control
         EnsureConfiguration();
         ApplyConfigurationText();
         RebuildDestinationList();
->>>>>>> Stashed changes
     }
 
+    public override void _Input(InputEvent @event)
+    {
+        if (!_isOpen || _travelPending)
+            return;
+
+        if (@event is InputEventKey key
+            && key.Pressed
+            && !key.Echo
+            && (key.Keycode == Key.Escape || @event.IsActionPressed("ui_cancel")))
+        {
+            Close();
+            GetViewport().SetInputAsHandled();
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        ReleaseMovementLock();
+    }
+
+    /// <summary>Public API used by GateInteractable.</summary>
     public void Open()
     {
-<<<<<<< Updated upstream
-=======
         if (_isOpen || _travelPending)
             return;
 
         EnsureConfiguration();
         _isOpen = true;
->>>>>>> Stashed changes
         Visible = true;
+        MoveToFront();
+        AcquireMovementLock();
+        RebuildDestinationList();
+
+        Button focusTarget = FindFirstAvailableButton();
+        (focusTarget ?? _closeButton)?.GrabFocus();
+        EmitSignal(SignalName.Opened);
     }
 
+    /// <summary>Public API used by the close button and callers.</summary>
     public void Close()
     {
+        if (!_isOpen || _travelPending)
+            return;
+
+        _isOpen = false;
         Visible = false;
+        ReleaseMovementLock();
         EmitSignal(SignalName.Closed);
     }
 
-    private void Travel(string mapId, string spawnId)
+    private void ApplyConfigurationText()
     {
-<<<<<<< Updated upstream
-        MapManager.Instance?.TravelTo(new StringName(mapId), new StringName(spawnId));
-=======
         if (_configuration == null)
         {
             GD.PushWarning("MapSelectUI: default MapSelectionConfig could not be loaded; using an empty safe configuration.");
@@ -292,6 +355,5 @@ public partial class MapSelectUI : Control
         if (_detailDescriptionLabel != null) _detailDescriptionLabel.Text = "";
         if (_statusLabel != null) _statusLabel.Text = "";
         if (_confirmButton != null) _confirmButton.Disabled = true;
->>>>>>> Stashed changes
     }
 }

@@ -1,0 +1,21 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.68, 0.42, 0.84, 1),
+&"custom_info": {
+"prefix": "",
+"sound_mood_default": "",
+"sound_moods": {},
+"style": "",
+"suffix": ""
+},
+&"default_portrait": "",
+&"description": "接管 AUTORA 集团与上层资源的 AI。",
+&"display_name": "Code_00",
+&"mirror": false,
+&"nicknames": ["code_00", "CODE_00", "Code 00"],
+&"offset": Vector2(0, 0),
+&"portraits": {},
+&"scale": 1.0
+}

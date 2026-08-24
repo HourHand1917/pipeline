@@ -1,0 +1,19 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(0.62, 0.72, 0.34, 1),
+"custom_info": {
+"sound_mood_default": "",
+"sound_moods": {},
+"style": ""
+},
+"default_portrait": "",
+"description": "与富婆同行、奉承 Code_00 的上层居民。",
+"display_name": "细狗",
+"mirror": false,
+"nicknames": ["skinny_dog"],
+"offset": Vector2(0, 0),
+"portraits": {},
+"scale": 1.0
+}
