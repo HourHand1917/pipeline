@@ -398,9 +398,9 @@ public partial class DataManager : Node
         ItemBag.Clear();
         if (state.TryGetValue("items", out var itemsV) && itemsV.VariantType == Variant.Type.Array)
         {
-            foreach (var path in itemsV.AsStringArray())
+            foreach (var path in itemsV.AsGodotArray())
             {
-                var res = GD.Load<Resource>(path);
+                var res = GD.Load<Resource>(path.AsString());
                 if (res != null && ItemBag.Count < MaxItemSlots) ItemBag.Add(res);
             }
         }

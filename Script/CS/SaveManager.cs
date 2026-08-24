@@ -74,7 +74,7 @@ public partial class SaveManager : Node
 
         GameState.Instance?.LoadAll(SnapshotsFromJson(data["game_state"]));
         DataManager.Instance?.LoadState(data["player"].AsGodotDictionary());
-        GrowthManager.Instance?.LoadState(data["growth"].AsStringArray());
+        GrowthManager.Instance?.LoadState(ReadStringArray(data["growth"]));
 
         string mapId = data.TryGetValue("map_id", out var m) ? m.AsString() : "";
         string spawnId = data.TryGetValue("spawn_id", out var s) ? s.AsString() : "";
@@ -136,5 +136,26 @@ public partial class SaveManager : Node
             result[mapId] = inner;
         }
         return result;
+    }
+
+    /// <summary>
+    /// 从 Variant 读取字符串数组。JSON 解析会把 PackedStringArray 变成通用 Array，
+    /// 直接 AsStringArray() 会返回空，这里对两种类型都兼容。
+    /// </summary>
+    public static string[] ReadStringArray(Variant v)
+    {
+        if (v.VariantType == Variant.Type.PackedStringArray)
+            return v.AsStringArray();
+
+        if (v.VariantType == Variant.Type.Array)
+        {
+            var arr = v.AsGodotArray();
+            var result = new string[arr.Count];
+            for (int i = 0; i < arr.Count; i++)
+                result[i] = arr[i].AsString();
+            return result;
+        }
+
+        return new string[0];
     }
 }

@@ -87,7 +87,7 @@ public partial class GrowthPanel : Control
 		var details = new Godot.Collections.Dictionary<string, string>
 		{
 			{ "水龙头", $"${u.Cost}" },
-			{ "等级", $"lv{u.Level}" },
+			{ "需要等级", $"lv{u.RequireLevel}" },
 		};
 		if (!string.IsNullOrEmpty(u.Prerequisite))
 			details["前置"] = GrowthManager.GetUpgrade(u.Prerequisite)?.Name ?? u.Prerequisite;

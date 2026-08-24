@@ -1,6 +1,6 @@
-[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=11 format=3]
+[gd_resource type="Resource" script_class="BattleAnimationProfile" format=3 uid="uid://dp5gwbsc7sy2q"]
 
-[ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
+[ext_resource type="Script" uid="uid://b3wd0h0cfhuy7" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/core_hand_frames.tres" id="2"]
 [ext_resource type="Resource" path="res://anime/audio/core_entry_right_cue.tres" id="3_entry"]
 [ext_resource type="Resource" path="res://anime/audio/core_finger_flick_cue.tres" id="4_flick"]
@@ -8,7 +8,7 @@
 [ext_resource type="Resource" path="res://anime/audio/core_heavy_punch_cue.tres" id="6_punch"]
 [ext_resource type="Resource" path="res://anime/audio/core_hurt_cue.tres" id="7_hurt"]
 [ext_resource type="Resource" path="res://anime/audio/core_death_cue.tres" id="8_death"]
-[ext_resource type="Script" path="res://anime/scripts/battle_animation_audio_cue.gd" id="9_cue_script"]
+[ext_resource type="Script" uid="uid://c6jod5x8ahaaa" path="res://anime/scripts/battle_animation_audio_cue.gd" id="9_cue_script"]
 
 [resource]
 script = ExtResource("1")
@@ -19,15 +19,13 @@ sprite_frames = ExtResource("2")
 idle_animation = &"idle_2"
 entry_animation = &"enter_right"
 action_animations = {
-&"core_false_charge": &"heavy_punch",
-&"core_false_charge_complete": &"heavy_punch",
 &"core_false_break_beam": &"finger_flick",
 &"core_false_break_only": &"finger_flick",
-&"core_false_stun": &"finger_flick",
-&"core_false_heal": &"heal_snap"
+&"core_false_charge": &"heavy_punch",
+&"core_false_charge_complete": &"heavy_punch",
+&"core_false_heal": &"heal_snap",
+&"core_false_stun": &"finger_flick"
 }
 audio_cues = Array[ExtResource("9_cue_script")]([ExtResource("3_entry"), ExtResource("4_flick"), ExtResource("5_heal"), ExtResource("6_punch"), ExtResource("7_hurt"), ExtResource("8_death")])
 target_visual_height = 142.0
-visual_scale = Vector2(1, 1)
 visual_offset = Vector2(0, -71)
-allow_horizontal_flip = true
