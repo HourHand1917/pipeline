@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://features/exploration/map_selection/tests/MapSelectionSmoke.cs" id="1_test"]
+[ext_resource type="Script" path="res://features/exploration/map_selection/tests/MapSelectionSmoke.cs" id="1"]
 
 [node name="MapSelectionSmoke" type="Node"]
-script = ExtResource("1_test")
+script = ExtResource("1")

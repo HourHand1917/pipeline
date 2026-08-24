@@ -24,17 +24,22 @@ public partial class FrontMapUiSmoke : Node
             AddChild(ui);
             FrontMapPresenter presenter = ui.GetNode<FrontMapPresenter>("FrontViewVisualLayer");
             Check(presenter != null, "isolated visual presenter is instanced");
-            Check(presenter.ChoiceCount == 5, "five painted map slots are present");
+            Check(presenter.ChoiceCount == 4, "four selectable/inspectable painted map slots are present");
 
             FrontMapChoice boss = presenter.GetChoiceByMapId("f4");
             FrontMapChoice market = presenter.GetChoiceByMapId("f2_1");
-            FrontMapChoice pipe = presenter.GetChoiceByMapId("f3_0");
-            FrontMapChoice casino = presenter.GetChoiceByName("Casino");
+            FrontMapChoice casino = presenter.GetChoiceByMapId("f3_0");
             FrontMapChoice wasteland = presenter.GetChoiceByName("Wasteland");
-            Check(boss != null && market != null && pipe != null,
-                "real route mapping is f4=Boss, f2_1=Market, f3_0=Pipe");
-            Check(casino != null && casino.Locked, "Casino is a hoverable locked slot");
-            Check(wasteland != null && wasteland.Locked, "Wasteland is a hoverable locked slot");
+            Control pipeSlot = presenter.GetNode<Control>("DesignCanvas/EntranceLayer/Pipe");
+            Check(boss != null && market != null && casino != null && !casino.Locked,
+                "real route mapping is f4=Boss, f3_0=Casino, f2_1=Market");
+            Check(pipeSlot != null && !pipeSlot.Visible && presenter.GetChoiceByName("Pipe") == null,
+                "Pipe slot is removed from the visible and interactive route list");
+            Check(wasteland != null && wasteland.Locked
+                && wasteland.DestinationMapId == "f1_0",
+                "Wasteland represents the locked tutorial origin");
+            Check(wasteland.LockedDescription == "这是你来的地方，你已然带走你该带走的，不可再进入",
+                "Wasteland exposes the exact non-reentry explanation in its tooltip");
 
             presenter.ApplyViewportLayoutForSize(new Vector2(1440, 1080));
             Check(presenter.DesignCanvasScale.IsEqualApprox(Vector2.One),
@@ -54,11 +59,12 @@ public partial class FrontMapUiSmoke : Node
                     $"image {node.Name} ignores mouse input");
             }
 
+            DataManager.Instance.SetLevelAtLeast(3);
             ui.Open();
             Check(ui.IsOpen && ui.Visible, "Open keeps the existing modal lifecycle");
             Check(presenter.OpeningAnimationCount == 1, "open animation starts once");
-            Check(presenter.TooltipBoundChoiceCount == 5,
-                "all five slots reuse the global TooltipService");
+            Check(presenter.TooltipBoundChoiceCount == 4,
+                "all four active slots reuse the global TooltipService");
             Check(ui.SelectedIndex == 0 && market.IsSelected && market.CurrentUsesSelectedTexture,
                 "first configured destination selects the Market painted state");
 
@@ -67,14 +73,12 @@ public partial class FrontMapUiSmoke : Node
                 "Boss click selects F4 by configured map id");
             Check(ui.IsOpen, "map-card click only selects and does not travel");
 
-            pipe.EmitSignal(BaseButton.SignalName.Pressed);
-            Check(ui.SelectedIndex == 1 && pipe.IsSelected,
-                "Pipe click selects F3 by configured map id");
+            casino.EmitSignal(BaseButton.SignalName.Pressed);
+            Check(ui.SelectedIndex == 1 && casino.IsSelected,
+                "Casino click selects F3 by configured map id");
             Check(!boss.IsSelected && !market.IsSelected,
                 "only one real map keeps the selected texture");
 
-            casino.EmitSignal(BaseButton.SignalName.Pressed);
-            Check(ui.SelectedIndex == 1, "locked Casino cannot replace selection");
             wasteland.EmitSignal(BaseButton.SignalName.Pressed);
             Check(ui.SelectedIndex == 1, "locked Wasteland cannot replace selection");
 
@@ -93,7 +97,7 @@ public partial class FrontMapUiSmoke : Node
             Check(!ui.IsOpen && !ui.Visible && closedCount == 1,
                 "Close still restores the existing lifecycle exactly once");
 
-            GD.Print($"FRONT_MAP_UI_SMOKE_PASS checks={_checks} choices=5 real=3 locked=2");
+            GD.Print($"FRONT_MAP_UI_SMOKE_PASS checks={_checks} choices=4 real=3 locked=1");
             GetTree().Quit(0);
         }
         catch (Exception exception)

@@ -72,6 +72,7 @@ position = Vector2(1240, 500)
 script = ExtResource("30_npc")
 BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
+PlayerLevelAfterVictory = 2
 ReturnSpawnId = &"f2_4_sharkk_return"
 AggroRadius = 100.0
 BattleMusic = ExtResource("34_music")

@@ -286,6 +286,17 @@ public partial class DataManager : Node
     // ================================================================
 
     /// <summary>修改血量。amount 可正可负，自动夹在 [0, max] 之间。</summary>
+    /// <summary>Raise the story level without ever lowering existing progress.</summary>
+    public bool SetLevelAtLeast(int level)
+    {
+        int target = Mathf.Max(0, level);
+        if (target <= Lv) return false;
+        Lv = target;
+        EmitSignal(SignalName.LevelChanged, Lv);
+        GD.Print($"剧情等级到达 {Lv}");
+        return true;
+    }
+
     public void ModifyHp(int amount)
     {
         PlayerHp = Mathf.Clamp(PlayerHp + amount, 0, MaxPlayerHp);

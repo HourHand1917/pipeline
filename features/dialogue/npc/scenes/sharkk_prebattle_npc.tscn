@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene format=3 uid="uid://bfyp2nf6t3mk3"]
 
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedHostileNPC.cs" id="1_npc"]
-[ext_resource type="Resource" path="res://features/dialogue/npc/characters/Sharkk.dch" id="2_sharkk"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
-[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
+[ext_resource type="Script" uid="uid://e8cbvgpp20hh" path="res://features/dialogue/npc/scripts/PackagedHostileNPC.cs" id="1_npc"]
+[ext_resource type="Resource" uid="uid://djxniv55jufep" path="res://features/dialogue/npc/characters/Sharkk.dch" id="2_sharkk"]
+[ext_resource type="Resource" uid="uid://cud46uo7b7ivd" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" uid="uid://hhx5w2lmb3jx" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/sharkk_frames.tres" id="5_placeholder"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
+[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="7_spawn"]
+[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_music"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 120.0
@@ -13,7 +15,7 @@ radius = 120.0
 [sub_resource type="RectangleShape2D" id="RectangleClick"]
 size = Vector2(180, 220)
 
-[node name="SharkkPrebattleNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+[node name="SharkkPrebattleNPC" type="Area2D" unique_id=284579292 node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
 script = ExtResource("1_npc")
 DefaultTimelinePath = "res://features/dialogue/npc/timelines/Sharkk战前.dtl"
 DialogicCharacterIdentifier = &"Sharkk"
@@ -21,37 +23,44 @@ BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
 ReturnSpawnId = &"f2_4_sharkk_return"
 AggroRadius = 120.0
+PlayerLevelAfterVictory = 2
+BattleMusic = ExtResource("8_music")
 NpcName = "Sharkk"
 DialogueCharacter = ExtResource("2_sharkk")
 PlayerDialogueCharacter = ExtResource("3_rubber")
 AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
 DialogueBubbleOffset = Vector2(0, -170)
-PlayerDialogueBubbleOffset = Vector2(0, -160)
 DialogueAnimationPlayer = NodePath("AnimationPlayer")
 DisplayName = "Sharkk（战前对话）"
 PersistenceId = "enemy_sharkk_dialogue"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.25, 0.66, 0.76, 1)
-position = Vector2(0, -76)
-scale = Vector2(0.68, 0.68)
-texture = ExtResource("5_placeholder")
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=557458589]
+position = Vector2(4.000023, -72.00001)
+scale = Vector2(0.9732812, 0.9732812)
+sprite_frames = ExtResource("5_placeholder")
+animation = &"idle"
+autoplay = "idle"
 
-[node name="DetectionRange" type="CollisionShape2D" parent="."]
+[node name="DetectionRange" type="CollisionShape2D" parent="." unique_id=766789878]
 shape = SubResource("CircleDetection")
 
-[node name="ClickZone" type="Area2D" parent="."]
+[node name="ClickZone" type="Area2D" parent="." unique_id=1186703746]
 collision_layer = 2
 collision_mask = 0
 
-[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone" unique_id=1922418235]
 position = Vector2(0, -70)
 shape = SubResource("RectangleClick")
 
-[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="." unique_id=1209389557 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("6_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1025721975]
+
+[node name="ReturnSpawn" type="Node2D" parent="." unique_id=607861629]
+position = Vector2(-90, 0)
+script = ExtResource("7_spawn")
+SpawnId = &"f2_4_sharkk_return"

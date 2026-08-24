@@ -1,10 +1,11 @@
-[gd_scene format=3 uid="uid://bgd6do24w6nuc"]
+[gd_scene load_steps=7 format=3 uid="uid://bgd6do24w6nuc"]
 
 [ext_resource type="Script" uid="uid://dvbgjd4jm3inl" path="res://Script/CS/BattleScene.cs" id="1_scene"]
 [ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_board"]
 [ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_resolver"]
 [ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_battle"]
 [ext_resource type="PackedScene" uid="uid://q1ojg1hovxf7" path="res://Scenes/game_scene/battlescreen.tscn" id="5_screen"]
+[ext_resource type="PackedScene" path="res://anime/scenes/battle_animation_display.tscn" id="6_animation"]
 
 [node name="RockyBattleScene" type="Node2D" unique_id=799107391 node_paths=PackedStringArray("BoardManager", "EffectResolver", "BattleManager", "BattleScreen")]
 script = ExtResource("1_scene")
@@ -25,3 +26,5 @@ script = ExtResource("4_battle")
 [node name="BattleScreen" parent="." unique_id=537310219 instance=ExtResource("5_screen")]
 offset_right = 1440.0
 offset_bottom = 1080.0
+
+[node name="BattleAnimationDisplay" parent="." instance=ExtResource("6_animation")]

@@ -46,6 +46,23 @@
 Rocky 与 Sharkk 的战斗路径、规则和返回点已按正式地图配置。把敌对封装放进正式地图时，
 应当**替换**地图里原来的同名敌人，不要并排保留两个实例，否则会重复触发战斗。
 
+## 战斗敌人动画预制体
+
+下面四个场景都继承项目原有 `HostileNPC` 行为，并已经带好战斗规则、通用战斗音乐、
+检测/点击碰撞、Blink、返回点和地图显示外观。直接拖进探索场景即可；只需要修改位置、
+唯一 `PersistenceId`，以及按关卡实际节点修改 `ReturnSpawnId`：
+
+| 敌人 | 可拖拽场景 | 地图外观 |
+| --- | --- | --- |
+| Boom | `scenes/boom_enemy_npc.tscn` | 战斗 `idle` 序列 |
+| Rocky | `scenes/rocky_prebattle_npc.tscn` | 战斗 `idle` 序列 + 战前对话 |
+| Sharkk | `scenes/sharkk_prebattle_npc.tscn` | 战斗 `idle` 序列 + 战前对话 |
+| Core-00 一阶段 | `scenes/core00_phase_one_enemy_npc.tscn` | True/False 双手待机序列 |
+
+Rocky、Sharkk 与 Core-00 双手的动作音效不是绑在探索 NPC 上，而是由同一套战斗动画
+Profile 在对应打击帧播放，因此换地图、复制 NPC 或换 BattleRules 时不需要重复配置音效。
+资源位置为 `res://anime/profiles/` 与 `res://anime/audio/`。
+
 ## 多阶段摆放注意
 
 - 第 2/3 段是 Rocky 战前与战后两个状态。
@@ -95,14 +112,17 @@ NPC 场景会在当前运行实例中注册自己携带的 Dialogic Character，
 - `faucet`，不可重复。
 - `upper_route_intel`，不可重复。
 
-策划没有提供价格，因此封装不擅自扣瓶盖或发货；正式经济系统连接这个信号即可。
-对话、条件状态和气泡选项可以独立运行。
+“硬骨头”已经接入正式交易：售价 16 瓶盖，可重复购买；只有瓶盖足够且背包仍有格子时
+才会扣款并加入背包。使用后回复 4 点生命，并获得本回合 4 点临时力量。水龙头与情报仍
+保留原有一次性/免费复查状态；外部系统仍可监听购买信号扩展剧情反馈。
 
 ## 测试
 
 - `tests/packaged_npc_content_test.tscn`：检查除酒吧外的 9 段 Timeline、角色注册、
   Sprite/碰撞/Blink/AnimationPlayer/PersistenceId，以及三场战斗配置。
 - `tests/tavern_owner_npc_test.tscn`：检查第 5 段四类购买分支、最新文本、Blink 和气泡选项。
+- `tests/tavern_hard_bone_transaction_test.tscn`：检查价格、余额、背包容量、扣款和物品效果。
+- `tests/enemy_animation_prefab_test.gd`：检查四个敌人预制体和三张正式地图的战斗待机外观。
 - `../tests/npc_dialogue_runtime_test.tscn`：检查 Canvas、双锚点和完整气泡选项。
 - `../tests/npc_dialogue_history_escape_test.tscn`：检查历史气泡姓名快照、ESC 真取消、
   取消后不开店/不开战。

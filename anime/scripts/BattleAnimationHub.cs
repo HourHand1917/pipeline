@@ -29,8 +29,16 @@ public partial class BattleAnimationHub : Node
 
     [ExportGroup("Visual Facing Only")]
     [Export] public bool EnemiesAlwaysFacePlayer { get; set; } = true;
+    [Export] public bool ForceEnemyFacing { get; set; } = false;
+    [Export] public FacingDirection ForcedEnemyFacing { get; set; } = FacingDirection.Left;
     [Export] public FacingDirection PlayerInitialFacing { get; set; } = FacingDirection.Right;
     [Export] public FacingDirection EnemyInitialFacing { get; set; } = FacingDirection.Left;
+
+    [ExportGroup("Visual Scale Only")]
+    [Export(PropertyHint.Range, "0.1,4,0.01")]
+    public float PlayerScaleMultiplier { get; set; } = 1.0f;
+    [Export(PropertyHint.Range, "0.1,4,0.01")]
+    public float EnemyScaleMultiplier { get; set; } = 1.0f;
 
     private readonly System.Collections.Generic.Dictionary<ulong, Node> _machines = new();
     private readonly HashSet<ulong> _entryPlayed = new();
@@ -43,6 +51,7 @@ public partial class BattleAnimationHub : Node
     private EnemyManager _enemies;
     private PlayerBattle _player;
     private HBoxContainer _distanceTrack;
+    private Node2D _combatantOverlay;
     private ulong _lastPlayerEffectFrame = ulong.MaxValue;
     private string _lastPlayerEffectSource = "";
     private int _playerActionSerial;
@@ -93,6 +102,8 @@ public partial class BattleAnimationHub : Node
 
         if (_screen?.UIManager?.DistanceTrack != null)
             _distanceTrack = _screen.UIManager.DistanceTrack;
+
+        EnsureCombatantOverlay();
     }
 
     private void DiscoverCombatants()
@@ -138,6 +149,7 @@ public partial class BattleAnimationHub : Node
         AddChild(machine);
         _initialPositions[key] = ReadMapPosition(actor);
         machine.Call("bind", actor, profile, _battle);
+        ApplyMachinePresentation(machine, actor);
         ConnectActorSignals(actor, machine);
         SyncMachineState(machine, actor);
         _machines[key] = machine;
@@ -214,7 +226,7 @@ public partial class BattleAnimationHub : Node
 
     private void RefreshSlots()
     {
-        if (_distanceTrack == null) return;
+        if (_distanceTrack == null || !IsInstanceValid(EnsureCombatantOverlay())) return;
         foreach (Node machine in _machines.Values)
         {
             if (!IsInstanceValid(machine)) continue;
@@ -225,10 +237,11 @@ public partial class BattleAnimationHub : Node
             bool deathStarted = machine.Get("death_started").AsBool();
             if (slot != null)
             {
-                // The visual is parented directly below this TrackSlot's
-                // occupant anchor.  No full-screen overlay is created, so the
-                // original Control layout and GUI hit-test remain untouched.
-                machine.Call("attach_to_slot", slot, true);
+                // TrackSlot is only the position source. The actual visual is
+                // hosted by one stable Node2D below BattleScreen, outside all
+                // slot/VBox clipping and layout. Large actors may overhang a
+                // cell without changing GUI hit-testing or pushing the UI.
+                machine.Call("attach_to_slot", slot, _combatantOverlay, true);
                 ulong key = actor.GetInstanceId();
                 if (!_entryPlayed.Contains(key))
                 {
@@ -241,6 +254,33 @@ public partial class BattleAnimationHub : Node
                 machine.Call("detach_from_slot");
             }
         }
+    }
+
+    /// <summary>
+    /// Stable, mouse-transparent presentation layer. It deliberately lives
+    /// outside DistanceTrack so actor art can extend beyond a cell while the
+    /// original TrackSlot remains the authoritative position anchor.
+    /// </summary>
+    public Node2D GetCombatantOverlay() => EnsureCombatantOverlay();
+
+    private Node2D EnsureCombatantOverlay()
+    {
+        if (IsInstanceValid(_combatantOverlay) && !_combatantOverlay.IsQueuedForDeletion())
+            return _combatantOverlay;
+        if (!IsInstanceValid(_screen)) return null;
+
+        _combatantOverlay = _screen.GetNodeOrNull<Node2D>("BattleCombatantOverlay");
+        if (_combatantOverlay == null)
+        {
+            _combatantOverlay = new Node2D
+            {
+                Name = "BattleCombatantOverlay",
+                ZIndex = 100,
+                ZAsRelative = true,
+            };
+            _screen.AddChild(_combatantOverlay);
+        }
+        return _combatantOverlay;
     }
 
     private TrackSlot FindSlot(Node actor)
@@ -284,7 +324,11 @@ public partial class BattleAnimationHub : Node
         {
             mapPosition = enemy.MapPosition;
             ulong actorId = actor.GetInstanceId();
-            if (EnemiesAlwaysFacePlayer
+            if (ForceEnemyFacing)
+            {
+                facing = (int)ForcedEnemyFacing;
+            }
+            else if (EnemiesAlwaysFacePlayer
                 && IsInstanceValid(_player)
                 && _player.MapPosition != enemy.MapPosition)
             {
@@ -313,6 +357,30 @@ public partial class BattleAnimationHub : Node
         }
         _visualFacings[actor.GetInstanceId()] = facing;
         machine.Call("sync_runtime_state", mapPosition, facing, hp, shield);
+    }
+
+    /// <summary>
+    /// Re-applies display-only Inspector overrides to existing machines. This
+    /// method never writes scale or facing into PlayerBattle/EnemyBattle.
+    /// </summary>
+    public void ApplyPresentationOverrides()
+    {
+        foreach (Node machine in _machines.Values)
+        {
+            if (!IsInstanceValid(machine)) continue;
+            Node actor = machine.Get("actor").As<Node>();
+            if (!IsInstanceValid(actor)) continue;
+            ApplyMachinePresentation(machine, actor);
+            SyncMachineState(machine, actor);
+        }
+    }
+
+    private void ApplyMachinePresentation(Node machine, Node actor)
+    {
+        float multiplier = actor is PlayerBattle
+            ? PlayerScaleMultiplier
+            : EnemyScaleMultiplier;
+        machine.Call("set_visual_scale_multiplier", Mathf.Max(0.01f, multiplier));
     }
 
     private void MarkActorMoved(ulong actorId, int newPosition)

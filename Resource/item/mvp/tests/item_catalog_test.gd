@@ -45,6 +45,14 @@ const EXPECTED_ITEMS := {
 		"consume": true,
 		"effects": [{"type": 2, "target": 0, "amount": 5}],
 	},
+	&"hard_bone": {
+		"consume": true,
+		"price": 16,
+		"effects": [
+			{"type": 2, "target": 0, "amount": 4},
+			{"type": 6, "target": 0, "amount": 0, "buff": "temporary_strength", "stacks": 4},
+		],
+	},
 }
 
 var failures: Array[String] = []
@@ -56,7 +64,7 @@ func _ready() -> void:
 	_check_item_catalog()
 
 	if failures.is_empty():
-		print("MVP_CATALOG_TEST_PASS checks=%d cards=14 items=10 stock=10" % checks)
+		print("MVP_CATALOG_TEST_PASS checks=%d cards=14 items=11 stock=11" % checks)
 		get_tree().quit(0)
 	else:
 		for failure: String in failures:
@@ -76,7 +84,7 @@ func _check_card_catalog() -> void:
 
 func _check_item_catalog() -> void:
 	var items := ITEM_CATALOG.load_all()
-	_check(items.size() == 10, "道具 Catalog 必须正好10种")
+	_check(items.size() == 11, "道具 Catalog 必须正好11种")
 	var ids := {}
 	var scripts := {}
 	var icons := {}
@@ -100,19 +108,19 @@ func _check_item_catalog() -> void:
 		if item.icon != null:
 			_check(item.icon.resource_path.ends_with(".svg"), "%s 图标必须为SVG" % item.id)
 			icons[item.icon.resource_path] = true
-		_check(item.shop_price == 0, "%s 策划未定价，资源价格必须保持0" % item.id)
+		var expected: Dictionary = EXPECTED_ITEMS[item.id]
+		_check(item.shop_price == int(expected.get("price", 0)), "%s 道具价格错误" % item.id)
 		_check(item.mvp_stock == 1, "%s 默认库存必须为1" % item.id)
 		_check(item.special_effects.is_empty(), "%s 不得绕过effects使用旧special契约" % item.id)
 		stock_total += item.mvp_stock
 
-		var expected: Dictionary = EXPECTED_ITEMS[item.id]
 		_check(item.consume_on_use == expected["consume"], "%s consume_on_use错误" % item.id)
 		_check_effects(item, expected["effects"])
 
-	_check(ids.size() == 10, "10种道具ID必须唯一")
-	_check(scripts.size() == 10, "每件道具必须使用不同的独立脚本")
-	_check(icons.size() == 10, "每件道具必须使用不同的原创SVG图标")
-	_check(stock_total == 10, "10种道具默认库存总数应为10件")
+	_check(ids.size() == 11, "11种道具ID必须唯一")
+	_check(scripts.size() == 11, "每件道具必须使用不同的独立脚本")
+	_check(icons.size() == 11, "每件道具必须使用不同的原创SVG图标")
+	_check(stock_total == 11, "11种道具默认库存总数应为11件")
 	_check(ITEM_CATALOG.load_by_id(&"grenade") != null, "应支持按ID加载手雷")
 	_check(ITEM_CATALOG.load_by_id(&"missing") == null, "不存在ID必须返回null")
 

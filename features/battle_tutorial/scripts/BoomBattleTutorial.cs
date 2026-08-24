@@ -25,8 +25,27 @@ public partial class BoomBattleTutorial : CanvasLayer
         Complete = 6,
     }
 
-    [ExportGroup("教程配置")]
-    [Export] public BoomBattleTutorialConfig Configuration { get; set; }
+    [ExportGroup("Activation")]
+    [Export] public bool TutorialEnabled { get; set; } = true;
+    [Export] public bool RequireSingleBoomEncounter { get; set; } = true;
+
+    [ExportGroup("Presentation")]
+    [Export(PropertyHint.Range, "0,40,1")] public float TargetPadding { get; set; } = 12f;
+    [Export(PropertyHint.Range, "0,0.9,0.01")] public float DimOpacity { get; set; } = 0.66f;
+
+    [ExportGroup("Guide text")]
+    [Export] public string LightCellsTitle { get; set; } = "点亮格子";
+    [Export] public string LightCellsInstruction { get; set; } = "点击高亮格子，消耗能量点亮卡牌。";
+    [Export] public string UseCardsTitle { get; set; } = "使用已点亮卡牌";
+    [Export] public string UseCardsInstruction { get; set; } = "卡牌全部点亮后，再点击卡牌即可使用。";
+    [Export] public string MoveTitle { get; set; } = "点击格子移动";
+    [Export] public string MoveInstruction { get; set; } = "点击轨道上的空格，移动玩家位置。";
+    [Export] public string SwitchPanelTitle { get; set; } = "切换敌人面板";
+    [Export] public string SwitchPanelInstruction { get; set; } = "点击上箭头，切换到敌人信息面板。";
+    [Export] public string InspectEnemyTitle { get; set; } = "观察血量与意图";
+    [Export] public string InspectEnemyInstruction { get; set; } = "点击 Boom 脚下，查看血量与行动意图。";
+    [Export] public string EndTurnTitle { get; set; } = "结束回合";
+    [Export] public string EndTurnInstruction { get; set; } = "行动完成后，点击结束回合，让敌人开始行动。";
 
     public bool IsTutorialActive => _active;
     public TutorialStep CurrentTutorialStep => _step;
@@ -56,13 +75,11 @@ public partial class BoomBattleTutorial : CanvasLayer
     private int _tutorialCardId = -1;
     private readonly HashSet<int> _readyCardIds = new();
     private int _moveStartCell;
+    private int _endTurnStartRound;
     private bool _bound;
     private bool _active;
     private bool _activationAttempted;
     private bool _completedForEncounter;
-    private readonly BoomBattleTutorialConfig _fallbackConfiguration = new();
-
-    private BoomBattleTutorialConfig Settings => Configuration ?? _fallbackConfiguration;
 
     public override void _Ready()
     {
@@ -76,7 +93,7 @@ public partial class BoomBattleTutorial : CanvasLayer
 
     public override void _Process(double delta)
     {
-        if (!Settings.Enabled) return;
+        if (!TutorialEnabled) return;
         if (!_bound) TryBind();
         if (!_bound) return;
 
@@ -152,7 +169,7 @@ public partial class BoomBattleTutorial : CanvasLayer
                 _boom = enemy;
         }
 
-        return _boom != null && (!Settings.RequireSingleBoomEncounter || living == 1);
+        return _boom != null && (!RequireSingleBoomEncounter || living == 1);
     }
 
     private void StartTutorial()
@@ -304,7 +321,8 @@ public partial class BoomBattleTutorial : CanvasLayer
                     EnterStep(TutorialStep.EndTurn);
                 break;
             case TutorialStep.EndTurn:
-                if (_battle.CurrentPhase != BattleManager.Phase.PlayerTurn)
+                if (_battle.CurrentPhase != BattleManager.Phase.PlayerTurn
+                    || _battle.RoundNumber > _endTurnStartRound)
                     FinishTutorial();
                 break;
         }
@@ -318,15 +336,19 @@ public partial class BoomBattleTutorial : CanvasLayer
             _readyCardIds.Clear();
             RefreshReadyCardSet();
         }
+        else if (next == TutorialStep.EndTurn)
+        {
+            _endTurnStartRound = _battle.RoundNumber;
+        }
 
         string instruction = next switch
         {
-            TutorialStep.LightCells => Settings.LightCellsInstruction,
-            TutorialStep.UseLitCards => Settings.UseCardsInstruction,
-            TutorialStep.MoveOnTrack => Settings.MoveInstruction,
-            TutorialStep.SwitchEnemyPanel => Settings.SwitchPanelInstruction,
-            TutorialStep.InspectEnemy => Settings.InspectEnemyInstruction,
-            TutorialStep.EndTurn => Settings.EndTurnInstruction,
+            TutorialStep.LightCells => LightCellsInstruction,
+            TutorialStep.UseLitCards => UseCardsInstruction,
+            TutorialStep.MoveOnTrack => MoveInstruction,
+            TutorialStep.SwitchEnemyPanel => SwitchPanelInstruction,
+            TutorialStep.InspectEnemy => InspectEnemyInstruction,
+            TutorialStep.EndTurn => EndTurnInstruction,
             _ => "",
         };
         EmitSignal(SignalName.TutorialStepChanged, (int)next, instruction);
@@ -368,7 +390,7 @@ public partial class BoomBattleTutorial : CanvasLayer
         else
         {
             _inputRect = ExpandAndClamp(_target.GetGlobalRect(), 0);
-            _targetRect = ExpandAndClamp(_target.GetGlobalRect(), Settings.TargetPadding);
+            _targetRect = ExpandAndClamp(_target.GetGlobalRect(), TargetPadding);
         }
     }
 
@@ -456,8 +478,7 @@ public partial class BoomBattleTutorial : CanvasLayer
         AddChild(_root);
         _root.SetAnchorsAndOffsetsPreset(Control.LayoutPreset.FullRect);
 
-        Color dim = Settings.DimColor;
-        dim.A = Settings.DimOpacity;
+        Color dim = new(0.015f, 0.025f, 0.035f, DimOpacity);
         for (int i = 0; i < _blockers.Length; i++)
         {
             _blockers[i] = new ColorRect
@@ -477,7 +498,7 @@ public partial class BoomBattleTutorial : CanvasLayer
         var highlightStyle = new StyleBoxFlat
         {
             BgColor = new Color(0.2f, 0.9f, 0.95f, 0.06f),
-            BorderColor = Settings.HighlightColor,
+            BorderColor = new Color("#74e8ec"),
             BorderWidthLeft = 5,
             BorderWidthTop = 5,
             BorderWidthRight = 5,
@@ -499,19 +520,19 @@ public partial class BoomBattleTutorial : CanvasLayer
             MouseFilter = Control.MouseFilterEnum.Ignore,
         };
         _arrowLabel.AddThemeFontSizeOverride("font_size", 36);
-        _arrowLabel.AddThemeColorOverride("font_color", Settings.StepColor);
+        _arrowLabel.AddThemeColorOverride("font_color", new Color("#f1c453"));
         _root.AddChild(_arrowLabel);
 
         _guideBubble = new PanelContainer
         {
             Name = "GuideBubble",
-            CustomMinimumSize = new Vector2(Settings.BubbleWidth, Settings.BubbleHeight),
+            CustomMinimumSize = new Vector2(470, 146),
             MouseFilter = Control.MouseFilterEnum.Ignore,
         };
         var bubbleStyle = new StyleBoxFlat
         {
-            BgColor = Settings.BubbleColor,
-            BorderColor = Settings.HighlightColor,
+            BgColor = new Color("#101b20f2"),
+            BorderColor = new Color("#74e8ec"),
             BorderWidthLeft = 3,
             BorderWidthTop = 3,
             BorderWidthRight = 3,
@@ -532,9 +553,9 @@ public partial class BoomBattleTutorial : CanvasLayer
         textStack.AddThemeConstantOverride("separation", 6);
         _guideBubble.AddChild(textStack);
 
-        _stepLabel = NewGuideLabel(16, Settings.StepColor);
-        _titleLabel = NewGuideLabel(23, Settings.TitleColor);
-        _bodyLabel = NewGuideLabel(21, Settings.TextColor);
+        _stepLabel = NewGuideLabel(16, new Color("#f1c453"));
+        _titleLabel = NewGuideLabel(23, new Color("#74e8ec"));
+        _bodyLabel = NewGuideLabel(21, Colors.White);
         _bodyLabel.AutowrapMode = TextServer.AutowrapMode.WordSmart;
         textStack.AddChild(_stepLabel);
         textStack.AddChild(_titleLabel);
@@ -556,12 +577,12 @@ public partial class BoomBattleTutorial : CanvasLayer
         _stepLabel.Text = $"BOOM 战斗教学  ·  {(int)_step + 1}/6";
         _titleLabel.Text = _step switch
         {
-            TutorialStep.LightCells => Settings.LightCellsTitle,
-            TutorialStep.UseLitCards => Settings.UseCardsTitle,
-            TutorialStep.MoveOnTrack => Settings.MoveTitle,
-            TutorialStep.SwitchEnemyPanel => Settings.SwitchPanelTitle,
-            TutorialStep.InspectEnemy => Settings.InspectEnemyTitle,
-            TutorialStep.EndTurn => Settings.EndTurnTitle,
+            TutorialStep.LightCells => LightCellsTitle,
+            TutorialStep.UseLitCards => UseCardsTitle,
+            TutorialStep.MoveOnTrack => MoveTitle,
+            TutorialStep.SwitchEnemyPanel => SwitchPanelTitle,
+            TutorialStep.InspectEnemy => InspectEnemyTitle,
+            TutorialStep.EndTurn => EndTurnTitle,
             _ => "",
         };
         _bodyLabel.Text = instruction;
@@ -592,17 +613,16 @@ public partial class BoomBattleTutorial : CanvasLayer
         float pulse = 0.78f + Mathf.Sin(Time.GetTicksMsec() * 0.006f) * 0.22f;
         _highlight.SelfModulate = new Color(1, 1, 1, pulse);
 
-        float bubbleWidth = Settings.BubbleWidth;
-        float bubbleHeight = Settings.BubbleHeight;
-        float gap = Settings.BubbleGap;
-        float margin = Settings.ScreenMargin;
-        bool placeBelow = _targetRect.End.Y + gap + bubbleHeight <= viewport.Y - margin;
+        const float bubbleWidth = 520f;
+        const float bubbleHeight = 154f;
+        const float gap = 34f;
+        bool placeBelow = _targetRect.End.Y + gap + bubbleHeight <= viewport.Y - 24;
         float bubbleY = placeBelow
             ? _targetRect.End.Y + gap
             : _targetRect.Position.Y - gap - bubbleHeight;
         float bubbleX = Mathf.Clamp(_targetRect.GetCenter().X - bubbleWidth * 0.5f,
-            margin, Mathf.Max(margin, viewport.X - bubbleWidth - margin));
-        SetRect(_guideBubble, new Rect2(bubbleX, Mathf.Clamp(bubbleY, margin, viewport.Y - bubbleHeight - margin),
+            24f, Mathf.Max(24f, viewport.X - bubbleWidth - 24f));
+        SetRect(_guideBubble, new Rect2(bubbleX, Mathf.Clamp(bubbleY, 24, viewport.Y - bubbleHeight - 24),
             bubbleWidth, bubbleHeight));
 
         _arrowLabel.Text = placeBelow ? "▲" : "▼";

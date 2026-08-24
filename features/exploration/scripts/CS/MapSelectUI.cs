@@ -8,6 +8,9 @@ using System.Collections.Generic;
 [GlobalClass]
 public partial class MapSelectUI : Control
 {
+    private const string DefaultConfigurationPath =
+        "res://features/exploration/map_selection/resources/default_home_destinations.tres";
+
     [Signal] public delegate void ClosedEventHandler();
     [Signal] public delegate void OpenedEventHandler();
     [Signal] public delegate void DestinationSelectionChangedEventHandler(int index);
@@ -64,6 +67,7 @@ public partial class MapSelectUI : Control
         if (_confirmButton != null)
             _confirmButton.Pressed += ConfirmSelection;
 
+        EnsureConfiguration();
         ApplyConfigurationText();
         RebuildDestinationList();
     }
@@ -94,6 +98,7 @@ public partial class MapSelectUI : Control
         if (_isOpen || _travelPending)
             return;
 
+        EnsureConfiguration();
         _isOpen = true;
         Visible = true;
         MoveToFront();
@@ -121,7 +126,7 @@ public partial class MapSelectUI : Control
     {
         if (_configuration == null)
         {
-            GD.PushError("MapSelectUI: 未配置 MapSelectionConfig。");
+            GD.PushWarning("MapSelectUI: default MapSelectionConfig could not be loaded; using an empty safe configuration.");
             return;
         }
 
@@ -139,6 +144,13 @@ public partial class MapSelectUI : Control
             _confirmButton.Text = _configuration.ConfirmText;
         }
         if (_closeButton != null) _closeButton.TooltipText = _configuration.CloseText;
+    }
+
+    private void EnsureConfiguration()
+    {
+        if (_configuration != null) return;
+        _configuration = ResourceLoader.Load<MapSelectionConfig>(DefaultConfigurationPath)
+            ?? new MapSelectionConfig();
     }
 
     private void RebuildDestinationList()
@@ -164,10 +176,14 @@ public partial class MapSelectUI : Control
                 destination,
                 _configuration.MapRegistryPath,
                 out string validationReason);
-            bool available = destination != null && destination.Unlocked && valid;
+            bool levelMet = destination != null
+                && (DataManager.Instance?.Lv ?? 0) >= destination.RequiredPlayerLevel;
+            bool available = destination != null && destination.Unlocked && levelMet && valid;
             string unavailableReason = !valid
                 ? validationReason
-                : destination?.LockedHint ?? "目的地已锁定";
+                : !levelMet
+                    ? $"需要玩家等级 {destination?.RequiredPlayerLevel ?? 0}。{destination?.LockedHint}"
+                    : destination?.LockedHint ?? "目的地已锁定";
 
             Button button = CreateDestinationButton(destination, available);
             int capturedIndex = index;

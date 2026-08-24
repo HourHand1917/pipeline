@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="PackedScene" path="res://anime/scenes/battle_animation_hub.tscn" id="1_hub"]
 [ext_resource type="PackedScene" path="res://anime/scenes/battle_track_camera.tscn" id="2_camera"]
 [ext_resource type="Script" path="res://anime/scripts/BattleAnimationDisplay.cs" id="3_display"]
+[ext_resource type="Script" path="res://anime/scripts/BattleBackdropPresenter.cs" id="4_backdrop"]
 
 [node name="BattleAnimationDisplay" type="Node2D"]
 script = ExtResource("3_display")
@@ -10,3 +11,6 @@ script = ExtResource("3_display")
 [node name="BattleAnimationHub" parent="." instance=ExtResource("1_hub")]
 
 [node name="BattleTrackCamera" parent="." instance=ExtResource("2_camera")]
+
+[node name="BattleBackdropPresenter" type="Node" parent="."]
+script = ExtResource("4_backdrop")

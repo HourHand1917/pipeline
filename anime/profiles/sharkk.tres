@@ -1,7 +1,13 @@
-[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/sharkk_frames.tres" id="2"]
+[ext_resource type="Resource" path="res://anime/audio/sharkk_attack_cue.tres" id="3_attack"]
+[ext_resource type="Resource" path="res://anime/audio/sharkk_charge_cue.tres" id="4_charge"]
+[ext_resource type="Resource" path="res://anime/audio/sharkk_hurt_cue.tres" id="5_hurt"]
+[ext_resource type="Resource" path="res://anime/audio/sharkk_stunned_cue.tres" id="6_stunned"]
+[ext_resource type="Resource" path="res://anime/audio/sharkk_death_cue.tres" id="7_death"]
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_audio_cue.gd" id="8_cue_script"]
 
 [resource]
 script = ExtResource("1")
@@ -9,13 +15,14 @@ profile_id = &"sharkk"
 enemy_ids = PackedStringArray("sharkk")
 roles = PackedStringArray("sharkk")
 sprite_frames = ExtResource("2")
+move_backward_animation = &"move_backward"
 action_animations = {
 &"sharkk_advance": &"move_forward",
 &"sharkk_attack": &"attack",
 &"sharkk_punch": &"attack",
 &"sharkk_prepare_charge": &"charge_prepare",
 &"sharkk_charge": &"charge",
-&"sharkk_sand_retreat": &"sand_retreat",
+&"sharkk_sand_retreat": &"attack",
 &"sharkk_stunned": &"stunned",
 &"trained_sharkk_advance": &"move_forward",
 &"trained_sharkk_attack": &"attack",
@@ -24,9 +31,15 @@ action_animations = {
 &"trained_sharkk_charge_d2": &"charge",
 &"trained_sharkk_charge_d3": &"charge",
 &"trained_sharkk_charge_d4": &"charge",
-&"trained_sharkk_sand_retreat": &"sand_retreat",
+&"trained_sharkk_sand_retreat": &"attack",
 &"trained_sharkk_stunned": &"stunned"
 }
+action_animation_sequences = {
+&"sharkk_sand_retreat": PackedStringArray("attack", "move_backward"),
+&"trained_sharkk_sand_retreat": PackedStringArray("attack", "move_backward")
+}
+audio_cues = Array[ExtResource("8_cue_script")]([ExtResource("3_attack"), ExtResource("4_charge"), ExtResource("5_hurt"), ExtResource("6_stunned"), ExtResource("7_death")])
 target_visual_height = 136.0
 visual_scale = Vector2(1, 1)
 visual_offset = Vector2(0, -70)
+source_faces_right = false

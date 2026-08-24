@@ -1,7 +1,17 @@
-[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="2"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_idle_cue.tres" id="3_idle"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_move_forward_cue.tres" id="4_forward"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_move_backward_cue.tres" id="5_backward"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_retreat_cue.tres" id="6_retreat"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_attack_mid_cue.tres" id="7_mid"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_attack_close_cue.tres" id="8_close"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_defend_cue.tres" id="9_defend"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_hurt_cue.tres" id="10_hurt"]
+[ext_resource type="Resource" path="res://anime/audio/rocky_death_cue.tres" id="11_death"]
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_audio_cue.gd" id="12_cue_script"]
 
 [resource]
 script = ExtResource("1")
@@ -24,6 +34,7 @@ action_animations = {
 &"trained_rocky_defend": &"defend",
 &"trained_rocky_retreat": &"retreat"
 }
+audio_cues = Array[ExtResource("12_cue_script")]([ExtResource("3_idle"), ExtResource("4_forward"), ExtResource("5_backward"), ExtResource("6_retreat"), ExtResource("7_mid"), ExtResource("8_close"), ExtResource("9_defend"), ExtResource("10_hurt"), ExtResource("11_death")])
 target_visual_height = 136.0
 visual_scale = Vector2(1, 1)
 visual_offset = Vector2(0, -70)

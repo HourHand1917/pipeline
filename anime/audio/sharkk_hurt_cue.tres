@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BattleAnimationAudioCue" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_audio_cue.gd" id="1"]
+[ext_resource type="AudioStream" path="res://features/dialogue/npc/audio/combat/sharkk/hurt.ogg" id="2"]
+
+[resource]
+script = ExtResource("1")
+animation_name = &"hurt"
+trigger_frame = 3
+stream = ExtResource("2")
+volume_db = -1.0
+bus = &"SFX"

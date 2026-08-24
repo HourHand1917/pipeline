@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="BattleAnimationAudioCue" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_audio_cue.gd" id="1"]
+[ext_resource type="AudioStream" path="res://features/dialogue/npc/audio/combat/rocky/idle_move_retreat.ogg" id="2"]
+
+[resource]
+script = ExtResource("1")
+animation_name = &"move_forward"
+trigger_frame = 0
+stream = ExtResource("2")
+volume_db = -3.0
+bus = &"SFX"

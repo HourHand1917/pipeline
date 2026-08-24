@@ -52,6 +52,7 @@ directories/dch_directory={
 }
 directories/dtl_directory={
 "Code_00战前": "res://features/dialogue/npc/timelines/Code_00战前.dtl",
+"Code_00战后": "res://features/dialogue/npc/timelines/Code_00战后.dtl",
 "Rocky战前": "res://features/dialogue/npc/timelines/Rocky战前.dtl",
 "Sharkk战前": "res://features/dialogue/npc/timelines/Sharkk战前.dtl",
 "Sharkk战后鼠鼠": "res://features/dialogue/npc/timelines/Sharkk战后鼠鼠.dtl",

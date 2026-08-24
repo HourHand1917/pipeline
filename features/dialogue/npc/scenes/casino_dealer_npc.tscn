@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3]
 
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/ForcedPackagedFriendlyNPC.cs" id="1_npc"]
 [ext_resource type="Resource" path="res://features/dialogue/npc/characters/荷官.dch" id="2_dealer"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
@@ -18,6 +18,8 @@ script = ExtResource("1_npc")
 DefaultTimelinePath = "res://features/dialogue/npc/timelines/无人赌场荷官.dtl"
 DialogicCharacterIdentifier = &"荷官"
 NpcName = "荷官"
+PlayerLevelAfterDialogue = 3
+AllowEscapeToExitDialogue = false
 DialogueCharacter = ExtResource("2_dealer")
 PlayerDialogueCharacter = ExtResource("3_rubber")
 AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])

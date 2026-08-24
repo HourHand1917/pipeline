@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 /// <summary>
 /// Opens every standalone BattleRules preset built from the copied production
 /// BattleScene. It verifies real TrackSlot mouse movement, local animation
-/// anchors, a complete enemy turn, and clean battle completion.
+/// independent canvas anchors, a complete enemy turn, and clean battle completion.
 /// </summary>
 public partial class AnimationBattleScenesSmoke : Node
 {
@@ -63,9 +63,6 @@ public partial class AnimationBattleScenesSmoke : Node
         await Frames(6);
         Check(host.BattleManager != null && host.Player != null && host.EnemyManager != null,
             $"{scenePath} initializes the production battle runtime");
-        Check(host.GetNodeOrNull("BattleAnimationOverlay") == null
-            && host.BattleScreen.GetNodeOrNull("BattleAnimationOverlay") == null,
-            $"{scenePath} does not create a full-screen animation overlay");
         if (host.BattleManager == null)
         {
             host.QueueFree();
@@ -80,6 +77,10 @@ public partial class AnimationBattleScenesSmoke : Node
 
         BattleAnimationHub hub = FindDescendant<BattleAnimationHub>(host);
         Check(hub != null && hub.Profiles.Count == 7, $"{scenePath} has the full seven-profile Hub");
+        Node2D combatantOverlay = hub?.GetCombatantOverlay();
+        Check(combatantOverlay != null
+            && combatantOverlay.GetParent() == host.BattleScreen,
+            $"{scenePath} hosts actors in one mouse-transparent BattleScreen overlay");
         BattleAnimationDisplay display = FindDescendant<BattleAnimationDisplay>(host);
         BattleTrackCamera camera = display?.TrackCamera ?? FindDescendant<BattleTrackCamera>(host);
         Check(display != null && display.Position == Vector2.Zero,
@@ -255,10 +256,10 @@ public partial class AnimationBattleScenesSmoke : Node
         AnimatedSprite2D sprite = machine?.Get("sprite").As<AnimatedSprite2D>();
         Control occupant = slot?.GetNodeOrNull<Control>("Vbox/occupant");
         Check(slot != null && anchor != null && occupant != null,
-            $"{label} has a TrackSlot-local animation anchor");
-        Control visualHost = occupant?.GetParent() as Control;
-        Check(anchor != null && visualHost != null && anchor.GetParent() == visualHost,
-            $"{label} anchor is parented to the slot-local visual host");
+            $"{label} has a cell-positioned animation anchor");
+        Node2D overlay = hub?.GetCombatantOverlay();
+        Check(anchor != null && overlay != null && anchor.GetParent() == overlay,
+            $"{label} anchor is independent from TrackSlot/VBox clipping");
         Check(sprite != null && anchor != null && sprite.GetParent() == anchor,
             $"{label} sprite is isolated below its own anchor");
         Check(sprite != null && sprite.Modulate.A >= 0.99f,
@@ -266,10 +267,12 @@ public partial class AnimationBattleScenesSmoke : Node
         if (anchor != null && occupant != null && machine != null)
         {
             Resource profile = machine.Get("profile").As<Resource>();
-            Vector2 expected = occupant.Position + new Vector2(occupant.Size.X * 0.5f, occupant.Size.Y);
-            expected += profile?.Get("visual_offset").AsVector2() ?? Vector2.Zero;
-            Check(anchor.Position.DistanceTo(expected) <= 2.0f,
-                $"{label} anchor stays inside the slot's local coordinates");
+            Vector2 expectedCanvas = occupant.GetGlobalTransformWithCanvas()
+                * new Vector2(occupant.Size.X * 0.5f, occupant.Size.Y);
+            expectedCanvas += profile?.Get("visual_offset").AsVector2() ?? Vector2.Zero;
+            Vector2 actualCanvas = anchor.GetGlobalTransformWithCanvas().Origin;
+            Check(actualCanvas.DistanceTo(expectedCanvas) <= 2.0f,
+                $"{label} independent anchor follows the slot foot point in canvas coordinates");
         }
     }
 

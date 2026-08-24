@@ -6,6 +6,10 @@ using Godot;
 [GlobalClass]
 public partial class FriendlyNPC : NPCBase
 {
+	[ExportGroup("剧情奖励")]
+	[Export(PropertyHint.Range, "-1,99,1")]
+	public int PlayerLevelAfterDialogue { get; set; } = -1;
+
 	[ExportGroup("对话后商店")]
 	/// <summary>启用后，Dialogic Timeline 结束时打开已拖入的商店。</summary>
 	[Export] public bool OpenShopAfterDialogue { get; set; } = false;
@@ -50,6 +54,9 @@ public partial class FriendlyNPC : NPCBase
 
 	protected override void OnDialogueCompleted()
 	{
+		if (PlayerLevelAfterDialogue >= 0)
+			DataManager.Instance?.SetLevelAtLeast(PlayerLevelAfterDialogue);
+
 		if (OpenShopAfterDialogue || _shopRequestedByDialogic)
 			OpenConfiguredShop();
 		_shopRequestedByDialogic = false;

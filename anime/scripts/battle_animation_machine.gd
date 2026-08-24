@@ -17,6 +17,7 @@ var battle_manager: Node
 var anchor: Node2D
 var sprite: AnimatedSprite2D
 var audio_player: AudioStreamPlayer
+var visual_overlay: Node2D
 var current_slot: Variant
 var last_position := 0
 var last_hp := 0
@@ -27,12 +28,14 @@ var last_action_token := ""
 var current_priority := PRIORITY_IDLE
 var queued_animation: StringName
 var queued_priority := PRIORITY_IDLE
+var queued_action_sequence: Array[StringName] = []
 var death_started := false
 var death_finished := false
 var actor_owner_id := 0
 var _move_tween: Tween
 var runtime_facing := 0
 var _played_audio_cues := {}
+var visual_scale_multiplier := 1.0
 
 
 func bind(combatant: Node, animation_profile: BattleAnimationProfile, manager: Node) -> void:
@@ -63,6 +66,13 @@ func sync_runtime_state(map_position: int, facing: int, current_hp: int, current
 	sync_facing()
 
 
+func set_visual_scale_multiplier(multiplier: float) -> void:
+	visual_scale_multiplier = maxf(0.01, multiplier)
+	if sprite != null and is_instance_valid(sprite):
+		sprite.scale = _effective_scale() * visual_scale_multiplier
+		sprite.position = _ground_preserving_sprite_offset()
+
+
 func notify_health_changed(current: int, maximum: int) -> void:
 	_on_health_changed(current, maximum)
 
@@ -83,7 +93,7 @@ func notify_died() -> void:
 	_on_died()
 
 
-func attach_to_slot(slot: Node, _animate_move := true) -> void:
+func attach_to_slot(slot: Node, overlay: Node2D, _animate_move := true) -> void:
 	_ensure_visual_nodes()
 	if anchor == null or not is_instance_valid(anchor) \
 			or sprite == null or not is_instance_valid(sprite):
@@ -95,26 +105,25 @@ func attach_to_slot(slot: Node, _animate_move := true) -> void:
 	if occupant == null:
 		detach_from_slot()
 		return
-	var visual_host := occupant.get_parent() as Control
-	if visual_host == null:
+	if overlay == null or not is_instance_valid(overlay):
 		detach_from_slot()
 		return
+	visual_overlay = overlay
 	# Validate the cached native instance before comparing it with the new slot.
 	# A previous encounter may already have freed the cached TrackSlot.
 	if is_instance_valid(current_slot) and slot == current_slot:
-		if anchor.get_parent() != visual_host:
-			anchor.reparent(visual_host, false)
+		if anchor.get_parent() != visual_overlay:
+			anchor.reparent(visual_overlay, false)
 		_hide_slot_glyph(current_slot)
 		sprite.visible = profile.has_visual_frames() and not death_finished
 		_layout_sprite(false)
 		return
 	_restore_slot_glyph(current_slot)
 	current_slot = slot
-	# The animation is a Node2D sibling of occupant. Its local position is still
-	# derived exclusively from the occupant rect, but it does not inherit the
-	# occupant's translucent tint and never participates in GUI mouse filtering.
-	if anchor.get_parent() != visual_host:
-		anchor.reparent(visual_host, false)
+	# The slot provides coordinates only. The animation itself lives in the
+	# shared BattleScreen overlay and can extend outside this cell freely.
+	if anchor.get_parent() != visual_overlay:
+		anchor.reparent(visual_overlay, false)
 	_hide_slot_glyph(current_slot)
 	sprite.visible = profile.has_visual_frames() and not death_finished
 	# A combatant is always fixed to its current logical cell. Movement is
@@ -144,7 +153,13 @@ func play_action(action_id: StringName, action_token: int) -> void:
 	if token == last_action_token:
 		return
 	last_action_token = token
-	request_animation(profile.resolve_action(action_id), PRIORITY_ACTION, true)
+	queued_action_sequence.clear()
+	var sequence := profile.resolve_action_sequence(action_id)
+	if sequence.is_empty():
+		return
+	for index: int in range(1, sequence.size()):
+		queued_action_sequence.append(sequence[index])
+	request_animation(sequence[0], PRIORITY_ACTION, true)
 
 
 func play_effect(effect_type: StringName) -> void:
@@ -212,7 +227,7 @@ func _create_visual_nodes() -> void:
 	sprite.name = "BattleAnimatedSprite"
 	sprite.centered = true
 	sprite.sprite_frames = profile.sprite_frames
-	sprite.scale = _effective_scale()
+	sprite.scale = _effective_scale() * visual_scale_multiplier
 	sprite.z_index = profile.z_index
 	sprite.visible = false
 	anchor.add_child(sprite)
@@ -284,6 +299,7 @@ func _ensure_visual_nodes() -> void:
 	current_priority = PRIORITY_IDLE
 	queued_animation = &""
 	queued_priority = PRIORITY_IDLE
+	queued_action_sequence.clear()
 	_create_visual_nodes()
 	if death_started:
 		request_animation(profile.death_animation, PRIORITY_DEATH, true)
@@ -341,6 +357,7 @@ func _on_died() -> void:
 	death_started = true
 	queued_animation = &""
 	queued_priority = PRIORITY_IDLE
+	queued_action_sequence.clear()
 	if not profile.has_animation(profile.death_animation):
 		death_finished = true
 		if sprite != null and is_instance_valid(sprite):
@@ -355,6 +372,16 @@ func _on_animation_finished() -> void:
 		death_finished = true
 		sprite.visible = false
 		_restore_slot_glyph(current_slot)
+		return
+	if not queued_action_sequence.is_empty():
+		var next_action_animation: StringName = queued_action_sequence.pop_front()
+		# A compound action may also emit PositionChanged for its retreat effect.
+		# Do not replay the same backward clip a second time after the sequence.
+		if queued_animation == next_action_animation:
+			queued_animation = &""
+			queued_priority = PRIORITY_IDLE
+		current_priority = PRIORITY_IDLE
+		request_animation(next_action_animation, PRIORITY_ACTION, true)
 		return
 	if not queued_animation.is_empty():
 		var next := queued_animation
@@ -376,19 +403,25 @@ func _layout_sprite(_animate_move := false) -> void:
 	var occupant := current_slot.get_node_or_null("Vbox/occupant") as Control
 	if occupant == null:
 		return
-	var visual_host := occupant.get_parent() as Control
-	if visual_host == null:
+	if visual_overlay == null or not is_instance_valid(visual_overlay):
 		return
-	if anchor.get_parent() != visual_host:
-		anchor.reparent(visual_host, false)
-	var target := occupant.position \
-		+ Vector2(occupant.size.x * 0.5, occupant.size.y) \
-		+ profile.visual_offset
+	if anchor.get_parent() != visual_overlay:
+		anchor.reparent(visual_overlay, false)
+	# Convert the authored foot point from the Control canvas into the shared
+	# Node2D overlay. Never mix GlobalPosition with canvas transforms: doing so
+	# made visuals drift when the 4:3 viewport or horizontal track camera moved.
+	var occupant_width := occupant.size.x
+	if occupant_width <= 1.0:
+		occupant_width = maxf(1.0, float(current_slot.custom_minimum_size.x))
+	var foot_local := Vector2(occupant_width * 0.5, occupant.size.y)
+	var target_canvas := occupant.get_global_transform_with_canvas() * foot_local
+	target_canvas += profile.visual_offset
+	var target := visual_overlay.get_global_transform_with_canvas().affine_inverse() * target_canvas
 	if _move_tween != null and _move_tween.is_valid():
 		_move_tween.kill()
 	anchor.position = target
-	sprite.position = Vector2.ZERO
-	sprite.scale = _effective_scale()
+	sprite.position = _ground_preserving_sprite_offset()
+	sprite.scale = _effective_scale() * visual_scale_multiplier
 	sprite.z_index = profile.z_index
 	sync_facing()
 
@@ -442,6 +475,18 @@ func _effective_scale() -> Vector2:
 		return profile.visual_scale
 	var factor := profile.target_visual_height / float(texture.get_height())
 	return profile.visual_scale * factor
+
+
+func _ground_preserving_sprite_offset() -> Vector2:
+	if profile == null or is_equal_approx(visual_scale_multiplier, 1.0):
+		return Vector2.ZERO
+	# Profiles are authored with their base frame bottom on the TrackSlot foot
+	# line. Scaling a centered sprite would otherwise push half of the added
+	# height below that line. Lift by exactly that amount; X remains untouched.
+	var base_height := absf(profile.target_visual_height * profile.visual_scale.y)
+	if base_height <= 0.0:
+		return Vector2.ZERO
+	return Vector2(0.0, -base_height * (visual_scale_multiplier - 1.0) * 0.5)
 
 
 func _exit_tree() -> void:

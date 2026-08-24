@@ -11,6 +11,7 @@
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_aojsd"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_tqldu"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
+[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="41_battle_music"]
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_tss16"]
 [ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="9_mgpvb"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_kjvhc"]
@@ -91,12 +92,14 @@ position = Vector2(1703, 256)
 script = ExtResource("5_2p0fj")
 BattleScenePath = "res://Scenes/game_scene/rocky_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
+PlayerLevelAfterVictory = 1
 ReturnSpawnId = &"RockyReturnSpawn"
 AggroRadius = 100.0
 Loot = SubResource("Resource_hpj5k")
 Hud = NodePath("../../UILayer/HUD")
 NpcName = "岩石怪"
 PersistenceId = "enemy_rocky_f1_2"
+BattleMusic = ExtResource("41_battle_music")
 _blink = NodePath("Blink")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/EnemyRocky" unique_id=768182115]

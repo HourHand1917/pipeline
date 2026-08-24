@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://features/dialogue/npc/scripts/TavernOwnerNPC.cs" id="1_npc"]
 [ext_resource type="Resource" path="res://features/dialogue/npc/characters/酒吧老板.dch" id="2_owner"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
 [ext_resource type="Script" path="res://features/dialogue/npc/scripts/tavern_purchase_state.gd" id="6_state"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
+[ext_resource type="Resource" path="res://Resource/item/mvp/hard_bone.tres" id="8_hard_bone"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 240.0
@@ -26,6 +27,7 @@ DialogueAnimationPlayer = NodePath("AnimationPlayer")
 DisplayName = "酒吧老板"
 PersistenceId = "tavern_owner_dialogue"
 _blink = NodePath("Blink")
+HardBoneItem = ExtResource("8_hard_bone")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(0.86, 0.66, 0.32, 1)

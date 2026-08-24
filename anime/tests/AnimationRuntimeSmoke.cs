@@ -31,7 +31,7 @@ public partial class AnimationRuntimeSmoke : Node
 
         if (_failures.Count == 0)
         {
-            GD.Print($"ANIMATION_RUNTIME_SMOKE_PASS checks={_checks} waves=5 profiles=7 local_anchors=1");
+            GD.Print($"ANIMATION_RUNTIME_SMOKE_PASS checks={_checks} waves=5 profiles=7 independent_overlay=1");
             GetTree().Quit(0);
             return;
         }
@@ -71,9 +71,10 @@ public partial class AnimationRuntimeSmoke : Node
 
         BattleAnimationHub hub = _host.GetNodeOrNull<BattleAnimationHub>("BattleAnimationHub");
         Check(hub != null, "wrapper contains BattleAnimationHub");
-        Node oldOverlay = _host.BattleScreen?.GetNodeOrNull("BattleAnimationOverlay");
-        Check(oldOverlay == null, "Hub does not create a full-screen animation overlay");
         if (hub == null) return;
+        Node2D combatantOverlay = hub.GetCombatantOverlay();
+        Check(combatantOverlay != null && combatantOverlay.GetParent() == _host.BattleScreen,
+            "Hub creates one stable BattleScreen combatant overlay");
         Check(hub.Profiles.Count == 7, "Hub receives seven configured profiles");
 
         EnemyBattle boom = _host.EnemyManager.GetAliveByRole("boom");
@@ -89,12 +90,12 @@ public partial class AnimationRuntimeSmoke : Node
         var boomAnchor = boomMachine?.Get("anchor").As<Node2D>();
         Check(playerSprite != null && playerAnchor != null
             && playerSprite.GetParent() == playerAnchor
-            && playerAnchor.GetParent() is Control && playerSprite.Visible,
-            "player sprite is visible on its TrackSlot-local anchor");
+            && playerAnchor.GetParent() == combatantOverlay && playerSprite.Visible,
+            "player sprite is visible on its independent canvas anchor");
         Check(boomSprite != null && boomAnchor != null
             && boomSprite.GetParent() == boomAnchor
-            && boomAnchor.GetParent() is Control && boomSprite.Visible,
-            "Boom sprite is visible on its TrackSlot-local anchor");
+            && boomAnchor.GetParent() == combatantOverlay && boomSprite.Visible,
+            "Boom sprite is visible on its independent canvas anchor");
         string playerAnimation = playerSprite?.Animation.ToString() ?? "";
         Check(playerAnimation == "idle" || playerAnimation == "move_forward" || playerAnimation == "move_backward",
             "player starts in an available idle/movement sequence");
@@ -123,7 +124,7 @@ public partial class AnimationRuntimeSmoke : Node
 
         // Walk the same production campaign through all remaining waves. This
         // verifies dynamic EnemySpawned binding, multi-enemy profiles, Core's
-        // seamless phase switch, and safe glyph fallback for missing artwork.
+        // seamless phase switch, and the completed Rocky/Sharkk artwork.
         _host.BattleManager.EndTurn();
         await WaitFor(() => campaign.CurrentWaveIndex == 1
             && campaign.State == CombatCampaignController.CampaignState.Preparing,
@@ -137,8 +138,9 @@ public partial class AnimationRuntimeSmoke : Node
         Check(hub.GetAnimationMachine(rocky) != null && hub.GetAnimationMachine(boom) != null,
             "Hub creates independent Rocky and Boom machines");
         var rockySprite = hub.GetAnimationMachine(rocky)?.Get("sprite").As<AnimatedSprite2D>();
-        Check(rockySprite != null && !rockySprite.Visible,
-            "Rocky without source frames safely keeps the original glyph");
+        Check(rockySprite != null && rockySprite.Visible
+            && rockySprite.SpriteFrames.GetFrameCount("idle") == 47,
+            "Rocky displays its completed frame animation at the combat slot");
         KillCurrentWave();
         _host.BattleManager.EndTurn();
         await WaitFor(() => campaign.CurrentWaveIndex == 2
@@ -151,8 +153,9 @@ public partial class AnimationRuntimeSmoke : Node
         Check(sharkk != null && hub.GetAnimationMachine(sharkk) != null,
             "trained Sharkk receives its configured animation machine");
         var sharkkSprite = hub.GetAnimationMachine(sharkk)?.Get("sprite").As<AnimatedSprite2D>();
-        Check(sharkkSprite != null && !sharkkSprite.Visible,
-            "Sharkk without source frames safely keeps the original glyph");
+        Check(sharkkSprite != null && sharkkSprite.Visible
+            && sharkkSprite.SpriteFrames.GetFrameCount("idle") == 47,
+            "Sharkk displays its completed frame animation at the combat slot");
         KillCurrentWave();
         _host.BattleManager.EndTurn();
         await WaitFor(() => campaign.CurrentWaveIndex == 3

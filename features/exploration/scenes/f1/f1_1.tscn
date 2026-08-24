@@ -22,6 +22,7 @@
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="21_workbench_interact"]
 [ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="22_supply_wb"]
+[ext_resource type="PackedScene" path="res://features/chest_tutorial/scenes/chest_tutorial.tscn" id="23_chest_tutorial"]
 
 [sub_resource type="Resource" id="Resource_loot"]
 script = ExtResource("10_loot")
@@ -239,3 +240,5 @@ script = ExtResource("6_tvxcj")
 
 [node name="HUD" parent="UILayer" unique_id=653107426 instance=ExtResource("7_2iy1r")]
 offset_bottom = 1.3399658
+
+[node name="ChestTutorial" parent="." instance=ExtResource("23_chest_tutorial")]
