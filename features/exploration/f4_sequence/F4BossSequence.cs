@@ -11,13 +11,8 @@ public partial class F4BossSequence : Area2D
     [Export] public PlayerController Player { get; set; }
     [Export] public AnimatedSprite2D LeftStageActor { get; set; }
     [Export] public AnimatedSprite2D RightStageActor { get; set; }
-    [Export] public VideoStreamPlayer PhaseOneIntroVideo { get; set; }
     [Export] public HostileNPC ForcedDialogueNpc { get; set; }
     [Export] public AnimationPlayer SequenceAnimationPlayer { get; set; }
-
-    [ExportGroup("Phase-one intro presentation")]
-    [Export]
-    public Godot.Collections.Array<NodePath> HideDuringPhaseOneIntro { get; set; } = new();
 
     [ExportGroup("Phase-one defeat dialogue")]
     [Export]
@@ -52,7 +47,6 @@ public partial class F4BossSequence : Area2D
 
     private bool _sequenceRunning;
     private bool _dialogueFinished;
-    private readonly List<(CanvasItem Item, bool WasVisible)> _introHiddenItems = new();
 
     public override void _Ready()
     {
@@ -77,7 +71,6 @@ public partial class F4BossSequence : Area2D
 
     public override void _ExitTree()
     {
-        EndPhaseOneIntroPresentation();
         if (ForcedDialogueNpc != null && GodotObject.IsInstanceValid(ForcedDialogueNpc))
             ForcedDialogueNpc.DialogueFinished -= OnForcedDialogueFinished;
         base._ExitTree();
@@ -229,45 +222,6 @@ public partial class F4BossSequence : Area2D
 
         while (!_dialogueFinished)
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-    }
-
-    private async Task<bool> PlayPhaseOneIntroVideo()
-    {
-        if (PhaseOneIntroVideo?.Stream == null)
-            return false;
-
-        BeginPhaseOneIntroPresentation();
-        PhaseOneIntroVideo.Visible = true;
-        PhaseOneIntroVideo.Stop();
-        PhaseOneIntroVideo.Play();
-        await ToSignal(PhaseOneIntroVideo, VideoStreamPlayer.SignalName.Finished);
-        PhaseOneIntroVideo.Stop();
-        PhaseOneIntroVideo.Visible = false;
-        EndPhaseOneIntroPresentation();
-        return true;
-    }
-
-    private void BeginPhaseOneIntroPresentation()
-    {
-        EndPhaseOneIntroPresentation();
-        foreach (NodePath path in HideDuringPhaseOneIntro)
-        {
-            CanvasItem item = GetNodeOrNull<CanvasItem>(path);
-            if (item == null || item == PhaseOneIntroVideo)
-                continue;
-            _introHiddenItems.Add((item, item.Visible));
-            item.Visible = false;
-        }
-    }
-
-    private void EndPhaseOneIntroPresentation()
-    {
-        foreach ((CanvasItem item, bool wasVisible) in _introHiddenItems)
-        {
-            if (GodotObject.IsInstanceValid(item))
-                item.Visible = wasVisible;
-        }
-        _introHiddenItems.Clear();
     }
 
     private async Task PlayStagePair(StringName leftAnimation, StringName rightAnimation)
