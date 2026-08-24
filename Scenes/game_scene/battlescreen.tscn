@@ -55,7 +55,7 @@ animations = [{
 "speed": 8.0
 }]
 
-[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "loglabel", "statuslabel", "roundlabel", "phaselabel", "distancelabel", "distancetrack", "movebackbutton", "moveforwardbutton", "movehint", "endturnbutton", "healthBar", "rubberheart", "playerTV", "playerBuffGrid")]
+[node name="battlescreen" type="Control" unique_id=116169819 node_paths=PackedStringArray("battlegrid", "energyGrid", "loglabel", "statuslabel", "roundlabel", "phaselabel", "distancelabel", "distancetrack", "endturnbutton", "healthBar", "rubberheart", "playerTV", "playerBuffGrid")]
 custom_minimum_size = Vector2(1440, 1080)
 layout_mode = 3
 anchors_preset = 15
@@ -74,9 +74,6 @@ roundlabel = NodePath("infobar/roundlabel")
 phaselabel = NodePath("infobar/phaselabel")
 distancelabel = NodePath("infobar/distancelabel")
 distancetrack = NodePath("stagepanel/margin/stageVbox/distancetrack")
-movebackbutton = NodePath("")
-moveforwardbutton = NodePath("")
-movehint = NodePath("")
 endturnbutton = NodePath("stageWrapper/endturnbutton")
 healthBar = NodePath("statsbarcontainer/statsbarcontrol/statsbarholder/healthbar")
 bulbOn = ExtResource("2_t4udp")

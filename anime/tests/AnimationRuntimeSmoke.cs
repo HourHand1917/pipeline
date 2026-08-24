@@ -31,7 +31,7 @@ public partial class AnimationRuntimeSmoke : Node
 
         if (_failures.Count == 0)
         {
-            GD.Print($"ANIMATION_RUNTIME_SMOKE_PASS checks={_checks} waves=5 profiles=7 local_anchors=1");
+            GD.Print($"ANIMATION_RUNTIME_SMOKE_PASS checks={_checks} waves=5 profiles=7 independent_overlay=1");
             GetTree().Quit(0);
             return;
         }
@@ -71,9 +71,10 @@ public partial class AnimationRuntimeSmoke : Node
 
         BattleAnimationHub hub = _host.GetNodeOrNull<BattleAnimationHub>("BattleAnimationHub");
         Check(hub != null, "wrapper contains BattleAnimationHub");
-        Node oldOverlay = _host.BattleScreen?.GetNodeOrNull("BattleAnimationOverlay");
-        Check(oldOverlay == null, "Hub does not create a full-screen animation overlay");
         if (hub == null) return;
+        Node2D combatantOverlay = hub.GetCombatantOverlay();
+        Check(combatantOverlay != null && combatantOverlay.GetParent() == _host.BattleScreen,
+            "Hub creates one stable BattleScreen combatant overlay");
         Check(hub.Profiles.Count == 7, "Hub receives seven configured profiles");
 
         EnemyBattle boom = _host.EnemyManager.GetAliveByRole("boom");
@@ -89,12 +90,12 @@ public partial class AnimationRuntimeSmoke : Node
         var boomAnchor = boomMachine?.Get("anchor").As<Node2D>();
         Check(playerSprite != null && playerAnchor != null
             && playerSprite.GetParent() == playerAnchor
-            && playerAnchor.GetParent() is Control && playerSprite.Visible,
-            "player sprite is visible on its TrackSlot-local anchor");
+            && playerAnchor.GetParent() == combatantOverlay && playerSprite.Visible,
+            "player sprite is visible on its independent canvas anchor");
         Check(boomSprite != null && boomAnchor != null
             && boomSprite.GetParent() == boomAnchor
-            && boomAnchor.GetParent() is Control && boomSprite.Visible,
-            "Boom sprite is visible on its TrackSlot-local anchor");
+            && boomAnchor.GetParent() == combatantOverlay && boomSprite.Visible,
+            "Boom sprite is visible on its independent canvas anchor");
         string playerAnimation = playerSprite?.Animation.ToString() ?? "";
         Check(playerAnimation == "idle" || playerAnimation == "move_forward" || playerAnimation == "move_backward",
             "player starts in an available idle/movement sequence");

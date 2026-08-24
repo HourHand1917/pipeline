@@ -145,8 +145,8 @@ Sharkk 原始序列默认朝左，因此 `sharkk.tres/source_faces_right=false`�
 独立覆盖层，不参与角色 VBox 布局，显示时不会把玩家或敌人顶起来。背景舞台以下全部由
 鼠标穿透的纯黑 `ColorRect` 填充，项目分辨率仍为 1440×1080（4:3）。
 
-格子底边默认比探索背景舞台下沿高 `76 px`，即按 96 DPI 换算约 2 cm；该值可在
-`BattleBackdropPresenter/TrackBottomClearancePixels` 中调整。角色动画锚点随整条格子一起
+格子 VBox 底边默认上抬 `88 px`，贴住探索背景画面内的地面并避开下方电视 UI；该值可在
+`BattleAnimationDisplay/TrackBottomClearancePixels` 中调整。独立层中的角色动画锚点会随格子坐标一起
 上移，脚底继续使用 occupant 底线，因此玩家与敌人始终是“站”在场地上，而不是单独漂浮。
 探索背景默认不透明度为 30%，可在 `BattleBackdropPresenter/BackdropOpacity` 中继续微调；
 该透明度只作用于背景，不影响角色、格子文字和下方战斗 UI。
@@ -166,10 +166,10 @@ dotnet build Pipeline.sln --no-restore
 当前通过标记：
 
 ```text
-ANIMATION_RESOURCE_TEST_PASS checks=551 source_frames=1260 generated_frames=1671 profiles=7
-ANIMATION_BATTLE_SCENES_SMOKE_PASS checks=308 scenes=5 turns=5 completed=5
-ANIMATION_RUNTIME_SMOKE_PASS checks=34 waves=5 profiles=7 local_anchors=1
-BATTLE_PRESENTATION_CONTRACT_PASS checks=15 backdrop=exploration_size lower=black ground=locked
+ANIMATION_RESOURCE_TEST_PASS checks=619 source_frames=1260 generated_frames=1671 profiles=7
+ANIMATION_BATTLE_SCENES_SMOKE_PASS checks=305 scenes=5 turns=5 completed=5
+ANIMATION_RUNTIME_SMOKE_PASS checks=34 waves=5 profiles=7 independent_overlay=1
+BATTLE_PRESENTATION_CONTRACT_PASS checks=24 backdrop=exploration_size lower=black ground=locked inspector=configurable
 ```
 
 五场测试使用 `Viewport.PushInput` 向屏幕坐标发送真实鼠标移动、按下和松开，走 `TrackSlot.GuiInput → BattleScreen.MoveToCellRequested → BattleManager.TryMoveToCell`，再以玩家位置和能量变化作为硬断言；测试还检查格子全部装饰 Control 均为鼠标穿透，并检查每个玩家/敌人动画的格子局部锚点。

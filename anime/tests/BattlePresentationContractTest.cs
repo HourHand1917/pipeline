@@ -115,8 +115,8 @@ public partial class BattlePresentationContractTest : Node2D
         Check(Mathf.Abs(mount.AnchorBottom - 0.65f) <= 0.001f
             && Mathf.Abs(stagePanel.AnchorBottom - mount.AnchorBottom) <= 0.001f,
             "background and actor layout use the same lower-stage reference");
-        Check(Mathf.Abs(stagePanel.OffsetBottom + 76.0f) <= 0.01f,
-            "track bottom stays two centimetres above the exploration-stage bottom");
+        Check(Mathf.Abs(stagePanel.OffsetBottom + 88.0f) <= 0.01f,
+            "VBox bottom sits on the exploration art ground above the lower controls");
         Check(stageVbox.Alignment == BoxContainer.AlignmentMode.End,
             "the combatant row is bottom-aligned to the exploration ground");
         screen.QueueFree();
@@ -130,6 +130,7 @@ public partial class BattlePresentationContractTest : Node2D
         {
             Name = "ConfigurableBattleAnimationDisplay",
             TrackOffset = new Vector2(24.0f, -18.0f),
+            TrackBottomClearancePixels = 88.0f,
             PlayerScaleMultiplier = 1.25f,
             EnemyScaleMultiplier = 0.8f,
             EnemiesAlwaysFacePlayer = false,
@@ -159,6 +160,8 @@ public partial class BattlePresentationContractTest : Node2D
             "Inspector independently scales all player and enemy animation machines");
         Check(presenter.TrackOffset.IsEqualApprox(new Vector2(24.0f, -18.0f)),
             "Inspector moves the complete battle track as one presentation unit");
+        Check(Mathf.Abs(presenter.TrackBottomClearancePixels - 88.0f) <= 0.001f,
+            "Inspector exposes the slightly raised VBox ground clearance");
         Check(!camera.Enabled && camera.SmoothFollow
             && Mathf.Abs(camera.FollowSpeed - 9.0f) <= 0.001f,
             "packaged display keeps camera presentation settings on the same root");

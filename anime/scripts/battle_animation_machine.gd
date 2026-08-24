@@ -17,6 +17,7 @@ var battle_manager: Node
 var anchor: Node2D
 var sprite: AnimatedSprite2D
 var audio_player: AudioStreamPlayer
+var visual_overlay: Node2D
 var current_slot: Variant
 var last_position := 0
 var last_hp := 0
@@ -34,7 +35,6 @@ var actor_owner_id := 0
 var _move_tween: Tween
 var runtime_facing := 0
 var _played_audio_cues := {}
-var _locked_ground_y := NAN
 var visual_scale_multiplier := 1.0
 
 
@@ -93,7 +93,7 @@ func notify_died() -> void:
 	_on_died()
 
 
-func attach_to_slot(slot: Node, _animate_move := true) -> void:
+func attach_to_slot(slot: Node, overlay: Node2D, _animate_move := true) -> void:
 	_ensure_visual_nodes()
 	if anchor == null or not is_instance_valid(anchor) \
 			or sprite == null or not is_instance_valid(sprite):
@@ -105,26 +105,25 @@ func attach_to_slot(slot: Node, _animate_move := true) -> void:
 	if occupant == null:
 		detach_from_slot()
 		return
-	var visual_host := occupant.get_parent() as Control
-	if visual_host == null:
+	if overlay == null or not is_instance_valid(overlay):
 		detach_from_slot()
 		return
+	visual_overlay = overlay
 	# Validate the cached native instance before comparing it with the new slot.
 	# A previous encounter may already have freed the cached TrackSlot.
 	if is_instance_valid(current_slot) and slot == current_slot:
-		if anchor.get_parent() != visual_host:
-			anchor.reparent(visual_host, false)
+		if anchor.get_parent() != visual_overlay:
+			anchor.reparent(visual_overlay, false)
 		_hide_slot_glyph(current_slot)
 		sprite.visible = profile.has_visual_frames() and not death_finished
 		_layout_sprite(false)
 		return
 	_restore_slot_glyph(current_slot)
 	current_slot = slot
-	# The animation is a Node2D sibling of occupant. Its local position is still
-	# derived exclusively from the occupant rect, but it does not inherit the
-	# occupant's translucent tint and never participates in GUI mouse filtering.
-	if anchor.get_parent() != visual_host:
-		anchor.reparent(visual_host, false)
+	# The slot provides coordinates only. The animation itself lives in the
+	# shared BattleScreen overlay and can extend outside this cell freely.
+	if anchor.get_parent() != visual_overlay:
+		anchor.reparent(visual_overlay, false)
 	_hide_slot_glyph(current_slot)
 	sprite.visible = profile.has_visual_frames() and not death_finished
 	# A combatant is always fixed to its current logical cell. Movement is
@@ -404,27 +403,20 @@ func _layout_sprite(_animate_move := false) -> void:
 	var occupant := current_slot.get_node_or_null("Vbox/occupant") as Control
 	if occupant == null:
 		return
-	var visual_host := occupant.get_parent() as Control
-	if visual_host == null:
+	if visual_overlay == null or not is_instance_valid(visual_overlay):
 		return
-	if anchor.get_parent() != visual_host:
-		anchor.reparent(visual_host, false)
-	# The danger label is an overlay and must never participate in VBox layout.
-	# Lock the actor's feet to one locally-derived ground line as an additional
-	# guard against late Container relayouts.  Horizontal movement changes only
-	# X; Y remains stable for the lifetime of this animation machine.
-	if is_nan(_locked_ground_y):
-		# The original TrackSlot already defines the authored foot line: the
-		# bottom edge of its occupant Control. Snapshot it once.  Because the
-		# danger text now lives in a separate overlay, it can never change this
-		# value or push the animation upward.
-		_locked_ground_y = occupant.position.y + occupant.size.y
+	if anchor.get_parent() != visual_overlay:
+		anchor.reparent(visual_overlay, false)
+	# Convert the authored foot point from the Control canvas into the shared
+	# Node2D overlay. Never mix GlobalPosition with canvas transforms: doing so
+	# made visuals drift when the 4:3 viewport or horizontal track camera moved.
 	var occupant_width := occupant.size.x
 	if occupant_width <= 1.0:
 		occupant_width = maxf(1.0, float(current_slot.custom_minimum_size.x))
-	var target := Vector2(
-		occupant.position.x + occupant_width * 0.5 + profile.visual_offset.x,
-		_locked_ground_y + profile.visual_offset.y)
+	var foot_local := Vector2(occupant_width * 0.5, occupant.size.y)
+	var target_canvas := occupant.get_global_transform_with_canvas() * foot_local
+	target_canvas += profile.visual_offset
+	var target := visual_overlay.get_global_transform_with_canvas().affine_inverse() * target_canvas
 	if _move_tween != null and _move_tween.is_valid():
 		_move_tween.kill()
 	anchor.position = target

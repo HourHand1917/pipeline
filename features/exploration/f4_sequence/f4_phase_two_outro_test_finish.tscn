@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/f4_sequence/f4_phase_two_outro_test_finish.gd" id="1_finish"]
+
+[node name="F4PhaseTwoOutroTestFinish" type="Node"]
+script = ExtResource("1_finish")

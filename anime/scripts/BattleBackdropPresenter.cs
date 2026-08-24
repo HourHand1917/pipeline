@@ -19,7 +19,7 @@ public partial class BattleBackdropPresenter : Node
     [Export(PropertyHint.Range, "0,0.4,0.01")]
     public float StageTopRatio { get; set; } = 0.17f;
     [Export(PropertyHint.Range, "0,160,1")]
-    public float TrackBottomClearancePixels { get; set; } = 76.0f;
+    public float TrackBottomClearancePixels { get; set; } = 88.0f;
     [Export] public Vector2 TrackOffset { get; set; } = Vector2.Zero;
 
     public bool IsInstalled => GodotObject.IsInstanceValid(_backdrop);
@@ -134,9 +134,9 @@ public partial class BattleBackdropPresenter : Node
         stagePanel.OffsetLeft = TrackOffset.X;
         stagePanel.OffsetTop = TrackOffset.Y;
         stagePanel.OffsetRight = TrackOffset.X;
-        // 76 px is approximately 2 cm at the project's 96-DPI reference.
-        // Lift the whole track, including combatant anchors, without changing
-        // the exploration backdrop or any of the lower battle UI.
+        // The exploration art's authored ground is slightly above the crop's
+        // geometric bottom. Keep the VBox on that visible ground line and out
+        // of the lower TV controls; designers can fine-tune it in Inspector.
         stagePanel.OffsetBottom = TrackOffset.Y - TrackBottomClearancePixels;
 
         // End alignment puts the 144px TrackSlot row at the exploration floor.

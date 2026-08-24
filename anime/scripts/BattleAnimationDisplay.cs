@@ -10,6 +10,8 @@ public partial class BattleAnimationDisplay : Node2D
 {
     [ExportGroup("Battle Track Layout")]
     [Export] public Vector2 TrackOffset { get; set; } = Vector2.Zero;
+    [Export(PropertyHint.Range, "0,160,1")]
+    public float TrackBottomClearancePixels { get; set; } = 88.0f;
 
     [ExportGroup("Actor Visual Scale")]
     [Export(PropertyHint.Range, "0.1,4,0.01")]
@@ -65,6 +67,9 @@ public partial class BattleAnimationDisplay : Node2D
             TrackCamera.FollowSpeed = CameraFollowSpeed;
         }
         if (BackdropPresenter != null)
+        {
             BackdropPresenter.TrackOffset = TrackOffset;
+            BackdropPresenter.TrackBottomClearancePixels = Mathf.Max(0.0f, TrackBottomClearancePixels);
+        }
     }
 }

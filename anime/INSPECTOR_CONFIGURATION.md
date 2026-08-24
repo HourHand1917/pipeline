@@ -9,7 +9,9 @@
 ## Battle Track Layout
 
 - `Track Offset`：整体移动战斗格子轨道和角色锚点。X 控制左右，Y 控制上下。
-- 角色脚底仍锁定在格子自身的地线；动画播放期间不会发生上下漂移。
+- `Track Bottom Clearance Pixels`：轨道底边相对探索背景裁切底边的上抬量。默认 `88`，让 VBox 底部贴住画面中的地面并避开下方电视 UI；可在窗口继续微调。
+- 格子只提供角色脚底坐标。实际动画统一显示在 `BattleScreen/BattleCombatantOverlay` 独立层，因此可以越出格子，不会被 VBox/格子裁切，也不会参与鼠标命中。
+- 角色脚底仍跟随对应格子的地线；动画播放期间不会自行上下漂移。
 
 ## Actor Visual Scale
 

@@ -45,6 +45,12 @@
 
 通过标志：`F4_SEQUENCE_CONTRACT_TEST_PASS`。
 
+二阶段战后对话与片尾衔接的运行测试：
+
+`res://features/exploration/f4_sequence/f4_phase_two_outro_runtime_test.tscn`
+
+通过标志：`F4_PHASE_TWO_OUTRO_RUNTIME_TEST_PASS`。
+
 ## 二阶段结局
 
 二阶段胜利后不会从战斗场景直接跳到片尾。战斗先返回 F4 的

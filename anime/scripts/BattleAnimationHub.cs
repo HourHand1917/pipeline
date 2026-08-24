@@ -51,6 +51,7 @@ public partial class BattleAnimationHub : Node
     private EnemyManager _enemies;
     private PlayerBattle _player;
     private HBoxContainer _distanceTrack;
+    private Node2D _combatantOverlay;
     private ulong _lastPlayerEffectFrame = ulong.MaxValue;
     private string _lastPlayerEffectSource = "";
     private int _playerActionSerial;
@@ -101,6 +102,8 @@ public partial class BattleAnimationHub : Node
 
         if (_screen?.UIManager?.DistanceTrack != null)
             _distanceTrack = _screen.UIManager.DistanceTrack;
+
+        EnsureCombatantOverlay();
     }
 
     private void DiscoverCombatants()
@@ -223,7 +226,7 @@ public partial class BattleAnimationHub : Node
 
     private void RefreshSlots()
     {
-        if (_distanceTrack == null) return;
+        if (_distanceTrack == null || !IsInstanceValid(EnsureCombatantOverlay())) return;
         foreach (Node machine in _machines.Values)
         {
             if (!IsInstanceValid(machine)) continue;
@@ -234,10 +237,11 @@ public partial class BattleAnimationHub : Node
             bool deathStarted = machine.Get("death_started").AsBool();
             if (slot != null)
             {
-                // The visual is parented directly below this TrackSlot's
-                // occupant anchor.  No full-screen overlay is created, so the
-                // original Control layout and GUI hit-test remain untouched.
-                machine.Call("attach_to_slot", slot, true);
+                // TrackSlot is only the position source. The actual visual is
+                // hosted by one stable Node2D below BattleScreen, outside all
+                // slot/VBox clipping and layout. Large actors may overhang a
+                // cell without changing GUI hit-testing or pushing the UI.
+                machine.Call("attach_to_slot", slot, _combatantOverlay, true);
                 ulong key = actor.GetInstanceId();
                 if (!_entryPlayed.Contains(key))
                 {
@@ -250,6 +254,33 @@ public partial class BattleAnimationHub : Node
                 machine.Call("detach_from_slot");
             }
         }
+    }
+
+    /// <summary>
+    /// Stable, mouse-transparent presentation layer. It deliberately lives
+    /// outside DistanceTrack so actor art can extend beyond a cell while the
+    /// original TrackSlot remains the authoritative position anchor.
+    /// </summary>
+    public Node2D GetCombatantOverlay() => EnsureCombatantOverlay();
+
+    private Node2D EnsureCombatantOverlay()
+    {
+        if (IsInstanceValid(_combatantOverlay) && !_combatantOverlay.IsQueuedForDeletion())
+            return _combatantOverlay;
+        if (!IsInstanceValid(_screen)) return null;
+
+        _combatantOverlay = _screen.GetNodeOrNull<Node2D>("BattleCombatantOverlay");
+        if (_combatantOverlay == null)
+        {
+            _combatantOverlay = new Node2D
+            {
+                Name = "BattleCombatantOverlay",
+                ZIndex = 100,
+                ZAsRelative = true,
+            };
+            _screen.AddChild(_combatantOverlay);
+        }
+        return _combatantOverlay;
     }
 
     private TrackSlot FindSlot(Node actor)
