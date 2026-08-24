@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://features/main_menu_visual/scripts/MainMenuVisualController.cs" id="1_controller"]
+[ext_resource type="Texture2D" path="res://features/main_menu_visual/art/ui/pipeline_logo.png" id="2_logo"]
 
 [node name="MainMenuVisual" type="Control" node_paths=PackedStringArray("BaseLayer", "RubberLayer", "DesktopLayer")]
 layout_mode = 3
@@ -39,3 +40,7 @@ centered = true
 position = Vector2(720, 540)
 centered = true
 
+[node name="Logo" type="Sprite2D" parent="DesignCanvas"]
+position = Vector2(720, 238)
+scale = Vector2(0.48, 0.48)
+texture = ExtResource("2_logo")

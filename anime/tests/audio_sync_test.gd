@@ -178,7 +178,7 @@ func _test_battle_music_and_start_cue() -> void:
 	_check(rocky_map_scene != null, "tutorial Rocky map loads for music audit")
 	if rocky_map_scene != null:
 		var rocky_map := rocky_map_scene.instantiate()
-		var rocky_encounter := rocky_map.get_node_or_null("MapLayer/EnemyRocky")
+		var rocky_encounter := rocky_map.get_node_or_null("MapLayer/RockyPrebattleNPC")
 		var rocky_music := rocky_encounter.get("BattleMusic") as AudioStream \
 			if rocky_encounter != null else null
 		_check(rocky_music != null and rocky_music.resource_path == GENERIC_BATTLE_MUSIC,

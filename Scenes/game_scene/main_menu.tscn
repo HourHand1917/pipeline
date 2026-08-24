@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://bupys157atagh" path="res://Script/CS/main_menu/WaitLabel.cs" id="2_2ly5b"]
 [ext_resource type="AudioStream" uid="uid://cbccr8v7cpr25" path="res://tileset/music_resource/MUS_Main.mp3" id="2_2uwgi"]
 [ext_resource type="Script" uid="uid://cxt1o7vk2ufn1" path="res://Script/CS/main_menu/MenuContainer.cs" id="3_algf1"]
+[ext_resource type="PackedScene" path="res://features/main_menu_visual/scenes/main_menu_visual.tscn" id="4_visual"]
 
 [sub_resource type="Theme" id="Theme_5gy6c"]
 Button/font_sizes/font_size = 58
@@ -198,6 +199,9 @@ backgroundMusic = ExtResource("2_2uwgi")
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="MainMenuVisual" parent="." instance=ExtResource("4_visual")]
+layout_mode = 1
 
 [node name="MenuContainer" type="VBoxContainer" parent="." unique_id=148071786]
 visible = false

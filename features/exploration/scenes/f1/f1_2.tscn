@@ -10,6 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
 [ext_resource type="PackedScene" uid="uid://bay0alqdgsaub" path="res://features/dialogue/npc/scenes/mousy_postbattle_npc.tscn" id="11_8e2fl"]
 [ext_resource type="PackedScene" uid="uid://br8wpihd35o2v" path="res://features/dialogue/npc/scenes/rocky_prebattle_npc.tscn" id="13_mgpvb"]
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/F1RockyEncounterFlow.cs" id="14_flow"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="15_rocky_frames"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
@@ -51,12 +53,20 @@ scale = Vector2(0.805, 0.805)
 texture = ExtResource("3_63mp5")
 
 [node name="RockyPrebattleNPC" parent="MapLayer" unique_id=1300952627 instance=ExtResource("13_mgpvb")]
-position = Vector2(1232, 384)
+position = Vector2(430, 384)
 scale = Vector2(1.28, 1.28)
 
 [node name="MousyPostbattleNPC" parent="MapLayer" unique_id=245061573 instance=ExtResource("11_8e2fl")]
-position = Vector2(752, 385)
+position = Vector2(100, 385)
 scale = Vector2(1.17, 1.17)
+
+[node name="DeadRocky" type="AnimatedSprite2D" parent="MapLayer"]
+visible = false
+position = Vector2(430, 274)
+scale = Vector2(1.28, 1.28)
+sprite_frames = ExtResource("15_rocky_frames")
+animation = &"death"
+frame = 92
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1919059850]
 position = Vector2(-595, 197)
@@ -79,9 +89,15 @@ position = Vector2(529, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
 [node name="ReturnSpawn" type="Node2D" parent="MapLayer" unique_id=943466974]
-position = Vector2(-46, 530)
+position = Vector2(272, 265)
 script = ExtResource("2_y52xo")
 SpawnId = &"RockyReturnSpawn"
+
+[node name="RockyEncounterFlow" type="Node" parent="." node_paths=PackedStringArray("RockyPrebattle", "MousyPostbattle", "DeadRocky")]
+script = ExtResource("14_flow")
+RockyPrebattle = NodePath("../MapLayer/RockyPrebattleNPC")
+MousyPostbattle = NodePath("../MapLayer/MousyPostbattleNPC")
+DeadRocky = NodePath("../MapLayer/DeadRocky")
 
 [node name="Player" parent="." unique_id=1138772278 instance=ExtResource("6_qhe7u")]
 position = Vector2(761, 530)
