@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/MapSelectUI.cs" id="1_ui"]
+[ext_resource type="Resource" path="res://features/exploration/map_selection/resources/default_home_destinations.tres" id="2_config"]
+[ext_resource type="PackedScene" path="res://features/exploration/map_selection/front_view_ui/scenes/front_view_visual_layer.tscn" id="3_front"]
+
+[node name="MapSelectUI" type="Control" node_paths=PackedStringArray("_destinationList", "_titleLabel", "_subtitleLabel", "_detailTitleLabel", "_detailMetaLabel", "_detailDescriptionLabel", "_statusLabel", "_confirmButton", "_closeButton")]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+script = ExtResource("1_ui")
+_configuration = ExtResource("2_config")
+_destinationList = NodePath("Design/DestinationList")
+_titleLabel = NodePath("Design/Title")
+_subtitleLabel = NodePath("Design/Subtitle")
+_detailTitleLabel = NodePath("Design/DetailTitle")
+_detailMetaLabel = NodePath("Design/DetailMeta")
+_detailDescriptionLabel = NodePath("Design/DetailDescription")
+_statusLabel = NodePath("Design/Status")
+_confirmButton = NodePath("FrontViewVisualLayer/DesignCanvas/EntranceLayer/ConfirmButton")
+_closeButton = NodePath("FrontViewVisualLayer/DesignCanvas/EntranceLayer/CloseButton")
+
+[node name="ModalShield" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+color = Color(0.015, 0.012, 0.025, 0.82)
+
+[node name="Design" type="Control" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="DestinationList" type="VBoxContainer" parent="Design"]
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 600.0
+
+[node name="Title" type="Label" parent="Design"]
+layout_mode = 0
+
+[node name="Subtitle" type="Label" parent="Design"]
+layout_mode = 0
+
+[node name="DetailTitle" type="Label" parent="Design"]
+layout_mode = 0
+
+[node name="DetailMeta" type="Label" parent="Design"]
+layout_mode = 0
+
+[node name="DetailDescription" type="Label" parent="Design"]
+layout_mode = 0
+
+[node name="Status" type="Label" parent="Design"]
+layout_mode = 0
+
+[node name="FrontViewVisualLayer" parent="." instance=ExtResource("3_front")]
