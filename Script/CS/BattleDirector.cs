@@ -64,6 +64,9 @@ public partial class BattleDirector : Node
 		PrepareBattleBackdrop(backdropFocus);
 		GetNodeOrNull<AudioManager>("/root/AudioManager")?.PlaySfx(BattleStartSfx);
 
+		// 进入战斗转场前锁定玩家移动，避免圈缩转场期间还能走动
+		PlayerController.Instance?.LockMovement();
+
 		SceneTransition.Instance.ChangeScene(battleScenePath);
 	}
 
