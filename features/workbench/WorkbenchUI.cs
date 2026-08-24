@@ -47,6 +47,7 @@ public partial class WorkbenchUI : Control
     private bool _basePositionsCaptured;
     private Dictionary<BaseButton, bool> _savedDisabledStates;
     private bool _buttonsDisabled;
+    private bool _open;
 
     public override void _Ready()
     {
@@ -187,6 +188,10 @@ public partial class WorkbenchUI : Control
 
     public void Open()
     {
+        if (_open) return;
+        _open = true;
+        PlayerController.Instance?.LockMovement(); // 打开工作台时锁定移动
+
         Visible = true;
         // 首次打开在这里初始化：ShowPage 会设置页面可见性 + 升起当前 tab。
         // 此时布局早已完成，基准位置正确，不会被容器重排覆盖。
@@ -196,6 +201,10 @@ public partial class WorkbenchUI : Control
 
     public void Close()
     {
+        if (!_open) return;
+        _open = false;
+        PlayerController.Instance?.UnlockMovement(); // 关闭工作台时解锁移动
+
         CancelPendingSwitch();
         _anim?.Play("hide_workbench");
         EmitSignal(SignalName.Closed);

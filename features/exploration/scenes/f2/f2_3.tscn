@@ -61,14 +61,13 @@ position = Vector2(977, 1402)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")
 
-[node name="F25商铺内部" type="Area2D" parent="MapLayer" unique_id=706163604 node_paths=PackedStringArray("_blink")]
+[node name="F25商铺内部" type="Area2D" parent="MapLayer" unique_id=706163604]
 position = Vector2(840, 449.99997)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("30_friendly")
 NpcName = "商铺老板"
 DisplayName = "商铺老板"
 PersistenceId = "npc_f2_3_shop"
-_blink = NodePath("")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/F25商铺内部" unique_id=1077373957]
 texture = ExtResource("4_l7btf")

@@ -37,8 +37,8 @@ public partial class DataManager : Node
     public int Lv { get; private set; } = 1;
 
     // ============ 血量（探索/战斗间继承） ============
-    public int PlayerHp { get; private set; } = 30;
-    public int MaxPlayerHp { get; private set; } = 30;
+    public int PlayerHp { get; private set; } = 20;
+    public int MaxPlayerHp { get; private set; } = 20;
 
     public override void _Ready()
     {
@@ -374,8 +374,8 @@ public partial class DataManager : Node
     {
         if (state == null) return;
 
-        PlayerHp = state.TryGetValue("hp", out var hp) ? hp.AsInt32() : 30;
-        MaxPlayerHp = state.TryGetValue("max_hp", out var mhp) ? mhp.AsInt32() : 30;
+        PlayerHp = state.TryGetValue("hp", out var hp) ? hp.AsInt32() : 20;
+        MaxPlayerHp = state.TryGetValue("max_hp", out var mhp) ? mhp.AsInt32() : 20;
         Lv = state.TryGetValue("level", out var lv) ? lv.AsInt32() : 1;
         BottleCap = state.TryGetValue("bottle_cap", out var bc) ? bc.AsInt32() : 0;
         Faucet = state.TryGetValue("faucet", out var fc) ? fc.AsInt32() : 0;
@@ -436,8 +436,8 @@ public partial class DataManager : Node
         BottleCap = 0;
         Faucet = 0;
         Lv = 1;
-        PlayerHp = 30;
-        MaxPlayerHp = 30;
+        PlayerHp = 20;
+        MaxPlayerHp = 20;
 
         EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
         EmitSignal(SignalName.LevelChanged, Lv);
