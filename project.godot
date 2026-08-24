@@ -25,10 +25,10 @@ SceneTransition="*res://Script/CS/SceneTransition.cs"
 BattleDirector="*res://Script/CS/BattleDirector.cs"
 MCPRuntimeProbe="*uid://bsg12huaf1u5i"
 AudioManager="*res://tileset/AudioManager.cs"
-PauseMenu="*res://features/pause_ui/scenes/pause_menu.tscn"
 Dialogic="*uid://ds2q0uclmolvu"
 GrowthManager="*res://Script/CS/GrowthManager.cs"
 SaveManager="*res://Script/CS/SaveManager.cs"
+PauseMenu="*res://features/pause_ui/scenes/pause_menu.tscn"
 
 [dialogic]
 

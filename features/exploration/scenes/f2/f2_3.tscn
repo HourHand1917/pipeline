@@ -6,22 +6,16 @@
 [ext_resource type="AudioStream" uid="uid://by1xef8yp0nno" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F02.ogg" id="3_vfi77"]
 [ext_resource type="Texture2D" uid="uid://ceexktas5lgbk" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-门.png" id="4_axgrs"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
-[ext_resource type="Texture2D" uid="uid://dxyu8v25hnk4i" path="res://features/exploration/art_assets/maps/f2/f2-5-商铺内部.png" id="4_l7btf"]
 [ext_resource type="Texture2D" uid="uid://dbcaoreqifj1p" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-门框.png" id="5_l7btf"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
-[ext_resource type="PackedScene" uid="uid://dwj3bnpxu7gls" path="res://features/dialogue/npc/scenes/tavern_owner_npc.tscn" id="16_una4u"]
+[ext_resource type="Script" uid="uid://dqex7kjhnjehp" path="res://features/exploration/scripts/CS/interactables/HealMachineInteractable.cs" id="13_2p3jt"]
+[ext_resource type="Texture2D" uid="uid://cvn4h3mq0kcdl" path="res://features/exploration/art_assets/maps/回血装置.png" id="14_xdss3"]
+[ext_resource type="PackedScene" uid="uid://gt1rvdmtne7n" path="res://features/dialogue/npc/scenes/tavern_owner_npc.tscn" id="16_una4u"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
-[ext_resource type="Script" uid="uid://d3qp3th6sj26" path="res://features/exploration/scripts/CS/interactables/FriendlyNPC.cs" id="30_friendly"]
 [ext_resource type="Script" uid="uid://cbvqd45gbyyii" path="res://features/exploration/scripts/CS/interactables/DoorInteractable.cs" id="31_door"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc_detect"]
-size = Vector2(635, 439.9999)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_npc_click"]
-size = Vector2(512.49994, 412.50006)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door_detect"]
 size = Vector2(646.2502, 367.50006)
@@ -29,10 +23,16 @@ size = Vector2(646.2502, 367.50006)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_door_click"]
 size = Vector2(483.7499, 386.25006)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_telqy"]
+size = Vector2(200, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mllhp"]
+size = Vector2(140, 200)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
 
-[node name="ExplorationMap2" type="Node2D" unique_id=858680749 node_paths=PackedStringArray("Player", "Input", "_hud")]
+[node name="ExplorationMap6" type="Node2D" unique_id=858680749 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
 Player = NodePath("Player")
 Input = NodePath("InputRouter")
@@ -62,40 +62,15 @@ position = Vector2(977, 1402)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")
 
-[node name="F25商铺内部" type="Area2D" parent="MapLayer" unique_id=706163604]
-position = Vector2(840, 449.99997)
-scale = Vector2(0.8, 0.8)
-script = ExtResource("30_friendly")
-NpcName = "商铺老板"
-DisplayName = "商铺老板"
-PersistenceId = "npc_f2_3_shop"
-
-[node name="Sprite" type="Sprite2D" parent="MapLayer/F25商铺内部" unique_id=1077373957]
-texture = ExtResource("4_l7btf")
-
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/F25商铺内部" unique_id=1600328811]
-position = Vector2(-71.25, 30.000122)
-scale = Vector2(0.9999998, 0.9999998)
-shape = SubResource("RectangleShape2D_npc_detect")
-
-[node name="ClickZone" type="Area2D" parent="MapLayer/F25商铺内部" unique_id=1892538722]
-collision_layer = 2
-collision_mask = 0
-
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/F25商铺内部/ClickZone" unique_id=1531313914]
-position = Vector2(-56.25, 56.250122)
-scale = Vector2(0.9999998, 0.9999998)
-shape = SubResource("RectangleShape2D_npc_click")
-
 [node name="TavernOwnerNPC" parent="MapLayer" unique_id=2069437162 instance=ExtResource("16_una4u")]
-position = Vector2(826, 552)
-scale = Vector2(1.3999999, 1.3999999)
+position = Vector2(840, 504)
+scale = Vector2(0.8, 0.8)
 
 [node name="F31贫民区门" type="Area2D" parent="MapLayer" unique_id=615638359 node_paths=PackedStringArray("TargetNpc", "_blink")]
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("31_door")
-TargetNpc = NodePath("../F25商铺内部")
+TargetNpc = NodePath("../TavernOwnerNPC")
 DisplayName = "门"
 PersistenceId = "door_f2_3"
 _blink = NodePath("Blink")
@@ -126,6 +101,32 @@ _clickZone = NodePath("../ClickZone")
 position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("5_l7btf")
+
+[node name="回血机器" type="Area2D" parent="MapLayer" unique_id=1852369366 node_paths=PackedStringArray("_blink")]
+position = Vector2(1043, 503)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("13_2p3jt")
+DisplayName = "回血机器"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/回血机器" unique_id=687797941]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("14_xdss3")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/回血机器" unique_id=344617185]
+shape = SubResource("RectangleShape2D_telqy")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/回血机器" unique_id=1470929195]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/回血机器/ClickZone" unique_id=1125600078]
+shape = SubResource("RectangleShape2D_mllhp")
+
+[node name="Blink" type="Node" parent="MapLayer/回血机器" unique_id=233468996 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("32_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=497048206]
 position = Vector2(-150, 450)

@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dwj3bnpxu7gls"]
+[gd_scene format=3 uid="uid://gt1rvdmtne7n"]
 
 [ext_resource type="Script" uid="uid://bd74c5revd521" path="res://features/dialogue/npc/scripts/TavernOwnerNPC.cs" id="1_npc"]
 [ext_resource type="Resource" uid="uid://2o2e2ac6jopw" path="res://features/dialogue/npc/characters/酒吧老板.dch" id="2_owner"]
@@ -10,10 +10,10 @@
 [ext_resource type="Resource" path="res://Resource/item/mvp/hard_bone.tres" id="8_hard_bone"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
-radius = 212.19095
+radius = 335.07312
 
 [sub_resource type="RectangleShape2D" id="RectangleClick"]
-size = Vector2(272, 234)
+size = Vector2(425, 336)
 
 [node name="TavernOwnerNPC" type="Area2D" unique_id=220017067 node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
 script = ExtResource("1_npc")
@@ -31,10 +31,10 @@ _blink = NodePath("Blink")
 
 [node name="Sprite" type="Sprite2D" parent="." unique_id=846663417]
 position = Vector2(0, -68)
-scale = Vector2(0.58, 0.58)
 texture = ExtResource("6_ombwm")
 
 [node name="DetectionRange" type="CollisionShape2D" parent="." unique_id=1904925529]
+position = Vector2(-57, -10)
 shape = SubResource("CircleDetection")
 
 [node name="ClickZone" type="Area2D" parent="." unique_id=1394844045]
@@ -42,7 +42,7 @@ collision_layer = 2
 collision_mask = 0
 
 [node name="ClickShape" type="CollisionShape2D" parent="ClickZone" unique_id=1586255522]
-position = Vector2(-40, -30)
+position = Vector2(-67.5, -10)
 shape = SubResource("RectangleClick")
 
 [node name="Blink" type="Node" parent="." unique_id=758394866 node_paths=PackedStringArray("_sprite", "_clickZone")]
