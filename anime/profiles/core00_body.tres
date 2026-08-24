@@ -37,3 +37,4 @@ action_animation_sequences = {
 }
 audio_cues = Array[ExtResource("4_cue_script")]([ExtResource("3_death")])
 visual_offset = Vector2(0, -70)
+source_faces_right = false

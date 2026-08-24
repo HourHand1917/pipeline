@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="BattleAnimationProfile" format=3 uid="uid://gvfbwf00m80s"]
 
-[ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
+[ext_resource type="Script" uid="uid://b3wd0h0cfhuy7" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/boom_frames.tres" id="2"]
 [ext_resource type="Resource" path="res://anime/audio/boom_attack_cue.tres" id="3_attack"]
 [ext_resource type="Resource" path="res://anime/audio/boom_hurt_cue.tres" id="4_hurt"]
 [ext_resource type="Resource" path="res://anime/audio/boom_death_cue.tres" id="5_death"]
-[ext_resource type="Script" path="res://anime/scripts/battle_animation_audio_cue.gd" id="6_cue_script"]
+[ext_resource type="Script" uid="uid://c6jod5x8ahaaa" path="res://anime/scripts/battle_animation_audio_cue.gd" id="6_cue_script"]
 
 [resource]
 script = ExtResource("1")
@@ -23,7 +23,5 @@ action_animations = {
 &"trained_boom_attack_2": &"attack"
 }
 audio_cues = Array[ExtResource("6_cue_script")]([ExtResource("3_attack"), ExtResource("4_hurt"), ExtResource("5_death")])
-target_visual_height = 136.0
-visual_scale = Vector2(1, 1)
 visual_offset = Vector2(0, -70)
-move_tween_duration = 0.18
+source_faces_right = false

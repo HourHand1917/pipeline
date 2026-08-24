@@ -29,3 +29,4 @@ action_animations = {
 audio_cues = Array[ExtResource("9_cue_script")]([ExtResource("3_entry"), ExtResource("4_flick"), ExtResource("5_heal"), ExtResource("6_punch"), ExtResource("7_hurt"), ExtResource("8_death")])
 target_visual_height = 142.0
 visual_offset = Vector2(0, -71)
+source_faces_right = false
