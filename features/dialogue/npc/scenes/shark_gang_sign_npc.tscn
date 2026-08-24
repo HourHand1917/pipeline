@@ -1,19 +1,19 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene format=3 uid="uid://xsrt0gm2wqew"]
 
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
-[ext_resource type="Resource" path="res://features/dialogue/npc/characters/告示牌.dch" id="2_sign"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
-[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
+[ext_resource type="Script" uid="uid://daxljkly0qdkv" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
+[ext_resource type="Resource" uid="uid://ddaol2m5vtuch" path="res://features/dialogue/npc/characters/告示牌.dch" id="2_sign"]
+[ext_resource type="Resource" uid="uid://cud46uo7b7ivd" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" uid="uid://hhx5w2lmb3jx" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
+[ext_resource type="Texture2D" uid="uid://b3ghanmphcy1g" path="res://features/exploration/art_assets/maps/f1/教程-0-指示牌.png" id="5_87pij"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 220.0
 
 [sub_resource type="RectangleShape2D" id="RectangleClick"]
-size = Vector2(180, 170)
+size = Vector2(367, 199)
 
-[node name="SharkGangSignNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+[node name="SharkGangSignNPC" type="Area2D" unique_id=1766973332 node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
 script = ExtResource("1_npc")
 DefaultTimelinePath = "res://features/dialogue/npc/timelines/鲨牙帮告示牌.dtl"
 DialogicCharacterIdentifier = &"告示牌"
@@ -22,32 +22,31 @@ DialogueCharacter = ExtResource("2_sign")
 PlayerDialogueCharacter = ExtResource("3_rubber")
 AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
 DialogueBubbleOffset = Vector2(0, -150)
-PlayerDialogueBubbleOffset = Vector2(0, -160)
 DialogueAnimationPlayer = NodePath("AnimationPlayer")
 DisplayName = "鲨牙帮告示牌"
 PersistenceId = "shark_gang_sign_dialogue"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.78, 0.48, 0.18, 1)
-position = Vector2(0, -62)
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1986011177]
+position = Vector2(-170.99998, -68)
 scale = Vector2(0.62, 0.62)
-texture = ExtResource("5_placeholder")
+texture = ExtResource("5_87pij")
 
-[node name="DetectionRange" type="CollisionShape2D" parent="."]
+[node name="DetectionRange" type="CollisionShape2D" parent="." unique_id=79791301]
+position = Vector2(6, -83)
 shape = SubResource("CircleDetection")
 
-[node name="ClickZone" type="Area2D" parent="."]
+[node name="ClickZone" type="Area2D" parent="." unique_id=99475189]
 collision_layer = 2
 collision_mask = 0
 
-[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
-position = Vector2(0, -60)
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone" unique_id=2041227880]
+position = Vector2(5.5, -93.5)
 shape = SubResource("RectangleClick")
 
-[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="." unique_id=2028230525 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("6_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1594736532]

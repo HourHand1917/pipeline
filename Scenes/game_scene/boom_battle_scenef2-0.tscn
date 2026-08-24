@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://t3n74qtnxid"]
+
+[ext_resource type="Script" uid="uid://dvbgjd4jm3inl" path="res://Script/CS/BattleScene.cs" id="1_vq4tx"]
+[ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_jrpb4"]
+[ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_w3opi"]
+[ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_pui47"]
+[ext_resource type="PackedScene" uid="uid://q1ojg1hovxf7" path="res://Scenes/game_scene/battlescreen.tscn" id="5_6id1i"]
+[ext_resource type="PackedScene" path="res://anime/scenes/battle_animation_display.tscn" id="6_7v0j6"]
+[ext_resource type="PackedScene" path="res://features/battle_tutorial/scenes/boom_battle_tutorial.tscn" id="7_e6mhu"]
+
+[node name="BoomBattleScene" type="Node2D" unique_id=638348549 node_paths=PackedStringArray("BoardManager", "EffectResolver", "BattleManager", "BattleScreen")]
+script = ExtResource("1_vq4tx")
+BoardManager = NodePath("BoardManager")
+EffectResolver = NodePath("EffectResolver")
+BattleManager = NodePath("BattleManager")
+BattleScreen = NodePath("BattleScreen")
+
+[node name="BoardManager" type="Node" parent="." unique_id=802668652]
+script = ExtResource("2_jrpb4")
+
+[node name="EffectResolver" type="Node" parent="." unique_id=1687941120]
+script = ExtResource("3_w3opi")
+
+[node name="BattleManager" type="Node" parent="." unique_id=77465189]
+script = ExtResource("4_pui47")
+
+[node name="BattleScreen" parent="." unique_id=2132161014 instance=ExtResource("5_6id1i")]
+offset_right = 1440.0
+offset_bottom = 1080.0
+
+[node name="BattleAnimationDisplay" parent="." instance=ExtResource("6_7v0j6")]
+
+[node name="BoomBattleTutorial" parent="." instance=ExtResource("7_e6mhu")]

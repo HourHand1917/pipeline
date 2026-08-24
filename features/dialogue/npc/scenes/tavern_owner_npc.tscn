@@ -1,57 +1,56 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene format=3 uid="uid://dwj3bnpxu7gls"]
 
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/TavernOwnerNPC.cs" id="1_npc"]
-[ext_resource type="Resource" path="res://features/dialogue/npc/characters/酒吧老板.dch" id="2_owner"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/tavern_purchase_state.gd" id="6_state"]
-[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
+[ext_resource type="Script" uid="uid://bd74c5revd521" path="res://features/dialogue/npc/scripts/TavernOwnerNPC.cs" id="1_npc"]
+[ext_resource type="Resource" uid="uid://2o2e2ac6jopw" path="res://features/dialogue/npc/characters/酒吧老板.dch" id="2_owner"]
+[ext_resource type="Resource" uid="uid://cud46uo7b7ivd" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" uid="uid://hhx5w2lmb3jx" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
+[ext_resource type="Texture2D" uid="uid://dxyu8v25hnk4i" path="res://features/exploration/art_assets/maps/f2/f2-5-商铺内部.png" id="6_ombwm"]
+[ext_resource type="Script" uid="uid://gphemtwcxnum" path="res://features/dialogue/npc/scripts/tavern_purchase_state.gd" id="6_state"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
 [ext_resource type="Resource" path="res://Resource/item/mvp/hard_bone.tres" id="8_hard_bone"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
-radius = 240.0
+radius = 212.19095
 
 [sub_resource type="RectangleShape2D" id="RectangleClick"]
-size = Vector2(150, 190)
+size = Vector2(272, 234)
 
-[node name="TavernOwnerNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+[node name="TavernOwnerNPC" type="Area2D" unique_id=220017067 node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
 script = ExtResource("1_npc")
+HardBoneItem = ExtResource("8_hard_bone")
 NpcName = "酒吧老板"
 DialogueCharacter = ExtResource("2_owner")
 PlayerDialogueCharacter = ExtResource("3_rubber")
 AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
-DialogueBubbleOffset = Vector2(0, -150)
-PlayerDialogueBubbleOffset = Vector2(0, -160)
+DialogueBubbleOffset = Vector2(0, -130)
+PlayerDialogueBubbleOffset = Vector2(0, -140)
 DialogueAnimationPlayer = NodePath("AnimationPlayer")
 DisplayName = "酒吧老板"
 PersistenceId = "tavern_owner_dialogue"
 _blink = NodePath("Blink")
-HardBoneItem = ExtResource("8_hard_bone")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.86, 0.66, 0.32, 1)
+[node name="Sprite" type="Sprite2D" parent="." unique_id=846663417]
 position = Vector2(0, -68)
 scale = Vector2(0.58, 0.58)
-texture = ExtResource("5_placeholder")
+texture = ExtResource("6_ombwm")
 
-[node name="DetectionRange" type="CollisionShape2D" parent="."]
+[node name="DetectionRange" type="CollisionShape2D" parent="." unique_id=1904925529]
 shape = SubResource("CircleDetection")
 
-[node name="ClickZone" type="Area2D" parent="."]
+[node name="ClickZone" type="Area2D" parent="." unique_id=1394844045]
 collision_layer = 2
 collision_mask = 0
 
-[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
-position = Vector2(0, -55)
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone" unique_id=1586255522]
+position = Vector2(-40, -30)
 shape = SubResource("RectangleClick")
 
-[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="." unique_id=758394866 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("7_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=538370878]
 
-[node name="TavernPurchaseState" type="Node" parent="."]
+[node name="TavernPurchaseState" type="Node" parent="." unique_id=1491036069]
 script = ExtResource("6_state")

@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="PackedScene" uid="uid://dwj3bnpxu7gls" path="res://features/dialogue/npc/scenes/tavern_owner_npc.tscn" id="16_una4u"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://d3qp3th6sj26" path="res://features/exploration/scripts/CS/interactables/FriendlyNPC.cs" id="30_friendly"]
 [ext_resource type="Script" uid="uid://cbvqd45gbyyii" path="res://features/exploration/scripts/CS/interactables/DoorInteractable.cs" id="31_door"]
@@ -61,14 +62,13 @@ position = Vector2(977, 1402)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")
 
-[node name="F25商铺内部" type="Area2D" parent="MapLayer" unique_id=706163604 node_paths=PackedStringArray("_blink")]
+[node name="F25商铺内部" type="Area2D" parent="MapLayer" unique_id=706163604]
 position = Vector2(840, 449.99997)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("30_friendly")
 NpcName = "商铺老板"
 DisplayName = "商铺老板"
 PersistenceId = "npc_f2_3_shop"
-_blink = NodePath("")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/F25商铺内部" unique_id=1077373957]
 texture = ExtResource("4_l7btf")
@@ -86,6 +86,10 @@ collision_mask = 0
 position = Vector2(-56.25, 56.250122)
 scale = Vector2(0.9999998, 0.9999998)
 shape = SubResource("RectangleShape2D_npc_click")
+
+[node name="TavernOwnerNPC" parent="MapLayer" unique_id=2069437162 instance=ExtResource("16_una4u")]
+position = Vector2(826, 552)
+scale = Vector2(1.3999999, 1.3999999)
 
 [node name="F31贫民区门" type="Area2D" parent="MapLayer" unique_id=615638359 node_paths=PackedStringArray("TargetNpc", "_blink")]
 position = Vector2(840, 450)
