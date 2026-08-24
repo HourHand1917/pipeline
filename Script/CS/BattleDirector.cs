@@ -13,6 +13,12 @@ public partial class BattleDirector : Node
 
 	public static BattleDirector Instance { get; private set; }
 
+	/// <summary>战斗失败时执行的一次性清理回调（如 F4 重置两阶段标记）。</summary>
+	private System.Action _onBattleLostReset;
+
+	/// <summary>注册失败时的清理回调。胜利时会被清空。</summary>
+	public void RegisterBattleLostReset(System.Action reset) => _onBattleLostReset = reset;
+
 	/// <summary>待加载的战斗 rules .tres 路径</summary>
 	public string PendingRulesPath { get; private set; } = "";
 	/// <summary>触发战斗的 NPC 持久化 id</summary>
@@ -166,6 +172,7 @@ public partial class BattleDirector : Node
 	/// <summary>战斗胜利：标记 NPC 已打败（尸体），返回探索场景。</summary>
 	public void OnBattleWon()
 	{
+		_onBattleLostReset = null;
 		string victoryScenePath = PendingVictoryScenePath;
 		PendingVictoryScenePath = "";
 		if (PendingLevelAfterVictory >= 0)
@@ -211,6 +218,10 @@ public partial class BattleDirector : Node
 		// 复活回满血
 		if (DataManager.Instance != null)
 			DataManager.Instance.SetHp(DataManager.Instance.MaxPlayerHp);
+
+		// 战斗失败：执行一次性清理（如 F4 重置两阶段标记），让玩家下次从头重打。
+		_onBattleLostReset?.Invoke();
+		_onBattleLostReset = null;
 
 		RestoreMapMusic();
 		MapManager.Instance.TravelTo(mapId, spawnId);

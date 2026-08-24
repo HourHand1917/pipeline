@@ -13,6 +13,7 @@ public partial class F4BossSequence : Area2D
     [Export] public AnimatedSprite2D RightStageActor { get; set; }
     [Export] public VideoStreamPlayer PhaseOneIntroVideo { get; set; }
     [Export] public HostileNPC ForcedDialogueNpc { get; set; }
+    [Export] public AnimationPlayer SequenceAnimationPlayer { get; set; }
 
     [ExportGroup("Phase-one intro presentation")]
     [Export]
@@ -64,7 +65,6 @@ public partial class F4BossSequence : Area2D
             ForcedDialogueNpc.DialogueFinished += OnForcedDialogueFinished;
         }
 
-        HideStageActors();
         bool phaseOneDone = IsDefeated(PhaseOnePersistenceId);
         bool phaseTwoDone = IsDefeated(PhaseTwoPersistenceId);
         Monitoring = !phaseOneDone && !phaseTwoDone;
@@ -93,10 +93,11 @@ public partial class F4BossSequence : Area2D
     {
         if (_sequenceRunning) return;
         _sequenceRunning = true;
-        Monitoring = false;
+        SetDeferred("monitoring", false);
         (Player ?? PlayerController.Instance)?.LockMovement();
-        if (!await PlayPhaseOneIntroVideo())
-            await PlayStagePair(PhaseOneLeftAnimation, PhaseOneRightAnimation);
+
+        // 一阶段入场动画：播完再进入战斗（animation_finished 驱动）。
+        await PlaySequenceAnimation("phase_one_intro");
         GetNodeOrNull<AudioManager>("/root/AudioManager")?.PlayMusicWithFade(BattleMusic);
         StartConfiguredBattle(PhaseOneRulesPath, PhaseOnePersistenceId);
     }
@@ -108,6 +109,9 @@ public partial class F4BossSequence : Area2D
         Monitoring = false;
         Player ??= PlayerController.Instance;
         Player?.LockMovement();
+
+        // 一阶段战败动画播完后再进入对话。
+        await PlaySequenceAnimation("phase_one_defeat");
 
         AudioManager audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
         await PlayOptionalPhaseOneDefeatDialogue(audio);
@@ -137,6 +141,9 @@ public partial class F4BossSequence : Area2D
         Monitorable = false;
         Player ??= PlayerController.Instance;
         Player?.LockMovement();
+
+        // 二阶段战败动画播完后再触发最终对话。
+        await PlaySequenceAnimation("phase_two_defeat");
 
         AudioManager audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
         bool dialogueCompleted = await PlayRequiredPhaseTwoDefeatDialogue(audio);
@@ -290,8 +297,19 @@ public partial class F4BossSequence : Area2D
         if (RightStageActor != null) { RightStageActor.Stop(); RightStageActor.Visible = false; }
     }
 
+    /// <summary>播放序列 AnimationPlayer 动画，并等待其播完（animation_finished）。未配置动画则立即返回。</summary>
+    private async Task PlaySequenceAnimation(StringName name)
+    {
+        if (SequenceAnimationPlayer == null || !SequenceAnimationPlayer.HasAnimation(name))
+            return;
+        SequenceAnimationPlayer.Play(name);
+        await ToSignal(SequenceAnimationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+    }
+
     private void StartConfiguredBattle(string rulesPath, StringName encounterId)
     {
+        // 失败时清空两阶段标记，玩家从头重打（不做 F4 战斗持久化）。
+        BattleDirector.Instance?.RegisterBattleLostReset(ClearPhasePersistence);
         BattleDirector.Instance?.StartBattle(
             BattleScenePath,
             rulesPath,
@@ -301,6 +319,13 @@ public partial class F4BossSequence : Area2D
             this,
             -1,
             "");
+    }
+
+    /// <summary>战斗失败时清空两阶段的击败标记。</summary>
+    private void ClearPhasePersistence()
+    {
+        GameState.Instance?.ClearObjectState(MapId.ToString(), PhaseOnePersistenceId.ToString());
+        GameState.Instance?.ClearObjectState(MapId.ToString(), PhaseTwoPersistenceId.ToString());
     }
 
     private bool IsDefeated(StringName encounterId)
