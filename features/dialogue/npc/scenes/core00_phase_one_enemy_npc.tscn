@@ -8,7 +8,6 @@
 [ext_resource type="Resource" uid="uid://cmkax27pi34i4" path="res://features/dialogue/npc/characters/Code_00.dch" id="6_code"]
 [ext_resource type="Resource" uid="uid://cud46uo7b7ivd" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="7_rubber"]
 [ext_resource type="Resource" uid="uid://hhx5w2lmb3jx" path="res://features/dialogue/test_content/characters/reb.dch" id="8_reb"]
-[ext_resource type="Texture2D" uid="uid://b7va0e0jpk3vl" path="res://icon.svg" id="9_dbf8d"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 125.0
@@ -76,6 +75,3 @@ _clickZone = NodePath("../ClickZone")
 position = Vector2(-120, 0)
 script = ExtResource("4_spawn")
 SpawnId = &"core00_phase_one_return"
-
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1364967265]
-texture = ExtResource("9_dbf8d")
