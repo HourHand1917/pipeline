@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedHostileNPC.cs" id="1_npc"]
 [ext_resource type="Resource" path="res://features/dialogue/npc/characters/Sharkk.dch" id="2_sharkk"]
@@ -7,6 +7,7 @@
 [ext_resource type="SpriteFrames" path="res://anime/generated/sharkk_frames.tres" id="5_placeholder"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="7_spawn"]
+[ext_resource type="AudioStream" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_music"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 120.0
@@ -23,6 +24,7 @@ BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
 PlayerLevelAfterVictory = 2
 ReturnSpawnId = &"f2_4_sharkk_return"
 AggroRadius = 120.0
+BattleMusic = ExtResource("8_music")
 NpcName = "Sharkk"
 DialogueCharacter = ExtResource("2_sharkk")
 PlayerDialogueCharacter = ExtResource("3_rubber")

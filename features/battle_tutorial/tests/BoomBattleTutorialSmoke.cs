@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 
 /// <summary>
-/// Drives the five highlighted production controls through the real viewport
+/// Drives the six highlighted production controls through the real viewport
 /// input route.  The test therefore catches both state-machine regressions and
 /// tutorial overlays that accidentally swallow the highlighted click.
 /// </summary>
@@ -57,12 +57,16 @@ public partial class BoomBattleTutorialSmoke : Node
                 "panel button reveals the enemy panel");
 
             await AdvanceStepByClicking(tutorial, BoomBattleTutorial.TutorialStep.InspectEnemy, 4);
+            Check(tutorial.CurrentTutorialStep == BoomBattleTutorial.TutorialStep.EndTurn,
+                "clicking Boom's track slot advances to end turn");
+
+            await AdvanceStepByClicking(tutorial, BoomBattleTutorial.TutorialStep.EndTurn, 2, 6);
             Check(tutorial.CurrentTutorialStep == BoomBattleTutorial.TutorialStep.Complete,
-                "clicking Boom's track slot completes the tutorial");
+                "the real end-turn button completes the tutorial after phase change");
             Check(!tutorial.IsTutorialActive && !tutorial.Visible,
                 "completed tutorial releases the original battle UI");
 
-            GD.Print($"BOOM_BATTLE_TUTORIAL_SMOKE_PASS checks={_checks} steps=5");
+            GD.Print($"BOOM_BATTLE_TUTORIAL_SMOKE_PASS checks={_checks} steps=6");
             GetTree().Quit(0);
         }
         catch (Exception exception)

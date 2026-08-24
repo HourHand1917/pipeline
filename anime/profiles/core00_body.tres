@@ -1,7 +1,9 @@
-[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="BattleAnimationProfile" load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/core_body_frames.tres" id="2"]
+[ext_resource type="Resource" path="res://anime/audio/core_body_death_cue.tres" id="3_death"]
+[ext_resource type="Script" path="res://anime/scripts/battle_animation_audio_cue.gd" id="4_cue_script"]
 
 [resource]
 script = ExtResource("1")
@@ -33,6 +35,7 @@ action_animation_sequences = {
 &"core_body_teleport_guard": PackedStringArray("jam_cast", "move_backward"),
 &"trained_core_body_teleport_guard": PackedStringArray("jam_cast", "move_backward")
 }
+audio_cues = Array[ExtResource("4_cue_script")]([ExtResource("3_death")])
 target_visual_height = 136.0
 visual_scale = Vector2(1, 1)
 visual_offset = Vector2(0, -70)

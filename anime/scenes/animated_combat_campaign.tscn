@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dsogxja23siu4"]
+
+[ext_resource type="PackedScene" path="res://features/combat_campaign/scenes/combat_campaign.tscn" id="1_campaign"]
+[ext_resource type="PackedScene" path="res://anime/scenes/battle_animation_hub.tscn" id="2_hub"]
+
+[node name="AnimatedCombatCampaign" unique_id=1257683760 instance=ExtResource("1_campaign")]
+
+[node name="BattleAnimationHub" parent="." index="9" unique_id=1685158959 instance=ExtResource("2_hub")]

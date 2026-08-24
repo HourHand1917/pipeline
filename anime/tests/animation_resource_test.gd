@@ -209,16 +209,19 @@ func _test_profiles() -> void:
 				"%s audio uses its impact frame" % cue.animation_name)
 			_check(cue.stream != null, "%s audio stream loads" % cue.animation_name)
 	var audio_counts := {
+		"player": 1,
 		"boom": 3,
 		"rocky": 9,
 		"sharkk": 5,
 		"core00_true_hand": 6,
 		"core00_false_hand": 6,
+		"core00_body": 1,
 	}
 	# These frames are the first drawn contact/reaction frames in the authored
 	# sequences.  Keeping the table in the contract test prevents later asset
 	# imports from silently shifting an impact sound back to animation start.
 	var audio_contact_frames := {
+		"player": {&"attack": 12},
 		"boom": {&"attack": 12, &"hurt": 4, &"death": 5},
 		"rocky": {
 			&"idle": 0, &"move_forward": 0, &"move_backward": 0, &"retreat": 0,
@@ -236,6 +239,7 @@ func _test_profiles() -> void:
 			&"enter_right": 0, &"finger_flick": 24, &"heal_snap": 22,
 			&"heavy_punch": 30, &"hurt": 3, &"death": 5,
 		},
+		"core00_body": {&"death": 3},
 	}
 	for profile_id: String in profiles_by_id:
 		var configured := profiles_by_id[profile_id] as BattleAnimationProfile

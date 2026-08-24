@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedHostileNPC.cs" id="1_npc"]
 [ext_resource type="Resource" path="res://features/dialogue/npc/characters/Rocky.dch" id="2_rocky"]
@@ -8,6 +8,7 @@
 [ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="6_placeholder"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="8_spawn"]
+[ext_resource type="AudioStream" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="9_music"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 110.0
@@ -24,6 +25,7 @@ BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
 PlayerLevelAfterVictory = 1
 ReturnSpawnId = &"RockyReturnSpawn"
 AggroRadius = 110.0
+BattleMusic = ExtResource("9_music")
 NpcName = "Rocky"
 DialogueCharacter = ExtResource("2_rocky")
 PlayerDialogueCharacter = ExtResource("3_rubber")

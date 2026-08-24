@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/core00_phase_one_enemy_npc.tscn" id="23_code_dialogue"]
 [ext_resource type="VideoStream" path="res://features/exploration/f4_sequence/assets/core00_phase1_intro_no_subtitles.ogv" id="24_phase1_intro"]
 [ext_resource type="Shader" path="res://features/exploration/f4_sequence/core00_intro_transparency.gdshader" id="25_intro_shader"]
+[ext_resource type="Resource" path="res://features/dialogue/npc/timelines/Code_00战后.dtl" id="26_core_outro"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_core_intro"]
 shader = ExtResource("25_intro_shader")
@@ -86,6 +87,7 @@ RightStageActor = NodePath("RightStageActor")
 PhaseOneIntroVideo = NodePath("PhaseOneIntroLayer/PhaseOneIntroVideo")
 ForcedDialogueNpc = NodePath("Code00Dialogue")
 HideDuringPhaseOneIntro = Array[NodePath]([NodePath("../Player"), NodePath("../UILayer/HUD")])
+PhaseTwoDefeatTimeline = ExtResource("26_core_outro")
 BattleMusic = ExtResource("8_23vsp")
 
 [node name="Trigger" type="CollisionShape2D" parent="Core00Encounter"]

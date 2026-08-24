@@ -22,6 +22,10 @@ public partial class F4BossSequence : Area2D
     [Export]
     public Resource PhaseOneDefeatTimeline { get; set; }
 
+    [ExportGroup("Phase-two defeat dialogue")]
+    [Export]
+    public Resource PhaseTwoDefeatTimeline { get; set; }
+
     [ExportGroup("Battle configuration")]
     [Export(PropertyHint.File, "*.tscn")] public string BattleScenePath { get; set; } = "res://Scenes/game_scene/boom_battle_scene.tscn";
     [Export(PropertyHint.File, "*.tres")] public string PhaseOneRulesPath { get; set; } = "res://features/enemy_ai_node/rules/core00_phase_one_rules.tres";
@@ -30,6 +34,7 @@ public partial class F4BossSequence : Area2D
     [Export] public StringName ReturnSpawnId { get; set; } = "f4_core_return";
     [Export] public StringName PhaseOnePersistenceId { get; set; } = "f4_core00_phase_one";
     [Export] public StringName PhaseTwoPersistenceId { get; set; } = "f4_core00_phase_two";
+    [Export] public StringName PhaseTwoOutroPersistenceId { get; set; } = "f4_core00_phase_two_outro";
     [Export] public AudioStream BattleMusic { get; set; }
     [Export(PropertyHint.File, "*.tscn")]
     public string PhaseTwoVictoryScenePath { get; set; } =
@@ -66,6 +71,8 @@ public partial class F4BossSequence : Area2D
         Monitorable = Monitoring;
         if (phaseOneDone && !phaseTwoDone)
             Callable.From(BeginPhaseTwoInterlude).CallDeferred();
+        else if (phaseTwoDone && !IsCompleted(PhaseTwoOutroPersistenceId))
+            Callable.From(BeginPhaseTwoVictoryInterlude).CallDeferred();
     }
 
     public override void _ExitTree()
@@ -113,6 +120,76 @@ public partial class F4BossSequence : Area2D
     }
 
     private void OnForcedDialogueFinished() => _dialogueFinished = true;
+
+    /// <summary>
+    /// Phase two always returns to F4 first.  Only the completed, forced
+    /// post-battle dialogue is allowed to open the ending scene.
+    /// </summary>
+    private async void BeginPhaseTwoVictoryInterlude()
+    {
+        if (_sequenceRunning
+            || !IsDefeated(PhaseTwoPersistenceId)
+            || IsCompleted(PhaseTwoOutroPersistenceId))
+            return;
+
+        _sequenceRunning = true;
+        Monitoring = false;
+        Monitorable = false;
+        Player ??= PlayerController.Instance;
+        Player?.LockMovement();
+
+        AudioManager audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+        bool dialogueCompleted = await PlayRequiredPhaseTwoDefeatDialogue(audio);
+        audio?.SetBusVolume(AudioManager.Bus.MUSIC, 1.0f);
+        if (!dialogueCompleted)
+        {
+            Player?.UnlockMovement();
+            _sequenceRunning = false;
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(PhaseTwoVictoryScenePath)
+            || !ResourceLoader.Exists(PhaseTwoVictoryScenePath)
+            || SceneTransition.Instance == null)
+        {
+            GD.PushError("F4BossSequence: ending scene is unavailable after the Core-00 post-battle dialogue.");
+            Player?.UnlockMovement();
+            _sequenceRunning = false;
+            return;
+        }
+
+        MarkCompleted(PhaseTwoOutroPersistenceId);
+        SceneTransition.Instance.ChangeScene(PhaseTwoVictoryScenePath);
+    }
+
+    private async Task<bool> PlayRequiredPhaseTwoDefeatDialogue(AudioManager audio)
+    {
+        if (PhaseTwoDefeatTimeline == null || ForcedDialogueNpc == null)
+        {
+            GD.PushError("F4BossSequence: PhaseTwoDefeatTimeline is required before the ending can play.");
+            return false;
+        }
+
+        ForcedDialogueNpc.DialogueTimeline = PhaseTwoDefeatTimeline;
+        audio?.SetBusVolume(AudioManager.Bus.MUSIC, DialogueMusicVolume);
+        _dialogueFinished = false;
+        bool started = ForcedDialogueNpc.StartConfiguredDialogueNow();
+        for (int retry = 0; !started && retry < 120; retry++)
+        {
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+            started = ForcedDialogueNpc.StartConfiguredDialogueNow();
+        }
+
+        if (!started)
+        {
+            GD.PushError("F4BossSequence: required Core-00 post-battle dialogue could not start; ending is blocked.");
+            return false;
+        }
+
+        while (!_dialogueFinished)
+            await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+        return true;
+    }
 
     /// <summary>
     /// Inspector hook for tomorrow's authored timeline.  Leaving it empty is
@@ -215,9 +292,6 @@ public partial class F4BossSequence : Area2D
 
     private void StartConfiguredBattle(string rulesPath, StringName encounterId)
     {
-        string victoryScenePath = encounterId == PhaseTwoPersistenceId
-            ? PhaseTwoVictoryScenePath
-            : "";
         BattleDirector.Instance?.StartBattle(
             BattleScenePath,
             rulesPath,
@@ -226,12 +300,26 @@ public partial class F4BossSequence : Area2D
             ReturnSpawnId,
             this,
             -1,
-            victoryScenePath);
+            "");
     }
 
     private bool IsDefeated(StringName encounterId)
     {
         Dictionary state = GameState.Instance?.GetObjectState(MapId.ToString(), encounterId.ToString());
         return state != null && state.TryGetValue("defeated", out Variant value) && value.AsBool();
+    }
+
+    private bool IsCompleted(StringName stateId)
+    {
+        Dictionary state = GameState.Instance?.GetObjectState(MapId.ToString(), stateId.ToString());
+        return state != null && state.TryGetValue("completed", out Variant value) && value.AsBool();
+    }
+
+    private void MarkCompleted(StringName stateId)
+    {
+        GameState.Instance?.SetObjectState(
+            MapId.ToString(),
+            stateId.ToString(),
+            new Dictionary { { "completed", true } });
     }
 }

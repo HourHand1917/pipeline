@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 
 /// <summary>
-/// Five-step, state-verified tutorial for the single-Boom encounter.
+/// Six-step, state-verified tutorial for the single-Boom encounter.
 /// The overlay never replaces battle controls: four blockers leave one real
 /// control exposed, so the player learns the production interaction itself.
 /// </summary>
@@ -21,7 +21,8 @@ public partial class BoomBattleTutorial : CanvasLayer
         MoveOnTrack = 2,
         SwitchEnemyPanel = 3,
         InspectEnemy = 4,
-        Complete = 5,
+        EndTurn = 5,
+        Complete = 6,
     }
 
     [ExportGroup("Activation")]
@@ -31,6 +32,20 @@ public partial class BoomBattleTutorial : CanvasLayer
     [ExportGroup("Presentation")]
     [Export(PropertyHint.Range, "0,40,1")] public float TargetPadding { get; set; } = 12f;
     [Export(PropertyHint.Range, "0,0.9,0.01")] public float DimOpacity { get; set; } = 0.66f;
+
+    [ExportGroup("Guide text")]
+    [Export] public string LightCellsTitle { get; set; } = "点亮格子";
+    [Export] public string LightCellsInstruction { get; set; } = "点击高亮格子，消耗能量点亮卡牌。";
+    [Export] public string UseCardsTitle { get; set; } = "使用已点亮卡牌";
+    [Export] public string UseCardsInstruction { get; set; } = "卡牌全部点亮后，再点击卡牌即可使用。";
+    [Export] public string MoveTitle { get; set; } = "点击格子移动";
+    [Export] public string MoveInstruction { get; set; } = "点击轨道上的空格，移动玩家位置。";
+    [Export] public string SwitchPanelTitle { get; set; } = "切换敌人面板";
+    [Export] public string SwitchPanelInstruction { get; set; } = "点击上箭头，切换到敌人信息面板。";
+    [Export] public string InspectEnemyTitle { get; set; } = "观察血量与意图";
+    [Export] public string InspectEnemyInstruction { get; set; } = "点击 Boom 脚下，查看血量与行动意图。";
+    [Export] public string EndTurnTitle { get; set; } = "结束回合";
+    [Export] public string EndTurnInstruction { get; set; } = "行动完成后，点击结束回合，让敌人开始行动。";
 
     public bool IsTutorialActive => _active;
     public TutorialStep CurrentTutorialStep => _step;
@@ -60,6 +75,7 @@ public partial class BoomBattleTutorial : CanvasLayer
     private int _tutorialCardId = -1;
     private readonly HashSet<int> _readyCardIds = new();
     private int _moveStartCell;
+    private int _endTurnStartRound;
     private bool _bound;
     private bool _active;
     private bool _activationAttempted;
@@ -302,6 +318,11 @@ public partial class BoomBattleTutorial : CanvasLayer
                 break;
             case TutorialStep.InspectEnemy:
                 if (_ui.PlayerTV?.GetTrackedEnemy() == _boom)
+                    EnterStep(TutorialStep.EndTurn);
+                break;
+            case TutorialStep.EndTurn:
+                if (_battle.CurrentPhase != BattleManager.Phase.PlayerTurn
+                    || _battle.RoundNumber > _endTurnStartRound)
                     FinishTutorial();
                 break;
         }
@@ -315,14 +336,19 @@ public partial class BoomBattleTutorial : CanvasLayer
             _readyCardIds.Clear();
             RefreshReadyCardSet();
         }
+        else if (next == TutorialStep.EndTurn)
+        {
+            _endTurnStartRound = _battle.RoundNumber;
+        }
 
         string instruction = next switch
         {
-            TutorialStep.LightCells => "点击高亮格子，消耗能量点亮卡牌。",
-            TutorialStep.UseLitCards => "卡牌全部点亮后，再点击卡牌即可使用。",
-            TutorialStep.MoveOnTrack => "点击轨道上的空格，移动玩家位置。",
-            TutorialStep.SwitchEnemyPanel => "点击上箭头，切换到敌人信息面板。",
-            TutorialStep.InspectEnemy => "点击 Boom 脚下，查看血量与行动意图。",
+            TutorialStep.LightCells => LightCellsInstruction,
+            TutorialStep.UseLitCards => UseCardsInstruction,
+            TutorialStep.MoveOnTrack => MoveInstruction,
+            TutorialStep.SwitchEnemyPanel => SwitchPanelInstruction,
+            TutorialStep.InspectEnemy => InspectEnemyInstruction,
+            TutorialStep.EndTurn => EndTurnInstruction,
             _ => "",
         };
         EmitSignal(SignalName.TutorialStepChanged, (int)next, instruction);
@@ -352,6 +378,7 @@ public partial class BoomBattleTutorial : CanvasLayer
             TutorialStep.MoveOnTrack => FindMoveTarget(),
             TutorialStep.SwitchEnemyPanel => _ui.PlayerTV?.GetNodeOrNull<Control>("UpBtn"),
             TutorialStep.InspectEnemy => FindEnemySlot(),
+            TutorialStep.EndTurn => _ui.EndTurnButton,
             _ => null,
         };
 
@@ -547,14 +574,15 @@ public partial class BoomBattleTutorial : CanvasLayer
 
     private void UpdateGuideText(string instruction)
     {
-        _stepLabel.Text = $"BOOM 战斗教学  ·  {(int)_step + 1}/5";
+        _stepLabel.Text = $"BOOM 战斗教学  ·  {(int)_step + 1}/6";
         _titleLabel.Text = _step switch
         {
-            TutorialStep.LightCells => "点亮格子",
-            TutorialStep.UseLitCards => "使用已点亮卡牌",
-            TutorialStep.MoveOnTrack => "点击格子移动",
-            TutorialStep.SwitchEnemyPanel => "切换敌人面板",
-            TutorialStep.InspectEnemy => "观察血量与意图",
+            TutorialStep.LightCells => LightCellsTitle,
+            TutorialStep.UseLitCards => UseCardsTitle,
+            TutorialStep.MoveOnTrack => MoveTitle,
+            TutorialStep.SwitchEnemyPanel => SwitchPanelTitle,
+            TutorialStep.InspectEnemy => InspectEnemyTitle,
+            TutorialStep.EndTurn => EndTurnTitle,
             _ => "",
         };
         _bodyLabel.Text = instruction;

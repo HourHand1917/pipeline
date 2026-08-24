@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="PackedScene" path="res://anime/scenes/animation_battle_rule_test.tscn" id="1_base"]
+[ext_resource type="Resource" path="res://features/enemy_ai_node/rules/core00_phase_one_rules.tres" id="2_rules"]
+
+[node name="Core00HandsAnimationTest" instance=ExtResource("1_base")]
+BattleRules = ExtResource("2_rules")

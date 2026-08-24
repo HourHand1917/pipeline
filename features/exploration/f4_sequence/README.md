@@ -47,7 +47,15 @@
 
 ## 二阶段结局
 
-二阶段胜利场景由 `Core00Encounter/PhaseTwoVictoryScenePath` 配置，默认是：
+二阶段胜利后不会从战斗场景直接跳到片尾。战斗先返回 F4 的
+`f4_core_return`，然后 `Core00Encounter` 强制播放 Inspector 中
+`PhaseTwoDefeatTimeline` 配置的 `Code_00战后.dtl`。对话期间音乐降低到
+`DialogueMusicVolume`，结束后恢复正常音量；只有对话完整结束后才打开片尾。
+
+`PhaseTwoOutroPersistenceId` 独立记录该段对话已经完成，重新加载 F4 时不会重复播放。
+如果 timeline 丢失或无法启动，流程会报错并阻止进入片尾，避免静默跳过剧情。
+
+对话结束后的场景由 `Core00Encounter/PhaseTwoVictoryScenePath` 配置，默认是：
 
 `res://features/exploration/f4_sequence/ending/f4_ending_screen.tscn`
 

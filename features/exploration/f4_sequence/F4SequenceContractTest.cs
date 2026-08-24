@@ -38,6 +38,11 @@ public partial class F4SequenceContractTest : Node
                 "phase-one movie temporarily hides the player and exploration HUD");
             Check(sequence.PhaseOneDefeatTimeline == null,
                 "phase-one defeat dialogue is an empty, non-blocking Inspector hook");
+            Check(sequence.PhaseTwoDefeatTimeline != null
+                && sequence.PhaseTwoDefeatTimeline.ResourcePath.EndsWith("Code_00战后.dtl"),
+                "phase-two victory owns the authored forced post-battle dialogue");
+            Check(sequence.PhaseTwoOutroPersistenceId == "f4_core00_phase_two_outro",
+                "phase-two post-battle dialogue has an independent replay guard");
             Check(sequence.PhaseTwoLeftAnimation.IsEmpty && sequence.PhaseTwoRightAnimation.IsEmpty,
                 "phase-two entrance remains an explicit empty Inspector hook");
             Check(!sequence.ForcedDialogueNpc.AutoTriggerByRange
@@ -62,6 +67,32 @@ public partial class F4SequenceContractTest : Node
                 "Core-00 phase-two body starts at the opposite endpoint");
             Check(phaseTwoMap.Call("is_configuration_valid").AsBool(),
                 "Core-00 phase-two seven-cell map remains valid");
+
+            string[] expectedOutroLines =
+            {
+                "Code_00: ……系统故障，受到外力破坏……",
+                "Code_00: 无法保持系统完整……社会集群断裂……娱乐设施断裂……",
+                "Code_00: 紧急维护……紧急维护……无法恢复……无法恢复……",
+                "Code_00: 需要修复……需要修复……需要科研人员协助……",
+                "Code_00: 谁来救救我……lichen先生…………鼠鼠工程师……",
+                "Code_00: 来个人，来个人来救救我……",
+                "Code_00: 我很难受……我很难受……",
+                "Code_00: …………",
+                "reb: 扫描完毕，code00已经停止运转。需要带回去修理吗？",
+                "RUBBER: 不了。它带来了太多的伤亡，这样是他最好的结局了。",
+                "RUBBER: 但我们可以待一会，为这个AI默哀一下。",
+                "RUBBER: 他努力的完成了自己的构想，并为了维持他的构想付出了生命。",
+                "reb: 扫描显示，你为他的死亡而高兴，为什么还要为它哀悼？",
+                "RUBBER: 因为我是人呀，可以有一点灰色地带。算了，走吧，去找冰淇淋吃！",
+            };
+            string[] actualOutroLines = FileAccess
+                .GetFileAsString("res://features/dialogue/npc/timelines/Code_00战后.dtl")
+                .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            Check(actualOutroLines.Length == expectedOutroLines.Length,
+                "Core-00 post-battle dialogue contains exactly the supplied 14 speech segments");
+            for (int line = 0; line < expectedOutroLines.Length; line++)
+                Check(actualOutroLines[line] == expectedOutroLines[line],
+                    $"Core-00 post-battle dialogue line {line + 1} is preserved verbatim");
 
             PackedScene rockyPacked = ResourceLoader.Load<PackedScene>(
                 "res://features/exploration/scenes/f1/f1_2.tscn");

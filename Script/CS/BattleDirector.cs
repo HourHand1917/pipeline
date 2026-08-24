@@ -8,6 +8,9 @@ using Godot.Collections;
 [GlobalClass]
 public partial class BattleDirector : Node
 {
+	private const string DefaultBattleStartSfxPath =
+		"res://features/dialogue/npc/audio/combat/common/battle_start.ogg";
+
 	public static BattleDirector Instance { get; private set; }
 
 	/// <summary>待加载的战斗 rules .tres 路径</summary>
@@ -32,11 +35,13 @@ public partial class BattleDirector : Node
 
 	/// <summary>地图默认音乐（战斗结束恢复用）</summary>
 	[Export] public AudioStream DefaultMapMusic { get; set; }
+	[Export] public AudioStream BattleStartSfx { get; set; }
 
 	public override void _Ready()
 	{
 		if (Instance != null) { GD.PushError("BattleDirector: 重复实例化"); return; }
 		Instance = this;
+		BattleStartSfx ??= ResourceLoader.Load<AudioStream>(DefaultBattleStartSfxPath);
 	}
 
 	/// <summary>由 NPC 调用，进入战斗场景。</summary>
@@ -57,6 +62,7 @@ public partial class BattleDirector : Node
 		PendingLevelAfterVictory = levelAfterVictory;
 		PendingVictoryScenePath = victoryScenePath ?? "";
 		PrepareBattleBackdrop(backdropFocus);
+		GetNodeOrNull<AudioManager>("/root/AudioManager")?.PlaySfx(BattleStartSfx);
 
 		SceneTransition.Instance.ChangeScene(battleScenePath);
 	}

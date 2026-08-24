@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://v0dj2dxny8f4"]
 
 [ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="40_rocky_frames"]
+[ext_resource type="AudioStream" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="41_battle_music"]
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_xurlq"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_y52xo"]
@@ -85,6 +86,7 @@ BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
 PlayerLevelAfterVictory = 1
 ReturnSpawnId = &"RockyReturnSpawn"
 AggroRadius = 100.0
+BattleMusic = ExtResource("41_battle_music")
 NpcName = "岩石怪"
 PersistenceId = "enemy_rocky_f1_2"
 _blink = NodePath("Blink")

@@ -59,6 +59,10 @@ public partial class ChestTutorialSmoke : Node
             Check(tutorial.CurrentInputRect.HasArea(),
                 "close button remains clickable through the spotlight");
 
+            // Let the 0.5 second RewardPage show animation settle before the
+            // viewport hit test; the tutorial follows the moving button every
+            // frame, but users click it after it reaches its resting position.
+            await WaitFrames(32);
             await PushViewportClick(tutorial.CurrentInputRect.GetCenter());
             await WaitFrames(12);
             Check(tutorial.CurrentTutorialStep == ChestTutorial.Step.Complete,

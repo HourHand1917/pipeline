@@ -1,0 +1,41 @@
+[gd_scene format=3 uid="uid://di4d2b4epands"]
+
+[ext_resource type="Script" uid="uid://c618wtvp0mcf6" path="res://anime/scripts/AnimeBattleRuleScene.cs" id="1_scene"]
+[ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_board"]
+[ext_resource type="Resource" uid="uid://eaxrke6ceyc7" path="res://features/enemy_ai_node/rules/core00_phase_one_rules.tres" id="3_dutxv"]
+[ext_resource type="Script" uid="uid://daot8dulf4c6a" path="res://Script/CS/EffectResolver.cs" id="3_resolver"]
+[ext_resource type="Script" uid="uid://ckqb0ukr21rrg" path="res://Script/CS/BattleManager.cs" id="4_battle"]
+[ext_resource type="PackedScene" uid="uid://q1ojg1hovxf7" path="res://Scenes/game_scene/battlescreen.tscn" id="5_screen"]
+[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/revolver.tres" id="7_card"]
+[ext_resource type="PackedScene" path="res://anime/scenes/battle_animation_display.tscn" id="8_display"]
+[ext_resource type="PackedScene" path="res://anime/scenes/components/animation_trackslot.tscn" id="9_slot"]
+
+[node name="AnimationBattleRuleTest" type="Node2D" unique_id=1902680962 node_paths=PackedStringArray("BoardManager", "EffectResolver", "BattleManager", "BattleScreen")]
+script = ExtResource("1_scene")
+BoardManager = NodePath("BoardManager")
+EffectResolver = NodePath("EffectResolver")
+BattleManager = NodePath("BattleManager")
+BattleScreen = NodePath("BattleScreen")
+TrackSlotScene = ExtResource("9_slot")
+BattleRules = ExtResource("3_dutxv")
+FallbackTestCard = ExtResource("7_card")
+
+[node name="BoardManager" type="Node" parent="." unique_id=373933390]
+script = ExtResource("2_board")
+
+[node name="EffectResolver" type="Node" parent="." unique_id=384879302]
+script = ExtResource("3_resolver")
+
+[node name="BattleManager" type="Node" parent="." unique_id=219714032]
+script = ExtResource("4_battle")
+
+[node name="BattleScreen" parent="." unique_id=1380080710 instance=ExtResource("5_screen")]
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 1440.0
+offset_bottom = 1080.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="BattleAnimationDisplay" parent="." unique_id=441800724 instance=ExtResource("8_display")]
