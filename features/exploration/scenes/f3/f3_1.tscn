@@ -6,9 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://bvrm6w2q52lv1" path="res://features/exploration/art_assets/maps/f3/f3-1 贫民区.png" id="3_bg"]
 [ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="3_mc1ss"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
+[ext_resource type="AudioStream" uid="uid://ctfyuxt8fq273" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_01.wav" id="4_widn7"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="AudioStream" uid="uid://qbtblfhgor73" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_02.wav" id="5_y4hmt"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
+[ext_resource type="AudioStream" uid="uid://2tdcksk26pdy" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_03.wav" id="6_s8md7"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="AudioStream" uid="uid://b5lapxmlhr4m3" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_04.wav" id="7_ro2jq"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
@@ -22,6 +26,7 @@ MapId = "f3_1"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_j060f")
 MapAmbient = ExtResource("3_mc1ss")
+WalkSounds = [ExtResource("4_widn7"), ExtResource("5_y4hmt"), ExtResource("6_s8md7"), ExtResource("7_ro2jq")]
 PlayerLeft = -150
 PlayerRight = 1830
 CamLeft = 0

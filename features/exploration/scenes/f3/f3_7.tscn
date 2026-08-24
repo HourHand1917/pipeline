@@ -4,9 +4,13 @@
 [ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="2_dljo4"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="Texture2D" uid="uid://cejkaslqneh3b" path="res://features/exploration/art_assets/maps/f3/f3-7（复用）.png" id="3_bg"]
+[ext_resource type="AudioStream" uid="uid://qfq1v54ejfne" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_01.wav" id="3_st2m7"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
+[ext_resource type="AudioStream" uid="uid://bqp6mu7jvvkk" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_02.wav" id="4_uejbq"]
+[ext_resource type="AudioStream" uid="uid://cmf6usfcqfitm" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_03.wav" id="5_m4iy3"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
+[ext_resource type="AudioStream" uid="uid://belhfdu7e12fl" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_04.wav" id="6_x6w4q"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
@@ -20,6 +24,7 @@ Input = NodePath("InputRouter")
 MapId = "f3_7"
 _hud = NodePath("UILayer/HUD")
 MapAmbient = ExtResource("2_dljo4")
+WalkSounds = [ExtResource("3_st2m7"), ExtResource("4_uejbq"), ExtResource("5_m4iy3"), ExtResource("6_x6w4q")]
 PlayerLeft = -150
 PlayerRight = 1830
 CamLeft = 0

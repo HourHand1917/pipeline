@@ -1,4 +1,5 @@
 using Godot;
+using System; 
 
 [GlobalClass]
 public partial class ExplorationManager : Node2D
@@ -11,6 +12,7 @@ public partial class ExplorationManager : Node2D
     [ExportGroup("音乐")]
     [Export] public AudioStream MapMusic { get; set; }
     [Export] public AudioStream MapAmbient { get; set; }
+    [Export] public AudioStream[] WalkSounds { get; set; } = Array.Empty<AudioStream>();
 
     [ExportGroup("玩家边界")]
     [Export] public int PlayerLeft { get; set; } = -2000;
@@ -43,6 +45,12 @@ public partial class ExplorationManager : Node2D
             Input.MoveReleased += dir => Player.OnMoveReleased(dir);
         }
 
+        // 设置玩家移动音效
+        if (Player != null && WalkSounds.Length > 0)
+        {
+            Player.WalkSounds = WalkSounds;
+        }
+
         ApplyBounds();
 
         if (!string.IsNullOrEmpty(MapId))
@@ -66,7 +74,7 @@ public partial class ExplorationManager : Node2D
     /// 播放当前地图音乐。如果和正在播放的音乐相同，跳过（连续播放）。
     /// 不同则淡入淡出切换。
     /// </summary>
-        private void PlayMapMusic()
+    private void PlayMapMusic()
     {
         var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
         if (audio == null) return;

@@ -7,10 +7,14 @@
 [ext_resource type="Texture2D" uid="uid://ceexktas5lgbk" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-门.png" id="4_axgrs"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="Texture2D" uid="uid://dxyu8v25hnk4i" path="res://features/exploration/art_assets/maps/f2/f2-5-商铺内部.png" id="4_l7btf"]
+[ext_resource type="AudioStream" uid="uid://ctfyuxt8fq273" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_01.wav" id="4_xdss3"]
 [ext_resource type="Texture2D" uid="uid://dbcaoreqifj1p" path="res://features/exploration/art_assets/maps/f2/f3-1贫民区-门框.png" id="5_l7btf"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="AudioStream" uid="uid://qbtblfhgor73" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_02.wav" id="5_telqy"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
+[ext_resource type="AudioStream" uid="uid://2tdcksk26pdy" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_03.wav" id="6_mllhp"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="AudioStream" uid="uid://b5lapxmlhr4m3" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_04.wav" id="7_t2ft6"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://d3qp3th6sj26" path="res://features/exploration/scripts/CS/interactables/FriendlyNPC.cs" id="30_friendly"]
 [ext_resource type="Script" uid="uid://cbvqd45gbyyii" path="res://features/exploration/scripts/CS/interactables/DoorInteractable.cs" id="31_door"]
@@ -39,6 +43,7 @@ MapId = "f2_3"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_f3wqq")
 MapAmbient = ExtResource("3_vfi77")
+WalkSounds = [ExtResource("4_xdss3"), ExtResource("5_telqy"), ExtResource("6_mllhp"), ExtResource("7_t2ft6")]
 PlayerLeft = -150
 PlayerRight = 1830
 CamLeft = 0
@@ -61,14 +66,13 @@ position = Vector2(977, 1402)
 scale = Vector2(2.1333318, 1)
 texture = ExtResource("20_floor")
 
-[node name="F25商铺内部" type="Area2D" parent="MapLayer" unique_id=706163604 node_paths=PackedStringArray("_blink")]
+[node name="F25商铺内部" type="Area2D" parent="MapLayer" unique_id=706163604]
 position = Vector2(840, 449.99997)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("30_friendly")
 NpcName = "商铺老板"
 DisplayName = "商铺老板"
 PersistenceId = "npc_f2_3_shop"
-_blink = NodePath("")
 
 [node name="Sprite" type="Sprite2D" parent="MapLayer/F25商铺内部" unique_id=1077373957]
 texture = ExtResource("4_l7btf")

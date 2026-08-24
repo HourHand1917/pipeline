@@ -3,9 +3,13 @@
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="AudioStream" uid="uid://vhcoxq43pfer" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F04.ogg" id="2_syxpf"]
+[ext_resource type="AudioStream" uid="uid://qfq1v54ejfne" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_01.wav" id="3_f56op"]
+[ext_resource type="AudioStream" uid="uid://bqp6mu7jvvkk" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_02.wav" id="4_5yguj"]
+[ext_resource type="AudioStream" uid="uid://cmf6usfcqfitm" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_03.wav" id="5_aieww"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Texture2D" uid="uid://c8eg1tacxp1my" path="res://features/exploration/art_assets/maps/f4/boss关-背景.png" id="5_syxpf"]
 [ext_resource type="Texture2D" uid="uid://bhr7rtbraaa0j" path="res://features/exploration/art_assets/maps/f4/boss关-前景柱子.png" id="6_0cwr6"]
+[ext_resource type="AudioStream" uid="uid://belhfdu7e12fl" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_04.wav" id="6_0r1d1"]
 [ext_resource type="Texture2D" uid="uid://dt8qf56ebpbsv" path="res://features/exploration/art_assets/maps/f4/boss关-一层台子.png" id="6_3ux7p"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
@@ -31,6 +35,7 @@ Input = NodePath("InputRouter")
 MapId = "f4"
 _hud = NodePath("UILayer/HUD")
 MapAmbient = ExtResource("2_syxpf")
+WalkSounds = [ExtResource("3_f56op"), ExtResource("4_5yguj"), ExtResource("5_aieww"), ExtResource("6_0r1d1")]
 PlayerLeft = 0
 PlayerRight = 6400
 CamLeft = 0

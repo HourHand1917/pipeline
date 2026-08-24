@@ -909,9 +909,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("217_u3mx7")
-}, {
-"duration": 1.0,
 "texture": ExtResource("218_hsqrm")
 }, {
 "duration": 1.0,
@@ -928,6 +925,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": ExtResource("223_fdmc7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("217_u3mx7")
 }, {
 "duration": 1.0,
 "texture": ExtResource("224_qqu8h")
@@ -1039,7 +1039,7 @@ MoveSpeed = 1000.0
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1969210657]
 scale = Vector2(0.285, 0.285)
 sprite_frames = SubResource("SpriteFrames_sxm2x")
-animation = &"stop"
+animation = &"idle"
 
 [node name="CollisionShape" type="CollisionShape2D" parent="." unique_id=2052699507]
 shape = SubResource("RectangleShape2D_3qvi6")

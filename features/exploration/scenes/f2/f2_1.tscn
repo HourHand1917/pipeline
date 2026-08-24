@@ -5,10 +5,14 @@
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="AudioStream" uid="uid://by1xef8yp0nno" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F02.ogg" id="3_hxqmq"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
+[ext_resource type="AudioStream" uid="uid://ctfyuxt8fq273" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_01.wav" id="4_rjoca"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="AudioStream" uid="uid://qbtblfhgor73" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_02.wav" id="5_vr128"]
 [ext_resource type="Texture2D" uid="uid://cfjpb2rsxed1" path="res://features/exploration/art_assets/maps/f2/f2_小巷.png" id="6_aupid"]
+[ext_resource type="AudioStream" uid="uid://2tdcksk26pdy" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_03.wav" id="6_dk2g2"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="AudioStream" uid="uid://b5lapxmlhr4m3" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_04.wav" id="7_txfdf"]
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_aupid"]
 [ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="9_402xm"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
@@ -52,6 +56,7 @@ MapId = "f2_1"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_rndhp")
 MapAmbient = ExtResource("3_hxqmq")
+WalkSounds = [ExtResource("4_rjoca"), ExtResource("5_vr128"), ExtResource("6_dk2g2"), ExtResource("7_txfdf")]
 PlayerLeft = -150
 PlayerRight = 1830
 CamLeft = 0

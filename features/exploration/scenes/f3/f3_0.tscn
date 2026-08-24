@@ -2,13 +2,16 @@
 
 [ext_resource type="Script" uid="uid://cdw52gdvbarch" path="res://features/exploration/scripts/CS/ExplorationManager.cs" id="1_explore"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
-[ext_resource type="AudioStream" uid="uid://b4keq52aw3vov" path="res://tileset/music_resource/OGG/music/MUS_F03_Ambience_OGG.ogg" id="2_vpsei"]
 [ext_resource type="Texture2D" uid="uid://bxg0kld4v8fs1" path="res://features/exploration/art_assets/maps/f3/f3-0_管道.png" id="3_bg"]
 [ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="3_xpfxa"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
+[ext_resource type="AudioStream" uid="uid://qfq1v54ejfne" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_01.wav" id="4_qc1de"]
+[ext_resource type="AudioStream" uid="uid://bqp6mu7jvvkk" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_02.wav" id="5_el3gv"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
+[ext_resource type="AudioStream" uid="uid://cmf6usfcqfitm" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_03.wav" id="6_xavtl"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="AudioStream" uid="uid://belhfdu7e12fl" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_04.wav" id="7_naymk"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
@@ -20,8 +23,8 @@ Player = NodePath("Player")
 Input = NodePath("InputRouter")
 MapId = "f3_0"
 _hud = NodePath("UILayer/HUD")
-MapMusic = ExtResource("2_vpsei")
 MapAmbient = ExtResource("3_xpfxa")
+WalkSounds = [ExtResource("4_qc1de"), ExtResource("5_el3gv"), ExtResource("6_xavtl"), ExtResource("7_naymk")]
 PlayerLeft = -150
 PlayerRight = 1830
 CamLeft = 0

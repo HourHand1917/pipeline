@@ -6,10 +6,14 @@
 [ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="3_m8pxn"]
 [ext_resource type="Texture2D" uid="uid://cipg25f86tjk4" path="res://features/exploration/art_assets/maps/f3/f3-2_街道 (1).png" id="3_xv4l3"]
 [ext_resource type="Texture2D" uid="uid://cjrxo7rmrnywe" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV.png" id="4_ktv"]
+[ext_resource type="AudioStream" uid="uid://qfq1v54ejfne" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_01.wav" id="4_v1pi1"]
 [ext_resource type="Texture2D" uid="uid://c07ax2805mw6w" path="res://features/exploration/art_assets/maps/f3/f3-4_影院-背景.png" id="5_cinema"]
 [ext_resource type="Texture2D" uid="uid://cbpf0584ijml7" path="res://features/exploration/art_assets/maps/f3/f3-2_背景.png" id="5_d1hbg"]
+[ext_resource type="AudioStream" uid="uid://bqp6mu7jvvkk" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_02.wav" id="5_pxa62"]
 [ext_resource type="Texture2D" uid="uid://wxrwv3apk3hr" path="res://features/exploration/art_assets/maps/f3/f3-2_影院关门.png" id="6_2qhqc"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="6_edge"]
+[ext_resource type="AudioStream" uid="uid://cmf6usfcqfitm" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_03.wav" id="6_t5s6e"]
+[ext_resource type="AudioStream" uid="uid://belhfdu7e12fl" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_04.wav" id="7_1jh3o"]
 [ext_resource type="Texture2D" uid="uid://d35onx4yd6qw7" path="res://features/exploration/art_assets/maps/f3/f3-2_ktv关门.png" id="7_cul4s"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="7_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="8_input"]
@@ -75,6 +79,7 @@ MapId = "f3_2"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_3deyo")
 MapAmbient = ExtResource("3_m8pxn")
+WalkSounds = [ExtResource("4_v1pi1"), ExtResource("5_pxa62"), ExtResource("6_t5s6e"), ExtResource("7_1jh3o")]
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=135849584]
 

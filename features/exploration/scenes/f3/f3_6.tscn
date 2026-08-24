@@ -5,9 +5,13 @@
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="3_4wupg"]
 [ext_resource type="Texture2D" uid="uid://kgj20h5g5jls" path="res://features/exploration/art_assets/maps/f3/f3-6_赌场.png" id="3_bg"]
+[ext_resource type="AudioStream" uid="uid://qfq1v54ejfne" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_01.wav" id="4_cos4j"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="4_edge"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="AudioStream" uid="uid://bqp6mu7jvvkk" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_02.wav" id="5_u7slg"]
+[ext_resource type="AudioStream" uid="uid://cmf6usfcqfitm" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_03.wav" id="6_57m7g"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
+[ext_resource type="AudioStream" uid="uid://belhfdu7e12fl" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_04.wav" id="7_5sxle"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_6stul"]
 [ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="9_mq6sg"]
@@ -39,6 +43,7 @@ MapId = "f3_6"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_j3yl7")
 MapAmbient = ExtResource("3_4wupg")
+WalkSounds = [ExtResource("4_cos4j"), ExtResource("5_u7slg"), ExtResource("6_57m7g"), ExtResource("7_5sxle")]
 PlayerLeft = -150
 PlayerRight = 3527
 CamLeft = 0

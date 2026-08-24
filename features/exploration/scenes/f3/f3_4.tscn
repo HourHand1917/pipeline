@@ -5,8 +5,12 @@
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="2_spawn"]
 [ext_resource type="Texture2D" uid="uid://c07ax2805mw6w" path="res://features/exploration/art_assets/maps/f3/f3-4_影院-背景.png" id="3_bg"]
 [ext_resource type="AudioStream" uid="uid://dcwkv0o35tdek" path="res://tileset/music_resource/OGG/SFX/环境/AMB_F03.ogg" id="3_e5agr"]
+[ext_resource type="AudioStream" uid="uid://qfq1v54ejfne" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_01.wav" id="4_s5lac"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
+[ext_resource type="AudioStream" uid="uid://bqp6mu7jvvkk" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_02.wav" id="5_yd4if"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
+[ext_resource type="AudioStream" uid="uid://cmf6usfcqfitm" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_03.wav" id="6_phaq0"]
+[ext_resource type="AudioStream" uid="uid://belhfdu7e12fl" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_04.wav" id="7_af77h"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="Script" uid="uid://dhdi2b7sd6ebl" path="res://features/exploration/scripts/CS/interactables/MapGateInteractable.cs" id="8_gate"]
 [ext_resource type="Texture2D" uid="uid://doip62gs1t5u2" path="res://features/exploration/art_assets/home_map/大门-打开-拉杆下.PNG" id="9_door"]
@@ -26,6 +30,7 @@ MapId = "f3_4"
 _hud = NodePath("UILayer/HUD")
 MapMusic = ExtResource("2_0revn")
 MapAmbient = ExtResource("3_e5agr")
+WalkSounds = [ExtResource("4_s5lac"), ExtResource("5_yd4if"), ExtResource("6_phaq0"), ExtResource("7_af77h")]
 PlayerLeft = 0
 PlayerRight = 1680
 CamLeft = 0

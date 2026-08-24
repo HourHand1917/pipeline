@@ -284,6 +284,9 @@ public partial class AudioManager : Node
     //  音效
     // ================================================================
 
+    /// <summary>
+    /// 播放单个音效
+    /// </summary>
     public void PlaySfx(AudioStream sfx)
     {
         if (sfx == null) return;
@@ -301,6 +304,17 @@ public partial class AudioManager : Node
         _sfxPlayers[0].Stop();
         _sfxPlayers[0].Stream = sfx;
         _sfxPlayers[0].Play();
+    }
+
+    /// <summary>
+    /// 从音效数组中随机选择一个播放
+    /// </summary>
+    public void PlayRandomSfx(AudioStream[] sfxArray)
+    {
+        if (sfxArray == null || sfxArray.Length == 0) return;
+        
+        var sfx = sfxArray[GD.RandRange(0, sfxArray.Length - 1)];
+        PlaySfx(sfx);
     }
 
     public void SetBusVolume(Bus bus, float volume)
