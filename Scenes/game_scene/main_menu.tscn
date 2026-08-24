@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://di4l8jv626k8m" path="res://Resource/theme/main_menu.tres" id="1_5gy6c"]
 [ext_resource type="Script" uid="uid://cpkwtypj4kwio" path="res://Script/CS/main_menu/MainMenu.cs" id="1_u8fvr"]
 [ext_resource type="Script" uid="uid://bupys157atagh" path="res://Script/CS/main_menu/WaitLabel.cs" id="2_2ly5b"]
+[ext_resource type="AudioStream" uid="uid://cbccr8v7cpr25" path="res://tileset/music_resource/MUS_Main.mp3" id="2_2uwgi"]
 [ext_resource type="Script" uid="uid://cxt1o7vk2ufn1" path="res://Script/CS/main_menu/MenuContainer.cs" id="3_algf1"]
 
 [sub_resource type="Theme" id="Theme_5gy6c"]
@@ -191,6 +192,7 @@ grow_vertical = 2
 theme = SubResource("Theme_5gy6c")
 script = ExtResource("1_u8fvr")
 animationPlayer = NodePath("MenuAnimationPlayer")
+backgroundMusic = ExtResource("2_2uwgi")
 
 [node name="BackgroundLayer" type="Control" parent="." unique_id=431990009]
 anchors_preset = 0
