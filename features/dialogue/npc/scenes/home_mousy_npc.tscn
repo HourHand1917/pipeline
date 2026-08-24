@@ -4,7 +4,7 @@
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="2_mousy"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
+[ext_resource type="Texture2D" path="res://features/exploration/story_guides/assets/mousy_portrait.svg" id="5_placeholder"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
@@ -23,6 +23,7 @@ PlayerDialogueCharacter = ExtResource("3_rubber")
 AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
 DialogueBubbleOffset = Vector2(0, -145)
 PlayerDialogueBubbleOffset = Vector2(0, -160)
+AllowEscapeToExitDialogue = false
 DialogueAnimationPlayer = NodePath("AnimationPlayer")
 DisplayName = "鼠鼠（home 对话）"
 PersistenceId = "home_mousy_dialogue"
@@ -30,8 +31,8 @@ _blink = NodePath("Blink")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 modulate = Color(0.86, 0.7, 0.35, 1)
-position = Vector2(0, -62)
-scale = Vector2(0.54, 0.54)
+position = Vector2(0, -126)
+scale = Vector2(0.36, 0.36)
 texture = ExtResource("5_placeholder")
 
 [node name="DetectionRange" type="CollisionShape2D" parent="."]

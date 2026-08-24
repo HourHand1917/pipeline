@@ -35,6 +35,8 @@ var actor_owner_id := 0
 var _move_tween: Tween
 var runtime_facing := 0
 var _played_audio_cues := {}
+var current_audio_animation: StringName
+var current_audio_cue_token := ""
 var visual_scale_multiplier := 1.0
 
 
@@ -134,6 +136,7 @@ func attach_to_slot(slot: Node, overlay: Node2D, _animate_move := true) -> void:
 func detach_from_slot() -> void:
 	_restore_slot_glyph(current_slot)
 	current_slot = null
+	_stop_animation_audio()
 	if sprite != null and is_instance_valid(sprite):
 		sprite.visible = false
 
@@ -190,6 +193,10 @@ func request_animation(animation_name: StringName, priority: int, restart := fal
 		return
 	if not restart and sprite.animation == resolved and sprite.is_playing():
 		return
+	# Frame cues belong to one actor and one currently playing animation.  Stop
+	# the previous cue before replacing or rewinding the clip so a long sample
+	# can never bleed into this actor's next action.
+	_stop_animation_audio()
 	current_priority = priority
 	_played_audio_cues.clear()
 	# AnimatedSprite2D.play() does not rewind an animation that is already
@@ -236,6 +243,7 @@ func _create_visual_nodes() -> void:
 	audio_player = AudioStreamPlayer.new()
 	audio_player.name = "BattleAnimationAudio"
 	add_child(audio_player)
+	audio_player.finished.connect(_on_audio_player_finished)
 
 
 func _on_frame_changed() -> void:
@@ -254,34 +262,45 @@ func _play_audio_for_current_frame() -> void:
 		if _played_audio_cues.has(token):
 			continue
 		_played_audio_cues[token] = true
-		_play_persistent_cue(cue)
+		_play_owned_cue(cue, token)
 
 
-func _play_persistent_cue(cue: BattleAnimationAudioCue) -> void:
+func _play_owned_cue(cue: BattleAnimationAudioCue, token: String) -> void:
 	var requested_bus := str(cue.bus)
 	var resolved_bus: StringName = cue.bus if AudioServer.get_bus_index(requested_bus) >= 0 else &"Master"
-	# The actor and its animation machine can be freed as soon as a wave ends.
-	# Host one-shot cues under the global AudioManager so a long death sound is
-	# not cut off by that normal battle transition.
-	var audio_host := get_node_or_null("/root/AudioManager")
-	if audio_host != null:
-		var one_shot := AudioStreamPlayer.new()
-		one_shot.name = "AnimationCue_%s_%s" % [_actor_key(), cue.animation_name]
-		one_shot.stream = cue.stream
-		one_shot.volume_db = cue.volume_db
-		one_shot.pitch_scale = cue.pitch_scale
-		one_shot.bus = resolved_bus
-		audio_host.add_child(one_shot)
-		one_shot.finished.connect(one_shot.queue_free, CONNECT_ONE_SHOT)
-		one_shot.play()
-		return
-
-	# Minimal scenes without the AudioManager autoload still get local audio.
+	# One dedicated player per machine is the ownership boundary: different
+	# combatants may sound together, but this combatant can own only one action
+	# sound.  Replacing the stream also handles profiles that author more than
+	# one cue in a single animation without overlap.
+	_stop_animation_audio()
 	audio_player.stream = cue.stream
 	audio_player.volume_db = cue.volume_db
 	audio_player.pitch_scale = cue.pitch_scale
 	audio_player.bus = resolved_bus
+	current_audio_animation = sprite.animation
+	current_audio_cue_token = token
 	audio_player.play()
+
+
+func _stop_animation_audio() -> void:
+	current_audio_animation = &""
+	current_audio_cue_token = ""
+	if audio_player == null or not is_instance_valid(audio_player):
+		return
+	if audio_player.playing:
+		audio_player.stop()
+	# Releasing the stream is deliberate: it makes stale-action ownership
+	# observable in tests and prevents a later bare play() from reviving it.
+	audio_player.stream = null
+
+
+func _on_audio_player_finished() -> void:
+	# The sample may be shorter than the animation. Relinquish ownership when it
+	# ends naturally; the animation may later trigger another authored cue.
+	current_audio_animation = &""
+	current_audio_cue_token = ""
+	if audio_player != null and is_instance_valid(audio_player):
+		audio_player.stream = null
 
 
 func _ensure_visual_nodes() -> void:
@@ -293,9 +312,14 @@ func _ensure_visual_nodes() -> void:
 			and not audio_player.is_queued_for_deletion():
 		return
 	if anchor != null and is_instance_valid(anchor) and not anchor.is_queued_for_deletion():
-		anchor.queue_free()
+		anchor.free()
+	if audio_player != null and is_instance_valid(audio_player) \
+			and not audio_player.is_queued_for_deletion():
+		_stop_animation_audio()
+		audio_player.free()
 	anchor = null
 	sprite = null
+	audio_player = null
 	current_priority = PRIORITY_IDLE
 	queued_animation = &""
 	queued_priority = PRIORITY_IDLE
@@ -359,6 +383,7 @@ func _on_died() -> void:
 	queued_priority = PRIORITY_IDLE
 	queued_action_sequence.clear()
 	if not profile.has_animation(profile.death_animation):
+		_stop_animation_audio()
 		death_finished = true
 		if sprite != null and is_instance_valid(sprite):
 			sprite.visible = false
@@ -368,6 +393,9 @@ func _on_died() -> void:
 
 
 func _on_animation_finished() -> void:
+	# Even when the source sample is longer than the authored frames, the sound
+	# is part of this animation and must end at the same lifecycle boundary.
+	_stop_animation_audio()
 	if death_started and sprite.animation == profile.fallback_animation(profile.death_animation):
 		death_finished = true
 		sprite.visible = false
@@ -490,6 +518,7 @@ func _ground_preserving_sprite_offset() -> Vector2:
 
 
 func _exit_tree() -> void:
+	_stop_animation_audio()
 	_restore_slot_glyph(current_slot)
 	if actor != null and is_instance_valid(actor) and actor.has_meta(FRAME_AUDIO_META) \
 			and int(actor.get_meta(FRAME_AUDIO_META, 0)) == actor_owner_id:

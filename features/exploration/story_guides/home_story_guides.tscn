@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://features/exploration/story_guides/HomeStoryGuideController.cs" id="1_controller"]
+[ext_resource type="Script" path="res://features/exploration/story_guides/ExplorationInteractionGuide.cs" id="2_guide"]
+[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/home_mousy_npc.tscn" id="3_f1_mousy"]
+[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/post_sharkk_mousy_npc.tscn" id="4_f2_mousy"]
+
+[node name="HomeStoryGuides" type="Node" node_paths=PackedStringArray("WorkbenchGuide", "StoreGuide")]
+script = ExtResource("1_controller")
+WorkbenchGuide = NodePath("WorkbenchGuide")
+StoreGuide = NodePath("StoreGuide")
+PostF1MousyScene = ExtResource("3_f1_mousy")
+PostF2MousyScene = ExtResource("4_f2_mousy")
+
+[node name="WorkbenchGuide" type="CanvasLayer" parent="."]
+script = ExtResource("2_guide")
+GuideName = "鼠鼠的工作台引导"
+ApproachTitle = "跟鼠鼠去工作台"
+ApproachInstruction = "向左移动，跟随高亮标记前往工作台。"
+InteractTitle = "打开工作台"
+InteractInstruction = "点击高亮的工作台，查看改装与卡组配置。"
+
+[node name="StoreGuide" type="CanvasLayer" parent="."]
+script = ExtResource("2_guide")
+GuideName = "鼠鼠的商店引导"
+ApproachTitle = "去看看鼠鼠的商店"
+ApproachInstruction = "向右移动到商店附近，鼠鼠正在那里等你。"
+InteractTitle = "打开商店"
+InteractInstruction = "对话结束了。点击高亮的商店开始购买。"
+WaitForDialogueAtTarget = true

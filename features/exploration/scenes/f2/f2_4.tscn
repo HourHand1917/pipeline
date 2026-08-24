@@ -9,25 +9,8 @@
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="Texture2D" uid="uid://caefcvor3rp66" path="res://features/exploration/art_assets/maps/f2/f2_拳击馆.png" id="6_suul2"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
-[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="9_llaid"]
-[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="10_c24m6"]
+[ext_resource type="PackedScene" uid="uid://bfyp2nf6t3mk3" path="res://features/dialogue/npc/scenes/sharkk_prebattle_npc.tscn" id="7_k65t5"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
-[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="30_npc"]
-[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
-[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="33_loot"]
-[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="34_music"]
-[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="36_sharkk_tex"]
-
-[sub_resource type="Resource" id="Resource_sharkk_loot"]
-script = ExtResource("33_loot")
-bottle_cap = 20
-faucet = 20
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sharkk_detect"]
-size = Vector2(300, 260)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_sharkk_click"]
-size = Vector2(240, 200)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -67,44 +50,9 @@ position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_suul2")
 
-[node name="Sharkk" type="Area2D" parent="MapLayer" unique_id=1363876583 node_paths=PackedStringArray("Hud", "_blink")]
-position = Vector2(1240, 500)
-script = ExtResource("30_npc")
-BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
-BattleRulesPath = "res://features/enemy_ai_node/rules/sharkk_rules.tres"
-PlayerLevelAfterVictory = 2
-ReturnSpawnId = &"f2_4_sharkk_return"
-AggroRadius = 100.0
-BattleMusic = ExtResource("34_music")
-Loot = SubResource("Resource_sharkk_loot")
-Hud = NodePath("../../UILayer/HUD")
-NpcName = "Sharkk"
-PersistenceId = "enemy_sharkk_f2_4"
-_blink = NodePath("Blink")
-
-[node name="Sprite" type="Sprite2D" parent="MapLayer/Sharkk" unique_id=1306272006]
-modulate = Color(0.92, 0.37, 0.25, 1)
-texture = ExtResource("36_sharkk_tex")
-
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Sharkk" unique_id=1882734971]
-shape = SubResource("RectangleShape2D_sharkk_detect")
-
-[node name="ClickZone" type="Area2D" parent="MapLayer/Sharkk" unique_id=811534069]
-collision_layer = 2
-collision_mask = 0
-
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Sharkk/ClickZone" unique_id=587283119]
-shape = SubResource("RectangleShape2D_sharkk_click")
-
-[node name="Blink" type="Node" parent="MapLayer/Sharkk" unique_id=1038021442 node_paths=PackedStringArray("_sprite", "_clickZone")]
-script = ExtResource("32_blink")
-_sprite = NodePath("../Sprite")
-_clickZone = NodePath("../ClickZone")
-
-[node name="ReturnSpawn" type="Node2D" parent="MapLayer/Sharkk" unique_id=296247196]
-position = Vector2(-9, 12)
-script = ExtResource("2_spawn")
-SpawnId = &"f2_4_sharkk_return"
+[node name="SharkkPrebattleNPC" parent="MapLayer" unique_id=284579292 instance=ExtResource("7_k65t5")]
+position = Vector2(1117, 578)
+scale = Vector2(1.985, 1.985)
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1291970118]
 position = Vector2(-150, 450)

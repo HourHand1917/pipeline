@@ -4,7 +4,7 @@
 [ext_resource type="Resource" uid="uid://djxniv55jufep" path="res://features/dialogue/npc/characters/Sharkk.dch" id="2_sharkk"]
 [ext_resource type="Resource" uid="uid://cud46uo7b7ivd" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
 [ext_resource type="Resource" uid="uid://hhx5w2lmb3jx" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
-[ext_resource type="SpriteFrames" path="res://anime/generated/sharkk_frames.tres" id="5_placeholder"]
+[ext_resource type="SpriteFrames" uid="uid://dtfj5le8frgwc" path="res://anime/generated/sharkk_frames.tres" id="5_placeholder"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="7_spawn"]
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_music"]
@@ -37,7 +37,6 @@ _blink = NodePath("Blink")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=557458589]
 position = Vector2(4.000023, -72.00001)
-scale = Vector2(0.9732812, 0.9732812)
 sprite_frames = ExtResource("5_placeholder")
 animation = &"idle"
 autoplay = "idle"

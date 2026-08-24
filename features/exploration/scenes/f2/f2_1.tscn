@@ -113,7 +113,7 @@ _clickZone = NodePath("../ClickZone")
 [node name="Boom" type="Area2D" parent="MapLayer" unique_id=2136500382 node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(1240, 500)
 script = ExtResource("31_npc")
-BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
+BattleScenePath = "res://Scenes/game_scene/boom_battle_scenef2-0.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/boom_rules.tres"
 ReturnSpawnId = &"f2_1_boom_return"
 AggroRadius = 100.0

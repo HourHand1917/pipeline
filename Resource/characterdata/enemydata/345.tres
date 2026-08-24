@@ -14,6 +14,7 @@ priority = 1
 tags = null
 min_range = 1
 effects = Array[ExtResource("2_yyrub")]([ExtResource("3_00fsf")])
+fixed_target_cells = null
 metadata/_custom_type_script = "uid://7hwav6op8h01"
 
 [resource]

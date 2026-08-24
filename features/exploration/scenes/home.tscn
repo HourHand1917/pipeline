@@ -42,6 +42,7 @@
 [ext_resource type="Resource" uid="uid://btejfgildf2f0" path="res://Resource/card/cards/quad_coil_gun.tres" id="38_y1oyu"]
 [ext_resource type="Resource" uid="uid://co0hfeakyv10d" path="res://Resource/card/cards/pea_gun.tres" id="39_o7g8d"]
 [ext_resource type="Texture2D" uid="uid://dflwbai4oacqy" path="res://features/exploration/art_assets/home_map/商店（开）.png" id="40_open_shop"]
+[ext_resource type="PackedScene" path="res://features/exploration/story_guides/home_story_guides.tscn" id="41_story_guides"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_kvlmm"]
 radius = 695.1216
@@ -244,6 +245,8 @@ _tabRaiseOffset = 30.0
 offset_bottom = 1.3399658
 
 [node name="MapSelectUI" parent="UILayer" unique_id=184537201 instance=ExtResource("32_mapselect")]
+
+[node name="HomeStoryGuides" parent="." unique_id=100217752 instance=ExtResource("41_story_guides")]
 
 [node name="初始卡牌（仅测试）" type="Node" parent="." unique_id=1338076893]
 script = ExtResource("20_8lmfl")

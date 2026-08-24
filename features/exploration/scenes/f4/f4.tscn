@@ -15,10 +15,10 @@
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://1jf7yl3ggq5p" path="res://features/exploration/f4_sequence/F4BossSequence.cs" id="21_sequence"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/core_hand_frames.tres" id="22_core_frames"]
-[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/core00_phase_one_enemy_npc.tscn" id="23_code_dialogue"]
+[ext_resource type="PackedScene" uid="uid://bycc0p1wq7qx8" path="res://features/dialogue/npc/scenes/core00_phase_one_enemy_npc.tscn" id="23_code_dialogue"]
 [ext_resource type="VideoStream" uid="uid://cb3trwr4iwbxa" path="res://features/exploration/f4_sequence/assets/core00_phase1_intro_no_subtitles.ogv" id="24_phase1_intro"]
 [ext_resource type="Shader" uid="uid://bteaklnfg1p4u" path="res://features/exploration/f4_sequence/core00_intro_transparency.gdshader" id="25_intro_shader"]
-[ext_resource type="Resource" path="res://features/dialogue/npc/timelines/Code_00战后.dtl" id="26_core_outro"]
+[ext_resource type="Resource" uid="uid://1djur813uo1y" path="res://features/dialogue/npc/timelines/Code_00战后.dtl" id="26_core_outro"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nqeu"]
 radius = 120.0
@@ -149,3 +149,7 @@ stream = ExtResource("24_phase1_intro")
 expand = true
 
 [node name="Code00Dialogue" parent="Core00Encounter" unique_id=1205495424 instance=ExtResource("23_code_dialogue")]
+position = Vector2(-1, 0)
+AutoTriggerByRange = false
+AutoStartBattleAfterDialogue = false
+AllowEscapeToExitDialogue = false
