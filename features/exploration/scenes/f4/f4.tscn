@@ -101,8 +101,11 @@ position = Vector2(3200, 530)
 script = ExtResource("2_spawn")
 SpawnId = &"f4_core_return"
 
+[node name="Core00PhaseOneEnemyNPC" parent="." unique_id=507742153 instance=ExtResource("23_code_dialogue")]
+position = Vector2(3437, 469)
+
 [node name="Core00Encounter" type="Area2D" parent="." unique_id=1777239929 node_paths=PackedStringArray("Player", "LeftStageActor", "RightStageActor", "PhaseOneIntroVideo", "ForcedDialogueNpc")]
-position = Vector2(3200, 530)
+position = Vector2(3055, 471)
 collision_layer = 0
 script = ExtResource("21_sequence")
 Player = NodePath("../Player")
@@ -126,7 +129,6 @@ sprite_frames = ExtResource("22_core_frames")
 animation = &"enter_left"
 
 [node name="RightStageActor" type="AnimatedSprite2D" parent="Core00Encounter" unique_id=2033252248]
-visible = false
 z_index = 1
 position = Vector2(270, -170)
 scale = Vector2(0.27, 0.27)
@@ -149,7 +151,7 @@ stream = ExtResource("24_phase1_intro")
 expand = true
 
 [node name="Code00Dialogue" parent="Core00Encounter" unique_id=1205495424 instance=ExtResource("23_code_dialogue")]
-position = Vector2(-1, 0)
+position = Vector2(4, -2)
 AutoTriggerByRange = false
 AutoStartBattleAfterDialogue = false
 AllowEscapeToExitDialogue = false

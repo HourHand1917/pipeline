@@ -34,6 +34,8 @@ SaveManager="*res://Script/CS/SaveManager.cs"
 
 directories/dch_directory={
 "Code_00": "res://features/dialogue/npc/characters/Code_00.dch",
+"Coral": "res://features/dialogue/npc/cinema_recording_item/characters/Coral.dch",
+"Lichen": "res://features/dialogue/npc/cinema_recording_item/characters/Lichen.dch",
 "RUBBER": "res://features/dialogue/test_content/characters/RUBBER.dch",
 "Rocky": "res://features/dialogue/npc/characters/Rocky.dch",
 "Sharkk": "res://features/dialogue/npc/characters/Sharkk.dch",
@@ -46,6 +48,7 @@ directories/dch_directory={
 "sharrk": "res://NPC_talking/character/sharrk.dch",
 "告示牌": "res://features/dialogue/npc/characters/告示牌.dch",
 "富婆": "res://features/dialogue/npc/characters/富婆.dch",
+"录音": "res://features/dialogue/npc/cinema_recording_item/characters/录音.dch",
 "细狗": "res://features/dialogue/npc/characters/细狗.dch",
 "荷官": "res://features/dialogue/npc/characters/荷官.dch",
 "酒吧老板": "res://features/dialogue/npc/characters/酒吧老板.dch",
@@ -63,6 +66,7 @@ directories/dtl_directory={
 "上层富婆细狗": "res://features/dialogue/npc/timelines/上层富婆细狗.dtl",
 "无人赌场荷官": "res://features/dialogue/npc/timelines/无人赌场荷官.dtl",
 "水龙头与上层工程师": "res://features/dialogue/test_content/timelines/水龙头与上层工程师.dtl",
+"电影院录音副本": "res://features/dialogue/npc/cinema_recording_item/timelines/电影院录音副本.dtl",
 "酒吧老板商店对话": "res://features/dialogue/npc/timelines/酒吧老板商店对话.dtl",
 "鲨牙帮告示牌": "res://features/dialogue/npc/timelines/鲨牙帮告示牌.dtl",
 "鼠鼠战后": "res://features/dialogue/npc/timelines/鼠鼠战后.dtl"

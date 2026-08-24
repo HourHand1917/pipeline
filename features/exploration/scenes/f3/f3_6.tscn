@@ -15,8 +15,8 @@
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="33_loot"]
-[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/casino_dealer_npc.tscn" id="35_dealer"]
 [ext_resource type="Texture2D" uid="uid://cv7ij2b32dvqy" path="res://features/exploration/art_assets/maps/f3/f3-6_老虎机.png" id="34_slot_tex"]
+[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/casino_dealer_npc.tscn" id="35_dealer"]
 
 [sub_resource type="Resource" id="Resource_slot_loot"]
 script = ExtResource("33_loot")
@@ -56,9 +56,6 @@ script = ExtResource("2_spawn")
 SpawnId = &"f3_6right"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=552419886]
-
-[node name="CasinoDealerNPC" parent="MapLayer" instance=ExtResource("35_dealer")]
-position = Vector2(2720, 530)
 
 [node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=1917414276]
 position = Vector2(930.7693, 1764.6154)
@@ -131,3 +128,6 @@ script = ExtResource("6_input")
 
 [node name="HUD" parent="UILayer" unique_id=1411563339 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658
+
+[node name="CasinoDealerNPC" parent="." unique_id=1248691421 instance=ExtResource("35_dealer")]
+position = Vector2(2898, 511)

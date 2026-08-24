@@ -28,7 +28,7 @@
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 [ext_resource type="Texture2D" uid="uid://dwvii31k3h5f6" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV-箱子.png" id="32_ktv_chest_tex"]
-[ext_resource type="Script" uid="uid://dqex7kjhnjehp" path="res://features/exploration/scripts/CS/interactables/HealMachineInteractable.cs" id="33_heal"]
+[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/HealMachineInteractable.cs" id="33_heal"]
 [ext_resource type="Texture2D" uid="uid://cvn4h3mq0kcdl" path="res://features/exploration/art_assets/maps/回血装置.png" id="34_heal_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xv4l3"]

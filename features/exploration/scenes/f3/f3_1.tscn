@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="5_player"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
+[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/upper_couple_npc.tscn" id="11_7088y"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
@@ -79,3 +80,6 @@ script = ExtResource("6_input")
 
 [node name="HUD" parent="UILayer" unique_id=1538696046 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658
+
+[node name="UpperCoupleNPC" parent="." unique_id=1171381476 instance=ExtResource("11_7088y")]
+position = Vector2(1165, 542)

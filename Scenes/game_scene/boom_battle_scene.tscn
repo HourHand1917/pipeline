@@ -28,3 +28,7 @@ offset_right = 1440.0
 offset_bottom = 1080.0
 
 [node name="BattleAnimationDisplay" parent="." unique_id=1068007839 instance=ExtResource("6_animation")]
+scale = Vector2(3, 3)
+PlayerScaleMultiplier = 2.1
+EnemyScaleMultiplier = 2.1
+EnemyInitialFacing = 0

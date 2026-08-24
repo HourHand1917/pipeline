@@ -1,23 +1,40 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://dtq72grkngb1u"]
 
-[ext_resource type="Script" path="res://features/exploration/f4_sequence/ending/F4EndingScreen.cs" id="1_script"]
-[ext_resource type="Texture2D" path="res://features/exploration/f4_sequence/ending/assets/pipeline_record_poster.png" id="2_poster"]
+[ext_resource type="Script" uid="uid://d27ivl43bvnhv" path="res://features/exploration/f4_sequence/ending/F4EndingScreen.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://c53xn7qlswwxo" path="res://features/exploration/f4_sequence/ending/assets/pipeline_record_poster.png" id="2_poster"]
 
-[node name="F4EndingScreen" type="Control" node_paths=PackedStringArray("CreditsLabel", "PosterLayer", "PosterText", "ExitHint")]
+[node name="F4EndingScreen" type="Control" unique_id=1708890720 node_paths=PackedStringArray("CreditsLabel", "PosterLayer", "PosterText", "ExitHint")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
 script = ExtResource("1_script")
+CreditsText = "PIPELINE RECORD：
+
+我的语言像风，你的力量像火。
+可我们的孩子不会做梦。
+
+我只能抽取扭曲的魂魄，
+把它丢进荒芜，
+让铁锈与血的土壤，
+再次孕育交汇的枝丫。
+
+他们会生长，重建这梦的国度。
+而我们，就在这梦里，
+就在这新的梦里相会吧。
+
+——《闸》卡罗尔·韦恩
+
+
+感谢游玩"
 CreditsLabel = NodePath("CreditsClip/ScrollingCredits")
 PosterLayer = NodePath("PosterLayer")
 PosterText = NodePath("PosterLayer/PosterText")
 ExitHint = NodePath("PosterLayer/ExitHint")
 
-[node name="BlackBackground" type="ColorRect" parent="."]
+[node name="BlackBackground" type="ColorRect" parent="." unique_id=1791342240]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -27,7 +44,7 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="CreditsClip" type="Control" parent="."]
+[node name="CreditsClip" type="Control" parent="." unique_id=542343760]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -37,7 +54,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ScrollingCredits" type="RichTextLabel" parent="CreditsClip"]
+[node name="ScrollingCredits" type="RichTextLabel" parent="CreditsClip" unique_id=1418115027]
+layout_mode = 0
 offset_right = 960.0
 offset_bottom = 640.0
 mouse_filter = 2
@@ -46,13 +64,12 @@ theme_override_colors/font_shadow_color = Color(0, 0.2, 0.24, 0.8)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/normal_font_size = 30
-bbcode_enabled = false
+text = "PIPELINE RECORD"
 fit_content = true
 scroll_active = false
 autowrap_mode = 2
-text = "PIPELINE RECORD"
 
-[node name="PosterLayer" type="Control" parent="."]
+[node name="PosterLayer" type="Control" parent="." unique_id=1202553948]
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -62,7 +79,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="Poster" type="TextureRect" parent="PosterLayer"]
+[node name="Poster" type="TextureRect" parent="PosterLayer" unique_id=1763240993]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -74,35 +91,38 @@ texture = ExtResource("2_poster")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PosterText" type="Label" parent="PosterLayer"]
+[node name="PosterText" type="Label" parent="PosterLayer" unique_id=1404353511]
 layout_mode = 1
-anchors_preset = 15
+anchors_preset = -1
 anchor_left = 0.22
 anchor_top = 0.34
 anchor_right = 0.78
 anchor_bottom = 0.68
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.055, 0.065, 0.13, 0.96)
 theme_override_colors/font_outline_color = Color(0.78, 0.66, 0.61, 0.48)
 theme_override_constants/outline_size = 2
 theme_override_font_sizes/font_size = 29
-text = "【黑匣子实验室】\n\n海桐+策划、程序，隐水+策划\n时针+程序、Popkey49+美术、PPY+美术\nJosie+音乐"
+text = "【黑匣子实验室】
+
+海桐+策划、程序，隐水+策划
+时针+程序、Popkey49+美术、PPY+美术
+Josie+音乐"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="ExitHint" type="Label" parent="PosterLayer"]
+[node name="ExitHint" type="Label" parent="PosterLayer" unique_id=138425247]
 layout_mode = 1
 anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -100.0
 offset_bottom = -42.0
 grow_horizontal = 2
 grow_vertical = 0
-mouse_filter = 2
 theme_override_colors/font_color = Color(0.075, 0.08, 0.15, 0.88)
 theme_override_colors/font_outline_color = Color(0.84, 0.72, 0.66, 0.58)
 theme_override_constants/outline_size = 2
