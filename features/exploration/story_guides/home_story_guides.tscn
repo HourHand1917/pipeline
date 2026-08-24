@@ -5,12 +5,22 @@
 [ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/home_mousy_npc.tscn" id="3_f1_mousy"]
 [ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/post_sharkk_mousy_npc.tscn" id="4_f2_mousy"]
 
-[node name="HomeStoryGuides" type="Node" node_paths=PackedStringArray("WorkbenchGuide", "StoreGuide")]
+[node name="HomeStoryGuides" type="Node2D" node_paths=PackedStringArray("WorkbenchGuide", "StoreGuide", "PostF1MousySpawn", "PostF2MousySpawn")]
 script = ExtResource("1_controller")
 WorkbenchGuide = NodePath("WorkbenchGuide")
 StoreGuide = NodePath("StoreGuide")
 PostF1MousyScene = ExtResource("3_f1_mousy")
 PostF2MousyScene = ExtResource("4_f2_mousy")
+PostF1MousySpawn = NodePath("PostF1MousySpawn")
+PostF2MousySpawn = NodePath("PostF2MousySpawn")
+
+[node name="PostF1MousySpawn" type="Marker2D" parent="."]
+position = Vector2(951, 529)
+editor_description = "打败 Rocky 后第一次回家时，home_mousy_npc 在这里生成。可直接拖动。"
+
+[node name="PostF2MousySpawn" type="Marker2D" parent="."]
+position = Vector2(2256, 343)
+editor_description = "打败 Sharkk 后第一次回家时，post_sharkk_mousy_npc 在这里生成。可直接拖动。"
 
 [node name="WorkbenchGuide" type="CanvasLayer" parent="."]
 script = ExtResource("2_guide")

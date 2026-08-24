@@ -1,0 +1,41 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://features/main_menu_visual/scripts/MainMenuVisualController.cs" id="1_controller"]
+
+[node name="MainMenuVisual" type="Control" node_paths=PackedStringArray("BaseLayer", "RubberLayer", "DesktopLayer")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_controller")
+BaseLayer = NodePath("DesignCanvas/Base")
+RubberLayer = NodePath("DesignCanvas/Rubber")
+DesktopLayer = NodePath("DesignCanvas/Desktop")
+
+[node name="BlackFill" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="DesignCanvas" type="Node2D" parent="."]
+
+[node name="Base" type="AnimatedSprite2D" parent="DesignCanvas"]
+position = Vector2(720, 540)
+centered = true
+
+[node name="Rubber" type="AnimatedSprite2D" parent="DesignCanvas"]
+position = Vector2(720, 540)
+centered = true
+
+[node name="Desktop" type="AnimatedSprite2D" parent="DesignCanvas"]
+position = Vector2(720, 540)
+centered = true
+

@@ -4,7 +4,7 @@
 [ext_resource type="Resource" path="res://features/dialogue/npc/characters/Code_00.dch" id="2_code00"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/core_body_frames.tres" id="5_core_body_frames"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
@@ -32,11 +32,12 @@ DisplayName = "Code_00（二阶段战前对话）"
 PersistenceId = "enemy_code00_dialogue"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.68, 0.42, 0.84, 1)
-position = Vector2(0, -72)
-scale = Vector2(0.62, 0.62)
-texture = ExtResource("5_placeholder")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -118)
+scale = Vector2(0.25, 0.25)
+sprite_frames = ExtResource("5_core_body_frames")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="DetectionRange" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleDetection")

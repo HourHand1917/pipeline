@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="2_t4hgr"]
 [ext_resource type="Texture2D" uid="uid://cyjrk658suxmi" path="res://features/exploration/art_assets/maps/f1/教程-0-背景.png" id="2_u8q1t"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="5_7aotm"]
+[ext_resource type="PackedScene" uid="uid://xsrt0gm2wqew" path="res://features/dialogue/npc/scenes/shark_gang_sign_npc.tscn" id="6_u8q1t"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="6_xypiy"]
-[ext_resource type="Texture2D" uid="uid://b3ghanmphcy1g" path="res://features/exploration/art_assets/maps/f1/教程-0-指示牌.png" id="7_u8q1t"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_yw3k6"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_u4bgt"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
@@ -44,10 +44,9 @@ position = Vector2(677.5, 98.000015)
 scale = Vector2(0.81, 0.81)
 texture = ExtResource("2_u8q1t")
 
-[node name="教程0告示牌" type="Sprite2D" parent="MapLayer" unique_id=1608806415]
-position = Vector2(678.00006, 95.00001)
-scale = Vector2(0.81, 0.81)
-texture = ExtResource("7_u8q1t")
+[node name="SharkGangSignNPC" parent="MapLayer" unique_id=1766973332 instance=ExtResource("6_u8q1t")]
+position = Vector2(904, 184)
+scale = Vector2(1.319995, 1.319995)
 
 [node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1894964450]
 position = Vector2(1438, 120)

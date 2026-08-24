@@ -17,7 +17,7 @@
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_loot"]
 [ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="15_e5xpt"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
-[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/boom_enemy_npc.tscn" id="21_8rct6"]
+[ext_resource type="PackedScene" uid="uid://bx8xahfnsb1qp" path="res://features/dialogue/npc/scenes/boom_enemy_npc.tscn" id="21_8rct6"]
 [ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="21_workbench_interact"]
 [ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="22_supply_wb"]
 [ext_resource type="PackedScene" path="res://features/chest_tutorial/scenes/chest_tutorial.tscn" id="23_chest_tutorial"]

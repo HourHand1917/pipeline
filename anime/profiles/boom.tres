@@ -23,5 +23,5 @@ action_animations = {
 &"trained_boom_attack_2": &"attack"
 }
 audio_cues = Array[ExtResource("6_cue_script")]([ExtResource("3_attack"), ExtResource("4_hurt"), ExtResource("5_death")])
-visual_offset = Vector2(0, -70)
+visual_offset = Vector2(0, -56)
 source_faces_right = false

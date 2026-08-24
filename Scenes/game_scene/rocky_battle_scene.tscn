@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bgd6do24w6nuc"]
+[gd_scene format=3 uid="uid://bgd6do24w6nuc"]
 
 [ext_resource type="Script" uid="uid://dvbgjd4jm3inl" path="res://Script/CS/BattleScene.cs" id="1_scene"]
 [ext_resource type="Script" uid="uid://cscu3u16otwmy" path="res://Script/CS/BoardManager.cs" id="2_board"]
@@ -27,4 +27,7 @@ script = ExtResource("4_battle")
 offset_right = 1440.0
 offset_bottom = 1080.0
 
-[node name="BattleAnimationDisplay" parent="." instance=ExtResource("6_animation")]
+[node name="BattleAnimationDisplay" parent="." unique_id=813712111 instance=ExtResource("6_animation")]
+TrackOffset = Vector2(0, -50)
+PlayerScaleMultiplier = 2.1
+EnemyScaleMultiplier = 2.1

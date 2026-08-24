@@ -37,6 +37,7 @@ position = Vector2(6, -83)
 shape = SubResource("CircleDetection")
 
 [node name="ClickZone" type="Area2D" parent="." unique_id=99475189]
+position = Vector2(0, -2)
 collision_layer = 2
 collision_mask = 0
 

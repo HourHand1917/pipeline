@@ -36,9 +36,9 @@ public partial class HomeStoryGuidesRuntimeTest : Node
         NPCBase firstMousy = firstVisit.ActiveMousy;
         Check(firstMousy != null && firstMousy.IsDialogueActive,
             "F1 Mousy spawns beside the player and immediately starts dialogue");
-        Check(firstMousy != null && firstMousy.GlobalPosition.DistanceTo(
-            player.GlobalPosition + firstVisit.PostF1MousyOffset) < 1f,
-            "F1 Mousy is positioned from the player anchor");
+        Check(firstMousy != null && firstVisit.PostF1MousySpawn != null &&
+              firstMousy.GlobalPosition.DistanceTo(firstVisit.PostF1MousySpawn.GlobalPosition) < 1f,
+            "F1 Mousy is positioned at the editable scene marker");
 
         EndDialogicTimeline();
         await WaitFrames(5);
