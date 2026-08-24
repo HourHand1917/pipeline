@@ -9,5 +9,5 @@ class_name PlayerData
 @export var tint: Color = Color("#f4cf61")
 
 @export_group("Combat")
-@export_range(1, 999, 1, "or_greater") var max_hp: int = 30
+@export_range(1, 999, 1, "or_greater") var max_hp: int = 20
 @export_range(0, 999, 1, "or_greater") var initial_shield: int = 0

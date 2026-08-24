@@ -756,6 +756,10 @@ offset_right = 2157.29
 offset_bottom = 517.97034
 scale = Vector2(0.5714649, 0.5394293)
 
+[node name="MaterialApplier" type="Node" parent="PanelStack/EnemyPanel" unique_id=1132602713]
+script = ExtResource("8_o0qei")
+_material = ExtResource("6_1tjra")
+
 [node name="Anim" type="AnimationPlayer" parent="." unique_id=610337759]
 libraries/ = SubResource("AnimationLibrary_1tjra")
 

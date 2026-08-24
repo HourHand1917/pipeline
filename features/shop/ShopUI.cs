@@ -33,6 +33,7 @@ public partial class ShopUI : Control
     private readonly Label[] _cardPrices = new Label[CardSlotCount];
 
     private AudioManager _audio;
+    private bool _open;
 
     public override void _Ready()
     {
@@ -94,12 +95,20 @@ public partial class ShopUI : Control
     public void Open()
     {
         if (_shopManager?.ShopData == null) return;
+        if (_open) return;
+        _open = true;
+        PlayerController.Instance?.LockMovement(); // 打开商店时锁定移动
+
         _anim?.Play("show_shopUI");
         Refresh();
     }
 
     public void Close()
     {
+        if (!_open) return;
+        _open = false;
+        PlayerController.Instance?.UnlockMovement(); // 关闭商店时解锁移动
+
         _anim?.Play("hide_shopUI");
         EmitSignal(SignalName.Closed);
     }
