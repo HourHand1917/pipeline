@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://dc2t0w7xax4cc"]
+[gd_scene format=3 uid="uid://br8wpihd35o2v"]
 
 [ext_resource type="Script" uid="uid://e8cbvgpp20hh" path="res://features/dialogue/npc/scripts/PackagedHostileNPC.cs" id="1_npc"]
 [ext_resource type="Resource" uid="uid://byb10s4crvknj" path="res://features/dialogue/npc/characters/Rocky.dch" id="2_rocky"]
@@ -11,7 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="9_music"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
-radius = 127.00394
+radius = 180.025
 
 [sub_resource type="RectangleShape2D" id="RectangleClick"]
 size = Vector2(170, 200)
