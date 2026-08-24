@@ -28,6 +28,8 @@
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 [ext_resource type="Texture2D" uid="uid://dwvii31k3h5f6" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV-箱子.png" id="32_ktv_chest_tex"]
+[ext_resource type="Script" uid="uid://dqex7kjhnjehp" path="res://features/exploration/scripts/CS/interactables/HealMachineInteractable.cs" id="33_heal"]
+[ext_resource type="Texture2D" uid="uid://cvn4h3mq0kcdl" path="res://features/exploration/art_assets/maps/回血装置.png" id="34_heal_tex"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xv4l3"]
 size = Vector2(313, 262)
@@ -66,6 +68,12 @@ size = Vector2(691.2501, 378.75006)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ws5fq"]
 size = Vector2(697.5, 422.50006)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_heal_detect"]
+size = Vector2(200, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_heal_click"]
+size = Vector2(140, 200)
 
 [node name="ExplorationMap3" type="Node2D" unique_id=1069699050 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
@@ -321,6 +329,31 @@ PlayerLeft = 300
 PlayerRight = 1970
 CamLeft = 300
 CamRight = 1970
+
+[node name="回血机器" type="Area2D" parent="MapLayer/Room_Cinema" unique_id=813222838 node_paths=PackedStringArray("_blink")]
+position = Vector2(1827, 550)
+script = ExtResource("33_heal")
+DisplayName = "回血机器"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/Room_Cinema/回血机器" unique_id=471522073]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("34_heal_tex")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/Room_Cinema/回血机器" unique_id=1357994442]
+shape = SubResource("RectangleShape2D_heal_detect")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/Room_Cinema/回血机器" unique_id=1597239123]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Room_Cinema/回血机器/ClickZone" unique_id=1842990958]
+shape = SubResource("RectangleShape2D_heal_click")
+
+[node name="Blink" type="Node" parent="MapLayer/Room_Cinema/回血机器" unique_id=65666688 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("13_blink")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
 
 [node name="Player" parent="." unique_id=1644508714 instance=ExtResource("7_player")]
 position = Vector2(1678, 530)
