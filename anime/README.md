@@ -114,8 +114,10 @@ ANIME_BUILD_PASS actors=6 clips=48 frames=1671
 在 Inspector 中配置动画名、从 0 开始的触发帧、AudioStream、音量、音高和总线，
 再拖入角色 Profile 的 `audio_cues` 即可。动画机在该序列帧出现时播放音效；同一段
 动画同一个 Cue 只播放一次，连续受击时会先把动画归零再重播，因此不会漏掉受击声。
-实际的一次性播放器挂在常驻 `AudioManager` 下，即使敌人在死亡后切波并释放，较长的
-死亡音效也会继续完整播放；没有全局音频管理器的最小测试场景会自动使用本地播放器。
+每个角色动画机持有且仅持有一个 `AudioStreamPlayer`，继续使用 Cue 配置的 `SFX`
+总线。不同角色可以同时发声；同一角色切换/重播动画时会先停止旧音效，动作自然结束、
+离开格子或动画机释放时也会立即停止并清除音频。因此较长的素材不会串到下一动作，
+同一个角色的攻击、受击、死亡等音效也不会互相叠加。
 
 Boom 当前配置：
 
@@ -158,6 +160,8 @@ dotnet build Pipeline.sln --no-restore
 
 & "D:\Godot\Pipeline2\tools\godot-4.6.1-mono\editor-20260813\Godot_v4.6.1-stable_mono_win64\Godot_v4.6.1-stable_mono_win64_console.exe" --headless --path "D:\Godot\Pipeline2\pipeline" --script res://anime/tests/animation_resource_test.gd
 
+& "D:\Godot\Pipeline2\tools\godot-4.6.1-mono\editor-20260813\Godot_v4.6.1-stable_mono_win64\Godot_v4.6.1-stable_mono_win64_console.exe" --headless --path "D:\Godot\Pipeline2\pipeline" --script res://anime/tests/audio_lifecycle_test.gd
+
 & "D:\Godot\Pipeline2\tools\godot-4.6.1-mono\editor-20260813\Godot_v4.6.1-stable_mono_win64\Godot_v4.6.1-stable_mono_win64_console.exe" --headless --path "D:\Godot\Pipeline2\pipeline" --scene res://anime/tests/animation_battle_scenes_smoke.tscn
 
 & "D:\Godot\Pipeline2\tools\godot-4.6.1-mono\editor-20260813\Godot_v4.6.1-stable_mono_win64\Godot_v4.6.1-stable_mono_win64_console.exe" --headless --path "D:\Godot\Pipeline2\pipeline" --scene res://anime/tests/animation_runtime_smoke.tscn
@@ -166,10 +170,11 @@ dotnet build Pipeline.sln --no-restore
 当前通过标记：
 
 ```text
-ANIMATION_RESOURCE_TEST_PASS checks=619 source_frames=1260 generated_frames=1671 profiles=7
+ANIMATION_RESOURCE_TEST_PASS checks=621 source_frames=1260 generated_frames=1671 profiles=7
 ANIMATION_BATTLE_SCENES_SMOKE_PASS checks=305 scenes=5 turns=5 completed=5
 ANIMATION_RUNTIME_SMOKE_PASS checks=34 waves=5 profiles=7 independent_overlay=1
 BATTLE_PRESENTATION_CONTRACT_PASS checks=24 backdrop=exploration_size lower=black ground=locked inspector=configurable
+AUDIO_LIFECYCLE_TEST_PASS: actor-owned cues stop on replace, finish, detach and free
 ```
 
 五场测试使用 `Viewport.PushInput` 向屏幕坐标发送真实鼠标移动、按下和松开，走 `TrackSlot.GuiInput → BattleScreen.MoveToCellRequested → BattleManager.TryMoveToCell`，再以玩家位置和能量变化作为硬断言；测试还检查格子全部装饰 Control 均为鼠标穿透，并检查每个玩家/敌人动画的格子局部锚点。

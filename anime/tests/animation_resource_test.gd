@@ -285,13 +285,14 @@ func _test_audio_restart(boom: BattleAnimationProfile) -> void:
 	_check(machine.audio_player != null, "animation machine owns a dedicated audio player")
 	_check(actor.has_meta(&"anime_frame_audio"), "frame audio suppresses the legacy immediate duplicate")
 	machine.sprite.frame = 4
+	_check(machine.audio_player.playing and machine.audio_player.stream != null,
+		"contact frame uses the machine's actor-owned player")
 	if audio_host != null:
-		_check(audio_host.get_child_count() == original_audio_children + 1,
-			"frame cue is hosted by persistent AudioManager instead of the disposable actor")
-		for child_index: int in range(audio_host.get_child_count() - 1, original_audio_children - 1, -1):
-			audio_host.get_child(child_index).free()
-	else:
-		_check(machine.audio_player.playing, "minimal scenes use the local audio fallback")
+		_check(audio_host.get_child_count() == original_audio_children,
+			"frame cues do not leak unowned one-shots into AudioManager")
+	machine.request_animation(&"attack", BattleAnimationMachine.PRIORITY_HURT, true)
+	_check(not machine.audio_player.playing and machine.audio_player.stream == null,
+		"replacing an animation stops and releases the previous sound")
 	machine.free()
 	actor.free()
 

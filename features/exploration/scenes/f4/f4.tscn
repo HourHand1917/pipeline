@@ -149,3 +149,6 @@ stream = ExtResource("24_phase1_intro")
 expand = true
 
 [node name="Code00Dialogue" parent="Core00Encounter" unique_id=1205495424 instance=ExtResource("23_code_dialogue")]
+AutoTriggerByRange = false
+AutoStartBattleAfterDialogue = false
+AllowEscapeToExitDialogue = false

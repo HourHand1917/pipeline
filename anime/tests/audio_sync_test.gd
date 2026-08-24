@@ -126,19 +126,33 @@ func _test_runtime_contact_and_restart(boom: BattleAnimationProfile) -> void:
 	machine.bind(actor, boom, null)
 	machine.request_animation(&"attack", BattleAnimationMachine.PRIORITY_ACTION, true)
 	machine.sprite.frame = 12
+	var attack_stream := machine.audio_player.stream
+	_check(attack_stream != null and machine.audio_player.playing,
+		"contact frame starts the actor-owned sound")
+	_check(machine.current_audio_animation == &"attack",
+		"the playing cue records its owning animation")
+	_check(machine.audio_player.bus in [&"SFX", &"Master"],
+		"action audio stays on the configured effects bus")
 	if audio_host != null:
-		_check(audio_host.get_child_count() == original_children + 1,
-			"contact frame emits exactly one persistent one-shot")
-		for index: int in range(audio_host.get_child_count() - 1, original_children - 1, -1):
-			audio_host.get_child(index).free()
-		machine.request_animation(&"attack", BattleAnimationMachine.PRIORITY_ACTION, true)
-		machine.sprite.frame = 12
-		_check(audio_host.get_child_count() == original_children + 1,
-			"repeated attacks rewind and emit their contact cue again")
-		for index: int in range(audio_host.get_child_count() - 1, original_children - 1, -1):
-			audio_host.get_child(index).free()
-	else:
-		_check(machine.audio_player.playing, "minimal scene uses local audio fallback")
+		_check(audio_host.get_child_count() == original_children,
+			"frame cues never create unowned global one-shots")
+
+	# Restarting/replacing a clip is an immediate sound lifecycle boundary.
+	machine.request_animation(&"attack", BattleAnimationMachine.PRIORITY_ACTION, true)
+	_check(machine.audio_player.stream == null and not machine.audio_player.playing,
+		"restarting an action stops and releases its previous cue")
+	machine.sprite.frame = 12
+	_check(machine.audio_player.stream == attack_stream and machine.audio_player.playing,
+		"repeated attacks rewind and emit their contact cue again")
+	machine.request_animation(&"hurt", BattleAnimationMachine.PRIORITY_HURT, true)
+	_check(machine.audio_player.stream == null and not machine.audio_player.playing,
+		"a replacement animation cannot overlap the prior action sound")
+	machine.sprite.frame = 4
+	_check(machine.audio_player.stream != null and machine.audio_player.stream != attack_stream,
+		"the replacement animation triggers its own intended cue")
+	machine._on_animation_finished()
+	_check(machine.audio_player.stream == null and not machine.audio_player.playing,
+		"animation completion stops a sample even when the sample is longer")
 	machine.free()
 	actor.free()
 
