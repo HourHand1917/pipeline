@@ -1,11 +1,212 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene format=3 uid="uid://rav4hlc5kqdh"]
 
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="2_mousy"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
-[ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
-[ext_resource type="Texture2D" path="res://features/exploration/story_guides/assets/mousy_portrait.svg" id="5_placeholder"]
-[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
+[ext_resource type="Script" uid="uid://daxljkly0qdkv" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
+[ext_resource type="Resource" uid="uid://dmw1ww2sworam" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="2_mousy"]
+[ext_resource type="Resource" uid="uid://cud46uo7b7ivd" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" uid="uid://hhx5w2lmb3jx" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
+[ext_resource type="Script" uid="uid://bvx1oow81a7tc" path="res://features/dialogue/npc/animations/npc_frame_animation.gd" id="5_animation"]
+[ext_resource type="Texture2D" uid="uid://6dm7tkki4k4a" path="res://features/dialogue/npc/animations/frames/mousy/0001_0.png" id="5_ipoe4"]
+[ext_resource type="Texture2D" uid="uid://0xfsfrsedlxt" path="res://features/dialogue/npc/animations/frames/mousy/0002_4.png" id="6_71b06"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
+[ext_resource type="Texture2D" uid="uid://duh5jh0gqye61" path="res://features/dialogue/npc/animations/frames/mousy/0003_4.png" id="7_1ictg"]
+[ext_resource type="Texture2D" uid="uid://bp2ibsmfcu6i2" path="res://features/dialogue/npc/animations/frames/mousy/0004_4.png" id="8_6dqau"]
+[ext_resource type="Texture2D" uid="uid://0i70td4fu05n" path="res://features/dialogue/npc/animations/frames/mousy/0005_4.png" id="9_bbrkr"]
+[ext_resource type="Texture2D" uid="uid://d2pe1orywhnph" path="res://features/dialogue/npc/animations/frames/mousy/0006_4.png" id="10_r7c3w"]
+[ext_resource type="Texture2D" uid="uid://bolhcg8c1kdws" path="res://features/dialogue/npc/animations/frames/mousy/0007_5.png" id="11_yolko"]
+[ext_resource type="Texture2D" uid="uid://d35peq3l00wl6" path="res://features/dialogue/npc/animations/frames/mousy/0008_4.png" id="12_qk50k"]
+[ext_resource type="Texture2D" uid="uid://b5ymw5m3bhshs" path="res://features/dialogue/npc/animations/frames/mousy/0009_4.png" id="13_8sn6l"]
+[ext_resource type="Texture2D" uid="uid://c2tbdpbeegvna" path="res://features/dialogue/npc/animations/frames/mousy/0010_4.png" id="14_cvive"]
+[ext_resource type="Texture2D" uid="uid://baqwd7klr6wvu" path="res://features/dialogue/npc/animations/frames/mousy/0011_4.png" id="15_pk3mx"]
+[ext_resource type="Texture2D" uid="uid://dw288tb4rx4ek" path="res://features/dialogue/npc/animations/frames/mousy/0012_4.png" id="16_m18tv"]
+[ext_resource type="Texture2D" uid="uid://d08r5d8naum7b" path="res://features/dialogue/npc/animations/frames/mousy/0013_5.png" id="17_fp7lo"]
+[ext_resource type="Texture2D" uid="uid://bakacs1617isu" path="res://features/dialogue/npc/animations/frames/mousy/0014_4.png" id="18_kcmbf"]
+[ext_resource type="Texture2D" uid="uid://medetp7th3t6" path="res://features/dialogue/npc/animations/frames/mousy/0015_4.png" id="19_03r2e"]
+[ext_resource type="Texture2D" uid="uid://dyqkwml7kferd" path="res://features/dialogue/npc/animations/frames/mousy/0016_4.png" id="20_8iq7q"]
+[ext_resource type="Texture2D" uid="uid://c66asa2obwbfn" path="res://features/dialogue/npc/animations/frames/mousy/0017_4.png" id="21_hrmog"]
+[ext_resource type="Texture2D" uid="uid://da0hg3q26fe22" path="res://features/dialogue/npc/animations/frames/mousy/0018_4.png" id="22_2eaaj"]
+[ext_resource type="Texture2D" uid="uid://dm4amhw4h26yd" path="res://features/dialogue/npc/animations/frames/mousy/0019_5.png" id="23_dcgyi"]
+[ext_resource type="Texture2D" uid="uid://bg0brt88w1rxt" path="res://features/dialogue/npc/animations/frames/mousy/0020_4.png" id="24_sncj7"]
+[ext_resource type="Texture2D" uid="uid://cf2d63xheaq5t" path="res://features/dialogue/npc/animations/frames/mousy/0021_4.png" id="25_ukklg"]
+[ext_resource type="Texture2D" uid="uid://bomo4q7xw1nud" path="res://features/dialogue/npc/animations/frames/mousy/0022_4.png" id="26_2ff7a"]
+[ext_resource type="Texture2D" uid="uid://x1sqebc37qhj" path="res://features/dialogue/npc/animations/frames/mousy/0023_4.png" id="27_iod0r"]
+[ext_resource type="Texture2D" uid="uid://cfvc66eeg11sk" path="res://features/dialogue/npc/animations/frames/mousy/0024_4.png" id="28_hy34d"]
+[ext_resource type="Texture2D" uid="uid://dljw451jbh0er" path="res://features/dialogue/npc/animations/frames/mousy/0025_5.png" id="29_o3e7p"]
+[ext_resource type="Texture2D" uid="uid://dnhnnxidoqqxl" path="res://features/dialogue/npc/animations/frames/mousy/0026_4.png" id="30_4s6kh"]
+[ext_resource type="Texture2D" uid="uid://bmh53vkosf1vl" path="res://features/dialogue/npc/animations/frames/mousy/0027_4.png" id="31_dlxkf"]
+[ext_resource type="Texture2D" uid="uid://dcccmj0affkys" path="res://features/dialogue/npc/animations/frames/mousy/0028_4.png" id="32_8dmlt"]
+[ext_resource type="Texture2D" uid="uid://dra2cqfvj3jj8" path="res://features/dialogue/npc/animations/frames/mousy/0029_4.png" id="33_83r26"]
+[ext_resource type="Texture2D" uid="uid://1pij7tnkpxvk" path="res://features/dialogue/npc/animations/frames/mousy/0030_4.png" id="34_4acng"]
+[ext_resource type="Texture2D" uid="uid://cht3tdob4n1kk" path="res://features/dialogue/npc/animations/frames/mousy/0031_5.png" id="35_u7jmq"]
+[ext_resource type="Texture2D" uid="uid://baainykadljkr" path="res://features/dialogue/npc/animations/frames/mousy/0032_4.png" id="36_sfo5o"]
+[ext_resource type="Texture2D" uid="uid://ch0c6h8u3rw87" path="res://features/dialogue/npc/animations/frames/mousy/0033_4.png" id="37_yh4bc"]
+[ext_resource type="Texture2D" uid="uid://6wucbi6bnors" path="res://features/dialogue/npc/animations/frames/mousy/0034_4.png" id="38_joatt"]
+[ext_resource type="Texture2D" uid="uid://cqwe3e1b5h0ws" path="res://features/dialogue/npc/animations/frames/mousy/0035_4.png" id="39_k557d"]
+[ext_resource type="Texture2D" uid="uid://bwdua3avy0u65" path="res://features/dialogue/npc/animations/frames/mousy/0036_4.png" id="40_0rt3q"]
+[ext_resource type="Texture2D" uid="uid://cxo0mcb1qsqw0" path="res://features/dialogue/npc/animations/frames/mousy/0037_5.png" id="41_wnof2"]
+[ext_resource type="Texture2D" uid="uid://cbqktgoj3mo7p" path="res://features/dialogue/npc/animations/frames/mousy/0038_4.png" id="42_klkqd"]
+[ext_resource type="Texture2D" uid="uid://cwkb15oi8w5w6" path="res://features/dialogue/npc/animations/frames/mousy/0039_4.png" id="43_jd67w"]
+[ext_resource type="Texture2D" uid="uid://b3fhm4d7rh4le" path="res://features/dialogue/npc/animations/frames/mousy/0040_4.png" id="44_e01lq"]
+[ext_resource type="Texture2D" uid="uid://dneclhdbil2f6" path="res://features/dialogue/npc/animations/frames/mousy/0041_4.png" id="45_xgd6y"]
+[ext_resource type="Texture2D" uid="uid://bem1krdkmxmc0" path="res://features/dialogue/npc/animations/frames/mousy/0042_4.png" id="46_s2njd"]
+[ext_resource type="Texture2D" uid="uid://dcg7351cpu5p1" path="res://features/dialogue/npc/animations/frames/mousy/0043_5.png" id="47_u1106"]
+[ext_resource type="Texture2D" uid="uid://dcq8lo7dmwvjf" path="res://features/dialogue/npc/animations/frames/mousy/0044_4.png" id="48_wgm0d"]
+[ext_resource type="Texture2D" uid="uid://bduamcnru02sh" path="res://features/dialogue/npc/animations/frames/mousy/0045_4.png" id="49_if0ou"]
+[ext_resource type="Texture2D" uid="uid://da0mqp1h1b26v" path="res://features/dialogue/npc/animations/frames/mousy/0046_4.png" id="50_2abpi"]
+[ext_resource type="Texture2D" uid="uid://wqjl7rwmx5rk" path="res://features/dialogue/npc/animations/frames/mousy/0047_4.png" id="51_wkom0"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hmbd6"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_ipoe4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_71b06")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_1ictg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_6dqau")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_bbrkr")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_r7c3w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_yolko")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_qk50k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_8sn6l")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cvive")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_pk3mx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_m18tv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_fp7lo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_kcmbf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_03r2e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_8iq7q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_hrmog")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_2eaaj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_dcgyi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_sncj7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_ukklg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_2ff7a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_iod0r")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_hy34d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_o3e7p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_4s6kh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_dlxkf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_8dmlt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_83r26")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_4acng")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_u7jmq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_sfo5o")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_yh4bc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_joatt")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_k557d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_0rt3q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_wnof2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_klkqd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_jd67w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_e01lq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_xgd6y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_s2njd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_u1106")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_wgm0d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_if0ou")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_2abpi")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_wkom0")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 24.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 240.0
@@ -13,7 +214,7 @@ radius = 240.0
 [sub_resource type="RectangleShape2D" id="RectangleClick"]
 size = Vector2(150, 180)
 
-[node name="HomeMousyNPC" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+[node name="HomeMousyNPC" type="Area2D" unique_id=62109619 node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
 script = ExtResource("1_npc")
 DefaultTimelinePath = "res://features/dialogue/npc/timelines/home鼠鼠.dtl"
 DialogicCharacterIdentifier = &"鼠鼠"
@@ -22,33 +223,35 @@ DialogueCharacter = ExtResource("2_mousy")
 PlayerDialogueCharacter = ExtResource("3_rubber")
 AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
 DialogueBubbleOffset = Vector2(0, -145)
-PlayerDialogueBubbleOffset = Vector2(0, -160)
 AllowEscapeToExitDialogue = false
 DialogueAnimationPlayer = NodePath("AnimationPlayer")
 DisplayName = "鼠鼠（home 对话）"
 PersistenceId = "home_mousy_dialogue"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.86, 0.7, 0.35, 1)
-position = Vector2(0, -126)
-scale = Vector2(0.36, 0.36)
-texture = ExtResource("5_placeholder")
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=448819087]
+position = Vector2(0, -110)
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_hmbd6")
+animation = &"idle"
+frame_progress = 0.54867643
+script = ExtResource("5_animation")
+frames_directory = "res://features/dialogue/npc/animations/frames/mousy"
 
-[node name="DetectionRange" type="CollisionShape2D" parent="."]
+[node name="DetectionRange" type="CollisionShape2D" parent="." unique_id=744242266]
 shape = SubResource("CircleDetection")
 
-[node name="ClickZone" type="Area2D" parent="."]
+[node name="ClickZone" type="Area2D" parent="." unique_id=647538285]
 collision_layer = 2
 collision_mask = 0
 
-[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone" unique_id=80209632]
 position = Vector2(0, -55)
 shape = SubResource("RectangleClick")
 
-[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="." unique_id=1288145046 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("6_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2195742]

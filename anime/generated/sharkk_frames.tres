@@ -201,7 +201,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"attack",
-"speed": 60.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -290,7 +290,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"charge",
-"speed": 60.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -325,7 +325,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"charge_prepare",
-"speed": 48.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -386,7 +386,7 @@ animations = [{
 "frames": [],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -442,7 +442,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt",
-"speed": 60.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -588,7 +588,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
-"speed": 24.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -623,7 +623,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"move_backward",
-"speed": 60.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -655,7 +655,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"move_forward",
-"speed": 60.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -711,5 +711,5 @@ animations = [{
 }],
 "loop": false,
 "name": &"stunned",
-"speed": 24.0
+"speed": 30.0
 }]

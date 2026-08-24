@@ -786,7 +786,7 @@ animations = [{
 "frames": [],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1326,7 +1326,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"finger_flick",
-"speed": 96.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1505,7 +1505,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"heal_snap",
-"speed": 96.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1690,7 +1690,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"heavy_punch",
-"speed": 96.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1761,7 +1761,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"hurt",
-"speed": 60.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -1970,7 +1970,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle_1",
-"speed": 24.0
+"speed": 30.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -2179,5 +2179,5 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle_2",
-"speed": 24.0
+"speed": 30.0
 }]

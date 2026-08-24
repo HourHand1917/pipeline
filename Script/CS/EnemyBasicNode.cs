@@ -12,6 +12,7 @@ public partial class EnemyBasicNode : EnemyBattle
 		debugButton.Text = "信息";
 		debugButton.Position = new Vector2(0, 0);
 		debugButton.Size = new Vector2(80, 30);
+		debugButton.Visible = false;
 		AddChild(debugButton);
 
 		debugButton.Pressed += PrintDebugInfo;
