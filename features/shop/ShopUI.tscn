@@ -9,6 +9,203 @@
 [ext_resource type="Script" uid="uid://cbp6g22vdlrxj" path="res://Shaders/MaterialApplier.cs" id="5_mpgdj"]
 [ext_resource type="Texture2D" uid="uid://dsf43q035qe0e" path="res://features/exploration/art_assets/货币/瓶盖/结算画面手绘版.png" id="6_bottlecap"]
 [ext_resource type="Material" path="res://Shaders/add_blend_material.tres" id="6_ejnc7"]
+[ext_resource type="Texture2D" uid="uid://c0hyd1xiobdl6" path="res://features/exploration/art_assets/货币/瓶盖/标准版.png" id="7_ssxm4"]
+[ext_resource type="Texture2D" uid="uid://qay4o407x5j2" path="res://anime_assets/frames/商人/0001_0.png" id="8_l7c8j"]
+[ext_resource type="Texture2D" uid="uid://d2ql1htcnmiyq" path="res://anime_assets/frames/商人/0002_4.png" id="9_ssxm4"]
+[ext_resource type="Texture2D" uid="uid://vwyuqibk41ye" path="res://anime_assets/frames/商人/0003_4.png" id="10_03131"]
+[ext_resource type="Texture2D" uid="uid://dlfp2splkm857" path="res://anime_assets/frames/商人/0004_4.png" id="11_gq8ub"]
+[ext_resource type="Texture2D" uid="uid://26r3afubytb3" path="res://anime_assets/frames/商人/0005_4.png" id="12_ug2eq"]
+[ext_resource type="Texture2D" uid="uid://cle3mcua07yso" path="res://anime_assets/frames/商人/0006_4.png" id="13_djxct"]
+[ext_resource type="Texture2D" uid="uid://wh6odnm73v8p" path="res://anime_assets/frames/商人/0007_5.png" id="14_cuvdd"]
+[ext_resource type="Texture2D" uid="uid://b7q40je5naim0" path="res://anime_assets/frames/商人/0008_4.png" id="15_cihy5"]
+[ext_resource type="Texture2D" uid="uid://fpxi6wqef567" path="res://anime_assets/frames/商人/0009_4.png" id="16_mbuol"]
+[ext_resource type="Texture2D" uid="uid://dgntyo38fhcov" path="res://anime_assets/frames/商人/0010_4.png" id="17_265x8"]
+[ext_resource type="Texture2D" uid="uid://cnt51mmydpyeq" path="res://anime_assets/frames/商人/0011_4.png" id="18_kqflc"]
+[ext_resource type="Texture2D" uid="uid://cyte1eesyd2lt" path="res://anime_assets/frames/商人/0012_4.png" id="19_x68le"]
+[ext_resource type="Texture2D" uid="uid://crtp8luqb1fse" path="res://anime_assets/frames/商人/0013_5.png" id="20_3p267"]
+[ext_resource type="Texture2D" uid="uid://b7ox7n06qqq8c" path="res://anime_assets/frames/商人/0014_4.png" id="21_nwbod"]
+[ext_resource type="Texture2D" uid="uid://c4en1w2p05kj3" path="res://anime_assets/frames/商人/0015_4.png" id="22_136rg"]
+[ext_resource type="Texture2D" uid="uid://cqqaku40ww47k" path="res://anime_assets/frames/商人/0016_4.png" id="23_tqw03"]
+[ext_resource type="Texture2D" uid="uid://b64gmx4xlh0tn" path="res://anime_assets/frames/商人/0017_4.png" id="24_lf7nh"]
+[ext_resource type="Texture2D" uid="uid://ckcnd6imdgpyh" path="res://anime_assets/frames/商人/0018_4.png" id="25_uvj3d"]
+[ext_resource type="Texture2D" uid="uid://bysj0e2st1mho" path="res://anime_assets/frames/商人/0019_5.png" id="26_p6jan"]
+[ext_resource type="Texture2D" uid="uid://cp7vt8vb6u8yh" path="res://anime_assets/frames/商人/0020_4.png" id="27_yv7ff"]
+[ext_resource type="Texture2D" uid="uid://dkrk2ojx6qdl1" path="res://anime_assets/frames/商人/0021_4.png" id="28_t6xk3"]
+[ext_resource type="Texture2D" uid="uid://bbw3qfbu73tvg" path="res://anime_assets/frames/商人/0022_4.png" id="29_6nppd"]
+[ext_resource type="Texture2D" uid="uid://dsqao3h3tkevx" path="res://anime_assets/frames/商人/0023_4.png" id="30_el1ex"]
+[ext_resource type="Texture2D" uid="uid://b5ifdbpew2i1x" path="res://anime_assets/frames/商人/0024_4.png" id="31_huj31"]
+[ext_resource type="Texture2D" uid="uid://dndldfuhd1kr2" path="res://anime_assets/frames/商人/0025_5.png" id="32_ewg66"]
+[ext_resource type="Texture2D" uid="uid://bq8dxaj2xnnr8" path="res://anime_assets/frames/商人/0026_4.png" id="33_rmjii"]
+[ext_resource type="Texture2D" uid="uid://do2gsncgj3xot" path="res://anime_assets/frames/商人/0027_4.png" id="34_hx80u"]
+[ext_resource type="Texture2D" uid="uid://vlo0n5s6nt1k" path="res://anime_assets/frames/商人/0028_4.png" id="35_xdyr8"]
+[ext_resource type="Texture2D" uid="uid://cfnjp7rlu3sbc" path="res://anime_assets/frames/商人/0029_4.png" id="36_e4rve"]
+[ext_resource type="Texture2D" uid="uid://cb1xk2hfpi47l" path="res://anime_assets/frames/商人/0030_4.png" id="37_2uaru"]
+[ext_resource type="Texture2D" uid="uid://cssowcrtsf881" path="res://anime_assets/frames/商人/0031_5.png" id="38_f8boa"]
+[ext_resource type="Texture2D" uid="uid://bxoqbto8tl0fe" path="res://anime_assets/frames/商人/0032_4.png" id="39_y003i"]
+[ext_resource type="Texture2D" uid="uid://c5ww3c1yrgbr8" path="res://anime_assets/frames/商人/0033_4.png" id="40_27thp"]
+[ext_resource type="Texture2D" uid="uid://x3hofyqbgpjk" path="res://anime_assets/frames/商人/0034_4.png" id="41_obq5a"]
+[ext_resource type="Texture2D" uid="uid://nxwgg0i2dxdy" path="res://anime_assets/frames/商人/0035_4.png" id="42_274kw"]
+[ext_resource type="Texture2D" uid="uid://p4x10dwoc6vu" path="res://anime_assets/frames/商人/0036_4.png" id="43_mw45k"]
+[ext_resource type="Texture2D" uid="uid://fcida1j8n4sd" path="res://anime_assets/frames/商人/0037_5.png" id="44_ef245"]
+[ext_resource type="Texture2D" uid="uid://c2guc5ts2blkc" path="res://anime_assets/frames/商人/0038_4.png" id="45_r3ut5"]
+[ext_resource type="Texture2D" uid="uid://d53q330gkh8e" path="res://anime_assets/frames/商人/0039_4.png" id="46_a1u88"]
+[ext_resource type="Texture2D" uid="uid://bmpk303sqvhbs" path="res://anime_assets/frames/商人/0040_4.png" id="47_achx4"]
+[ext_resource type="Texture2D" uid="uid://db2uw4qtpb3dx" path="res://anime_assets/frames/商人/0041_4.png" id="48_17u1k"]
+[ext_resource type="Texture2D" uid="uid://bhwvqvkvi2yns" path="res://anime_assets/frames/商人/0042_4.png" id="49_rbwc3"]
+[ext_resource type="Texture2D" uid="uid://bgkl744i3sbf0" path="res://anime_assets/frames/商人/0043_5.png" id="50_71fbg"]
+[ext_resource type="Texture2D" uid="uid://ll3l7vgjg5k0" path="res://anime_assets/frames/商人/0044_4.png" id="51_tw3xv"]
+[ext_resource type="Texture2D" uid="uid://b3626nci4s3hk" path="res://anime_assets/frames/商人/0045_4.png" id="52_2c8v2"]
+[ext_resource type="Texture2D" uid="uid://bm6w3q3uxliu8" path="res://anime_assets/frames/商人/0046_4.png" id="53_3tcv6"]
+[ext_resource type="Texture2D" uid="uid://bmd1n6e4rknwy" path="res://anime_assets/frames/商人/0047_4.png" id="54_exv20"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3mrrs"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_l7c8j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_ssxm4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_03131")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_gq8ub")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_ug2eq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_djxct")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_cuvdd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_cihy5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_mbuol")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_265x8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_kqflc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_x68le")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_3p267")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_nwbod")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_136rg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_tqw03")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_lf7nh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_uvj3d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_p6jan")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_yv7ff")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_t6xk3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_6nppd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_el1ex")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_huj31")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_ewg66")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_rmjii")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_hx80u")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_xdyr8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_e4rve")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_2uaru")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_f8boa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_y003i")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_27thp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_obq5a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_274kw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_mw45k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_ef245")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_r3ut5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_a1u88")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_achx4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_17u1k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_rbwc3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_71fbg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_tw3xv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_2c8v2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_3tcv6")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_exv20")
+}],
+"loop": true,
+"name": &"default",
+"speed": 30.0
+}]
 
 [sub_resource type="Animation" id="anim_reset"]
 length = 0.001
@@ -407,23 +604,22 @@ text = "20"
 
 [node name="GoldLabel" type="HBoxContainer" parent="." unique_id=899550314]
 layout_mode = 0
-offset_left = 266.0
-offset_top = 871.0
-offset_right = 358.0
-offset_bottom = 926.0
+offset_left = 865.0
+offset_top = 664.0
+offset_right = 957.0
+offset_bottom = 719.0
 theme_override_constants/separation = 6
 
 [node name="Cap" type="TextureRect" parent="GoldLabel" unique_id=655102357]
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
 size_flags_vertical = 4
-texture = ExtResource("6_bottlecap")
+texture = ExtResource("7_ssxm4")
 expand_mode = 1
 stretch_mode = 5
 
 [node name="Price" type="Label" parent="GoldLabel" unique_id=1828276480]
 layout_mode = 2
-theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 40
 text = "20"
 
@@ -443,6 +639,13 @@ texture_normal = ExtResource("5_close")
 ignore_texture_size = true
 stretch_mode = 5
 metadata/_edit_use_anchors_ = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1280054030]
+position = Vector2(342.99997, 706)
+scale = Vector2(0.365, 0.365)
+sprite_frames = SubResource("SpriteFrames_3mrrs")
+autoplay = "default"
+frame_progress = 0.5979482
 
 [node name="ShopManager" type="Node" parent="." unique_id=346672913]
 script = ExtResource("2_mgr")
