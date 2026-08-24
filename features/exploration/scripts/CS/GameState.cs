@@ -63,4 +63,10 @@ public partial class GameState : Node
     {
         _snapshots = data;
     }
+
+    /// <summary>清空所有对象状态（新游戏用）。</summary>
+    public void Reset()
+    {
+        _snapshots.Clear();
+    }
 }

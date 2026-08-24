@@ -5,21 +5,8 @@ public partial class MainMenu : Control
 {
 	private bool waitingForInput = true;
 	[Export] private AnimationPlayer animationPlayer;
-	[Export] private AudioStream backgroundMusic; // 添加背景音乐导出变量
-	[Export] private float musicFadeDuration = 2.0f; // 淡入持续时间
-
-	private AudioManager audioManager;
-
 	public override void _Ready()
 	{
-		// 获取 AudioManager 实例
-		audioManager = GetNode<AudioManager>("/root/AudioManager");
-		
-		// 如果有背景音乐，渐入播放
-		if (backgroundMusic != null && audioManager != null)
-		{
-			audioManager.PlayMusicWithFade(backgroundMusic, musicFadeDuration);
-		}
 	}
 
 	private async void HideAndShow(string first, string second)
@@ -43,22 +30,19 @@ public partial class MainMenu : Control
 
 	private void OnStartPressed()
 	{
-		// 可选：在切换场景前淡出音乐
-		if (audioManager != null)
-		{
-			audioManager.FadeOutMusic(1.0f);
-		}
+		SaveManager.Instance?.NewGame();
 		SceneTransition.Instance.ChangeScene("res://features/exploration/scenes/f1/f1_0.tscn");
 	}
 
 	private void OnLoadPressed()
 	{
-		GD.Print("Load Pressed");
+		if (SaveManager.Instance == null || !SaveManager.Instance.Load())
+			GD.Print("没有存档，无法加载。");
 	}
 
 	private void OnCreditsPressed()
 	{
-		GD.Print("Credits Pressed");
+		SceneTransition.Instance.ChangeScene("res://Scenes/game_scene/credits_screen.tscn");
 	}
 
 	private void OnExitPressed()

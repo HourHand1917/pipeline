@@ -307,4 +307,131 @@ public partial class DataManager : Node
         PlayerHp = Mathf.Clamp(hp, 0, MaxPlayerHp);
         EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
     }
+
+    /// <summary>回满血（回到家时用）。</summary>
+    public void FullHeal()
+    {
+        PlayerHp = MaxPlayerHp;
+        EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
+    }
+
+    // ================================================================
+    //  存档
+    // ================================================================
+
+    public Dictionary SaveState()
+    {
+        var cards = new Array<Dictionary>();
+        foreach (var (id, count) in CardCounts)
+        {
+            if (count <= 0) continue;
+            string path = CardData.TryGetValue(id, out var r) ? (r?.ResourcePath ?? "") : "";
+            cards.Add(new Dictionary { { "id", id.ToString() }, { "path", path }, { "count", count } });
+        }
+
+        var items = new Array<string>();
+        foreach (var item in ItemBag)
+            if (item != null && !string.IsNullOrEmpty(item.ResourcePath))
+                items.Add(item.ResourcePath);
+
+        // 构筑存档：Vector2I → {x, y}
+        var build = new Array<Dictionary>();
+        foreach (var e in _savedBuild)
+        {
+            var d = new Dictionary();
+            if (e.TryGetValue("card_id", out var cid)) d["card_id"] = cid.AsString();
+            if (e.TryGetValue("anchor", out var anc)) { var a = anc.AsVector2I(); d["anchor"] = new Dictionary { { "x", a.X }, { "y", a.Y } }; }
+            if (e.TryGetValue("rotation", out var rot)) d["rotation"] = rot.AsInt32();
+            if (e.TryGetValue("board_size", out var bs)) { var b = bs.AsVector2I(); d["board_size"] = new Dictionary { { "x", b.X }, { "y", b.Y } }; }
+            build.Add(d);
+        }
+
+        return new Dictionary
+        {
+            { "hp", PlayerHp },
+            { "max_hp", MaxPlayerHp },
+            { "level", Lv },
+            { "bottle_cap", BottleCap },
+            { "faucet", Faucet },
+            { "cards", cards },
+            { "items", items },
+            { "build", build },
+        };
+    }
+
+    public void LoadState(Dictionary state)
+    {
+        if (state == null) return;
+
+        PlayerHp = state.TryGetValue("hp", out var hp) ? hp.AsInt32() : 30;
+        MaxPlayerHp = state.TryGetValue("max_hp", out var mhp) ? mhp.AsInt32() : 30;
+        Lv = state.TryGetValue("level", out var lv) ? lv.AsInt32() : 1;
+        BottleCap = state.TryGetValue("bottle_cap", out var bc) ? bc.AsInt32() : 0;
+        Faucet = state.TryGetValue("faucet", out var fc) ? fc.AsInt32() : 0;
+
+        CardData.Clear();
+        CardCounts.Clear();
+        if (state.TryGetValue("cards", out var cardsV) && cardsV.VariantType == Variant.Type.Array)
+        {
+            foreach (var cv in cardsV.AsGodotArray())
+            {
+                var d = cv.AsGodotDictionary();
+                string path = d.TryGetValue("path", out var p) ? p.AsString() : "";
+                int count = d.TryGetValue("count", out var c) ? c.AsInt32() : 0;
+                if (string.IsNullOrEmpty(path) || count <= 0) continue;
+                var res = GD.Load<Resource>(path);
+                if (res != null) AcquireCard(res, count);
+            }
+        }
+
+        ItemBag.Clear();
+        if (state.TryGetValue("items", out var itemsV) && itemsV.VariantType == Variant.Type.Array)
+        {
+            foreach (var path in itemsV.AsStringArray())
+            {
+                var res = GD.Load<Resource>(path);
+                if (res != null && ItemBag.Count < MaxItemSlots) ItemBag.Add(res);
+            }
+        }
+
+        _savedBuild.Clear();
+        if (state.TryGetValue("build", out var buildV) && buildV.VariantType == Variant.Type.Array)
+        {
+            foreach (var bv in buildV.AsGodotArray())
+            {
+                var d = bv.AsGodotDictionary();
+                var e = new Dictionary();
+                if (d.TryGetValue("card_id", out var cid)) e["card_id"] = cid.AsStringName();
+                if (d.TryGetValue("anchor", out var anc)) { var a = anc.AsGodotDictionary(); e["anchor"] = new Vector2I(a["x"].AsInt32(), a["y"].AsInt32()); }
+                if (d.TryGetValue("rotation", out var rot)) e["rotation"] = rot.AsInt32();
+                if (d.TryGetValue("board_size", out var bs)) { var b = bs.AsGodotDictionary(); e["board_size"] = new Vector2I(b["x"].AsInt32(), b["y"].AsInt32()); }
+                _savedBuild.Add(e);
+            }
+        }
+
+        EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
+        EmitSignal(SignalName.LevelChanged, Lv);
+        EmitSignal(SignalName.CurrencyChanged);
+        EmitSignal(SignalName.CardCollectionChanged);
+        EmitSignal(SignalName.ItemBagChanged);
+    }
+
+    public void Reset()
+    {
+        CardData.Clear();
+        CardCounts.Clear();
+        ItemBag.Clear();
+        _savedBuild.Clear();
+        BottleCap = 0;
+        Faucet = 0;
+        Lv = 1;
+        PlayerHp = 30;
+        MaxPlayerHp = 30;
+
+        EmitSignal(SignalName.HealthChanged, PlayerHp, MaxPlayerHp);
+        EmitSignal(SignalName.LevelChanged, Lv);
+        EmitSignal(SignalName.CurrencyChanged);
+        EmitSignal(SignalName.CardCollectionChanged);
+        EmitSignal(SignalName.ItemBagChanged);
+    }
 }

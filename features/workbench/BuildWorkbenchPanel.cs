@@ -48,6 +48,9 @@ public partial class BuildWorkbenchPanel : Control
 
         _boardManager.BoardChanged += RefreshBoard;
         DataManager.Instance.CardCollectionChanged += RefreshAll;
+
+        // 打开构筑页时从 DataManager 恢复已保存的棋盘（_savedBuild 跨场景保留，但 runtime_cards 是实例级、每次进场景都是空的）
+        _boardManager.BuildFromSavedData(DataManager.Instance.LoadBuild());
         RefreshBoard();
     }
 

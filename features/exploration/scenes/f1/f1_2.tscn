@@ -41,7 +41,7 @@ MapAmbient = ExtResource("2_tqldu")
 PlayerLeft = -400
 PlayerRight = 3700
 CamLeft = 0
-CamRight = 3400
+CamRight = 3150
 
 [node name="f1_2rightSpawn" type="Node2D" parent="." unique_id=2084639007]
 position = Vector2(2854, 530)
@@ -77,7 +77,7 @@ position = Vector2(-529, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
 [node name="right_edge" type="Area2D" parent="MapLayer" unique_id=1919059851]
-position = Vector2(2601, 197)
+position = Vector2(2587, 197)
 script = ExtResource("5_tqldu")
 TargetMapId = &"home"
 TargetSpawnId = &"home_entry"

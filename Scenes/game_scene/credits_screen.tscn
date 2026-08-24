@@ -1,0 +1,71 @@
+[gd_scene format=3 uid="uid://vmykfj7fvodp"]
+
+[ext_resource type="Script" uid="uid://dylvghtjdd6x7" path="res://Script/CS/CreditsScreen.cs" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="2_3tgk3"]
+[ext_resource type="Texture2D" uid="uid://biwg5bo02ceuu" path="res://features/exploration/art_assets/结束界面.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://b8533hdhayn50" path="res://features/exploration/art_assets/标题.png" id="3_title"]
+
+[node name="CreditsScreen" type="Control" unique_id=842049287 node_paths=PackedStringArray("_closeButton")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+_closeButton = NodePath("CloseButton")
+
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="." unique_id=2102322706]
+position = Vector2(789, 531)
+texture = ExtResource("2_3tgk3")
+
+[node name="Background" type="TextureRect" parent="." unique_id=766095930]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="标题" type="Sprite2D" parent="." unique_id=1301799124]
+position = Vector2(719, 341.99997)
+scale = Vector2(0.235, 0.235)
+texture = ExtResource("3_title")
+
+[node name="Label2" type="Label" parent="." unique_id=575330436]
+layout_mode = 0
+offset_left = 556.0
+offset_top = 441.0
+offset_right = 880.0
+offset_bottom = 851.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 40
+text = "黑匣子工作室
+程序/策划  海桐
+策划  隐水
+主美  Popkey19
+程序 时针
+美术 PPY
+音乐  Josie"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CloseButton" type="Button" parent="." unique_id=686695214]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.85
+anchor_right = 0.5
+anchor_bottom = 0.85
+offset_left = -120.0
+offset_top = 33.0
+offset_right = 120.0
+offset_bottom = 103.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "回到主菜单"
+flat = true
