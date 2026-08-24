@@ -9,7 +9,7 @@
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_aojsd"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
 [ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/mousy_postbattle_npc.tscn" id="11_8e2fl"]
-[ext_resource type="PackedScene" uid="uid://dc2t0w7xax4cc" path="res://features/dialogue/npc/scenes/rocky_prebattle_npc.tscn" id="13_mgpvb"]
+[ext_resource type="PackedScene" uid="uid://br8wpihd35o2v" path="res://features/dialogue/npc/scenes/rocky_prebattle_npc.tscn" id="13_mgpvb"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
@@ -54,6 +54,9 @@ texture = ExtResource("3_63mp5")
 position = Vector2(1415, 386)
 scale = Vector2(1.28, 1.28)
 
+[node name="MousyPostbattleNPC" parent="MapLayer" unique_id=245061573 instance=ExtResource("11_8e2fl")]
+position = Vector2(783, 292)
+
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1919059850]
 position = Vector2(-595, 197)
 script = ExtResource("5_tqldu")
@@ -84,6 +87,3 @@ script = ExtResource("7_aojsd")
 
 [node name="HUD" parent="UILayer" unique_id=653107426 instance=ExtResource("8_ehrjl")]
 offset_bottom = 1.3399658
-
-[node name="MousyPostbattleNPC" parent="." unique_id=245061573 instance=ExtResource("11_8e2fl")]
-position = Vector2(1272, 557)

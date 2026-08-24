@@ -490,7 +490,7 @@ offset_top = 261.0989
 offset_right = 470.0
 offset_bottom = 381.0989
 theme_override_styles/normal = SubResource("StyleBoxTexture_roomtile")
-text = "教程0"
+text = "荒地"
 
 [node name="f1_1" type="Button" parent="PanelStack/MapPanel/MapGrid/Floor1" unique_id=1656444700]
 layout_mode = 0
@@ -499,7 +499,7 @@ offset_top = 262.0989
 offset_right = 647.0
 offset_bottom = 382.0989
 theme_override_styles/normal = SubResource("StyleBoxTexture_roomtile")
-text = "教程1"
+text = "垃圾场"
 
 [node name="f1_2" type="Button" parent="PanelStack/MapPanel/MapGrid/Floor1" unique_id=645063427]
 layout_mode = 0
@@ -508,7 +508,7 @@ offset_top = 262.0989
 offset_right = 1009.0
 offset_bottom = 382.0989
 theme_override_styles/normal = SubResource("StyleBoxTexture_roomtile")
-text = "教程2"
+text = "废料堆"
 
 [node name="Floor2" type="Control" parent="PanelStack/MapPanel/MapGrid" unique_id=281253044]
 visible = false
@@ -618,7 +618,7 @@ offset_top = 279.0989
 offset_right = 854.0
 offset_bottom = 399.0989
 theme_override_styles/normal = SubResource("StyleBoxTexture_roomtile")
-text = "Boss关"
+text = "圣堂"
 
 [node name="Label" type="Label" parent="PanelStack/MapPanel" unique_id=1205454824]
 layout_mode = 0

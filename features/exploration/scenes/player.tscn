@@ -1034,7 +1034,7 @@ radius = 120.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1138772278]
 script = ExtResource("1_tdwrg")
-MoveSpeed = 1000.0
+MoveSpeed = 650.0
 
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1969210657]
 scale = Vector2(0.285, 0.285)
