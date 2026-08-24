@@ -20,12 +20,13 @@
 [ext_resource type="Script" path="res://features/dialogue/npc/scripts/F1RockyEncounterFlow.cs" id="14_flow"]
 [ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="15_rocky_frames"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
 
 [sub_resource type="Resource" id="Resource_hpj5k"]
-script = ExtResource("10_kjvhc")
+script = ExtResource("31_loot")
 bottle_cap = 5
 faucet = 10
 metadata/_custom_type_script = "uid://48j6ej4rld81"

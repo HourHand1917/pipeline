@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="BattleAnimationProfile" format=3 uid="uid://gvfbwf00m80s"]
 
 [ext_resource type="Script" uid="uid://b3wd0h0cfhuy7" path="res://anime/scripts/battle_animation_profile.gd" id="1"]
-[ext_resource type="SpriteFrames" path="res://anime/generated/boom_frames.tres" id="2"]
+[ext_resource type="SpriteFrames" uid="uid://dok7fv5m7ax7a" path="res://anime/generated/boom_frames.tres" id="2"]
 [ext_resource type="Resource" path="res://anime/audio/boom_attack_cue.tres" id="3_attack"]
 [ext_resource type="Resource" path="res://anime/audio/boom_hurt_cue.tres" id="4_hurt"]
 [ext_resource type="Resource" path="res://anime/audio/boom_death_cue.tres" id="5_death"]

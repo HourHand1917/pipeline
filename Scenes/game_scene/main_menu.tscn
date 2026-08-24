@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://cpkwtypj4kwio" path="res://Script/CS/main_menu/MainMenu.cs" id="1_u8fvr"]
 [ext_resource type="Script" uid="uid://bupys157atagh" path="res://Script/CS/main_menu/WaitLabel.cs" id="2_2ly5b"]
 [ext_resource type="Script" uid="uid://cxt1o7vk2ufn1" path="res://Script/CS/main_menu/MenuContainer.cs" id="3_algf1"]
-[ext_resource type="PackedScene" path="res://features/main_menu_visual/scenes/main_menu_visual.tscn" id="4_visual"]
 
 [sub_resource type="Theme" id="Theme_5gy6c"]
 Button/font_sizes/font_size = 58
@@ -198,9 +197,6 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MainMenuVisual" parent="." instance=ExtResource("4_visual")]
-layout_mode = 1
-
 [node name="MenuContainer" type="VBoxContainer" parent="." unique_id=148071786]
 visible = false
 modulate = Color(1, 1, 1, 0)
@@ -211,7 +207,7 @@ anchor_top = 0.3314815
 anchor_right = 0.26927084
 anchor_bottom = 0.425
 offset_left = -638.0
-offset_right = -454.75
+offset_right = -454.74994
 offset_bottom = 227.0
 theme = ExtResource("1_5gy6c")
 script = ExtResource("3_algf1")

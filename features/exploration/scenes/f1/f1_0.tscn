@@ -6,6 +6,8 @@
 [ext_resource type="Texture2D" uid="uid://cyjrk658suxmi" path="res://features/exploration/art_assets/maps/f1/教程-0-背景.png" id="2_u8q1t"]
 [ext_resource type="AudioStream" uid="uid://ctfyuxt8fq273" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_01.wav" id="3_yw3k6"]
 [ext_resource type="AudioStream" uid="uid://qbtblfhgor73" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_02.wav" id="4_u4bgt"]
+[ext_resource type="AudioStream" uid="uid://2tdcksk26pdy" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_03.wav" id="5_w8von"]
+[ext_resource type="AudioStream" uid="uid://b5lapxmlhr4m3" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_04.wav" id="6_v1hk5"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="5_7aotm"]
 [ext_resource type="PackedScene" uid="uid://xsrt0gm2wqew" path="res://features/dialogue/npc/scenes/shark_gang_sign_npc.tscn" id="6_u8q1t"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="6_xypiy"]
