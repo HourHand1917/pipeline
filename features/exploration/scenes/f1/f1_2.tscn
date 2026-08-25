@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
 [ext_resource type="PackedScene" uid="uid://bay0alqdgsaub" path="res://features/dialogue/npc/scenes/mousy_postbattle_npc.tscn" id="11_8e2fl"]
 [ext_resource type="PackedScene" uid="uid://br8wpihd35o2v" path="res://features/dialogue/npc/scenes/rocky_prebattle_npc.tscn" id="13_mgpvb"]
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/F1RockyEncounterFlow.cs" id="14_flow"]
-[ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="15_rocky_frames"]
+[ext_resource type="Script" uid="uid://c1jenjuvkmcmo" path="res://features/dialogue/npc/scripts/F1RockyEncounterFlow.cs" id="14_flow"]
+[ext_resource type="SpriteFrames" uid="uid://ddxvm1x1cgffc" path="res://anime/generated/rocky_frames.tres" id="15_rocky_frames"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
@@ -60,7 +60,7 @@ scale = Vector2(1.28, 1.28)
 position = Vector2(100, 385)
 scale = Vector2(1.17, 1.17)
 
-[node name="DeadRocky" type="AnimatedSprite2D" parent="MapLayer"]
+[node name="DeadRocky" type="AnimatedSprite2D" parent="MapLayer" unique_id=2023199512]
 visible = false
 position = Vector2(430, 274)
 scale = Vector2(1.28, 1.28)
@@ -93,14 +93,14 @@ position = Vector2(272, 265)
 script = ExtResource("2_y52xo")
 SpawnId = &"RockyReturnSpawn"
 
-[node name="RockyEncounterFlow" type="Node" parent="." node_paths=PackedStringArray("RockyPrebattle", "MousyPostbattle", "DeadRocky")]
+[node name="RockyEncounterFlow" type="Node" parent="." unique_id=982614324 node_paths=PackedStringArray("RockyPrebattle", "MousyPostbattle", "DeadRocky")]
 script = ExtResource("14_flow")
 RockyPrebattle = NodePath("../MapLayer/RockyPrebattleNPC")
 MousyPostbattle = NodePath("../MapLayer/MousyPostbattleNPC")
 DeadRocky = NodePath("../MapLayer/DeadRocky")
 
 [node name="Player" parent="." unique_id=1138772278 instance=ExtResource("6_qhe7u")]
-position = Vector2(761, 530)
+position = Vector2(201, 525)
 
 [node name="InputRouter" type="Node" parent="." unique_id=1263359550]
 script = ExtResource("7_aojsd")

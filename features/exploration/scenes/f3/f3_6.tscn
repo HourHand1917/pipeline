@@ -119,7 +119,7 @@ position = Vector2(300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
 [node name="Player" parent="." unique_id=313781649 instance=ExtResource("5_player")]
-position = Vector2(1688, 530)
+position = Vector2(1676, 596)
 
 [node name="InputRouter" type="Node" parent="." unique_id=1796843308]
 script = ExtResource("6_input")
@@ -130,4 +130,5 @@ script = ExtResource("6_input")
 offset_bottom = 1.3399658
 
 [node name="CasinoDealerNPC" parent="." unique_id=1248691421 instance=ExtResource("35_dealer")]
-position = Vector2(2898, 511)
+position = Vector2(2894, 670)
+scale = Vector2(1.5, 1.5)

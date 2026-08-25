@@ -57,6 +57,11 @@ PlayerRight = 1830
 CamLeft = 0
 CamRight = 1680
 
+[node name="ReturnSpawn" type="Node2D" parent="." unique_id=516721296]
+position = Vector2(1521, 530)
+script = ExtResource("2_spawn")
+SpawnId = &"f2_1_boom_return"
+
 [node name="f2_1leftSpawn" type="Node2D" parent="." unique_id=1444172024]
 position = Vector2(150, 530)
 script = ExtResource("2_spawn")
@@ -145,11 +150,6 @@ shape = SubResource("CircleShape2D_boom_click")
 [node name="Blink" type="Node" parent="MapLayer/Boom" unique_id=259102060 node_paths=PackedStringArray("_clickZone")]
 script = ExtResource("32_blink")
 _clickZone = NodePath("../ClickZone")
-
-[node name="ReturnSpawn" type="Node2D" parent="MapLayer/Boom" unique_id=47125793]
-position = Vector2(-9, 12)
-script = ExtResource("2_spawn")
-SpawnId = &"f2_1_boom_return"
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1661849276]
 position = Vector2(-150, 450)

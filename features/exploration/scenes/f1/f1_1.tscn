@@ -63,6 +63,11 @@ position = Vector2(218, 530)
 script = ExtResource("2_h6566")
 SpawnId = &"f1_1left"
 
+[node name="ReturnSpawn" type="Node2D" parent="." unique_id=1438767857]
+position = Vector2(-90, 530)
+script = ExtResource("2_h6566")
+SpawnId = &"boom_return"
+
 [node name="MapLayer" type="Node2D" parent="." unique_id=916088965]
 position = Vector2(546, 334)
 scale = Vector2(0.81, 0.81)
