@@ -1,9 +1,8 @@
-[gd_scene format=3 uid="uid://bx8xahfnsb1qp"]
+[gd_scene format=3 uid="uid://djeij3ahvanht"]
 
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="1_npc"]
-[ext_resource type="SpriteFrames" path="res://anime/generated/boom_frames.tres" id="2_frames"]
+[ext_resource type="SpriteFrames" uid="uid://dok7fv5m7ax7a" path="res://anime/generated/boom_frames.tres" id="2_frames"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="3_blink"]
-[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="4_spawn"]
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="5_music"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
@@ -45,8 +44,3 @@ shape = SubResource("RectangleClick")
 script = ExtResource("3_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
-
-[node name="ReturnSpawn" type="Node2D" parent="." unique_id=1256597509]
-position = Vector2(-90, 0)
-script = ExtResource("4_spawn")
-SpawnId = &"boom_return"

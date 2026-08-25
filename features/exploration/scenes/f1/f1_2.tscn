@@ -6,36 +6,29 @@
 [ext_resource type="Texture2D" uid="uid://bepos7d7gjdmn" path="res://features/exploration/art_assets/maps/f1/教程-2.png" id="3_63mp5"]
 [ext_resource type="AudioStream" uid="uid://ctfyuxt8fq273" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_01.wav" id="3_hpj5k"]
 [ext_resource type="AudioStream" uid="uid://qbtblfhgor73" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_02.wav" id="4_h56ju"]
-[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="5_2p0fj"]
 [ext_resource type="Script" uid="uid://bjrfkh8fsfnvh" path="res://features/exploration/scripts/CS/MapEdgeTrigger.cs" id="5_tqldu"]
 [ext_resource type="AudioStream" uid="uid://2tdcksk26pdy" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_03.wav" id="5_vowvi"]
-[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="6_8e2fl"]
 [ext_resource type="PackedScene" uid="uid://bpod731ja3no6" path="res://features/exploration/scenes/player.tscn" id="6_qhe7u"]
 [ext_resource type="AudioStream" uid="uid://b5lapxmlhr4m3" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_04.wav" id="6_rsyl3"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_aojsd"]
-[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_tqldu"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
 [ext_resource type="PackedScene" uid="uid://bay0alqdgsaub" path="res://features/dialogue/npc/scenes/mousy_postbattle_npc.tscn" id="11_8e2fl"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="11_h56ju"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="12_vowvi"]
 [ext_resource type="PackedScene" uid="uid://br8wpihd35o2v" path="res://features/dialogue/npc/scenes/rocky_prebattle_npc.tscn" id="13_mgpvb"]
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/F1RockyEncounterFlow.cs" id="14_flow"]
-[ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="15_rocky_frames"]
+[ext_resource type="Script" uid="uid://p2il76h0rahc" path="res://features/dialogue/npc/scripts/F1RockyEncounterFlow.cs" id="14_flow"]
+[ext_resource type="SpriteFrames" uid="uid://ddxvm1x1cgffc" path="res://anime/generated/rocky_frames.tres" id="15_rocky_frames"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
-size = Vector2(643, 374)
-
-[sub_resource type="Resource" id="Resource_hpj5k"]
+[sub_resource type="Resource" id="Resource_rsyl3"]
 script = ExtResource("31_loot")
-bottle_cap = 5
+bottle_cap = 10
 faucet = 10
 metadata/_custom_type_script = "uid://48j6ej4rld81"
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_qhe7u"]
-radius = 120.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_aojsd"]
-radius = 48.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
+size = Vector2(643, 374)
 
 [node name="ExplorationMap2" type="Node2D" unique_id=27246427 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_xurlq")
@@ -73,15 +66,17 @@ position = Vector2(999, 180)
 scale = Vector2(0.805, 0.805)
 texture = ExtResource("3_63mp5")
 
-[node name="RockyPrebattleNPC" parent="MapLayer" unique_id=1300952627 instance=ExtResource("13_mgpvb")]
+[node name="RockyPrebattleNPC" parent="MapLayer" unique_id=1300952627 node_paths=PackedStringArray("Hud") instance=ExtResource("13_mgpvb")]
 position = Vector2(430, 384)
 scale = Vector2(1.28, 1.28)
+Loot = SubResource("Resource_rsyl3")
+Hud = NodePath("../../UILayer/HUD")
 
 [node name="MousyPostbattleNPC" parent="MapLayer" unique_id=245061573 instance=ExtResource("11_8e2fl")]
 position = Vector2(100, 385)
 scale = Vector2(1.17, 1.17)
 
-[node name="DeadRocky" type="AnimatedSprite2D" parent="MapLayer"]
+[node name="DeadRocky" type="AnimatedSprite2D" parent="MapLayer" unique_id=5425063]
 visible = false
 position = Vector2(430, 274)
 scale = Vector2(1.28, 1.28)
@@ -114,7 +109,7 @@ position = Vector2(272, 265)
 script = ExtResource("2_y52xo")
 SpawnId = &"RockyReturnSpawn"
 
-[node name="RockyEncounterFlow" type="Node" parent="." node_paths=PackedStringArray("RockyPrebattle", "MousyPostbattle", "DeadRocky")]
+[node name="RockyEncounterFlow" type="Node" parent="." unique_id=1907465285 node_paths=PackedStringArray("RockyPrebattle", "MousyPostbattle", "DeadRocky")]
 script = ExtResource("14_flow")
 RockyPrebattle = NodePath("../MapLayer/RockyPrebattleNPC")
 MousyPostbattle = NodePath("../MapLayer/MousyPostbattleNPC")

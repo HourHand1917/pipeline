@@ -29,6 +29,7 @@
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Texture2D" uid="uid://r77etffpq6b0" path="res://features/exploration/art_assets/maps/f3/f3-2_ktv开门.png" id="21_ktv_open"]
 [ext_resource type="Texture2D" uid="uid://dl5xn8aj67jar" path="res://features/exploration/art_assets/maps/f3/f3-2_影院开门.png" id="22_cinema_open"]
+[ext_resource type="Resource" uid="uid://ch6r2wcwwemu8" path="res://Resource/item/mvp/spare_battery.tres" id="24_pxa62"]
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 [ext_resource type="Texture2D" uid="uid://dwvii31k3h5f6" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV-箱子.png" id="32_ktv_chest_tex"]
@@ -52,6 +53,7 @@ size = Vector2(643, 374)
 script = ExtResource("31_loot")
 bottle_cap = 16
 faucet = 10
+items = Array[ExtResource("19_213h2")]([ExtResource("24_pxa62")])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ktv_chest_detect"]
 size = Vector2(220, 160)

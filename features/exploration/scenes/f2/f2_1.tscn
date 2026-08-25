@@ -15,7 +15,8 @@
 [ext_resource type="AudioStream" uid="uid://b5lapxmlhr4m3" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_04.wav" id="7_txfdf"]
 [ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_aupid"]
 [ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="9_402xm"]
-[ext_resource type="SpriteFrames" path="res://anime/generated/boom_frames.tres" id="15_aupid"]
+[ext_resource type="Resource" uid="uid://b1wu1dvipfsra" path="res://Resource/card/cards/military_power_pack.tres" id="13_vr128"]
+[ext_resource type="SpriteFrames" uid="uid://dok7fv5m7ax7a" path="res://anime/generated/boom_frames.tres" id="15_aupid"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="31_npc"]
@@ -27,6 +28,7 @@
 [sub_resource type="Resource" id="Resource_chest_loot"]
 script = ExtResource("33_loot")
 bottle_cap = 20
+cards = Array[ExtResource("8_aupid")]([ExtResource("13_vr128")])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_28238"]
 size = Vector2(330, 168)

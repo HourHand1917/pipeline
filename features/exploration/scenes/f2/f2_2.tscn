@@ -25,6 +25,7 @@
 [ext_resource type="Resource" uid="uid://dor040piw1t4u" path="res://Resource/card/cards/deadly_kiss.tres" id="16_heonf"]
 [ext_resource type="Texture2D" uid="uid://dwvii31k3h5f6" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV-箱子.png" id="18_heonf"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Resource" uid="uid://cusnq01be0yyp" path="res://Resource/item/mvp/particle_wall.tres" id="24_gfahf"]
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 [ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="32_supply_tex"]
@@ -55,6 +56,7 @@ size = Vector2(162, 207)
 [sub_resource type="Resource" id="Resource_chest_loot"]
 script = ExtResource("31_loot")
 cards = Array[ExtResource("15_gpyuw")]([ExtResource("16_heonf")])
+items = Array[ExtResource("16_aat1y")]([ExtResource("24_gfahf")])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_chest_detect"]
 size = Vector2(240, 180)
