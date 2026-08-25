@@ -19,7 +19,32 @@
 [ext_resource type="Script" uid="uid://p2il76h0rahc" path="res://features/dialogue/npc/scripts/F1RockyEncounterFlow.cs" id="14_flow"]
 [ext_resource type="SpriteFrames" uid="uid://ddxvm1x1cgffc" path="res://anime/generated/rocky_frames.tres" id="15_rocky_frames"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="21_8wwmu"]
+[ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="21_nib5m"]
+[ext_resource type="Resource" uid="uid://02ifbgnt2a5s" path="res://Resource/card/cards/knuckle_striker.tres" id="23_mjnn7"]
+[ext_resource type="Resource" uid="uid://b7i6facoalmh3" path="res://Resource/card/cards/scrap_battery.tres" id="24_nib5m"]
+[ext_resource type="Texture2D" uid="uid://6i4vatwprdvx" path="res://features/exploration/art_assets/maps/f1/教程-1-箱子.png" id="25_56aaw"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="26_47rsh"]
+[ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="28_56aaw"]
+[ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="29_47rsh"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ecve3"]
+size = Vector2(214.81485, 288.88876)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_236l2"]
+size = Vector2(158.02477, 302.4691)
+
+[sub_resource type="Resource" id="Resource_ecve3"]
+script = ExtResource("31_loot")
+bottle_cap = 10
+cards = Array[ExtResource("11_h56ju")]([ExtResource("23_mjnn7"), ExtResource("24_nib5m")])
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gfrjf"]
+size = Vector2(397.53082, 232.09871)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dxbml"]
+size = Vector2(353.08624, 228.39505)
 
 [sub_resource type="Resource" id="Resource_rsyl3"]
 script = ExtResource("31_loot")
@@ -66,14 +91,79 @@ position = Vector2(999, 180)
 scale = Vector2(0.805, 0.805)
 texture = ExtResource("3_63mp5")
 
+[node name="补给机器" type="Area2D" parent="MapLayer" unique_id=320700071 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
+position = Vector2(745, 279)
+scale = Vector2(0.7, 0.7)
+script = ExtResource("28_56aaw")
+WorkbenchUI = NodePath("../../UILayer/SupplyWorkbench")
+Hud = NodePath("../../UILayer/HUD")
+DisplayName = "补给机器"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/补给机器" unique_id=1051525222]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("29_47rsh")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/补给机器" unique_id=632556572]
+position = Vector2(-7.4075317, 13.5802)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_ecve3")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/补给机器" unique_id=413959274]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/补给机器/ClickZone" unique_id=270948676]
+position = Vector2(2.4690552, 15.432129)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_236l2")
+
+[node name="Blink" type="Node" parent="MapLayer/补给机器" unique_id=687643852 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("26_47rsh")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="宝箱" type="Area2D" parent="MapLayer" unique_id=341526533 node_paths=PackedStringArray("Hud", "_blink")]
+position = Vector2(324, 310)
+scale = Vector2(0.7, 0.7)
+script = ExtResource("21_8wwmu")
+Loot = SubResource("Resource_ecve3")
+Hud = NodePath("../../UILayer/HUD")
+DisplayName = "宝箱"
+PersistenceId = "chest_f1_1"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/宝箱" unique_id=589258449]
+position = Vector2(198.81488, -162.4568)
+texture = ExtResource("25_56aaw")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/宝箱" unique_id=178828256]
+position = Vector2(3.7037964, -8.642151)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_gfrjf")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/宝箱" unique_id=155636721]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/宝箱/ClickZone" unique_id=1152363423]
+position = Vector2(2.4691162, -10.493835)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_dxbml")
+
+[node name="Blink" type="Node" parent="MapLayer/宝箱" unique_id=854047446 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("26_47rsh")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
 [node name="RockyPrebattleNPC" parent="MapLayer" unique_id=1300952627 node_paths=PackedStringArray("Hud") instance=ExtResource("13_mgpvb")]
-position = Vector2(430, 384)
+position = Vector2(1965, 387)
 scale = Vector2(1.28, 1.28)
 Loot = SubResource("Resource_rsyl3")
 Hud = NodePath("../../UILayer/HUD")
 
 [node name="MousyPostbattleNPC" parent="MapLayer" unique_id=245061573 instance=ExtResource("11_8e2fl")]
-position = Vector2(100, 385)
+position = Vector2(1635, 388)
 scale = Vector2(1.17, 1.17)
 
 [node name="DeadRocky" type="AnimatedSprite2D" parent="MapLayer" unique_id=5425063]
@@ -105,7 +195,7 @@ position = Vector2(529, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
 [node name="ReturnSpawn" type="Node2D" parent="MapLayer" unique_id=943466974]
-position = Vector2(272, 265)
+position = Vector2(1787, 265)
 script = ExtResource("2_y52xo")
 SpawnId = &"RockyReturnSpawn"
 
@@ -125,3 +215,5 @@ script = ExtResource("7_aojsd")
 
 [node name="HUD" parent="UILayer" unique_id=653107426 instance=ExtResource("8_ehrjl")]
 offset_bottom = 1.3399658
+
+[node name="SupplyWorkbench" parent="UILayer" unique_id=495580737 instance=ExtResource("21_nib5m")]

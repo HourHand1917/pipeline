@@ -144,7 +144,7 @@ public partial class BattleDirector : Node
 
 	private static void FindBackdropCandidate(Node node, ref Sprite2D best, ref double bestScore)
 	{
-		// UI and interactable subtrees contain portraits, doors and characters,
+		// UI and interactable subtrees contain portraits, dialogues and characters,
 		// never the authored world backdrop we want to carry into battle.
 		if (node is CanvasLayer || node is Control || node is Area2D || node is CharacterBody2D)
 			return;

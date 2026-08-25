@@ -41,6 +41,11 @@ public partial class F4EndingScreen : Control
     [Export(PropertyHint.File, "*.tscn")]
     public string ExitScenePath { get; set; } = "";
 
+    [ExportGroup("音乐")]
+    [Export] public AudioStream BackgroundMusic { get; set; }
+    [Export(PropertyHint.Range, "0.5,5,0.1")]
+    public float MusicFadeDuration { get; set; } = 2.0f;
+
     [ExportGroup("Scene references")]
     [Export] public RichTextLabel CreditsLabel { get; set; }
     [Export] public Control PosterLayer { get; set; }
@@ -54,6 +59,7 @@ public partial class F4EndingScreen : Control
     private EndingState _state = EndingState.Preparing;
     private float _waitElapsed;
     private float _creditsHeight = 1.0f;
+    private AudioManager _audioManager;
 
     public override void _Ready()
     {
@@ -77,7 +83,23 @@ public partial class F4EndingScreen : Control
         PosterLayer.Visible = false;
         PosterLayer.Modulate = new Color(1, 1, 1, 0);
         SetProcessInput(true);
+        
+        // 播放背景音乐
+        PlayBackgroundMusic();
+        
         CallDeferred(MethodName.BeginCredits);
+    }
+
+    /// <summary>
+    /// 播放背景音乐（淡入）
+    /// </summary>
+    private void PlayBackgroundMusic()
+    {
+        _audioManager = GetNodeOrNull<AudioManager>("/root/AudioManager");
+        if (BackgroundMusic != null && _audioManager != null)
+        {
+            _audioManager.PlayMusicWithFade(BackgroundMusic, MusicFadeDuration);
+        }
     }
 
     private async void BeginCredits()

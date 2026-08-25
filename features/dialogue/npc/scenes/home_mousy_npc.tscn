@@ -1,8 +1,11 @@
 [gd_scene format=3 uid="uid://rav4hlc5kqdh"]
 
 [ext_resource type="Script" uid="uid://daxljkly0qdkv" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
+[ext_resource type="Resource" uid="uid://dv7x64qn2fsyh" path="res://Resource/card/cards/swap.tres" id="2_71b06"]
 [ext_resource type="Resource" uid="uid://dmw1ww2sworam" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="2_mousy"]
+[ext_resource type="Resource" uid="uid://5hkpux4h1e2h" path="res://Resource/card/cards/hydraulic_fist.tres" id="3_1ictg"]
 [ext_resource type="Resource" uid="uid://cud46uo7b7ivd" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
+[ext_resource type="Resource" uid="uid://bb1aodjlqq3id" path="res://Resource/card/cards/mechanical_shoes.tres" id="4_6dqau"]
 [ext_resource type="Resource" uid="uid://hhx5w2lmb3jx" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
 [ext_resource type="Script" uid="uid://bvx1oow81a7tc" path="res://features/dialogue/npc/animations/npc_frame_animation.gd" id="5_animation"]
 [ext_resource type="Texture2D" uid="uid://6dm7tkki4k4a" path="res://features/dialogue/npc/animations/frames/mousy/0001_0.png" id="5_ipoe4"]
@@ -54,7 +57,7 @@
 [ext_resource type="Texture2D" uid="uid://da0mqp1h1b26v" path="res://features/dialogue/npc/animations/frames/mousy/0046_4.png" id="50_2abpi"]
 [ext_resource type="Texture2D" uid="uid://wqjl7rwmx5rk" path="res://features/dialogue/npc/animations/frames/mousy/0047_4.png" id="51_wkom0"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_hmbd6"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_1ictg"]
 animations = [{
 "frames": [],
 "loop": true,
@@ -218,6 +221,7 @@ size = Vector2(150, 180)
 script = ExtResource("1_npc")
 DefaultTimelinePath = "res://features/dialogue/npc/timelines/home鼠鼠.dtl"
 DialogicCharacterIdentifier = &"鼠鼠"
+RewardCards = Array[Resource]([ExtResource("2_71b06"), ExtResource("3_1ictg"), ExtResource("4_6dqau")])
 NpcName = "鼠鼠"
 DialogueCharacter = ExtResource("2_mousy")
 PlayerDialogueCharacter = ExtResource("3_rubber")
@@ -232,9 +236,9 @@ _blink = NodePath("Blink")
 [node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=448819087]
 position = Vector2(0, -110)
 scale = Vector2(0.25, 0.25)
-sprite_frames = SubResource("SpriteFrames_hmbd6")
+sprite_frames = SubResource("SpriteFrames_1ictg")
 animation = &"idle"
-frame_progress = 0.54867643
+frame_progress = 0.9724851
 script = ExtResource("5_animation")
 frames_directory = "res://features/dialogue/npc/animations/frames/mousy"
 

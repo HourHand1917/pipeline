@@ -13,9 +13,19 @@
 [ext_resource type="Texture2D" uid="uid://caefcvor3rp66" path="res://features/exploration/art_assets/maps/f2/f2_拳击馆.png" id="6_suul2"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="AudioStream" uid="uid://belhfdu7e12fl" path="res://tileset/music_resource/OGG/SFX/环境/steps/室内/indoor_footstep_04.wav" id="7_xivmh"]
+[ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="11_c24m6"]
+[ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="12_ljr7v"]
 [ext_resource type="Resource" uid="uid://ct1kbcvritfmc" path="res://sharkreward.tres" id="13_ljr7v"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="13_nl3lk"]
 [ext_resource type="PackedScene" uid="uid://bfyp2nf6t3mk3" path="res://features/dialogue/npc/scenes/sharkk_prebattle_npc.tscn" id="18_s3kmj"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="20_ljr7v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s3kmj"]
+size = Vector2(214.81485, 288.88876)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gje0s"]
+size = Vector2(158.02477, 302.4691)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
 size = Vector2(643, 374)
@@ -56,6 +66,38 @@ position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_suul2")
 
+[node name="补给机器" type="Area2D" parent="MapLayer" unique_id=1902972832 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
+position = Vector2(243.99998, 542)
+scale = Vector2(0.7, 0.7)
+script = ExtResource("11_c24m6")
+WorkbenchUI = NodePath("../../UILayer/SupplyWorkbench")
+Hud = NodePath("../../UILayer/HUD")
+DisplayName = "补给机器"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/补给机器" unique_id=1674204387]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("12_ljr7v")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/补给机器" unique_id=106146454]
+position = Vector2(-7.4075317, 13.5802)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_s3kmj")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/补给机器" unique_id=184554545]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/补给机器/ClickZone" unique_id=1440172934]
+position = Vector2(2.4690552, 15.432129)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_gje0s")
+
+[node name="Blink" type="Node" parent="MapLayer/补给机器" unique_id=1012343875 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("13_nl3lk")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
 [node name="SharkkPrebattleNPC" parent="MapLayer" unique_id=284579292 node_paths=PackedStringArray("Hud") instance=ExtResource("18_s3kmj")]
 position = Vector2(1191, 586)
 scale = Vector2(1.9, 1.9)
@@ -92,3 +134,5 @@ script = ExtResource("6_input")
 
 [node name="HUD" parent="UILayer" unique_id=1916087261 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658
+
+[node name="SupplyWorkbench" parent="UILayer" unique_id=495580737 instance=ExtResource("20_ljr7v")]

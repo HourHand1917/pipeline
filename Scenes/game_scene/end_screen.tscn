@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://yl6atppe7vx6" path="res://Script/CS/EndScreen.cs" id="1_script"]
 [ext_resource type="Texture2D" uid="uid://biwg5bo02ceuu" path="res://features/exploration/art_assets/结束界面.png" id="2_bg"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="2_kw1gm"]
+[ext_resource type="AudioStream" uid="uid://bwko1qa5w038w" path="res://tileset/music_resource/OGG/music/Ending.ogg" id="2_tcyb4"]
 [ext_resource type="Texture2D" uid="uid://b8533hdhayn50" path="res://features/exploration/art_assets/标题.png" id="3_yjqwk"]
 
 [node name="EndScreen" type="Control" unique_id=76727669 node_paths=PackedStringArray("_closeButton")]
@@ -14,6 +15,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_script")
 _closeButton = NodePath("CloseButton")
+backgroundMusic = ExtResource("2_tcyb4")
 
 [node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="." unique_id=379648067]
 position = Vector2(789, 531)

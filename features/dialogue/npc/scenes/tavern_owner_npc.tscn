@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dxyu8v25hnk4i" path="res://features/exploration/art_assets/maps/f2/f2-5-商铺内部.png" id="6_ombwm"]
 [ext_resource type="Script" uid="uid://gphemtwcxnum" path="res://features/dialogue/npc/scripts/tavern_purchase_state.gd" id="6_state"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
-[ext_resource type="Resource" path="res://Resource/item/mvp/hard_bone.tres" id="8_hard_bone"]
+[ext_resource type="Resource" uid="uid://hl6n7qeghh44" path="res://Resource/item/mvp/hard_bone.tres" id="8_hard_bone"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 335.07312

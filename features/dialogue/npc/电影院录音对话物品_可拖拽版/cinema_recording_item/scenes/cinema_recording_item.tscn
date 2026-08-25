@@ -1,11 +1,11 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene format=3 uid="uid://ds247wkoovs3p"]
 
-[ext_resource type="Script" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
-[ext_resource type="Resource" path="res://features/dialogue/npc/cinema_recording_item/characters/录音.dch" id="2_recording"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="3_placeholder"]
-[ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_blink"]
-[ext_resource type="Resource" path="res://features/dialogue/npc/cinema_recording_item/characters/Coral.dch" id="5_coral"]
-[ext_resource type="Resource" path="res://features/dialogue/npc/cinema_recording_item/characters/Lichen.dch" id="6_lichen"]
+[ext_resource type="Script" uid="uid://daxljkly0qdkv" path="res://features/dialogue/npc/scripts/PackagedFriendlyNPC.cs" id="1_npc"]
+[ext_resource type="Resource" uid="uid://2q01rml5t3s5" path="res://features/dialogue/npc/cinema_recording_item/characters/录音.dch" id="2_recording"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="4_blink"]
+[ext_resource type="Resource" uid="uid://blrch6g0rknjo" path="res://features/dialogue/npc/cinema_recording_item/characters/Coral.dch" id="5_coral"]
+[ext_resource type="Texture2D" uid="uid://dvoubgwhwl686" path="res://features/exploration/art_assets/home_map/音响.png" id="5_st6fv"]
+[ext_resource type="Resource" uid="uid://djt8aqtdmeem6" path="res://features/dialogue/npc/cinema_recording_item/characters/Lichen.dch" id="6_lichen"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 180.0
@@ -13,37 +13,35 @@ radius = 180.0
 [sub_resource type="RectangleShape2D" id="RectangleClick"]
 size = Vector2(128, 128)
 
-[node name="CinemaRecordingItem" type="Area2D" node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
+[node name="CinemaRecordingItem" type="Area2D" unique_id=1789010097 node_paths=PackedStringArray("DialogueAnimationPlayer", "_blink")]
 script = ExtResource("1_npc")
-DefaultTimelinePath = "res://features/dialogue/npc/cinema_recording_item/timelines/电影院录音副本.dtl"
+DefaultTimelinePath = "uid://br35b15ycih2h"
 DialogicCharacterIdentifier = &"录音"
 ExtraDialogicCharacterIdentifiers = PackedStringArray("Coral", "Lichen")
 ExtraDialogicCharacters = Array[Resource]([ExtResource("5_coral"), ExtResource("6_lichen")])
 NpcName = "电影院录音副本"
 DialogueCharacter = ExtResource("2_recording")
-DialogueBubbleOffset = Vector2(0, -96)
 DialogueAnimationPlayer = NodePath("AnimationPlayer")
 DisplayName = "电影院录音副本"
 PersistenceId = "cinema_recording_item"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-texture = ExtResource("3_placeholder")
-scale = Vector2(0.25, 0.25)
+[node name="Sprite" type="Sprite2D" parent="." unique_id=909049175]
+texture = ExtResource("5_st6fv")
 
-[node name="DetectionRange" type="CollisionShape2D" parent="."]
+[node name="DetectionRange" type="CollisionShape2D" parent="." unique_id=1875823371]
 shape = SubResource("CircleDetection")
 
-[node name="ClickZone" type="Area2D" parent="."]
+[node name="ClickZone" type="Area2D" parent="." unique_id=1896881618]
 collision_layer = 2
 collision_mask = 0
 
-[node name="ClickShape" type="CollisionShape2D" parent="ClickZone"]
+[node name="ClickShape" type="CollisionShape2D" parent="ClickZone" unique_id=251072853]
 shape = SubResource("RectangleClick")
 
-[node name="Blink" type="Node" parent="." node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="." unique_id=226813521 node_paths=PackedStringArray("_sprite", "_clickZone")]
 script = ExtResource("4_blink")
 _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=433402079]

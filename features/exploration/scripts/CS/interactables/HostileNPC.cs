@@ -10,9 +10,9 @@ using Godot.Collections;
 public partial class HostileNPC : NPCBase, ILootSource
 {
     /// <summary>指向战斗场景 .tscn。</summary>
-    [Export] public string BattleScenePath { get; set; } = "res://Scenes/game_scene/battle_scene.tscn";
+    [Export(PropertyHint.File, "*.tscn")] public string BattleScenePath { get; set; } = "res://Scenes/game_scene/battle_scene.tscn";
     /// <summary>指向战斗规则 .tres。</summary>
-    [Export] public string BattleRulesPath { get; set; } = "";
+    [Export(PropertyHint.File, "*.tres")] public string BattleRulesPath { get; set; } = "";
     /// <summary>战斗结束返回地图的生成点。</summary>
     [Export] public StringName ReturnSpawnId { get; set; } = "";
     /// <summary>自动触发战斗的距离阈值。</summary>
@@ -127,6 +127,13 @@ public partial class HostileNPC : NPCBase, ILootSource
 
     private void TriggerBattle()
     {
+        if (string.IsNullOrEmpty(BattleScenePath))
+        {
+            GD.PrintErr($"HostileNPC「{NpcName}」未设置 BattleScenePath");
+            _triggered = false;
+            return;
+        }
+
         if (string.IsNullOrEmpty(BattleRulesPath))
         {
             GD.PrintErr($"HostileNPC「{NpcName}」未设置 BattleRulesPath");

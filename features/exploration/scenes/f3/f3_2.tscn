@@ -30,6 +30,7 @@
 [ext_resource type="Texture2D" uid="uid://r77etffpq6b0" path="res://features/exploration/art_assets/maps/f3/f3-2_ktv开门.png" id="21_ktv_open"]
 [ext_resource type="Texture2D" uid="uid://dl5xn8aj67jar" path="res://features/exploration/art_assets/maps/f3/f3-2_影院开门.png" id="22_cinema_open"]
 [ext_resource type="Resource" uid="uid://ch6r2wcwwemu8" path="res://Resource/item/mvp/spare_battery.tres" id="24_pxa62"]
+[ext_resource type="PackedScene" uid="uid://ds247wkoovs3p" path="res://features/dialogue/npc/电影院录音对话物品_可拖拽版/cinema_recording_item/scenes/cinema_recording_item.tscn" id="29_t5s6e"]
 [ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="30_chest"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 [ext_resource type="Texture2D" uid="uid://dwvii31k3h5f6" path="res://features/exploration/art_assets/maps/f3/f3-3_KTV-箱子.png" id="32_ktv_chest_tex"]
@@ -284,6 +285,9 @@ CamRight = 1740
 position = Vector2(1138, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("5_cinema")
+
+[node name="CinemaRecordingItem" parent="MapLayer/Room_Cinema" unique_id=1542753086 instance=ExtResource("29_t5s6e")]
+position = Vector2(1644, 524)
 
 [node name="出口门" type="Area2D" parent="MapLayer/Room_Cinema" unique_id=1319489287 node_paths=PackedStringArray("Manager", "_blink")]
 position = Vector2(1123, 556)

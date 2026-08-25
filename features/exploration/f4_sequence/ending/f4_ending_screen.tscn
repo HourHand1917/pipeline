@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dtq72grkngb1u"]
 
 [ext_resource type="Script" uid="uid://d27ivl43bvnhv" path="res://features/exploration/f4_sequence/ending/F4EndingScreen.cs" id="1_script"]
+[ext_resource type="AudioStream" uid="uid://bwko1qa5w038w" path="res://tileset/music_resource/OGG/music/Ending.ogg" id="2_eyal4"]
 [ext_resource type="Texture2D" uid="uid://c53xn7qlswwxo" path="res://features/exploration/f4_sequence/ending/assets/pipeline_record_poster.png" id="2_poster"]
 
 [node name="F4EndingScreen" type="Control" unique_id=1708890720 node_paths=PackedStringArray("CreditsLabel", "PosterLayer", "PosterText", "ExitHint")]
@@ -29,6 +30,7 @@ CreditsText = "PIPELINE RECORD：
 
 
 感谢游玩"
+BackgroundMusic = ExtResource("2_eyal4")
 CreditsLabel = NodePath("CreditsClip/ScrollingCredits")
 PosterLayer = NodePath("PosterLayer")
 PosterText = NodePath("PosterLayer/PosterText")

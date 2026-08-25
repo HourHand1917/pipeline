@@ -44,9 +44,14 @@ public partial class F4BossSequence : Area2D
     [Export] public StringName PhaseTwoLeftAnimation { get; set; } = "";
     [Export] public StringName PhaseTwoRightAnimation { get; set; } = "";
     [Export(PropertyHint.Range, "0.05,1,0.05")] public float DialogueMusicVolume { get; set; } = 0.28f;
+    
+    [ExportGroup("Audio")]
+    [Export] public AudioStream EntrySound { get; set; }
+    [Export] public int EntrySoundFrame { get; set; } = 6; // 在第6帧播放进场音效
 
     private bool _sequenceRunning;
     private bool _dialogueFinished;
+    private bool _entrySoundPlayed = false;
 
     public override void _Ready()
     {
@@ -58,6 +63,9 @@ public partial class F4BossSequence : Area2D
             ForcedDialogueNpc.AllowEscapeToExitDialogue = false;
             ForcedDialogueNpc.DialogueFinished += OnForcedDialogueFinished;
         }
+
+        // 连接舞台角色的帧变化信号
+        ConnectStageActorSignals();
 
         bool phaseOneDone = IsDefeated(PhaseOnePersistenceId);
         bool phaseTwoDone = IsDefeated(PhaseTwoPersistenceId);
@@ -73,7 +81,60 @@ public partial class F4BossSequence : Area2D
     {
         if (ForcedDialogueNpc != null && GodotObject.IsInstanceValid(ForcedDialogueNpc))
             ForcedDialogueNpc.DialogueFinished -= OnForcedDialogueFinished;
+        
+        DisconnectStageActorSignals();
         base._ExitTree();
+    }
+
+    /// <summary>
+    /// 连接舞台角色的帧变化信号，用于在特定帧播放音效
+    /// </summary>
+    private void ConnectStageActorSignals()
+    {
+        if (LeftStageActor != null)
+        {
+            LeftStageActor.FrameChanged += OnStageActorFrameChanged;
+        }
+        if (RightStageActor != null)
+        {
+            RightStageActor.FrameChanged += OnStageActorFrameChanged;
+        }
+    }
+
+    private void DisconnectStageActorSignals()
+    {
+        if (LeftStageActor != null && GodotObject.IsInstanceValid(LeftStageActor))
+        {
+            LeftStageActor.FrameChanged -= OnStageActorFrameChanged;
+        }
+        if (RightStageActor != null && GodotObject.IsInstanceValid(RightStageActor))
+        {
+            RightStageActor.FrameChanged -= OnStageActorFrameChanged;
+        }
+    }
+
+    /// <summary>
+    /// 当舞台角色动画播放到指定帧时，播放进场音效
+    /// </summary>
+    private void OnStageActorFrameChanged()
+    {
+        if (_entrySoundPlayed) return;
+        if (EntrySound == null) return;
+        
+        // 检查是否任一舞台角色到达指定帧
+        bool leftAtFrame = LeftStageActor != null && 
+                          LeftStageActor.Visible && 
+                          LeftStageActor.Frame == EntrySoundFrame;
+        bool rightAtFrame = RightStageActor != null && 
+                           RightStageActor.Visible && 
+                           RightStageActor.Frame == EntrySoundFrame;
+        
+        if (leftAtFrame || rightAtFrame)
+        {
+            _entrySoundPlayed = true;
+            var audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
+            audio?.PlaySfx(EntrySound);
+        }
     }
 
     private void OnBodyEntered(Node2D body)
@@ -86,6 +147,7 @@ public partial class F4BossSequence : Area2D
     {
         if (_sequenceRunning) return;
         _sequenceRunning = true;
+        _entrySoundPlayed = false; // 重置音效播放标记
         SetDeferred("monitoring", false);
         (Player ?? PlayerController.Instance)?.LockMovement();
 
@@ -99,6 +161,7 @@ public partial class F4BossSequence : Area2D
     {
         if (_sequenceRunning || IsDefeated(PhaseTwoPersistenceId)) return;
         _sequenceRunning = true;
+        _entrySoundPlayed = false; // 重置音效播放标记
         Monitoring = false;
         Player ??= PlayerController.Instance;
         Player?.LockMovement();
