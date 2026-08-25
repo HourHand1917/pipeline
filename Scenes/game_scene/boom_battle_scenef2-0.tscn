@@ -28,6 +28,9 @@ script = ExtResource("4_pui47")
 offset_right = 1440.0
 offset_bottom = 1080.0
 
-[node name="BattleAnimationDisplay" parent="." instance=ExtResource("6_7v0j6")]
+[node name="BattleAnimationDisplay" parent="." unique_id=1891532225 instance=ExtResource("6_7v0j6")]
+TrackOffset = Vector2(0, -50)
+PlayerScaleMultiplier = 2.1
+EnemyScaleMultiplier = 2.1
 
-[node name="BoomBattleTutorial" parent="." instance=ExtResource("7_e6mhu")]
+[node name="BoomBattleTutorial" parent="." unique_id=420831921 instance=ExtResource("7_e6mhu")]

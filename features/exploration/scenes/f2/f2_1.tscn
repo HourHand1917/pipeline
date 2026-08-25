@@ -147,9 +147,8 @@ collision_mask = 0
 [node name="ClickShape" type="CollisionShape2D" parent="MapLayer/Boom/ClickZone" unique_id=371300053]
 shape = SubResource("CircleShape2D_boom_click")
 
-[node name="Blink" type="Node" parent="MapLayer/Boom" unique_id=259102060 node_paths=PackedStringArray("_sprite", "_clickZone")]
+[node name="Blink" type="Node" parent="MapLayer/Boom" unique_id=259102060 node_paths=PackedStringArray("_clickZone")]
 script = ExtResource("32_blink")
-_sprite = NodePath("")
 _clickZone = NodePath("../ClickZone")
 
 [node name="ReturnSpawn" type="Node2D" parent="MapLayer/Boom" unique_id=47125793]

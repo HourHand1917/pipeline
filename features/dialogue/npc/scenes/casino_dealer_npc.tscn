@@ -4,7 +4,7 @@
 [ext_resource type="Resource" path="res://features/dialogue/npc/characters/荷官.dch" id="2_dealer"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
-[ext_resource type="Texture2D" path="res://icon.svg" id="5_placeholder"]
+[ext_resource type="Script" path="res://features/dialogue/npc/animations/npc_frame_animation.gd" id="5_animation"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
@@ -30,11 +30,11 @@ DisplayName = "荷官（无人赌场对话）"
 PersistenceId = "casino_dealer_dialogue"
 _blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-modulate = Color(0.42, 0.76, 0.82, 1)
-position = Vector2(0, -62)
-scale = Vector2(0.54, 0.54)
-texture = ExtResource("5_placeholder")
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -98)
+scale = Vector2(0.25, 0.25)
+script = ExtResource("5_animation")
+frames_directory = "res://features/dialogue/npc/animations/frames/richard"
 
 [node name="DetectionRange" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleDetection")

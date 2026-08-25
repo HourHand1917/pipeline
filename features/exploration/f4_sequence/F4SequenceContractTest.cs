@@ -30,12 +30,11 @@ public partial class F4SequenceContractTest : Node
             Check(sequence.LeftStageActor.SpriteFrames.HasAnimation("enter_left")
                 && sequence.RightStageActor.SpriteFrames.HasAnimation("enter_right"),
                 "phase-one hand-entry animations remain a safe fallback");
-            Check(sequence.PhaseOneIntroVideo?.Stream != null,
-                "phase one uses the subtitle-free authored intro video");
-            Check(sequence.PhaseOneIntroVideo.Material is ShaderMaterial,
-                "phase-one movie uses the non-destructive transparency shader");
-            Check(sequence.HideDuringPhaseOneIntro.Count >= 2,
-                "phase-one movie temporarily hides the player and exploration HUD");
+            Check(sequence.SequenceAnimationPlayer != null
+                && sequence.SequenceAnimationPlayer.HasAnimation("phase_one_intro")
+                && sequence.SequenceAnimationPlayer.HasAnimation("phase_one_defeat")
+                && sequence.SequenceAnimationPlayer.HasAnimation("phase_two_defeat"),
+                "phase intro/defeat animations are driven by the authored AnimationPlayer");
             Check(sequence.PhaseOneDefeatTimeline == null,
                 "phase-one defeat dialogue is an empty, non-blocking Inspector hook");
             Check(sequence.PhaseTwoDefeatTimeline != null

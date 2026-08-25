@@ -11,6 +11,14 @@ public partial class EnemyMessage : PanelContainer
     [Export] private GridContainer buffGrid;
     [Export] private Label infoLabel;
     [Export] private Label intentLabel;
+    [Export] private TextureRect enemyIcon;
+
+    [ExportGroup("敌人头像")]
+    [Export] private Texture2D boomPortrait;
+    [Export] private Texture2D rockyPortrait;
+    [Export] private Texture2D sharkkPortrait;
+    [Export] private Texture2D coreHandPortrait;
+    [Export] private Texture2D coreBodyPortrait;
 
     private EnemyBattle _trackedEnemy;
     private string _currentActionName = "";
@@ -24,6 +32,7 @@ public partial class EnemyMessage : PanelContainer
         intentLabel?.AddThemeConstantOverride("outline_size", 5);
         if (healthBar != null) healthBar.TintProgress = new Color("#e35b56");
         if (shieldBar != null) shieldBar.TintProgress = new Color("#63d7e4");
+        if (enemyIcon != null) enemyIcon.Visible = false;
     }
 
     public void TrackEnemy(EnemyBattle enemy, string actionName = "")
@@ -31,15 +40,14 @@ public partial class EnemyMessage : PanelContainer
         if (_trackedEnemy == enemy)
         {
             UpdateActionName(actionName);
+            RefreshPortrait();
             return;
         }
         StopTracking();
-
         if (enemy == null) return;
 
         _trackedEnemy = enemy;
         _currentActionName = actionName;
-
         _trackedEnemy.HealthChanged += OnHealthChanged;
         _trackedEnemy.ShieldChanged += OnShieldChanged;
         _trackedEnemy.IntentChanged += OnIntentChanged;
@@ -48,19 +56,18 @@ public partial class EnemyMessage : PanelContainer
         if (_trackedEnemy.PlannedAction != null)
             ApplyPlannedAction(_trackedEnemy.PlannedAction, string.IsNullOrWhiteSpace(actionName));
 
+        RefreshPortrait();
         RefreshAll();
     }
 
     public void StopTracking()
     {
         if (_trackedEnemy == null) return;
-
         _trackedEnemy.HealthChanged -= OnHealthChanged;
         _trackedEnemy.ShieldChanged -= OnShieldChanged;
         _trackedEnemy.IntentChanged -= OnIntentChanged;
         _trackedEnemy.Died -= OnDied;
         _trackedEnemy = null;
-
         ClearDisplay();
     }
 
@@ -83,15 +90,12 @@ public partial class EnemyMessage : PanelContainer
     private void RefreshAll()
     {
         if (_trackedEnemy == null) return;
-
         healthBar.MaxValue = _trackedEnemy.MaxHp;
         healthBar.Value = _trackedEnemy.CurrentHp;
         healthLabel.Text = $"{_trackedEnemy.CurrentHp} / {_trackedEnemy.MaxHp}";
-
         shieldBar.MaxValue = _trackedEnemy.MaxHp;
         shieldBar.Value = _trackedEnemy.Shield;
         shieldLabel.Text = $"{_trackedEnemy.Shield}";
-
         RefreshInfoLabel();
         RefreshIntentLabel();
         RefreshBuffGrid();
@@ -100,18 +104,15 @@ public partial class EnemyMessage : PanelContainer
     private void RefreshInfoLabel()
     {
         if (_trackedEnemy == null) return;
-        string actionText = string.IsNullOrEmpty(_currentActionName)
-            ? ""
-            : $" | 行动：{_currentActionName}";
+        string actionText = string.IsNullOrEmpty(_currentActionName) ? "" : $" | 行动：{_currentActionName}";
         infoLabel.Text = $"{_trackedEnemy.DisplayName}{actionText}";
     }
 
     private void RefreshIntentLabel()
     {
         if (intentLabel == null || _trackedEnemy == null) return;
-
         intentLabel.Text = string.IsNullOrWhiteSpace(_currentIntentText)
-            ? "◇ 意图：等待 / 调整位置"
+            ? "● 意图：等待 / 调整位置"
             : $"⚠ 下回合：{_currentIntentText}";
     }
 
@@ -143,17 +144,14 @@ public partial class EnemyMessage : PanelContainer
             _currentIntentText = "尚未锁定攻击区域";
             return;
         }
-        if (updateName)
-            _currentActionName = action.Get("display_name").AsString();
+        if (updateName) _currentActionName = action.Get("display_name").AsString();
         _currentIntentText = action.Get("intent_text").AsString();
-        if (string.IsNullOrWhiteSpace(_currentIntentText))
-            _currentIntentText = _currentActionName;
+        if (string.IsNullOrWhiteSpace(_currentIntentText)) _currentIntentText = _currentActionName;
     }
 
     private void OnDied()
     {
         if (_trackedEnemy == null) return;
-
         healthBar.Value = 0;
         healthLabel.Text = $"0 / {_trackedEnemy.MaxHp}";
         infoLabel.Text = $"{_trackedEnemy.DisplayName} 已倒下";
@@ -163,13 +161,9 @@ public partial class EnemyMessage : PanelContainer
     private void RefreshBuffGrid()
     {
         if (buffGrid == null || _trackedEnemy == null) return;
-
-        foreach (Node child in buffGrid.GetChildren())
-            child.QueueFree();
-
+        foreach (Node child in buffGrid.GetChildren()) child.QueueFree();
         var stats = _trackedEnemy.GetStats();
         if (stats == null) return;
-
         var buffs = stats.Get("buffs").As<Array>();
         foreach (var bi in buffs)
         {
@@ -177,9 +171,7 @@ public partial class EnemyMessage : PanelContainer
             var instance = bi.As<GodotObject>();
             var buff = instance.Get("buff").As<GodotObject>();
             int stacks = instance.Get("stacks").AsInt32();
-
-            var label = new Label();
-            label.Text = $"{buff.Get("buff_name")} ×{stacks}";
+            var label = new Label { Text = $"{buff.Get("buff_name")} ×{stacks}" };
             buffGrid.AddChild(label);
         }
     }
@@ -194,21 +186,39 @@ public partial class EnemyMessage : PanelContainer
         shieldLabel.Text = "--";
         infoLabel.Text = "";
         if (intentLabel != null) intentLabel.Text = "";
-
-        if (buffGrid != null)
+        if (enemyIcon != null)
         {
-            foreach (Node child in buffGrid.GetChildren())
-                child.QueueFree();
+            enemyIcon.Texture = null;
+            enemyIcon.Visible = false;
+            enemyIcon.Set("flip_h", false);
         }
+        if (buffGrid != null)
+            foreach (Node child in buffGrid.GetChildren()) child.QueueFree();
     }
 
-    public EnemyBattle GetTrackedEnemy()
+    private void RefreshPortrait()
     {
-        return _trackedEnemy;
+        if (enemyIcon == null || _trackedEnemy == null) return;
+        string enemyId = (_trackedEnemy.EnemyId ?? "").ToLowerInvariant();
+        string role = _trackedEnemy.Role.ToString().ToLowerInvariant();
+        Texture2D portrait = null;
+        bool mirror = false;
+
+        if (role is "true_hand" or "false_hand")
+        {
+            portrait = coreHandPortrait;
+            mirror = role == "false_hand";
+        }
+        else if (role == "body" || enemyId.Contains("core")) portrait = coreBodyPortrait;
+        else if (enemyId.Contains("shark")) portrait = sharkkPortrait;
+        else if (enemyId.Contains("rocky")) portrait = rockyPortrait;
+        else if (enemyId.Contains("boom")) portrait = boomPortrait;
+
+        enemyIcon.Texture = portrait;
+        enemyIcon.Set("flip_h", mirror);
+        enemyIcon.Visible = portrait != null;
     }
 
-    public void RefreshBuffGridPublic()
-    {
-        RefreshBuffGrid();
-    }
+    public EnemyBattle GetTrackedEnemy() => _trackedEnemy;
+    public void RefreshBuffGridPublic() => RefreshBuffGrid();
 }

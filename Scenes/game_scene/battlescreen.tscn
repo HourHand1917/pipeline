@@ -85,6 +85,7 @@ playerBuffGrid = NodePath("buffgrid_player")
 buffShowScene = ExtResource("5_vn3ql")
 
 [node name="LogLabel" type="RichTextLabel" parent="." unique_id=1848335453]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.33240741
@@ -95,6 +96,7 @@ offset_bottom = -0.2800293
 metadata/_edit_use_anchors_ = true
 
 [node name="statuslabel" type="Label" parent="." unique_id=1658931596]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.2755
@@ -143,6 +145,7 @@ animation = &"idel"
 autoplay = "idel"
 
 [node name="buffgrid_player" type="GridContainer" parent="." unique_id=137671753]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.135
@@ -157,6 +160,7 @@ columns = 5
 metadata/_edit_use_anchors_ = true
 
 [node name="infobar" type="HBoxContainer" parent="." unique_id=54570403]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.013694446
@@ -191,6 +195,7 @@ theme_override_font_sizes/font_size = 24
 text = "玩家0.怪物0，距离0格"
 
 [node name="stagepanel" type="PanelContainer" parent="." unique_id=1224801427]
+modulate = Color(1, 1, 1, 0.70980394)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.0032777786
@@ -204,6 +209,7 @@ mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="margin" type="MarginContainer" parent="stagepanel" unique_id=1286502687]
+self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_constants/margin_left = 8
 theme_override_constants/margin_top = 8
@@ -215,6 +221,7 @@ layout_mode = 2
 mouse_filter = 2
 
 [node name="distanceheader" type="HBoxContainer" parent="stagepanel/margin/stageVbox" unique_id=881479664]
+visible = false
 layout_mode = 2
 mouse_filter = 2
 

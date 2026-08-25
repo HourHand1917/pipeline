@@ -16,17 +16,569 @@
 [ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="7_s2o3l"]
 [ext_resource type="Texture2D" uid="uid://xrl05raxumce" path="res://features/exploration/art_assets/maps/f4/boss关-二层台子.png" id="7_ys00k"]
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_23vsp"]
-[ext_resource type="Texture2D" uid="uid://chvpdubxhq7jo" path="res://features/exploration/art_assets/maps/f4/boss关-闸门.png" id="8_ys00k"]
-[ext_resource type="Texture2D" uid="uid://cmt6av1fadaq1" path="res://features/exploration/art_assets/battlescreen/已点亮.png" id="9_syxpf"]
-[ext_resource type="Texture2D" uid="uid://dfnk2jvo05uf7" path="res://features/exploration/art_assets/maps/f4/boss关-闸门光屏.png" id="9_ufvg2"]
-[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="10_0cwr6"]
+[ext_resource type="Texture2D" uid="uid://chvpdubxhq7jo" path="res://features/exploration/art_assets/maps/f4/boss关-闸门.png" id="9_aieww"]
+[ext_resource type="Texture2D" uid="uid://dfnk2jvo05uf7" path="res://features/exploration/art_assets/maps/f4/boss关-闸门光屏.png" id="8_5yguj"]
+[ext_resource type="Resource" uid="uid://dnhabfb4ffvb" path="res://features/dialogue/npc/timelines/Code_00战前.dtl" id="15_jt1ph"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Texture2D" uid="uid://cukcmlfcv7y3i" path="res://anime_assets/frames/core_body/idle/0001_0.png" id="21_s36w2"]
+[ext_resource type="Script" uid="uid://1jf7yl3ggq5p" path="res://features/exploration/f4_sequence/F4BossSequence.cs" id="21_sequence"]
+[ext_resource type="SpriteFrames" uid="uid://dvirqqalwpq6o" path="res://anime/generated/core_hand_frames.tres" id="22_core_frames"]
+[ext_resource type="Texture2D" uid="uid://cqg6yyf66uy54" path="res://anime_assets/frames/core_body/idle/0002_4.png" id="22_jvq5h"]
+[ext_resource type="PackedScene" uid="uid://bycc0p1wq7qx8" path="res://features/dialogue/npc/scenes/core00_phase_one_enemy_npc.tscn" id="23_code_dialogue"]
+[ext_resource type="Texture2D" uid="uid://cwxvijmc6v47s" path="res://anime_assets/frames/core_body/idle/0003_4.png" id="23_pf8b1"]
+[ext_resource type="Texture2D" uid="uid://dfm6b5sln2ved" path="res://anime_assets/frames/core_body/idle/0004_4.png" id="24_c2mop"]
+[ext_resource type="Texture2D" uid="uid://bba8o7kthcb6v" path="res://anime_assets/frames/core_body/idle/0005_4.png" id="25_jswha"]
+[ext_resource type="Resource" uid="uid://1djur813uo1y" path="res://features/dialogue/npc/timelines/Code_00战后.dtl" id="26_core_outro"]
+[ext_resource type="Texture2D" uid="uid://do16vewfla15c" path="res://anime_assets/frames/core_body/idle/0006_4.png" id="26_u7k1p"]
+[ext_resource type="Texture2D" uid="uid://gpg4vf1p8gx1" path="res://anime_assets/frames/core_body/idle/0007_5.png" id="27_htu76"]
+[ext_resource type="Texture2D" uid="uid://b3g4qea3oq5jj" path="res://anime_assets/frames/core_body/idle/0008_4.png" id="28_uwvo5"]
+[ext_resource type="Texture2D" uid="uid://cug4b7wckfgw7" path="res://anime_assets/frames/core_body/idle/0009_4.png" id="29_kf8ld"]
+[ext_resource type="Texture2D" uid="uid://bg7b56is7f6ue" path="res://anime_assets/frames/core_body/idle/0010_4.png" id="30_k63x2"]
+[ext_resource type="Texture2D" uid="uid://dii1wew5rafsj" path="res://anime_assets/frames/core_body/idle/0011_4.png" id="31_lu8mk"]
+[ext_resource type="Texture2D" uid="uid://7af366m3f3qd" path="res://anime_assets/frames/core_body/idle/0012_4.png" id="32_fv50c"]
+[ext_resource type="Texture2D" uid="uid://bacx0c6jjrrem" path="res://anime_assets/frames/core_body/idle/0013_5.png" id="33_1d443"]
+[ext_resource type="Texture2D" uid="uid://5yqiudqfo61a" path="res://anime_assets/frames/core_body/idle/0014_4.png" id="34_01lfq"]
+[ext_resource type="Texture2D" uid="uid://8oph1vjn0n1n" path="res://anime_assets/frames/core_body/idle/0015_4.png" id="35_s60u7"]
+[ext_resource type="Script" uid="uid://ctesi3odr6l4g" path="res://features/exploration/f4_sequence/StageActor.cs" id="35_stage_actor"]
+[ext_resource type="Texture2D" uid="uid://bi4s1bh7kc2x7" path="res://anime_assets/frames/core_body/idle/0016_4.png" id="36_rekro"]
+[ext_resource type="Texture2D" uid="uid://8vhkxt5rngab" path="res://anime_assets/frames/core_body/idle/0017_4.png" id="37_ripjy"]
+[ext_resource type="Texture2D" uid="uid://gy8bt6qn7mmf" path="res://anime_assets/frames/core_body/idle/0018_4.png" id="38_ya0ha"]
+[ext_resource type="Texture2D" uid="uid://2n48wlqkxoav" path="res://anime_assets/frames/core_body/idle/0019_5.png" id="39_1o0cf"]
+[ext_resource type="Texture2D" uid="uid://yu1bh46721wv" path="res://anime_assets/frames/core_body/idle/0020_4.png" id="40_y3i8h"]
+[ext_resource type="Texture2D" uid="uid://drwhws7ii53iu" path="res://anime_assets/frames/core_body/idle/0021_4.png" id="41_rpjy7"]
+[ext_resource type="Texture2D" uid="uid://b2j48afkv6owm" path="res://anime_assets/frames/core_body/idle/0022_4.png" id="42_20uv5"]
+[ext_resource type="Texture2D" uid="uid://cij5d7gvhh6ip" path="res://anime_assets/frames/core_body/idle/0023_4.png" id="43_s5s6c"]
+[ext_resource type="Texture2D" uid="uid://c6gyjs418y1l6" path="res://anime_assets/frames/core_body/idle/0024_4.png" id="44_cni67"]
+[ext_resource type="Texture2D" uid="uid://cld2giawi3hlq" path="res://anime_assets/frames/core_body/idle/0025_5.png" id="45_1attu"]
+[ext_resource type="Texture2D" uid="uid://cv1hh6cieodbw" path="res://anime_assets/frames/core_body/idle/0026_4.png" id="46_g4his"]
+[ext_resource type="Texture2D" uid="uid://roeked2c41yi" path="res://anime_assets/frames/core_body/idle/0027_4.png" id="47_om3b8"]
+[ext_resource type="Texture2D" uid="uid://ddbkhtus4hwaq" path="res://anime_assets/frames/core_body/idle/0028_4.png" id="48_qpjhh"]
+[ext_resource type="Texture2D" uid="uid://dhqchfd5iu6j1" path="res://anime_assets/frames/core_body/idle/0029_4.png" id="49_kq5hd"]
+[ext_resource type="Texture2D" uid="uid://bcveskqfps80j" path="res://anime_assets/frames/core_body/idle/0030_4.png" id="50_wkelb"]
+[ext_resource type="Texture2D" uid="uid://c1kicr76ssjm3" path="res://anime_assets/frames/core_body/idle/0031_5.png" id="51_xt748"]
+[ext_resource type="Texture2D" uid="uid://cnqhd0745227i" path="res://anime_assets/frames/core_body/idle/0032_4.png" id="52_e0gxu"]
+[ext_resource type="Texture2D" uid="uid://c6hxxfmqp6u56" path="res://anime_assets/frames/core_body/idle/0033_4.png" id="53_ji100"]
+[ext_resource type="Texture2D" uid="uid://l2lulrrobpbh" path="res://anime_assets/frames/core_body/idle/0034_4.png" id="54_28opo"]
+[ext_resource type="Texture2D" uid="uid://bwpmjmw118xwt" path="res://anime_assets/frames/core_body/idle/0035_4.png" id="55_erw65"]
+[ext_resource type="Texture2D" uid="uid://kqmpftymgqiu" path="res://anime_assets/frames/core_body/idle/0036_4.png" id="56_so6qe"]
+[ext_resource type="Texture2D" uid="uid://dv6ltoetjxot6" path="res://anime_assets/frames/core_body/idle/0037_5.png" id="57_g24l5"]
+[ext_resource type="Texture2D" uid="uid://bhnl732f3sukt" path="res://anime_assets/frames/core_body/idle/0038_4.png" id="58_egaj0"]
+[ext_resource type="Texture2D" uid="uid://bjjvuuq5qacyw" path="res://anime_assets/frames/core_body/idle/0039_4.png" id="59_hpbxw"]
+[ext_resource type="Texture2D" uid="uid://bgs3ixtuymu3m" path="res://anime_assets/frames/core_body/idle/0040_4.png" id="60_8ja7b"]
+[ext_resource type="Texture2D" uid="uid://csy46xu5ljotw" path="res://anime_assets/frames/core_body/idle/0041_4.png" id="61_n5reg"]
+[ext_resource type="Texture2D" uid="uid://375mf354frdm" path="res://anime_assets/frames/core_body/idle/0042_4.png" id="62_fr1gv"]
+[ext_resource type="Texture2D" uid="uid://ntc6oamm3ory" path="res://anime_assets/frames/core_body/idle/0043_5.png" id="63_h7w5d"]
+[ext_resource type="Texture2D" uid="uid://c8bqupoijklet" path="res://anime_assets/frames/core_body/idle/0044_4.png" id="64_by6ap"]
+[ext_resource type="Texture2D" uid="uid://bllar2i7de08f" path="res://anime_assets/frames/core_body/idle/0045_4.png" id="65_bfpg2"]
+[ext_resource type="Texture2D" uid="uid://68bwdgt5mx0t" path="res://anime_assets/frames/core_body/idle/0046_4.png" id="66_poq87"]
+[ext_resource type="Texture2D" uid="uid://cv8wkomohb6r7" path="res://anime_assets/frames/core_body/idle/0047_4.png" id="67_mvamy"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ml8fk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("21_s36w2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_jvq5h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_pf8b1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_c2mop")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_jswha")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_u7k1p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_htu76")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_uwvo5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_kf8ld")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_k63x2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_lu8mk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_fv50c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_1d443")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_01lfq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_s60u7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_rekro")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_ripjy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_ya0ha")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_1o0cf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_y3i8h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_rpjy7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_20uv5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_s5s6c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_cni67")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_1attu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_g4his")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_om3b8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("48_qpjhh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("49_kq5hd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("50_wkelb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("51_xt748")
+}, {
+"duration": 1.0,
+"texture": ExtResource("52_e0gxu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("53_ji100")
+}, {
+"duration": 1.0,
+"texture": ExtResource("54_28opo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("55_erw65")
+}, {
+"duration": 1.0,
+"texture": ExtResource("56_so6qe")
+}, {
+"duration": 1.0,
+"texture": ExtResource("57_g24l5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("58_egaj0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("59_hpbxw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("60_8ja7b")
+}, {
+"duration": 1.0,
+"texture": ExtResource("61_n5reg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("62_fr1gv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("63_h7w5d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("64_by6ap")
+}, {
+"duration": 1.0,
+"texture": ExtResource("65_bfpg2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("66_poq87")
+}, {
+"duration": 1.0,
+"texture": ExtResource("67_mvamy")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 30.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nqeu"]
 radius = 120.0
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_3ux7p"]
-radius = 48.0
+[sub_resource type="Animation" id="Animation_qcdcr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftStageActor:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RightStageActor:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../MapLayer/Boss关闸门光屏:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3200, 906)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("../MapLayer/Boss关闸门:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3200, 920)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../MapLayer/Boss关二层台子:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3200, 450)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../MapLayer/Core00:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3243, 152)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../MapLayer/Boss关一层台子:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(3200, 450)]
+}
+
+[sub_resource type="Animation" id="Animation_phase_one_defeat"]
+resource_name = "phase_one_defeat"
+length = 7.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftStageActor:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RightStageActor:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeftStageActor")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"death", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/3/type = "method"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RightStageActor")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.2),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [&"death", 1.0, false],
+"method": &"play"
+}]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("LeftStageActor:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(3.1, 3.2666667),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("RightStageActor:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(3.233333, 3.4),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../MapLayer/Boss关闸门光屏:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 1.7666665, 2.4666665),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5),
+"update": 0,
+"values": [Vector2(3200, 450), Vector2(3200, 450), Vector2(3200, 906)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../MapLayer/Boss关闸门:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2.0666666, 3.0333333),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5),
+"update": 0,
+"values": [Vector2(3200, 450), Vector2(3200, 450), Vector2(3200, 920)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../MapLayer/Boss关二层台子:position")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(2.9333332, 4.233333, 5.466666),
+"transitions": PackedFloat32Array(0.5, 0.5, 1),
+"update": 0,
+"values": [Vector2(3200, 450), Vector2(3200, 680), Vector2(3200, 895)]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../MapLayer/Core00:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(2.9333332, 4.233333, 4.966666, 6.3999996),
+"transitions": PackedFloat32Array(0.5, 0.5, 0.5, 0.5),
+"update": 0,
+"values": [Vector2(3243, 152), Vector2(3243, 382), Vector2(3243, 382), Vector2(3243, 536)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("../MapLayer/Boss关一层台子:position")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(4.966666, 6.3999996),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(3200, 450), Vector2(3200, 604)]
+}
+
+[sub_resource type="Animation" id="Animation_phase_one_intro"]
+resource_name = "phase_one_intro"
+length = 2.7
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("LeftStageActor")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.6666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["enter_right", "idle_1"],
+"method": &"PlayEnterThenIdle"
+}]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RightStageActor")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.4666667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": ["enter_right", "idle_2"],
+"method": &"PlayEnterThenIdle"
+}]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("LeftStageActor:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0.6666667, 0.90000004),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("RightStageActor:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0.4666667, 0.73333335),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../MapLayer/Boss关闸门光屏:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(1.2, 2),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(3200, 906), Vector2(3200, 450)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../MapLayer/Boss关闸门:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.9),
+"transitions": PackedFloat32Array(0.5, 0.5),
+"update": 0,
+"values": [Vector2(3200, 920), Vector2(3200, 450)]
+}
+
+[sub_resource type="Animation" id="Animation_phase_two_defeat"]
+resource_name = "phase_two_defeat"
+length = 0.33333334
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../MapLayer/Core00:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../MapLayer/Boss关二层台子:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../MapLayer/Boss关一层台子:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f4_sequence"]
+_data = {
+&"RESET": SubResource("Animation_qcdcr"),
+&"phase_one_defeat": SubResource("Animation_phase_one_defeat"),
+&"phase_one_intro": SubResource("Animation_phase_one_intro"),
+&"phase_two_defeat": SubResource("Animation_phase_two_defeat")
+}
 
 [node name="ExplorationMap" type="Node2D" unique_id=24797590 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
@@ -42,16 +594,11 @@ CamLeft = 0
 CamRight = 6400
 
 [node name="f4entry" type="Node2D" parent="." unique_id=1651295935]
-position = Vector2(150, 530)
+position = Vector2(150, 536)
 script = ExtResource("2_spawn")
 SpawnId = &"f4entry"
 
 [node name="MapLayer" type="Node2D" parent="." unique_id=1878379614]
-
-[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=940365319]
-position = Vector2(2826, 1423)
-scale = Vector2(3.9522896, 1)
-texture = ExtResource("20_floor")
 
 [node name="boss关背景" type="Sprite2D" parent="MapLayer" unique_id=1704790957]
 position = Vector2(3200, 450)
@@ -68,26 +615,36 @@ position = Vector2(3200, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_3ux7p")
 
-[node name="Boss关闸门光屏" type="Sprite2D" parent="MapLayer" unique_id=228501630]
-z_index = 1
-position = Vector2(3200, 450)
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("9_ufvg2")
-
-[node name="Boss关闸门" type="Sprite2D" parent="MapLayer" unique_id=859376871]
-z_index = 1
-position = Vector2(3200, 450)
-scale = Vector2(0.8, 0.8)
-texture = ExtResource("8_ys00k")
-
-[node name="Boss关前景柱子" type="Sprite2D" parent="MapLayer" unique_id=937141474]
+[node name="Boss关前景柱子" type="Sprite2D" parent="MapLayer" unique_id=228501630]
 z_index = 1
 position = Vector2(3200, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("6_0cwr6")
 
+[node name="Boss关闸门光屏" type="Sprite2D" parent="MapLayer" unique_id=104517889]
+position = Vector2(3200, 906)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("8_5yguj")
+
+[node name="Boss关闸门" type="Sprite2D" parent="MapLayer" unique_id=1819631209]
+position = Vector2(3200, 920)
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("9_aieww")
+
+[node name="Core00" type="AnimatedSprite2D" parent="MapLayer" unique_id=791754593]
+position = Vector2(3243, 152)
+scale = Vector2(1.145, 1.145)
+sprite_frames = SubResource("SpriteFrames_ml8fk")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=166224864]
+position = Vector2(3231, 1262)
+scale = Vector2(3.3804762, 1)
+texture = ExtResource("20_floor")
+
 [node name="Player" parent="." unique_id=1793969317 instance=ExtResource("5_player")]
-position = Vector2(3200, 530)
+position = Vector2(150, 536)
 
 [node name="InputRouter" type="Node" parent="." unique_id=1123736394]
 script = ExtResource("6_input")
@@ -96,39 +653,58 @@ script = ExtResource("6_input")
 
 [node name="HUD" parent="UILayer" unique_id=1501444498 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658
+metadata/_edit_use_anchors_ = true
 
-[node name="Boom" type="Area2D" parent="." unique_id=654666680 node_paths=PackedStringArray("_blink")]
-position = Vector2(3596, 438)
-script = ExtResource("7_s2o3l")
-BattleScenePath = "res://Scenes/game_scene/boom_battle_scene.tscn"
-BattleRulesPath = "res://features/enemy_ai_node/rules/core00_phase_one_rules.tres"
-ReturnSpawnId = &"sharrk"
-AggroRadius = 100.0
+[node name="f4_core_return" type="Node2D" parent="." unique_id=54485622]
+position = Vector2(2959, 536)
+script = ExtResource("2_spawn")
+SpawnId = &"f4_core_return"
+
+[node name="Core00Encounter" type="Area2D" parent="." unique_id=1777239929 node_paths=PackedStringArray("Player", "LeftStageActor", "RightStageActor", "ForcedDialogueNpc", "SequenceAnimationPlayer")]
+position = Vector2(3203, 544)
+collision_layer = 0
+script = ExtResource("21_sequence")
+Player = NodePath("../Player")
+LeftStageActor = NodePath("LeftStageActor")
+RightStageActor = NodePath("RightStageActor")
+ForcedDialogueNpc = NodePath("Code00Dialogue")
+SequenceAnimationPlayer = NodePath("SequenceAnimationPlayer")
+PhaseOneDefeatTimeline = ExtResource("15_jt1ph")
+PhaseTwoDefeatTimeline = ExtResource("26_core_outro")
 BattleMusic = ExtResource("8_23vsp")
-NpcName = "Boom"
-PersistenceId = "enemy_boom_f1_1"
-_blink = NodePath("Blink")
 
-[node name="Sprite" type="Sprite2D" parent="Boom" unique_id=1814432796]
-modulate = Color(0.92, 0.37, 0.25, 1)
-texture = ExtResource("9_syxpf")
-
-[node name="DetectionRange" type="CollisionShape2D" parent="Boom" unique_id=410469157]
+[node name="Trigger" type="CollisionShape2D" parent="Core00Encounter" unique_id=132499518]
+position = Vector2(121, 0)
 shape = SubResource("CircleShape2D_2nqeu")
 
-[node name="ClickZone" type="Area2D" parent="Boom" unique_id=2072368548]
-collision_layer = 2
-collision_mask = 0
+[node name="LeftStageActor" type="AnimatedSprite2D" parent="Core00Encounter" unique_id=721086814]
+modulate = Color(1, 1, 1, 0)
+z_index = 1
+position = Vector2(-463, -19)
+scale = Vector2(1.3, 1.3)
+sprite_frames = ExtResource("22_core_frames")
+animation = &"death"
+frame = 80
+frame_progress = 1.0
+flip_h = true
+script = ExtResource("35_stage_actor")
 
-[node name="ClickShape" type="CollisionShape2D" parent="Boom/ClickZone" unique_id=315292968]
-shape = SubResource("CircleShape2D_3ux7p")
+[node name="RightStageActor" type="AnimatedSprite2D" parent="Core00Encounter" unique_id=2033252248]
+modulate = Color(1, 1, 1, 0)
+z_index = 1
+position = Vector2(454, -20)
+scale = Vector2(1.3, 1.3)
+sprite_frames = ExtResource("22_core_frames")
+animation = &"death"
+frame = 80
+frame_progress = 1.0
+script = ExtResource("35_stage_actor")
 
-[node name="Blink" type="Node" parent="Boom" unique_id=22375298 node_paths=PackedStringArray("_sprite", "_clickZone")]
-script = ExtResource("10_0cwr6")
-_sprite = NodePath("../Sprite")
-_clickZone = NodePath("../ClickZone")
+[node name="Code00Dialogue" parent="Core00Encounter" unique_id=1205495424 instance=ExtResource("23_code_dialogue")]
+position = Vector2(4, -2)
+AutoTriggerByRange = false
+AutoStartBattleAfterDialogue = false
+AllowEscapeToExitDialogue = false
 
-[node name="ReturnSpawn" type="Node2D" parent="Boom" unique_id=218581825]
-position = Vector2(-9, 12)
-script = ExtResource("2_spawn")
-SpawnId = &"boom_return"
+[node name="SequenceAnimationPlayer" type="AnimationPlayer" parent="Core00Encounter" unique_id=1945808337]
+libraries/ = SubResource("AnimationLibrary_f4_sequence")

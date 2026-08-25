@@ -7,7 +7,6 @@
 [ext_resource type="Resource" uid="uid://dmw1ww2sworam" path="res://features/dialogue/test_content/characters/鼠鼠.dch" id="5_mousy"]
 [ext_resource type="SpriteFrames" uid="uid://ddxvm1x1cgffc" path="res://anime/generated/rocky_frames.tres" id="6_placeholder"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
-[ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="8_spawn"]
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="9_music"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
@@ -61,8 +60,3 @@ _sprite = NodePath("../Sprite")
 _clickZone = NodePath("../ClickZone")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=315848673]
-
-[node name="ReturnSpawn" type="Node2D" parent="." unique_id=424289118]
-position = Vector2(-90, 0)
-script = ExtResource("8_spawn")
-SpawnId = &"RockyReturnSpawn"

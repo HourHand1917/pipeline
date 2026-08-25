@@ -29,6 +29,8 @@ public partial class HomeStoryGuidesContractTest : Node
             "F2 guide is gated by Sharkk persistence");
         Check(controller?.PostF1MousyScene != null && controller.PostF2MousyScene != null,
             "both Mousy dialogue prefabs are assigned");
+        Check(controller?.PostF1MousySpawn != null && controller.PostF2MousySpawn != null,
+            "both Mousy spawn positions are editable Marker2D nodes");
 
         var workbenchGuide = guideRoot?.GetNodeOrNull<ExplorationInteractionGuide>("WorkbenchGuide");
         var storeGuide = guideRoot?.GetNodeOrNull<ExplorationInteractionGuide>("StoreGuide");
@@ -62,9 +64,11 @@ public partial class HomeStoryGuidesContractTest : Node
             $"{label} Mousy uses the existing configured timeline");
         Check(npc?.AllowEscapeToExitDialogue == false,
             $"{label} forced story dialogue cannot be skipped with ESC");
-        var sprite = instance?.GetNodeOrNull<Sprite2D>("Sprite");
-        Check(sprite?.Texture?.ResourcePath.EndsWith("mousy_portrait.svg") == true,
-            $"{label} Mousy uses the portrait instead of the Godot placeholder");
+        var sprite = instance?.GetNodeOrNull<AnimatedSprite2D>("Sprite");
+        var spriteScript = sprite?.Get("script").AsGodotObject() as Script;
+        Check(spriteScript?.ResourcePath.EndsWith("npc_frame_animation.gd") == true &&
+              sprite.Get("frames_directory").AsString().EndsWith("/animations/frames/mousy"),
+            $"{label} Mousy uses the configured 47-frame animation instead of a placeholder");
         instance?.QueueFree();
     }
 

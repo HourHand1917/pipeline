@@ -11,12 +11,8 @@ public partial class F4BossSequence : Area2D
     [Export] public PlayerController Player { get; set; }
     [Export] public AnimatedSprite2D LeftStageActor { get; set; }
     [Export] public AnimatedSprite2D RightStageActor { get; set; }
-    [Export] public VideoStreamPlayer PhaseOneIntroVideo { get; set; }
     [Export] public HostileNPC ForcedDialogueNpc { get; set; }
-
-    [ExportGroup("Phase-one intro presentation")]
-    [Export]
-    public Godot.Collections.Array<NodePath> HideDuringPhaseOneIntro { get; set; } = new();
+    [Export] public AnimationPlayer SequenceAnimationPlayer { get; set; }
 
     [ExportGroup("Phase-one defeat dialogue")]
     [Export]
@@ -51,7 +47,6 @@ public partial class F4BossSequence : Area2D
 
     private bool _sequenceRunning;
     private bool _dialogueFinished;
-    private readonly List<(CanvasItem Item, bool WasVisible)> _introHiddenItems = new();
 
     public override void _Ready()
     {
@@ -64,7 +59,6 @@ public partial class F4BossSequence : Area2D
             ForcedDialogueNpc.DialogueFinished += OnForcedDialogueFinished;
         }
 
-        HideStageActors();
         bool phaseOneDone = IsDefeated(PhaseOnePersistenceId);
         bool phaseTwoDone = IsDefeated(PhaseTwoPersistenceId);
         Monitoring = !phaseOneDone && !phaseTwoDone;
@@ -77,7 +71,6 @@ public partial class F4BossSequence : Area2D
 
     public override void _ExitTree()
     {
-        EndPhaseOneIntroPresentation();
         if (ForcedDialogueNpc != null && GodotObject.IsInstanceValid(ForcedDialogueNpc))
             ForcedDialogueNpc.DialogueFinished -= OnForcedDialogueFinished;
         base._ExitTree();
@@ -93,10 +86,11 @@ public partial class F4BossSequence : Area2D
     {
         if (_sequenceRunning) return;
         _sequenceRunning = true;
-        Monitoring = false;
+        SetDeferred("monitoring", false);
         (Player ?? PlayerController.Instance)?.LockMovement();
-        if (!await PlayPhaseOneIntroVideo())
-            await PlayStagePair(PhaseOneLeftAnimation, PhaseOneRightAnimation);
+
+        // 一阶段入场动画：播完再进入战斗（animation_finished 驱动）。
+        await PlaySequenceAnimation("phase_one_intro");
         GetNodeOrNull<AudioManager>("/root/AudioManager")?.PlayMusicWithFade(BattleMusic);
         StartConfiguredBattle(PhaseOneRulesPath, PhaseOnePersistenceId);
     }
@@ -108,6 +102,9 @@ public partial class F4BossSequence : Area2D
         Monitoring = false;
         Player ??= PlayerController.Instance;
         Player?.LockMovement();
+
+        // 一阶段战败动画播完后再进入对话。
+        await PlaySequenceAnimation("phase_one_defeat");
 
         AudioManager audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
         await PlayOptionalPhaseOneDefeatDialogue(audio);
@@ -137,6 +134,9 @@ public partial class F4BossSequence : Area2D
         Monitorable = false;
         Player ??= PlayerController.Instance;
         Player?.LockMovement();
+
+        // 二阶段战败动画播完后再触发最终对话。
+        await PlaySequenceAnimation("phase_two_defeat");
 
         AudioManager audio = GetNodeOrNull<AudioManager>("/root/AudioManager");
         bool dialogueCompleted = await PlayRequiredPhaseTwoDefeatDialogue(audio);
@@ -224,45 +224,6 @@ public partial class F4BossSequence : Area2D
             await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
     }
 
-    private async Task<bool> PlayPhaseOneIntroVideo()
-    {
-        if (PhaseOneIntroVideo?.Stream == null)
-            return false;
-
-        BeginPhaseOneIntroPresentation();
-        PhaseOneIntroVideo.Visible = true;
-        PhaseOneIntroVideo.Stop();
-        PhaseOneIntroVideo.Play();
-        await ToSignal(PhaseOneIntroVideo, VideoStreamPlayer.SignalName.Finished);
-        PhaseOneIntroVideo.Stop();
-        PhaseOneIntroVideo.Visible = false;
-        EndPhaseOneIntroPresentation();
-        return true;
-    }
-
-    private void BeginPhaseOneIntroPresentation()
-    {
-        EndPhaseOneIntroPresentation();
-        foreach (NodePath path in HideDuringPhaseOneIntro)
-        {
-            CanvasItem item = GetNodeOrNull<CanvasItem>(path);
-            if (item == null || item == PhaseOneIntroVideo)
-                continue;
-            _introHiddenItems.Add((item, item.Visible));
-            item.Visible = false;
-        }
-    }
-
-    private void EndPhaseOneIntroPresentation()
-    {
-        foreach ((CanvasItem item, bool wasVisible) in _introHiddenItems)
-        {
-            if (GodotObject.IsInstanceValid(item))
-                item.Visible = wasVisible;
-        }
-        _introHiddenItems.Clear();
-    }
-
     private async Task PlayStagePair(StringName leftAnimation, StringName rightAnimation)
     {
         float duration = Mathf.Max(0.35f, PlayStageActor(LeftStageActor, leftAnimation));
@@ -290,8 +251,19 @@ public partial class F4BossSequence : Area2D
         if (RightStageActor != null) { RightStageActor.Stop(); RightStageActor.Visible = false; }
     }
 
+    /// <summary>播放序列 AnimationPlayer 动画，并等待其播完（animation_finished）。未配置动画则立即返回。</summary>
+    private async Task PlaySequenceAnimation(StringName name)
+    {
+        if (SequenceAnimationPlayer == null || !SequenceAnimationPlayer.HasAnimation(name))
+            return;
+        SequenceAnimationPlayer.Play(name);
+        await ToSignal(SequenceAnimationPlayer, AnimationPlayer.SignalName.AnimationFinished);
+    }
+
     private void StartConfiguredBattle(string rulesPath, StringName encounterId)
     {
+        // 失败时清空两阶段标记，玩家从头重打（不做 F4 战斗持久化）。
+        BattleDirector.Instance?.RegisterBattleLostReset(ClearPhasePersistence);
         BattleDirector.Instance?.StartBattle(
             BattleScenePath,
             rulesPath,
@@ -301,6 +273,13 @@ public partial class F4BossSequence : Area2D
             this,
             -1,
             "");
+    }
+
+    /// <summary>战斗失败时清空两阶段的击败标记。</summary>
+    private void ClearPhasePersistence()
+    {
+        GameState.Instance?.ClearObjectState(MapId.ToString(), PhaseOnePersistenceId.ToString());
+        GameState.Instance?.ClearObjectState(MapId.ToString(), PhaseTwoPersistenceId.ToString());
     }
 
     private bool IsDefeated(StringName encounterId)

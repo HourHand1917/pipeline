@@ -21,6 +21,11 @@ public partial class HomeStoryGuideController : Node
     [ExportGroup("Mousy scenes")]
     [Export] public PackedScene PostF1MousyScene { get; set; }
     [Export] public PackedScene PostF2MousyScene { get; set; }
+    /// <summary>可在 2D 窗口直接拖动的 Rocky 战后鼠鼠出生点。</summary>
+    [Export] public Marker2D PostF1MousySpawn { get; set; }
+    /// <summary>可在 2D 窗口直接拖动的 Sharkk 战后鼠鼠出生点。</summary>
+    [Export] public Marker2D PostF2MousySpawn { get; set; }
+    // Marker 未配置时保留旧偏移逻辑，兼容测试场景和旧关卡。
     [Export] public Vector2 PostF1MousyOffset { get; set; } = new(145, 0);
     [Export] public Vector2 PostF2MousyOffsetFromStore { get; set; } = new(-180, 0);
 
@@ -106,6 +111,8 @@ public partial class HomeStoryGuideController : Node
         ShopUI ??= FindDescendant<ShopUI>(scene);
         WorkbenchGuide ??= GetNodeOrNull<ExplorationInteractionGuide>("WorkbenchGuide");
         StoreGuide ??= GetNodeOrNull<ExplorationInteractionGuide>("StoreGuide");
+        PostF1MousySpawn ??= GetNodeOrNull<Marker2D>("PostF1MousySpawn");
+        PostF2MousySpawn ??= GetNodeOrNull<Marker2D>("PostF2MousySpawn");
 
         WorkbenchGuide?.Configure(Workbench, WorkbenchUI);
         StoreGuide?.Configure(Store, ShopUI);
@@ -138,8 +145,9 @@ public partial class HomeStoryGuideController : Node
             return;
         }
 
+        Vector2 fallbackPosition = (Player?.GlobalPosition ?? Vector2.Zero) + PostF1MousyOffset;
         _activeMousy = SpawnMousy(PostF1MousyScene,
-            (Player?.GlobalPosition ?? Vector2.Zero) + PostF1MousyOffset);
+            ResolveSpawnPosition(PostF1MousySpawn, fallbackPosition));
         if (_activeMousy == null)
         {
             GD.PushWarning("HomeStoryGuideController: 未能创建 F1 战后鼠鼠，直接继续工作台引导。");
@@ -158,8 +166,9 @@ public partial class HomeStoryGuideController : Node
         _activeStage = StoryStage.PostF2;
         if (!_f2DialogueCompleted)
         {
-            Vector2 position = (Store?.GlobalPosition ?? Player?.GlobalPosition ?? Vector2.Zero)
+            Vector2 fallbackPosition = (Store?.GlobalPosition ?? Player?.GlobalPosition ?? Vector2.Zero)
                 + PostF2MousyOffsetFromStore;
+            Vector2 position = ResolveSpawnPosition(PostF2MousySpawn, fallbackPosition);
             _activeMousy = SpawnMousy(PostF2MousyScene, position);
             if (_activeMousy != null)
                 _activeMousy.DialogueFinished += OnMousyDialogueFinished;
@@ -180,6 +189,9 @@ public partial class HomeStoryGuideController : Node
             node2D.GlobalPosition = globalPosition;
         return instance as NPCBase;
     }
+
+    private static Vector2 ResolveSpawnPosition(Marker2D marker, Vector2 fallback) =>
+        marker != null && IsInstanceValid(marker) ? marker.GlobalPosition : fallback;
 
     private void QueueDialogueStart()
     {

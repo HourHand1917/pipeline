@@ -1,0 +1,15 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+"_translation_id": "",
+"color": Color(0.54, 0.79, 0.91, 1),
+"custom_info": {"sound_mood_default": "", "sound_moods": {}, "style": ""},
+"default_portrait": "",
+"description": "电影院录音中的 Lichen。",
+"display_name": "Lichen",
+"mirror": false,
+"nicknames": ["lichen", "莱肯"],
+"offset": Vector2(0, 0),
+"portraits": {},
+"scale": 1.0
+}

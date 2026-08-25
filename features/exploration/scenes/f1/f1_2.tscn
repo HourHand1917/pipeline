@@ -15,16 +15,18 @@
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="7_aojsd"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_tqldu"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="8_ehrjl"]
-[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="8_tss16"]
-[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="9_mgpvb"]
-[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_kjvhc"]
+[ext_resource type="PackedScene" uid="uid://bay0alqdgsaub" path="res://features/dialogue/npc/scenes/mousy_postbattle_npc.tscn" id="11_8e2fl"]
+[ext_resource type="PackedScene" uid="uid://br8wpihd35o2v" path="res://features/dialogue/npc/scenes/rocky_prebattle_npc.tscn" id="13_mgpvb"]
+[ext_resource type="Script" path="res://features/dialogue/npc/scripts/F1RockyEncounterFlow.cs" id="14_flow"]
+[ext_resource type="SpriteFrames" path="res://anime/generated/rocky_frames.tres" id="15_rocky_frames"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="31_loot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mnw6t"]
 size = Vector2(643, 374)
 
 [sub_resource type="Resource" id="Resource_hpj5k"]
-script = ExtResource("10_kjvhc")
+script = ExtResource("31_loot")
 bottle_cap = 5
 faucet = 10
 metadata/_custom_type_script = "uid://48j6ej4rld81"
@@ -71,6 +73,22 @@ position = Vector2(999, 180)
 scale = Vector2(0.805, 0.805)
 texture = ExtResource("3_63mp5")
 
+[node name="RockyPrebattleNPC" parent="MapLayer" unique_id=1300952627 instance=ExtResource("13_mgpvb")]
+position = Vector2(430, 384)
+scale = Vector2(1.28, 1.28)
+
+[node name="MousyPostbattleNPC" parent="MapLayer" unique_id=245061573 instance=ExtResource("11_8e2fl")]
+position = Vector2(100, 385)
+scale = Vector2(1.17, 1.17)
+
+[node name="DeadRocky" type="AnimatedSprite2D" parent="MapLayer"]
+visible = false
+position = Vector2(430, 274)
+scale = Vector2(1.28, 1.28)
+sprite_frames = ExtResource("15_rocky_frames")
+animation = &"death"
+frame = 92
+
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1919059850]
 position = Vector2(-595, 197)
 script = ExtResource("5_tqldu")
@@ -91,42 +109,16 @@ TargetSpawnId = &"home_entry"
 position = Vector2(529, 11)
 shape = SubResource("RectangleShape2D_mnw6t")
 
-[node name="EnemyRocky" type="Area2D" parent="MapLayer" unique_id=27718393 node_paths=PackedStringArray("Hud", "_blink")]
-position = Vector2(1703, 256)
-script = ExtResource("5_2p0fj")
-BattleScenePath = "res://Scenes/game_scene/rocky_battle_scene.tscn"
-BattleRulesPath = "res://features/enemy_ai_node/rules/rocky_boom_rules.tres"
-ReturnSpawnId = &"RockyReturnSpawn"
-AggroRadius = 100.0
-Loot = SubResource("Resource_hpj5k")
-Hud = NodePath("../../UILayer/HUD")
-NpcName = "岩石怪"
-PersistenceId = "enemy_rocky_f1_2"
-_blink = NodePath("Blink")
-
-[node name="Sprite" type="Sprite2D" parent="MapLayer/EnemyRocky" unique_id=768182115]
-modulate = Color(0.85, 0.3, 0.3, 1)
-texture = ExtResource("6_8e2fl")
-
-[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/EnemyRocky" unique_id=1140056792]
-shape = SubResource("CircleShape2D_qhe7u")
-
-[node name="ClickZone" type="Area2D" parent="MapLayer/EnemyRocky" unique_id=1199201406]
-collision_layer = 2
-collision_mask = 0
-
-[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/EnemyRocky/ClickZone" unique_id=1098492634]
-shape = SubResource("CircleShape2D_aojsd")
-
-[node name="Blink" type="Node" parent="MapLayer/EnemyRocky" unique_id=1062271792 node_paths=PackedStringArray("_sprite", "_clickZone")]
-script = ExtResource("7_tqldu")
-_sprite = NodePath("../Sprite")
-_clickZone = NodePath("../ClickZone")
-
-[node name="ReturnSpawn" type="Node2D" parent="MapLayer/EnemyRocky" unique_id=1862176729]
-position = Vector2(-9, 12)
+[node name="ReturnSpawn" type="Node2D" parent="MapLayer" unique_id=943466974]
+position = Vector2(272, 265)
 script = ExtResource("2_y52xo")
 SpawnId = &"RockyReturnSpawn"
+
+[node name="RockyEncounterFlow" type="Node" parent="." node_paths=PackedStringArray("RockyPrebattle", "MousyPostbattle", "DeadRocky")]
+script = ExtResource("14_flow")
+RockyPrebattle = NodePath("../MapLayer/RockyPrebattleNPC")
+MousyPostbattle = NodePath("../MapLayer/MousyPostbattleNPC")
+DeadRocky = NodePath("../MapLayer/DeadRocky")
 
 [node name="Player" parent="." unique_id=1138772278 instance=ExtResource("6_qhe7u")]
 position = Vector2(761, 530)
