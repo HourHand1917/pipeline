@@ -13,11 +13,10 @@
 [ext_resource type="Texture2D" uid="uid://dt8qf56ebpbsv" path="res://features/exploration/art_assets/maps/f4/boss关-一层台子.png" id="6_3ux7p"]
 [ext_resource type="Script" uid="uid://tt14wb30yghv" path="res://features/exploration/scripts/CS/InputRouter.cs" id="6_input"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
-[ext_resource type="Script" uid="uid://bc3qypeu7jvet" path="res://features/exploration/scripts/CS/interactables/HostileNPC.cs" id="7_s2o3l"]
 [ext_resource type="Texture2D" uid="uid://xrl05raxumce" path="res://features/exploration/art_assets/maps/f4/boss关-二层台子.png" id="7_ys00k"]
+[ext_resource type="Texture2D" uid="uid://dfnk2jvo05uf7" path="res://features/exploration/art_assets/maps/f4/boss关-闸门光屏.png" id="8_5yguj"]
 [ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_23vsp"]
 [ext_resource type="Texture2D" uid="uid://chvpdubxhq7jo" path="res://features/exploration/art_assets/maps/f4/boss关-闸门.png" id="9_aieww"]
-[ext_resource type="Texture2D" uid="uid://dfnk2jvo05uf7" path="res://features/exploration/art_assets/maps/f4/boss关-闸门光屏.png" id="8_5yguj"]
 [ext_resource type="Resource" uid="uid://dnhabfb4ffvb" path="res://features/dialogue/npc/timelines/Code_00战前.dtl" id="15_jt1ph"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="Texture2D" uid="uid://cukcmlfcv7y3i" path="res://anime_assets/frames/core_body/idle/0001_0.png" id="21_s36w2"]
@@ -70,8 +69,20 @@
 [ext_resource type="Texture2D" uid="uid://ntc6oamm3ory" path="res://anime_assets/frames/core_body/idle/0043_5.png" id="63_h7w5d"]
 [ext_resource type="Texture2D" uid="uid://c8bqupoijklet" path="res://anime_assets/frames/core_body/idle/0044_4.png" id="64_by6ap"]
 [ext_resource type="Texture2D" uid="uid://bllar2i7de08f" path="res://anime_assets/frames/core_body/idle/0045_4.png" id="65_bfpg2"]
+[ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="65_ripjy"]
 [ext_resource type="Texture2D" uid="uid://68bwdgt5mx0t" path="res://anime_assets/frames/core_body/idle/0046_4.png" id="66_poq87"]
 [ext_resource type="Texture2D" uid="uid://cv8wkomohb6r7" path="res://anime_assets/frames/core_body/idle/0047_4.png" id="67_mvamy"]
+[ext_resource type="Script" uid="uid://cwxnj7mwcp5so" path="res://features/exploration/scripts/CS/interactables/ChestInteractable.cs" id="72_rekro"]
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="73_ripjy"]
+[ext_resource type="Resource" uid="uid://dwpvu8qnoyvn1" path="res://Resource/card/cards/revolver.tres" id="74_ya0ha"]
+[ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/cards/shield.tres" id="75_1o0cf"]
+[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/cards/ex咖喱棒.tres" id="76_y3i8h"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="77_rpjy7"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="78_20uv5"]
+[ext_resource type="Texture2D" uid="uid://6i4vatwprdvx" path="res://features/exploration/art_assets/maps/f1/教程-1-箱子.png" id="79_s5s6c"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="80_cni67"]
+[ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="81_1attu"]
+[ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="82_g4his"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ml8fk"]
 animations = [{
@@ -580,6 +591,23 @@ _data = {
 &"phase_two_defeat": SubResource("Animation_phase_two_defeat")
 }
 
+[sub_resource type="Resource" id="Resource_om3b8"]
+script = ExtResource("78_20uv5")
+bottle_cap = 10
+cards = Array[ExtResource("73_ripjy")]([ExtResource("74_ya0ha"), ExtResource("75_1o0cf"), ExtResource("76_y3i8h")])
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qpjhh"]
+size = Vector2(397.53082, 232.09871)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kq5hd"]
+size = Vector2(353.08624, 228.39505)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wkelb"]
+size = Vector2(214.81485, 288.88876)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xt748"]
+size = Vector2(158.02477, 302.4691)
+
 [node name="ExplorationMap" type="Node2D" unique_id=24797590 node_paths=PackedStringArray("Player", "Input", "_hud")]
 script = ExtResource("1_explore")
 Player = NodePath("Player")
@@ -655,6 +683,8 @@ script = ExtResource("6_input")
 offset_bottom = 1.3399658
 metadata/_edit_use_anchors_ = true
 
+[node name="SupplyWorkbench" parent="UILayer" unique_id=495580737 instance=ExtResource("65_ripjy")]
+
 [node name="f4_core_return" type="Node2D" parent="." unique_id=54485622]
 position = Vector2(2959, 536)
 script = ExtResource("2_spawn")
@@ -708,3 +738,66 @@ AllowEscapeToExitDialogue = false
 
 [node name="SequenceAnimationPlayer" type="AnimationPlayer" parent="Core00Encounter" unique_id=1945808337]
 libraries/ = SubResource("AnimationLibrary_f4_sequence")
+
+[node name="宝箱" type="Area2D" parent="." unique_id=802579491 node_paths=PackedStringArray("Hud", "_blink")]
+position = Vector2(782, 549)
+script = ExtResource("72_rekro")
+Loot = SubResource("Resource_om3b8")
+Hud = NodePath("../UILayer/HUD")
+DisplayName = "宝箱"
+PersistenceId = "chest_f1_1"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="宝箱" unique_id=712109599]
+position = Vector2(198.81488, -162.4568)
+texture = ExtResource("79_s5s6c")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="宝箱" unique_id=1960933035]
+position = Vector2(3.7037964, -8.642151)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_qpjhh")
+
+[node name="ClickZone" type="Area2D" parent="宝箱" unique_id=2119307561]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="宝箱/ClickZone" unique_id=322168601]
+position = Vector2(2.4691162, -10.493835)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_kq5hd")
+
+[node name="Blink" type="Node" parent="宝箱" unique_id=390194397 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("80_cni67")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
+[node name="补给机器" type="Area2D" parent="宝箱" unique_id=1069399151 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
+position = Vector2(776.00006, -55)
+script = ExtResource("81_1attu")
+WorkbenchUI = NodePath("../../UILayer/SupplyWorkbench")
+Hud = NodePath("../../UILayer/HUD")
+DisplayName = "补给机器"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="宝箱/补给机器" unique_id=292148909]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("82_g4his")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="宝箱/补给机器" unique_id=1843099895]
+position = Vector2(-7.4075317, 13.5802)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_wkelb")
+
+[node name="ClickZone" type="Area2D" parent="宝箱/补给机器" unique_id=2059698394]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="宝箱/补给机器/ClickZone" unique_id=1911888138]
+position = Vector2(2.4690552, 15.432129)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_xt748")
+
+[node name="Blink" type="Node" parent="宝箱/补给机器" unique_id=242794794 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("80_cni67")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")

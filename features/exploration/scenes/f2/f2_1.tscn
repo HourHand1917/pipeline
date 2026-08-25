@@ -74,6 +74,11 @@ position = Vector2(1530, 530)
 script = ExtResource("2_spawn")
 SpawnId = &"f2_1right"
 
+[node name="ReturnSpawn" type="Node2D" parent="." unique_id=47125793]
+position = Vector2(1203, 530)
+script = ExtResource("2_spawn")
+SpawnId = &"f2_1_boom_return"
+
 [node name="MapLayer" type="Node2D" parent="." unique_id=956701218]
 
 [node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=1128729988]
@@ -120,7 +125,7 @@ _clickZone = NodePath("../ClickZone")
 [node name="Boom" type="Area2D" parent="MapLayer" unique_id=2136500382 node_paths=PackedStringArray("Hud", "_blink")]
 position = Vector2(1204, 606)
 script = ExtResource("31_npc")
-BattleScenePath = "res://Scenes/game_scene/boom_battle_scenef2-0.tscn"
+BattleScenePath = "rres://Scenes/game_scene/boom_battle_scene.tscn"
 BattleRulesPath = "res://features/enemy_ai_node/rules/boom_rules.tres"
 ReturnSpawnId = &"f2_1_boom_return"
 AggroRadius = 100.0
@@ -152,11 +157,6 @@ shape = SubResource("CircleShape2D_boom_click")
 [node name="Blink" type="Node" parent="MapLayer/Boom" unique_id=259102060 node_paths=PackedStringArray("_clickZone")]
 script = ExtResource("32_blink")
 _clickZone = NodePath("../ClickZone")
-
-[node name="ReturnSpawn" type="Node2D" parent="MapLayer/Boom" unique_id=47125793]
-position = Vector2(-9, 12)
-script = ExtResource("2_spawn")
-SpawnId = &"f2_1_boom_return"
 
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1661849276]
 position = Vector2(-150, 450)

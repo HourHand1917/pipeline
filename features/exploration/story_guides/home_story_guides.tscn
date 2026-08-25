@@ -1,11 +1,11 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene format=3 uid="uid://b8yjy6hdm53u"]
 
-[ext_resource type="Script" path="res://features/exploration/story_guides/HomeStoryGuideController.cs" id="1_controller"]
-[ext_resource type="Script" path="res://features/exploration/story_guides/ExplorationInteractionGuide.cs" id="2_guide"]
-[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/home_mousy_npc.tscn" id="3_f1_mousy"]
+[ext_resource type="Script" uid="uid://cjy40c86ru2sm" path="res://features/exploration/story_guides/HomeStoryGuideController.cs" id="1_controller"]
+[ext_resource type="Script" uid="uid://l2edh3b3jvt6" path="res://features/exploration/story_guides/ExplorationInteractionGuide.cs" id="2_guide"]
+[ext_resource type="PackedScene" uid="uid://rav4hlc5kqdh" path="res://features/dialogue/npc/scenes/home_mousy_npc.tscn" id="3_f1_mousy"]
 [ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/post_sharkk_mousy_npc.tscn" id="4_f2_mousy"]
 
-[node name="HomeStoryGuides" type="Node2D" node_paths=PackedStringArray("WorkbenchGuide", "StoreGuide", "PostF1MousySpawn", "PostF2MousySpawn")]
+[node name="HomeStoryGuides" type="Node2D" unique_id=826698733 node_paths=PackedStringArray("WorkbenchGuide", "StoreGuide", "PostF1MousySpawn", "PostF2MousySpawn")]
 script = ExtResource("1_controller")
 WorkbenchGuide = NodePath("WorkbenchGuide")
 StoreGuide = NodePath("StoreGuide")
@@ -14,15 +14,15 @@ PostF2MousyScene = ExtResource("4_f2_mousy")
 PostF1MousySpawn = NodePath("PostF1MousySpawn")
 PostF2MousySpawn = NodePath("PostF2MousySpawn")
 
-[node name="PostF1MousySpawn" type="Marker2D" parent="."]
-position = Vector2(951, 529)
+[node name="PostF1MousySpawn" type="Marker2D" parent="." unique_id=101479993]
 editor_description = "打败 Rocky 后第一次回家时，home_mousy_npc 在这里生成。可直接拖动。"
+position = Vector2(-235, 530)
 
-[node name="PostF2MousySpawn" type="Marker2D" parent="."]
-position = Vector2(2256, 343)
+[node name="PostF2MousySpawn" type="Marker2D" parent="." unique_id=1746316769]
 editor_description = "打败 Sharkk 后第一次回家时，post_sharkk_mousy_npc 在这里生成。可直接拖动。"
+position = Vector2(-230, 530)
 
-[node name="WorkbenchGuide" type="CanvasLayer" parent="."]
+[node name="WorkbenchGuide" type="CanvasLayer" parent="." unique_id=581137190]
 script = ExtResource("2_guide")
 GuideName = "鼠鼠的工作台引导"
 ApproachTitle = "跟鼠鼠去工作台"
@@ -30,7 +30,7 @@ ApproachInstruction = "向左移动，跟随高亮标记前往工作台。"
 InteractTitle = "打开工作台"
 InteractInstruction = "点击高亮的工作台，查看改装与卡组配置。"
 
-[node name="StoreGuide" type="CanvasLayer" parent="."]
+[node name="StoreGuide" type="CanvasLayer" parent="." unique_id=1480076948]
 script = ExtResource("2_guide")
 GuideName = "鼠鼠的商店引导"
 ApproachTitle = "去看看鼠鼠的商店"

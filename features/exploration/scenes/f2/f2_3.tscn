@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="AudioStream" uid="uid://b5lapxmlhr4m3" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_04.wav" id="7_t2ft6"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="PackedScene" uid="uid://gt1rvdmtne7n" path="res://features/dialogue/npc/scenes/tavern_owner_npc.tscn" id="20_telqy"]
 [ext_resource type="Script" uid="uid://d3qp3th6sj26" path="res://features/exploration/scripts/CS/interactables/FriendlyNPC.cs" id="30_friendly"]
 [ext_resource type="Script" uid="uid://cbvqd45gbyyii" path="res://features/exploration/scripts/CS/interactables/DoorInteractable.cs" id="31_door"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
@@ -90,6 +91,10 @@ collision_mask = 0
 position = Vector2(-56.25, 56.250122)
 scale = Vector2(0.9999998, 0.9999998)
 shape = SubResource("RectangleShape2D_npc_click")
+
+[node name="TavernOwnerNPC" parent="MapLayer" unique_id=220017067 instance=ExtResource("20_telqy")]
+position = Vector2(836, 522)
+scale = Vector2(0.8, 0.8)
 
 [node name="F31贫民区门" type="Area2D" parent="MapLayer" unique_id=615638359 node_paths=PackedStringArray("TargetNpc", "_blink")]
 position = Vector2(840, 450)

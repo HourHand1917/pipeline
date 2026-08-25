@@ -116,7 +116,7 @@ MousyPostbattle = NodePath("../MapLayer/MousyPostbattleNPC")
 DeadRocky = NodePath("../MapLayer/DeadRocky")
 
 [node name="Player" parent="." unique_id=1138772278 instance=ExtResource("6_qhe7u")]
-position = Vector2(761, 530)
+position = Vector2(42, 526)
 
 [node name="InputRouter" type="Node" parent="." unique_id=1263359550]
 script = ExtResource("7_aojsd")

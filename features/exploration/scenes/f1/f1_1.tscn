@@ -19,6 +19,7 @@
 [ext_resource type="Resource" uid="uid://co0af57tnnq30" path="res://Resource/card/cards/shield.tres" id="8_ishdt"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="9_blink"]
 [ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="10_loot"]
+[ext_resource type="Resource" uid="uid://fjxbfsqkimr8" path="res://Resource/card/cards/ex咖喱棒.tres" id="13_ilkhj"]
 [ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="15_e5xpt"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 [ext_resource type="PackedScene" uid="uid://djeij3ahvanht" path="res://features/dialogue/npc/scenes/boom_enemy_npc.tscn" id="21_8rct6"]
@@ -29,7 +30,7 @@
 [sub_resource type="Resource" id="Resource_loot"]
 script = ExtResource("10_loot")
 bottle_cap = 10
-cards = Array[ExtResource("5_2iy1r")]([ExtResource("7_6vana"), ExtResource("8_ishdt")])
+cards = Array[ExtResource("5_2iy1r")]([ExtResource("7_6vana"), ExtResource("8_ishdt"), ExtResource("13_ilkhj")])
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8rct6"]
 size = Vector2(397.53082, 232.09871)
@@ -178,6 +179,7 @@ _clickZone = NodePath("../ClickZone")
 [node name="BoomEnemyNPC" parent="MapLayer" unique_id=1222834618 node_paths=PackedStringArray("Hud") instance=ExtResource("21_8rct6")]
 position = Vector2(1207.4075, 345.67908)
 scale = Vector2(1.234568, 1.234568)
+BattleScenePath = "res://Scenes/game_scene/boom_battle_scenef2-0.tscn"
 Loot = SubResource("Resource_2u7qs")
 Hud = NodePath("../../UILayer/HUD")
 

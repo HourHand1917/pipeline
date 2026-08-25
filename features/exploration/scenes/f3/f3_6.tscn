@@ -135,4 +135,5 @@ script = ExtResource("6_input")
 offset_bottom = 1.3399658
 
 [node name="CasinoDealerNPC" parent="." unique_id=1248691421 instance=ExtResource("35_dealer")]
-position = Vector2(2898, 511)
+position = Vector2(2692, 662)
+scale = Vector2(1.4, 1.4)

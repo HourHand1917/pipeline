@@ -13,6 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://2tdcksk26pdy" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_03.wav" id="6_s8md7"]
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="AudioStream" uid="uid://b5lapxmlhr4m3" path="res://tileset/music_resource/OGG/SFX/环境/steps/室外/outside_footstep_04.wav" id="7_ro2jq"]
+[ext_resource type="PackedScene" path="res://features/dialogue/npc/scenes/upper_couple_npc.tscn" id="11_y4hmt"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_edge"]
@@ -54,6 +55,10 @@ position = Vector2(840, 450)
 scale = Vector2(0.8, 0.8)
 texture = ExtResource("3_bg")
 
+[node name="UpperCoupleNPC" parent="MapLayer" unique_id=861025098 instance=ExtResource("11_y4hmt")]
+position = Vector2(1211, 644)
+scale = Vector2(1.655, 1.655)
+
 [node name="left_edge" type="Area2D" parent="MapLayer" unique_id=1022286911]
 position = Vector2(-146, 450)
 script = ExtResource("4_edge")
@@ -75,7 +80,7 @@ position = Vector2(300, 0)
 shape = SubResource("RectangleShape2D_edge")
 
 [node name="Player" parent="." unique_id=2012453835 instance=ExtResource("5_player")]
-position = Vector2(840, 530)
+position = Vector2(835, 531)
 
 [node name="InputRouter" type="Node" parent="." unique_id=1140743208]
 script = ExtResource("6_input")

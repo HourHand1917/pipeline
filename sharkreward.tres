@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LootTable" format=3 uid="uid://ct1kbcvritfmc"]
+
+[ext_resource type="Script" uid="uid://3pnp4kr7h3qr" path="res://Script/GD/resource/card_data.gd" id="1_ukhg5"]
+[ext_resource type="Script" uid="uid://yt6amevji6dl" path="res://Script/GD/resource/itemdata.gd" id="2_4efgc"]
+[ext_resource type="Script" uid="uid://48j6ej4rld81" path="res://Script/GD/resource/loot_table.gd" id="3_al5rh"]
+
+[resource]
+script = ExtResource("3_al5rh")
+bottle_cap = 20
+faucet = 20
