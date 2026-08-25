@@ -64,15 +64,15 @@ position = Vector2(119, 11)
 shape = SubResource("RectangleShape2D_t4hgr")
 
 [node name="Label" type="Label" parent="MapLayer" unique_id=1705737077]
-offset_left = 784.0
+offset_left = 752.0
 offset_top = -34.0
-offset_right = 1053.0
+offset_right = 1107.0
 offset_bottom = 171.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 35
 text = "A/D左右移动
 左键互动
-ESC打开菜单
+ESC打开菜单/跳过对话
 F11切换全屏模式"
 horizontal_alignment = 1
 vertical_alignment = 1
