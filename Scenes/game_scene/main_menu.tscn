@@ -200,8 +200,31 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="MainMenuVisual" parent="." instance=ExtResource("4_visual")]
-layout_mode = 1
+[node name="Rubber" type="AnimatedSprite2D" parent="BackgroundLayer" unique_id=1224055320]
+position = Vector2(1044, 540)
+sprite_frames = SubResource("SpriteFrames_3odt3")
+autoplay = "default"
+frame_progress = 0.75864184
+speed_scale = 0.535
+
+[node name="base" type="AnimatedSprite2D" parent="BackgroundLayer" unique_id=263386646]
+position = Vector2(720, 540)
+sprite_frames = SubResource("SpriteFrames_2tpf2")
+autoplay = "default"
+frame_progress = 0.43284267
+speed_scale = 0.535
+
+[node name="desktop" type="AnimatedSprite2D" parent="BackgroundLayer" unique_id=1602476178]
+position = Vector2(720, 540)
+sprite_frames = SubResource("SpriteFrames_3c3vh")
+autoplay = "default"
+frame_progress = 0.9977043
+speed_scale = 0.535
+
+[node name="PipelineLogo" type="Sprite2D" parent="BackgroundLayer" unique_id=1690124169]
+position = Vector2(720, 541)
+scale = Vector2(0.675, 0.675)
+texture = ExtResource("191_0tj4y")
 
 [node name="MenuContainer" type="VBoxContainer" parent="." unique_id=148071786]
 visible = false
@@ -261,6 +284,7 @@ metadata/_edit_use_anchors_ = true
 
 [node name="MenuAnimationPlayer" type="AnimationPlayer" parent="." unique_id=1443592391]
 libraries/ = SubResource("AnimationLibrary_cjq8h")
+speed_scale = 0.9
 
 [connection signal="pressed" from="MenuContainer/Start" to="." method="OnStartPressed"]
 [connection signal="pressed" from="MenuContainer/Load" to="." method="OnLoadPressed"]

@@ -14,6 +14,8 @@
 [ext_resource type="Texture2D" uid="uid://cvn4h3mq0kcdl" path="res://features/exploration/art_assets/maps/回血装置.png" id="14_xdss3"]
 [ext_resource type="PackedScene" uid="uid://gt1rvdmtne7n" path="res://features/dialogue/npc/scenes/tavern_owner_npc.tscn" id="16_una4u"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]
+[ext_resource type="PackedScene" uid="uid://gt1rvdmtne7n" path="res://features/dialogue/npc/scenes/tavern_owner_npc.tscn" id="20_telqy"]
+[ext_resource type="Script" uid="uid://d3qp3th6sj26" path="res://features/exploration/scripts/CS/interactables/FriendlyNPC.cs" id="30_friendly"]
 [ext_resource type="Script" uid="uid://cbvqd45gbyyii" path="res://features/exploration/scripts/CS/interactables/DoorInteractable.cs" id="31_door"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="32_blink"]
 

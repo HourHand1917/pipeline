@@ -96,3 +96,7 @@ script = ExtResource("6_input")
 
 [node name="HUD" parent="UILayer" unique_id=1916087261 instance=ExtResource("7_hud")]
 offset_bottom = 1.3399658
+
+[node name="SharkkPrebattleNPC" parent="." unique_id=284579292 instance=ExtResource("15_mv70x")]
+position = Vector2(1143, 580)
+scale = Vector2(1.91, 1.91)

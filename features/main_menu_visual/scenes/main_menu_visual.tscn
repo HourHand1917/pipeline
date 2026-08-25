@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene format=3 uid="uid://byjave14tv28l"]
 
-[ext_resource type="Script" path="res://features/main_menu_visual/scripts/MainMenuVisualController.cs" id="1_controller"]
-[ext_resource type="Texture2D" path="res://features/main_menu_visual/art/ui/pipeline_logo.png" id="2_logo"]
+[ext_resource type="Script" uid="uid://brvswqrrsruyc" path="res://features/main_menu_visual/scripts/MainMenuVisualController.cs" id="1_controller"]
+[ext_resource type="Texture2D" uid="uid://dxuaag6oefevv" path="res://features/main_menu_visual/art/ui/pipeline_logo.png" id="2_logo"]
 
-[node name="MainMenuVisual" type="Control" node_paths=PackedStringArray("BaseLayer", "RubberLayer", "DesktopLayer")]
+[node name="MainMenuVisual" type="Control" unique_id=2116971396 node_paths=PackedStringArray("BaseLayer", "RubberLayer", "DesktopLayer")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -16,7 +16,7 @@ BaseLayer = NodePath("DesignCanvas/Base")
 RubberLayer = NodePath("DesignCanvas/Rubber")
 DesktopLayer = NodePath("DesignCanvas/Desktop")
 
-[node name="BlackFill" type="ColorRect" parent="."]
+[node name="BlackFill" type="ColorRect" parent="." unique_id=1343341404]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -26,21 +26,18 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
-[node name="DesignCanvas" type="Node2D" parent="."]
+[node name="DesignCanvas" type="Node2D" parent="." unique_id=537776905]
 
-[node name="Base" type="AnimatedSprite2D" parent="DesignCanvas"]
+[node name="Base" type="AnimatedSprite2D" parent="DesignCanvas" unique_id=1080120844]
 position = Vector2(720, 540)
-centered = true
 
-[node name="Rubber" type="AnimatedSprite2D" parent="DesignCanvas"]
+[node name="Rubber" type="AnimatedSprite2D" parent="DesignCanvas" unique_id=1864845479]
 position = Vector2(720, 540)
-centered = true
 
-[node name="Desktop" type="AnimatedSprite2D" parent="DesignCanvas"]
+[node name="Desktop" type="AnimatedSprite2D" parent="DesignCanvas" unique_id=720776498]
 position = Vector2(720, 540)
-centered = true
 
-[node name="Logo" type="Sprite2D" parent="DesignCanvas"]
+[node name="Logo" type="Sprite2D" parent="DesignCanvas" unique_id=1588416615]
 position = Vector2(720, 238)
 scale = Vector2(0.48, 0.48)
 texture = ExtResource("2_logo")
