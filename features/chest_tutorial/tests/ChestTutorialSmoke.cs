@@ -3,9 +3,10 @@ using System;
 using System.Threading.Tasks;
 
 /// <summary>
-/// Exercises the two tutorial steps against the production f1_1 chest and
+/// Exercises the three tutorial steps against the production f1_1 chest and
 /// RewardPage. The first step uses the real viewport mouse route; the second
-/// uses the real close button.
+/// clicks a real loot slot and watches DataManager; the third uses the real
+/// close button.
 /// </summary>
 public partial class ChestTutorialSmoke : Node
 {
@@ -59,19 +60,35 @@ public partial class ChestTutorialSmoke : Node
             // click so BlinkComponent/InteractableBase take their normal path.
             await PushViewportClick(tutorial.CurrentInputRect.GetCenter());
             // Online RewardPage enters through a 0.5 second animation. Wait
-            // until its real close button is visible before validating step 2.
+            // until it settles before validating step 2.
             await WaitFrames(36);
             Check(chest.IsOpened, "viewport click opens the real chest");
+            Check(tutorial.CurrentTutorialStep == ChestTutorial.Step.CollectLoot,
+                "opening the chest advances to the collect step");
+            Check(tutorial.CurrentTargetNode == reward,
+                "second spotlight targets the whole RewardPage list");
+            Check(tutorial.CurrentInputRect.HasArea(),
+                "reward page stays clickable through the spotlight");
+
+            // Step 2: claim the first loot slot through the real viewport
+            // route; the tutorial watches DataManager for the backpack gain.
+            await WaitFrames(32);
+            BaseButton loot = FindFirstLootButton(reward);
+            Check(loot != null, "reward page exposes a loot slot");
+            Check(!loot.Disabled, "loot slot is clickable during the collect step");
+            Check(tutorial.CurrentInputRect.Encloses(loot.GetGlobalRect()),
+                "loot slot lies inside the tightened step-2 spotlight");
+            await PushViewportClick(loot.GetGlobalRect().GetCenter());
+            await WaitFrames(6);
             Check(tutorial.CurrentTutorialStep == ChestTutorial.Step.CloseChest,
-                "opening the chest advances to the close step");
+                "claiming loot advances to the close step");
             Check(tutorial.CurrentTargetNode is BaseButton,
-                "second spotlight targets the real RewardPage close button");
+                "third spotlight targets the real RewardPage close button");
             Check(tutorial.CurrentInputRect.HasArea(),
                 "close button remains clickable through the spotlight");
 
-            // Let the 0.5 second RewardPage show animation settle before the
-            // viewport hit test; the tutorial follows the moving button every
-            // frame, but users click it after it reaches its resting position.
+            // Step 3: the tutorial follows the moving button every frame, but
+            // users click it after it reaches its resting position.
             await WaitFrames(32);
             await PushViewportClick(tutorial.CurrentInputRect.GetCenter());
             await WaitFrames(12);
@@ -82,7 +99,7 @@ public partial class ChestTutorialSmoke : Node
             Check(PlayerController.Instance == null || PlayerController.Instance.MovementEnabled,
                 "completion releases player movement");
 
-            GD.Print($"CHEST_TUTORIAL_SMOKE_PASS checks={_checks} steps=2");
+            GD.Print($"CHEST_TUTORIAL_SMOKE_PASS checks={_checks} steps=3");
             GetTree().Quit(0);
         }
         catch (Exception exception)
@@ -133,6 +150,13 @@ public partial class ChestTutorialSmoke : Node
     {
         _checks++;
         if (!condition) throw new InvalidOperationException(message);
+    }
+
+    /// <summary>战利品槽都在 RewardPage/LootList 里，取第一个可点击的槽位按钮。</summary>
+    private static BaseButton FindFirstLootButton(RewardPage reward)
+    {
+        Control list = reward.GetNodeOrNull<Control>("LootList");
+        return list == null ? null : FindDescendant<BaseButton>(list);
     }
 
     private static T FindDescendant<T>(Node root) where T : Node

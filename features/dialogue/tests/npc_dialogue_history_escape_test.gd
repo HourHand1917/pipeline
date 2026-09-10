@@ -163,13 +163,15 @@ func _test_npc_cancel_followups(escape_event: InputEventKey) -> void:
 	Dialogic.end_timeline(true)
 	await _wait_frames(8)
 	_check(shop.visible, "normal FriendlyNPC completion still opens the shop")
-	shop.hide()
+	shop.call("Close") # 真关店才能释放移动锁，后面敌对话动检查依赖平衡的锁计数
 	friendly.set("OpenShopAfterDialogue", false)
 
-	# Hostile cancellation must not persist the intro or enter combat. While the
-	# player remains inside AggroRadius it must stay closed; exit + re-entry arms it again.
+	# Hostile without auto-battle: ESC-cancel must not persist the intro or
+	# enter combat. While the player remains inside AggroRadius it must stay
+	# closed; exit + re-entry arms it again.
 	hostile.set_physics_process(false)
 	hostile.set("DialogueTimeline", plain_timeline)
+	hostile.set("AutoStartBattleAfterDialogue", false)
 	hostile.emit_signal("body_entered", player)
 	hostile.call("_PhysicsProcess", 0.0)
 	await _wait_frames(8)
@@ -178,7 +180,8 @@ func _test_npc_cancel_followups(escape_event: InputEventKey) -> void:
 	await _wait_frames(8)
 	var cancelled_state := hostile.call("SaveState") as Dictionary
 	_check(not bool(cancelled_state.get("intro_played", false)), "HostileNPC cancellation does not persist intro")
-	_check(Dialogic.current_timeline == null, "HostileNPC cancellation does not enter battle")
+	_check(Dialogic.current_timeline == null, "HostileNPC cancellation without pending battle stays closed")
+	_check(bool(player.get("MovementEnabled")), "HostileNPC cancellation without pending battle unlocks movement")
 
 	hostile.call("_PhysicsProcess", 0.0)
 	await _wait_frames(3)
@@ -191,6 +194,22 @@ func _test_npc_cancel_followups(escape_event: InputEventKey) -> void:
 	_check(Dialogic.current_timeline != null, "HostileNPC can trigger again after exit and re-entry")
 	dialogue_canvas._input(escape_event)
 	await _wait_frames(6)
+
+	# Hostile with a pending battle: ESC skips the dialogue but the battle still
+	# starts. The real scene change is ~1.5s of iris away, so assert the pending
+	# battle immediately and quit before the transition lands.
+	hostile.set("AutoStartBattleAfterDialogue", true)
+	hostile.emit_signal("body_exited", player)
+	hostile.call("_PhysicsProcess", 0.0)
+	hostile.emit_signal("body_entered", player)
+	hostile.call("_PhysicsProcess", 0.0)
+	await _wait_frames(8)
+	_check(Dialogic.current_timeline != null, "HostileNPC pre-battle Timeline starts again")
+	dialogue_canvas._input(escape_event)
+	await _wait_frames(6)
+	_check(Dialogic.current_timeline == null, "ESC ends the pre-battle Timeline")
+	_check(not bool(player.get("MovementEnabled")), "ESC-cancelled pre-battle dialogue still starts the battle (movement locked)")
+	_check(str(get_node("/root/BattleDirector").get("PendingRulesPath")).ends_with("boom_rules.tres"), "pending battle is the configured Boom rules")
 	demo.queue_free()
 	await _wait_frames(3)
 

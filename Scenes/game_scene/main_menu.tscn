@@ -1095,9 +1095,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = SubResource("Theme_5gy6c")
 script = ExtResource("1_u8fvr")
-animationPlayer = NodePath("MenuAnimationPlayer")
 backgroundMusic = ExtResource("2_7fql4")
 musicFadeDuration = 1.0
+animationPlayer = NodePath("MenuAnimationPlayer")
 
 [node name="BackgroundLayer" type="Control" parent="." unique_id=431990009]
 anchors_preset = 0

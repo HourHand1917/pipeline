@@ -60,7 +60,9 @@ public partial class F4BossSequence : Area2D
         {
             ForcedDialogueNpc.AutoTriggerByRange = false;
             ForcedDialogueNpc.AutoStartBattleAfterDialogue = false;
-            ForcedDialogueNpc.AllowEscapeToExitDialogue = false;
+            // 长对话允许 ESC 跳过；取消时 DialogueFinished 照常发出，
+            // 序列直接推进到下一阶段（阶段一后是战斗）。
+            ForcedDialogueNpc.AllowEscapeToExitDialogue = true;
             ForcedDialogueNpc.DialogueFinished += OnForcedDialogueFinished;
         }
 

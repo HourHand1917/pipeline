@@ -192,8 +192,9 @@ public abstract partial class NPCBase : InteractableBase
 	}
 
 	/// <summary>
-	/// 玩家主动取消对话时调用。派生类只应清理尚未执行的对话后动作；
-	/// 通用输入解锁、气泡清理与 DialogueFinished 仍由基类负责。
+    /// 玩家主动取消对话时调用（DialogueFinished 仍会照常发出）。
+    /// 派生类在这里决定对话后动作的去留：例如战前对话被 ESC 跳过时
+    /// 依然进入战斗，普通商店对话则放弃开店。
 	/// </summary>
 	protected virtual void OnDialogueCancelled()
 	{

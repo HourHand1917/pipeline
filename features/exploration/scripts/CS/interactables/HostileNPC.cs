@@ -116,8 +116,16 @@ public partial class HostileNPC : NPCBase, ILootSource
 
     protected override void OnDialogueCancelled()
     {
+        // ESC 只跳过对话、不跳过战斗：战前对话被取消后，仍直接进入战斗。
+        if (_battleAfterDialogue && AutoStartBattleAfterDialogue && !_defeated)
+        {
+            _battleAfterDialogue = false;
+            TriggerBattle();
+            return;
+        }
+
         _battleAfterDialogue = false;
-        // 必须先离开警戒范围，避免关闭对话后下一物理帧立即重新打开。
+        // 没有战斗要接：必须先离开警戒范围，避免关闭对话后下一物理帧立即重新打开。
         _awaitingAggroExitAfterCancel = true;
     }
 

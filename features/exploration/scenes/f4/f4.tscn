@@ -708,7 +708,7 @@ script = ExtResource("35_stage_actor")
 position = Vector2(4, -2)
 AutoTriggerByRange = false
 AutoStartBattleAfterDialogue = false
-AllowEscapeToExitDialogue = false
+AllowEscapeToExitDialogue = true
 
 [node name="SequenceAnimationPlayer" type="AnimationPlayer" parent="Core00Encounter" unique_id=1945808337]
 libraries/ = SubResource("AnimationLibrary_f4_sequence")

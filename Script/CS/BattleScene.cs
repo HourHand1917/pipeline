@@ -127,5 +127,25 @@ public partial class BattleScene : Node2D
 			BattleDirector.Instance.OnBattleLost();
 	}
 
-	
+	/// <summary>
+	/// 键盘移动：A 尝试向左移动一格，D 尝试向右移动一格。
+	/// 边界、敌人阻挡、能量消耗与阶段检查都由 BattleManager 负责，
+	/// 和点击空格子走同一套逻辑。
+	/// </summary>
+	public override void _UnhandledInput(InputEvent @event)
+	{
+		if (@event is not InputEventKey { Echo: false, Pressed: true } key)
+			return;
+
+		if (key.Keycode == Key.A)
+		{
+			BattleManager?.TryMoveNegativeOne();
+			GetViewport().SetInputAsHandled();
+		}
+		else if (key.Keycode == Key.D)
+		{
+			BattleManager?.TryMovePositiveOne();
+			GetViewport().SetInputAsHandled();
+		}
+	}
 }

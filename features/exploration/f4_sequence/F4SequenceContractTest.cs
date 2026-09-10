@@ -35,8 +35,9 @@ public partial class F4SequenceContractTest : Node
                 && sequence.SequenceAnimationPlayer.HasAnimation("phase_one_defeat")
                 && sequence.SequenceAnimationPlayer.HasAnimation("phase_two_defeat"),
                 "phase intro/defeat animations are driven by the authored AnimationPlayer");
-            Check(sequence.PhaseOneDefeatTimeline == null,
-                "phase-one defeat dialogue is an empty, non-blocking Inspector hook");
+            Check(sequence.PhaseOneDefeatTimeline != null
+                && sequence.PhaseOneDefeatTimeline.ResourcePath.EndsWith("Code_00战前.dtl"),
+                "phase-one defeat dialogue is the authored pre-phase-two Code_00 timeline");
             Check(sequence.PhaseTwoDefeatTimeline != null
                 && sequence.PhaseTwoDefeatTimeline.ResourcePath.EndsWith("Code_00战后.dtl"),
                 "phase-two victory owns the authored forced post-battle dialogue");
@@ -46,8 +47,8 @@ public partial class F4SequenceContractTest : Node
                 "phase-two entrance remains an explicit empty Inspector hook");
             Check(!sequence.ForcedDialogueNpc.AutoTriggerByRange
                 && !sequence.ForcedDialogueNpc.AutoStartBattleAfterDialogue
-                && !sequence.ForcedDialogueNpc.AllowEscapeToExitDialogue,
-                "Core-00 dialogue is forced and sequence-owned");
+                && sequence.ForcedDialogueNpc.AllowEscapeToExitDialogue,
+                "Core-00 dialogue stays sequence-owned but ESC can skip into the next phase");
             PackagedHostileNPC packagedDialogue = sequence.ForcedDialogueNpc as PackagedHostileNPC;
             Check(packagedDialogue != null
                 && !string.IsNullOrWhiteSpace(packagedDialogue.DefaultTimelinePath)
@@ -82,13 +83,14 @@ public partial class F4SequenceContractTest : Node
                 "RUBBER: 但我们可以待一会，为这个AI默哀一下。",
                 "RUBBER: 他努力的完成了自己的构想，并为了维持他的构想付出了生命。",
                 "reb: 扫描显示，你为他的死亡而高兴，为什么还要为它哀悼？",
-                "RUBBER: 因为我是人呀，可以有一点灰色地带。算了，走吧，去找冰淇淋吃！",
+                "RUBBER: 因为我是人呀，允许一些灰色地带存在。",
+                "RUBBER: 算了，走吧，去找冰淇淋吃！",
             };
             string[] actualOutroLines = FileAccess
                 .GetFileAsString("res://features/dialogue/npc/timelines/Code_00战后.dtl")
                 .Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
             Check(actualOutroLines.Length == expectedOutroLines.Length,
-                "Core-00 post-battle dialogue contains exactly the supplied 14 speech segments");
+                "Core-00 post-battle dialogue contains exactly the supplied 15 speech segments");
             for (int line = 0; line < expectedOutroLines.Length; line++)
                 Check(actualOutroLines[line] == expectedOutroLines[line],
                     $"Core-00 post-battle dialogue line {line + 1} is preserved verbatim");

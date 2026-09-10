@@ -2,8 +2,9 @@ using Godot;
 using Godot.Collections;
 
 /// <summary>
-/// Two-step chest tutorial. Only the real chest click area and the real
-/// RewardPage close button remain interactive.
+/// Three-step chest tutorial: click the chest, claim loot into the backpack,
+/// then close the RewardPage. Only the real chest click area, the real
+/// RewardPage list and its close button remain interactive.
 /// </summary>
 [GlobalClass]
 public partial class ChestTutorial : CanvasLayer
@@ -11,7 +12,7 @@ public partial class ChestTutorial : CanvasLayer
     [Signal] public delegate void TutorialStepChangedEventHandler(int step, string instruction);
     [Signal] public delegate void TutorialCompletedEventHandler();
 
-    public enum Step { ClickChest, CloseChest, Complete }
+    public enum Step { ClickChest, CollectLoot, CloseChest, Complete }
 
     [ExportGroup("Activation")]
     [Export] public bool TutorialEnabled { get; set; } = true;
@@ -25,6 +26,8 @@ public partial class ChestTutorial : CanvasLayer
     [ExportGroup("Text")]
     [Export] public string ClickTitle { get; set; } = "打开宝箱";
     [Export] public string ClickInstruction { get; set; } = "靠近宝箱后，用鼠标左键点击宝箱。";
+    [Export] public string CollectTitle { get; set; } = "获取物资";
+    [Export] public string CollectInstruction { get; set; } = "点击清单里的物资，把它们收进背包。";
     [Export] public string CloseTitle { get; set; } = "关闭宝箱";
     [Export] public string CloseInstruction { get; set; } = "查看奖励后，点击关闭按钮回到探索。";
 
@@ -75,7 +78,15 @@ public partial class ChestTutorial : CanvasLayer
         if (!_bound) TryBind();
         if (!_bound || !_active) return;
         if (_step == Step.ClickChest && Chest.IsOpened)
-            EnterStep(Step.CloseChest);
+        {
+            EnterStep(Step.CollectLoot);
+        }
+        else if (_step == Step.CollectLoot)
+        {
+            // 第二步锁定返回键，逼玩家先领取物资；开页动画会重新启用按钮，这里每帧重锁。
+            SetCloseButtonLocked(true);
+            if (HasCollectedLoot()) EnterStep(Step.CloseChest);
+        }
         ResolveTarget();
         LayoutOverlay();
     }
@@ -138,15 +149,26 @@ public partial class ChestTutorial : CanvasLayer
 
     private void OnRewardClosed()
     {
-        if (_active && _step == Step.CloseChest) FinishTutorial();
+        if (!_active) return;
+        // 第三步：玩家点击返回键，结束教程。
+        if (_step == Step.CloseChest) FinishTutorial();
+        // 第二步清单就合上 = 物资已全部领完自动合上（返回键此时是锁住的），直接结束。
+        else if (_step == Step.CollectLoot) FinishTutorial();
     }
 
     private void EnterStep(Step next)
     {
         _step = next;
-        string instruction = next == Step.ClickChest ? ClickInstruction : CloseInstruction;
-        _stepLabel.Text = $"宝箱教学  {(int)next + 1}/2";
-        _titleLabel.Text = next == Step.ClickChest ? ClickTitle : CloseTitle;
+        (string title, string instruction) = next switch
+        {
+            Step.ClickChest => (ClickTitle, ClickInstruction),
+            Step.CollectLoot => (CollectTitle, CollectInstruction),
+            _ => (CloseTitle, CloseInstruction),
+        };
+        if (next == Step.CollectLoot) SnapshotBackpack();
+        if (next == Step.CloseChest) SetCloseButtonLocked(false);
+        _stepLabel.Text = $"宝箱教学  {(int)next + 1}/3";
+        _titleLabel.Text = title;
         _bodyLabel.Text = instruction;
         EmitSignal(SignalName.TutorialStepChanged, (int)next, instruction);
         ResolveTarget();
@@ -161,6 +183,7 @@ public partial class ChestTutorial : CanvasLayer
         _targetNode = null;
         _targetRect = new Rect2();
         _inputRect = new Rect2();
+        SetCloseButtonLocked(false); // 释放第二步的返回键锁，不影响 RewardPage 其他复用
         UnlockMovement();
         GameState.Instance?.SetObjectState(TutorialStateMapId, TutorialStateId,
             new Dictionary { { "completed", true } });
@@ -196,6 +219,13 @@ public partial class ChestTutorial : CanvasLayer
             _targetNode = shape;
             _inputRect = GetShapeScreenRect(shape);
         }
+        else if (_step == Step.CollectLoot)
+        {
+            // 第二步：高亮清单本体（标题 + 战利品列表），槽位按钮都在洞内可点击。
+            // RewardPage 整个控件的矩形比绘制出来的 UI 大一圈，直接用会聚光过多。
+            _targetNode = RewardPage;
+            _inputRect = GetListUiRect();
+        }
         else if (_step == Step.CloseChest)
         {
             Control close = RewardPage?.GetNodeOrNull<Control>("CloseBtn");
@@ -208,6 +238,60 @@ public partial class ChestTutorial : CanvasLayer
             _inputRect = new Rect2();
         }
         _targetRect = ExpandAndClamp(_inputRect, TargetPadding);
+    }
+
+    // ================================================================
+    //  第二步：领取物资检测（DataManager 全局背包/存档）
+    // ================================================================
+
+    private int _capSnapshot;
+    private int _faucetSnapshot;
+    private int _itemSnapshot;
+    private int _cardSnapshot;
+
+    /// <summary>进入第二步时给背包拍快照，之后任何数值上涨都视为“领取了物资”。</summary>
+    private void SnapshotBackpack()
+    {
+        DataManager dm = DataManager.Instance;
+        _capSnapshot = dm?.BottleCap ?? 0;
+        _faucetSnapshot = dm?.Faucet ?? 0;
+        _itemSnapshot = dm?.ItemBag.Count ?? 0;
+        _cardSnapshot = dm == null ? 0 : TotalCardCount(dm);
+    }
+
+    /// <summary>瓶盖/水龙头/道具/卡牌任意一项比快照多，即玩家已把物资收入背包。</summary>
+    private bool HasCollectedLoot()
+    {
+        DataManager dm = DataManager.Instance;
+        return dm != null && (dm.BottleCap > _capSnapshot
+            || dm.Faucet > _faucetSnapshot
+            || dm.ItemBag.Count > _itemSnapshot
+            || TotalCardCount(dm) > _cardSnapshot);
+    }
+
+    private static int TotalCardCount(DataManager dm)
+    {
+        int total = 0;
+        foreach (int count in dm.CardCounts.Values) total += count;
+        return total;
+    }
+
+    /// <summary>清单本体在屏幕上的矩形（标题与战利品列表的并集，裁到视口内）。</summary>
+    private Rect2 GetListUiRect()
+    {
+        if (RewardPage == null || !RewardPage.IsVisibleInTree()) return new Rect2();
+        Rect2 rect = new();
+        Control title = RewardPage.GetNodeOrNull<Control>("Title");
+        Control list = RewardPage.GetNodeOrNull<Control>("LootList");
+        if (title != null) rect = rect.Merge(title.GetGlobalRect());
+        if (list != null) rect = rect.Merge(list.GetGlobalRect());
+        return rect.HasArea() ? ClampRect(rect) : rect;
+    }
+
+    private void SetCloseButtonLocked(bool locked)
+    {
+        if (RewardPage?.GetNodeOrNull("CloseBtn") is BaseButton close)
+            close.Disabled = locked;
     }
 
     private Rect2 GetShapeScreenRect(CollisionShape2D shapeNode)
