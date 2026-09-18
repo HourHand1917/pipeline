@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://features/dialogue/npc/scripts/ForcedPackagedFriendlyNPC.cs" id="1_npc"]
 [ext_resource type="Resource" path="res://features/dialogue/npc/characters/荷官.dch" id="2_dealer"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/RUBBER.dch" id="3_rubber"]
 [ext_resource type="Resource" path="res://features/dialogue/test_content/characters/reb.dch" id="4_reb"]
 [ext_resource type="Script" path="res://features/dialogue/npc/animations/npc_frame_animation.gd" id="5_animation"]
+[ext_resource type="SpriteFrames" path="res://features/dialogue/npc/animations/richard_frames.tres" id="97_baked"]
 [ext_resource type="Script" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
@@ -19,7 +20,7 @@ DefaultTimelinePath = "res://features/dialogue/npc/timelines/无人赌场荷官.
 DialogicCharacterIdentifier = &"荷官"
 NpcName = "荷官"
 PlayerLevelAfterDialogue = 3
-AllowEscapeToExitDialogue = false
+AllowEscapeToExitDialogue = true
 DialogueCharacter = ExtResource("2_dealer")
 PlayerDialogueCharacter = ExtResource("3_rubber")
 AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
@@ -35,6 +36,7 @@ position = Vector2(0, -98)
 scale = Vector2(0.25, 0.25)
 script = ExtResource("5_animation")
 frames_directory = "res://features/dialogue/npc/animations/frames/richard"
+baked_frames = ExtResource("97_baked")
 
 [node name="DetectionRange" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleDetection")

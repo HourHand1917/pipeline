@@ -245,6 +245,7 @@ WorkbenchUI = NodePath("../UILayer/WorkbenchUI")
 Store = NodePath("../MapLayer/Store")
 ShopUI = NodePath("../UILayer/ShopUI")
 RockyPersistenceId = "enemy_rocky_dialogue"
+SharkkPersistenceId = "enemy_sharkk_dialogue"
 
 [node name="RadioStream2D" type="AudioStreamPlayer2D" parent="." unique_id=2064125179]
 position = Vector2(331, 571)

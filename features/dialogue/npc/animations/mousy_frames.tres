@@ -1,0 +1,203 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0001_0.png" id="1_fk58h"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0002_4.png" id="2_ljd1c"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0003_4.png" id="3_ghbin"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0004_4.png" id="4_e71wx"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0005_4.png" id="5_k4mty"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0006_4.png" id="6_bcbso"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0007_5.png" id="7_iy0fv"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0008_4.png" id="8_4b3nc"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0009_4.png" id="9_bwkhl"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0010_4.png" id="10_ih2fa"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0011_4.png" id="11_0mdro"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0012_4.png" id="12_yc1m4"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0013_5.png" id="13_pn7fo"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0014_4.png" id="14_sk4f7"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0015_4.png" id="15_oqfqh"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0016_4.png" id="16_h6lva"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0017_4.png" id="17_1bj51"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0018_4.png" id="18_fsl4h"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0019_5.png" id="19_eiclu"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0020_4.png" id="20_ciyfp"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0021_4.png" id="21_2ufhh"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0022_4.png" id="22_uvsaa"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0023_4.png" id="23_q7f8d"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0024_4.png" id="24_tfi0f"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0025_5.png" id="25_nr4of"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0026_4.png" id="26_lnsex"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0027_4.png" id="27_a2r52"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0028_4.png" id="28_lxarn"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0029_4.png" id="29_wghbp"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0030_4.png" id="30_cuq7y"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0031_5.png" id="31_sif2x"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0032_4.png" id="32_hew4q"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0033_4.png" id="33_kvko4"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0034_4.png" id="34_pnlxd"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0035_4.png" id="35_dfssq"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0036_4.png" id="36_ockgx"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0037_5.png" id="37_ubwbf"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0038_4.png" id="38_2sftb"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0039_4.png" id="39_e4bar"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0040_4.png" id="40_rf2da"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0041_4.png" id="41_v7yoo"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0042_4.png" id="42_bau43"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0043_5.png" id="43_4078j"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0044_4.png" id="44_8apr5"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0045_4.png" id="45_nniml"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0046_4.png" id="46_45tnw"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/mousy/0047_4.png" id="47_cr8bu"]
+
+[resource]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_fk58h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_ljd1c")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_ghbin")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_e71wx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_k4mty")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bcbso")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_iy0fv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_4b3nc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_bwkhl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_ih2fa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_0mdro")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_yc1m4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_pn7fo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_sk4f7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_oqfqh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_h6lva")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_1bj51")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_fsl4h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_eiclu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_ciyfp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_2ufhh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_uvsaa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_q7f8d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_tfi0f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_nr4of")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_lnsex")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_a2r52")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_lxarn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_wghbp")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_cuq7y")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_sif2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_hew4q")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_kvko4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_pnlxd")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_dfssq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_ockgx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_ubwbf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_2sftb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_e4bar")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_rf2da")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_v7yoo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_bau43")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_4078j")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_8apr5")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_nniml")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_45tnw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_cr8bu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 24.0
+}]

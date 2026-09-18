@@ -2,11 +2,15 @@
 extends AnimatedSprite2D
 
 ## 可复用的 NPC 序列帧动画机。只需配置帧目录即可自动按文件名顺序组装动画。
+## 导出版本中 res:// 目录扫描不可用（pck 内没有原始 png 条目），
+## 因此发布前请用 gen_baked_frames.gd 烘焙 SpriteFrames 并拖入 baked_frames。
 @export_dir var frames_directory := "":
 	set(value):
 		frames_directory = value
 		if is_inside_tree():
 			_rebuild_frames()
+
+@export var baked_frames: SpriteFrames
 
 @export_range(1.0, 60.0, 1.0) var frames_per_second := 24.0:
 	set(value):
@@ -23,10 +27,26 @@ func _ready() -> void:
 
 
 func _rebuild_frames() -> void:
-	if frames_directory.is_empty() or not DirAccess.dir_exists_absolute(frames_directory):
+	# 优先使用烘焙资源：导出版本没有目录扫描能力，编辑器里也可直接预览
+	if baked_frames != null:
+		sprite_frames = baked_frames
+		animation = &"idle"
+		if baked_frames.has_animation(&"idle"):
+			baked_frames.set_animation_speed(&"idle", frames_per_second)
+		if not Engine.is_editor_hint() or preview_in_editor:
+			play(&"idle")
 		return
 
-	var names := DirAccess.get_files_at(frames_directory)
+	if frames_directory.is_empty():
+		return
+
+	# 导出版本中 res:// 位于 pck 内，dir_exists_absolute/get_files_at 只认真实文件系统；
+	# 必须用 DirAccess.open（编辑器与导出版均可用）。
+	var dir := DirAccess.open(frames_directory)
+	if dir == null:
+		return
+
+	var names := dir.get_files()
 	var png_names: Array[String] = []
 	for file_name in names:
 		if file_name.to_lower().ends_with(".png"):

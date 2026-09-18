@@ -62,8 +62,8 @@ public partial class HomeStoryGuidesContractTest : Node
         Check(npc != null, $"{label} Mousy prefab is a packaged friendly NPC");
         Check(npc?.DefaultTimelinePath.EndsWith(expectedTimelineName) == true,
             $"{label} Mousy uses the existing configured timeline");
-        Check(npc?.AllowEscapeToExitDialogue == false,
-            $"{label} forced story dialogue cannot be skipped with ESC");
+        Check(npc?.AllowEscapeToExitDialogue == true,
+            $"{label} non-combat story dialogue can be skipped with ESC");
         var sprite = instance?.GetNodeOrNull<AnimatedSprite2D>("Sprite");
         var spriteScript = sprite?.Get("script").AsGodotObject() as Script;
         Check(spriteScript?.ResourcePath.EndsWith("npc_frame_animation.gd") == true &&

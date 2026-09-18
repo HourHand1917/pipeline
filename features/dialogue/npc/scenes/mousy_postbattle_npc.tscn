@@ -7,6 +7,7 @@
 [ext_resource type="Resource" uid="uid://byb10s4crvknj" path="res://features/dialogue/npc/characters/Rocky.dch" id="5_rocky"]
 [ext_resource type="Texture2D" uid="uid://6dm7tkki4k4a" path="res://features/dialogue/npc/animations/frames/mousy/0001_0.png" id="6_1ktb5"]
 [ext_resource type="Script" uid="uid://bvx1oow81a7tc" path="res://features/dialogue/npc/animations/npc_frame_animation.gd" id="6_animation"]
+[ext_resource type="SpriteFrames" path="res://features/dialogue/npc/animations/mousy_frames.tres" id="97_baked"]
 [ext_resource type="Texture2D" uid="uid://0xfsfrsedlxt" path="res://features/dialogue/npc/animations/frames/mousy/0002_4.png" id="7_a3uwy"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="7_blink"]
 [ext_resource type="Texture2D" uid="uid://duh5jh0gqye61" path="res://features/dialogue/npc/animations/frames/mousy/0003_4.png" id="8_gh2yh"]
@@ -226,7 +227,7 @@ DialogueCharacter = ExtResource("2_mousy")
 PlayerDialogueCharacter = ExtResource("3_rubber")
 AdditionalPlayerDialogueCharacters = Array[Resource]([ExtResource("4_reb")])
 DialogueBubbleOffset = Vector2(0, -145)
-AllowEscapeToExitDialogue = false
+AllowEscapeToExitDialogue = true
 DialogueAnimationPlayer = NodePath("AnimationPlayer")
 DisplayName = "鼠鼠（战后对话）"
 PersistenceId = "mousy_postbattle_dialogue"
@@ -241,6 +242,7 @@ frame_progress = 0.43640733
 flip_h = true
 script = ExtResource("6_animation")
 frames_directory = "res://features/dialogue/npc/animations/frames/mousy"
+baked_frames = ExtResource("97_baked")
 
 [node name="DetectionRange" type="CollisionShape2D" parent="." unique_id=2105731202]
 shape = SubResource("CircleDetection")

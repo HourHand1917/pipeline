@@ -1,0 +1,203 @@
+[gd_resource type="SpriteFrames" format=3]
+
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0001_0.png" id="1_h2bhf"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0002_4.png" id="2_5d7kg"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0003_4.png" id="3_n7jg7"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0004_4.png" id="4_66a6d"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0005_4.png" id="5_0wr2x"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0006_4.png" id="6_wvoch"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0007_5.png" id="7_tp128"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0008_4.png" id="8_j5rts"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0009_4.png" id="9_cpaam"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0010_4.png" id="10_cmu6w"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0011_4.png" id="11_ywwb2"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0012_4.png" id="12_t34rv"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0013_5.png" id="13_iyx4h"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0014_4.png" id="14_kfkp1"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0015_4.png" id="15_miay0"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0016_4.png" id="16_6d5u4"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0017_4.png" id="17_ottxf"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0018_4.png" id="18_buxec"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0019_5.png" id="19_gsi77"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0020_4.png" id="20_mpinc"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0021_4.png" id="21_nvoou"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0022_4.png" id="22_gnrr3"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0023_4.png" id="23_y8b37"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0024_4.png" id="24_quqdg"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0025_5.png" id="25_0nysy"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0026_4.png" id="26_gfuom"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0027_4.png" id="27_kpdht"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0028_4.png" id="28_srgcn"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0029_4.png" id="29_0ltnj"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0030_4.png" id="30_uxdn7"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0031_5.png" id="31_gov2k"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0032_4.png" id="32_3p3w1"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0033_4.png" id="33_wdww1"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0034_4.png" id="34_0giyu"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0035_4.png" id="35_04vuh"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0036_4.png" id="36_jypce"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0037_5.png" id="37_mutsl"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0038_4.png" id="38_gte8m"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0039_4.png" id="39_v5g7e"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0040_4.png" id="40_g0iqv"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0041_4.png" id="41_aoppu"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0042_4.png" id="42_ifo7d"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0043_5.png" id="43_o8yud"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0044_4.png" id="44_lrwyb"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0045_4.png" id="45_ki2sn"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0046_4.png" id="46_ocdmw"]
+[ext_resource type="Texture2D" path="res://features/dialogue/npc/animations/frames/upper_couple/0047_4.png" id="47_33fpq"]
+
+[resource]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_h2bhf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_5d7kg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_n7jg7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_66a6d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_0wr2x")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_wvoch")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_tp128")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_j5rts")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_cpaam")
+}, {
+"duration": 1.0,
+"texture": ExtResource("10_cmu6w")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_ywwb2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("12_t34rv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("13_iyx4h")
+}, {
+"duration": 1.0,
+"texture": ExtResource("14_kfkp1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("15_miay0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("16_6d5u4")
+}, {
+"duration": 1.0,
+"texture": ExtResource("17_ottxf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("18_buxec")
+}, {
+"duration": 1.0,
+"texture": ExtResource("19_gsi77")
+}, {
+"duration": 1.0,
+"texture": ExtResource("20_mpinc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("21_nvoou")
+}, {
+"duration": 1.0,
+"texture": ExtResource("22_gnrr3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("23_y8b37")
+}, {
+"duration": 1.0,
+"texture": ExtResource("24_quqdg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("25_0nysy")
+}, {
+"duration": 1.0,
+"texture": ExtResource("26_gfuom")
+}, {
+"duration": 1.0,
+"texture": ExtResource("27_kpdht")
+}, {
+"duration": 1.0,
+"texture": ExtResource("28_srgcn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("29_0ltnj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("30_uxdn7")
+}, {
+"duration": 1.0,
+"texture": ExtResource("31_gov2k")
+}, {
+"duration": 1.0,
+"texture": ExtResource("32_3p3w1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("33_wdww1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("34_0giyu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("35_04vuh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("36_jypce")
+}, {
+"duration": 1.0,
+"texture": ExtResource("37_mutsl")
+}, {
+"duration": 1.0,
+"texture": ExtResource("38_gte8m")
+}, {
+"duration": 1.0,
+"texture": ExtResource("39_v5g7e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("40_g0iqv")
+}, {
+"duration": 1.0,
+"texture": ExtResource("41_aoppu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("42_ifo7d")
+}, {
+"duration": 1.0,
+"texture": ExtResource("43_o8yud")
+}, {
+"duration": 1.0,
+"texture": ExtResource("44_lrwyb")
+}, {
+"duration": 1.0,
+"texture": ExtResource("45_ki2sn")
+}, {
+"duration": 1.0,
+"texture": ExtResource("46_ocdmw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("47_33fpq")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 24.0
+}]
