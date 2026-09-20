@@ -59,7 +59,7 @@ public partial class TooltipService : CanvasLayer
         if (_pendingData != null)
         {
             _hoverTimer += (float)delta;
-            if (_hoverTimer >= ShowDelay)
+            if (_hoverTimer >= _pendingDelay)
             {
                 _panel.Render(_pendingData);
                 _anim?.Play("fade_in");
@@ -103,8 +103,8 @@ public partial class TooltipService : CanvasLayer
         _isVisible = false;
     }
 
-    /// <summary>给 Control 绑定 tooltip——鼠标移入延迟显示，移出隐藏</summary>
-    public void ShowFor(Control control, TooltipData data)
+    /// <summary>给 Control 绑定 tooltip——鼠标移入延迟显示，移出隐藏。delayOverride 可覆盖全局延迟（秒）。</summary>
+    public void ShowFor(Control control, TooltipData data, float? delayOverride = null)
     {
         if (control == null || data == null) return;
 
@@ -112,6 +112,8 @@ public partial class TooltipService : CanvasLayer
             HideFor(control);
 
         _bindings[control] = data;
+        if (delayOverride.HasValue)
+            _delayOverrides[control] = delayOverride.Value;
 
         Action enter = () => OnControlEntered(control);
         Action exit = () => OnControlExited(control);
@@ -133,6 +135,7 @@ public partial class TooltipService : CanvasLayer
             _handlers.Remove(control);
         }
         _bindings.Remove(control);
+        _delayOverrides.Remove(control);
     }
 
     // ================================================================
@@ -141,6 +144,8 @@ public partial class TooltipService : CanvasLayer
 
     private System.Collections.Generic.Dictionary<Control, TooltipData> _bindings = new();
     private System.Collections.Generic.Dictionary<Control, (Action enter, Action exit)> _handlers = new();
+    private System.Collections.Generic.Dictionary<Control, float> _delayOverrides = new();
+    private float _pendingDelay;
 
     private void OnControlEntered(Control control)
     {
@@ -149,6 +154,7 @@ public partial class TooltipService : CanvasLayer
             CancelPending();
             _pendingOwner = control;
             _pendingData = data;
+            _pendingDelay = _delayOverrides.TryGetValue(control, out float delay) ? delay : ShowDelay;
             _hoverTimer = 0f;
         }
     }
@@ -164,6 +170,7 @@ public partial class TooltipService : CanvasLayer
     {
         _pendingData = null;
         _pendingOwner = null;
+        _pendingDelay = ShowDelay;
         _hoverTimer = 0f;
     }
 }

@@ -145,7 +145,6 @@ animation = &"idel"
 autoplay = "idel"
 
 [node name="buffgrid_player" type="GridContainer" parent="." unique_id=137671753]
-visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.135

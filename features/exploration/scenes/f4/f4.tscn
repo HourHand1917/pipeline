@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bsqqn6756hjhv" path="res://features/tv_ui/ExplorationHUD.tscn" id="7_hud"]
 [ext_resource type="Texture2D" uid="uid://xrl05raxumce" path="res://features/exploration/art_assets/maps/f4/boss关-二层台子.png" id="7_ys00k"]
 [ext_resource type="Texture2D" uid="uid://dfnk2jvo05uf7" path="res://features/exploration/art_assets/maps/f4/boss关-闸门光屏.png" id="8_5yguj"]
-[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_23vsp"]
+[ext_resource type="AudioStream" uid="uid://byd2q3jr4js38" path="res://tileset/music_resource/OGG/music/MUS_Battle_OGG.ogg" id="8_23vsp"]
 [ext_resource type="Texture2D" uid="uid://chvpdubxhq7jo" path="res://features/exploration/art_assets/maps/f4/boss关-闸门.png" id="9_aieww"]
 [ext_resource type="Resource" uid="uid://dnhabfb4ffvb" path="res://features/dialogue/npc/timelines/Code_00战前.dtl" id="15_jt1ph"]
 [ext_resource type="Texture2D" uid="uid://w40s6yvhvr6y" path="res://features/exploration/art_assets/maps/通用地板（要是厚度不够就用这个贴一下）.PNG" id="20_floor"]

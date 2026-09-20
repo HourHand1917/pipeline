@@ -58,7 +58,6 @@ public partial class GridCellButton : Button
     }
 
         Color tint = new Color(1f, 1f, 1f, 0f);
-        string buffName = "";
 
         foreach (var bi in buffs)
         {
@@ -71,11 +70,9 @@ public partial class GridCellButton : Button
             {
                 case "dust":
                     tint = DustTint;
-                    buffName = "蒙尘";
                     break;
                 case "disabled":
                     tint = DisabledTint;
-                    buffName = "失效";
                     break;
             }
         }
@@ -97,7 +94,6 @@ public partial class GridCellButton : Button
         _buffStyle.BorderWidthBottom = 3;
 
         AddThemeStyleboxOverride("normal", _buffStyle);
-        TooltipText = buffName;
     }
 
     public void SetText(string text)

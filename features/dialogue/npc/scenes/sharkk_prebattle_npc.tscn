@@ -7,7 +7,7 @@
 [ext_resource type="SpriteFrames" uid="uid://dtfj5le8frgwc" path="res://anime/generated/sharkk_frames.tres" id="5_placeholder"]
 [ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="6_blink"]
 [ext_resource type="Script" uid="uid://mtdw18k73cih" path="res://features/exploration/scripts/CS/SpawnPoint.cs" id="7_spawn"]
-[ext_resource type="AudioStream" uid="uid://y670arn11ope" path="res://tileset/music_resource/MUS_Battle_Mp3.mp3" id="8_music"]
+[ext_resource type="AudioStream" uid="uid://byd2q3jr4js38" path="res://tileset/music_resource/OGG/music/MUS_Battle_OGG.ogg" id="8_music"]
 
 [sub_resource type="CircleShape2D" id="CircleDetection"]
 radius = 120.0

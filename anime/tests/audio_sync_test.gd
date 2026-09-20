@@ -34,7 +34,7 @@ const CONTACT_FRAMES := {
 
 const GENERIC_ATTACK_STREAM := \
 	"res://tileset/music_resource/OGG/SFX/战斗反馈/小怪/COM_Enemy_Attack.ogg"
-const GENERIC_BATTLE_MUSIC := "res://tileset/music_resource/MUS_Battle_Mp3.mp3"
+const GENERIC_BATTLE_MUSIC := "res://tileset/music_resource/OGG/music/MUS_Battle_OGG.ogg"
 const BATTLE_START_STREAM := \
 	"res://features/dialogue/npc/audio/combat/common/battle_start.ogg"
 

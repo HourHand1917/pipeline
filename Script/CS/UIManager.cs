@@ -227,6 +227,7 @@ private void RefreshBoard(int gridWidth, int gridHeight)
         {
             btn.SetText("");
             btn.SetState(CellState.Disabled);
+            TooltipService.Instance.HideFor(btn);
             continue;
         }
 
@@ -238,6 +239,7 @@ private void RefreshBoard(int gridWidth, int gridHeight)
             btn.SetText("");
             btn.SetState(CellState.Normal);
             btn.Disabled = true;
+            TooltipService.Instance.HideFor(btn);
             continue;
         }
 
@@ -248,30 +250,35 @@ private void RefreshBoard(int gridWidth, int gridHeight)
         bool cardReady = boardManager.CheckCardReady(runtime);
 
         string text = $"{data.Get(GDScriptKeys.CardData.IconText)}\n{data.Get(GDScriptKeys.CardData.DisplayName)}";
+        string stateText;
 
         if (cardReady && canLight)
         {
             btn.SetState(CellState.Ready);
             text += "\n可发动";
             btn.Disabled = false;
+            stateText = "可发动";
         }
         else if (cooldown > 0)
         {
             btn.SetState(CellState.Cooldown);
             text += $"\n冷却{cooldown}";
             btn.Disabled = !canLight;
+            stateText = $"冷却中（剩 {cooldown} 回合）";
         }
         else if (isLit)
         {
             btn.SetState(CellState.Charged);
             text += "\n已点亮";
             btn.Disabled = !canLight;
+            stateText = "已点亮";
         }
         else
         {
             btn.SetState(CellState.Normal);
             text += "\n未点亮";
             btn.Disabled = !canLight;
+            stateText = "未点亮";
         }
 
         btn.SetText(text);
@@ -279,8 +286,44 @@ private void RefreshBoard(int gridWidth, int gridHeight)
         // Buff 染色
         var cellStats = cell?.Get(GDScriptKeys.CellRuntime.Stats).As<GodotObject>();
         btn.ApplyBuffTint(cellStats);
+
+        // 悬浮提示：悬停2秒显示该格的状态 / 所属卡牌 / 身上的 Buff
+        BindCellTooltip(btn, data, cellStats, stateText);
     }
 }
+
+    /// <summary>给战斗格子绑定悬浮提示（状态、所属卡牌、Buff）。</summary>
+    private void BindCellTooltip(GridCellButton btn, GodotObject cardData, GodotObject cellStats, string stateText)
+    {
+        var tooltip = new TooltipData
+        {
+            Title = cardData.Get(GDScriptKeys.CardData.DisplayName).AsString(),
+            Description = cardData.Get(GDScriptKeys.CardData.Description).AsString(),
+        };
+        tooltip.Details["状态"] = stateText;
+        string range = cardData.Call("range_text").AsString();
+        if (!string.IsNullOrEmpty(range)) tooltip.Details["射程"] = range;
+        int baseCd = cardData.Get(GDScriptKeys.CardData.CooldownTurns).AsInt32();
+        if (baseCd > 0) tooltip.Details["冷却"] = $"{baseCd} 回合";
+
+        if (cellStats != null)
+        {
+            var buffs = cellStats.Get("buffs").As<Array>();
+            foreach (var bi in buffs)
+            {
+                if (bi.Obj == null) continue;
+                var instance = bi.As<GodotObject>();
+                var buff = instance.Get("buff").As<GodotObject>();
+                if (buff == null) continue;
+                string name = buff.Get(GDScriptKeys.Buff.BuffName).AsString();
+                int stacks = instance.Get("stacks").AsInt32();
+                string desc = buff.Get(GDScriptKeys.Buff.Description).AsString();
+                tooltip.Details[$"Buff｜{name} ×{stacks}"] = desc;
+            }
+        }
+
+        TooltipService.Instance.ShowFor(btn, tooltip, 2f);
+    }
 
     private void RefreshStatus()
     {
@@ -640,6 +683,9 @@ private void RefreshBoard(int gridWidth, int gridHeight)
             slot.Setup(icon, pair.stacks, buffName, description);
             PlayerBuffGrid.AddChild(slot);
         }
+
+        // 有 Buff 时显示左上角状态格（场景里默认隐藏），没有时收起来避免遮挡画面
+        PlayerBuffGrid.Visible = collectedBuffs.Count > 0;
     }
 
     private void CollectBuffs(Array buffs, System.Collections.Generic.Dictionary<string, (GodotObject buff, int stacks)> collected)
@@ -661,6 +707,9 @@ private void RefreshBoard(int gridWidth, int gridHeight)
 
     private void OnBattleCellPressed(int index)
 {
+    // 点击格子（充能/出牌）时收起悬浮提示
+    TooltipService.Instance.HideTooltip();
+
     var pos = buttonPositions[index];
     var runtime = boardManager.GetCardByCell(pos);
 
