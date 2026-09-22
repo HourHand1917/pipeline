@@ -106,7 +106,15 @@ public partial class RuntimeCampaignSmoke : Node
             && _campaign.State == CombatCampaignController.CampaignState.Preparing,
             "campaign did not advance to Core-00 hands");
 
-        // Battle 4 phase one: two fixed hands.
+        // Battle 4 phase one: two fixed hands. Buy both HP upgrades so the
+        // player (20 base + 10 growth) survives the hands' total damage and
+        // the damage-value assertions stay exact.
+        DataManager.Instance.ModifyCurrency(DataManager.CurrencyType.Faucet, 100);
+        DataManager.Instance.AddLevel(1);
+        foreach (var upgrade in GrowthManager.Upgrades)
+            if (upgrade.Id is "hp_1" or "hp_2")
+                Check(GrowthManager.Instance.Buy(upgrade), $"growth upgrade {upgrade.Id} must be purchasable");
+
         StartPreparedWave();
         CheckWave(3, 4, 1, ("true_hand", 21), ("false_hand", 21));
         await ValidateCoreRuntimeRules();
@@ -330,6 +338,7 @@ public partial class RuntimeCampaignSmoke : Node
         // Clear the player's prior True here so this assertion isolates the
         // charged shot's configured base damage and False application.
         playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
+        _host.Player.Heal(_host.Player.MaxHp);
         _host.Player.SetMapPosition(1);
         int hpBeforeChargedShot = _host.Player.CurrentHp;
         battle.EndTurn();
@@ -369,11 +378,43 @@ public partial class RuntimeCampaignSmoke : Node
             && ActionId(falseHand) == "core_false_charge",
             $"Core round 6 must restart both cycles, got {ActionId(trueHand)}/{ActionId(falseHand)}");
 
-        // If one hand dies, its counterpart becomes passive.
+        // Round 6: True restarts its maintenance step (step 1) while False is still
+        // alive. The package targets cells 2-11, so odd cell 1 takes nothing.
+        _host.Player.SetMapPosition(1);
+        battle.EndTurn();
+        await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn
+            && battle.RoundNumber == 7,
+            "Core round 6 did not resolve");
+        Check(ActionId(trueHand) == "core_true_charge",
+            $"True must plan maintenance step 2 after round 6, got {ActionId(trueHand)}");
+
+        // False dies mid-step: True must keep the latched maintenance step instead of
+        // locking up immediately.
         battle.DamageEnemy(9999, falseHand);
         battle.ReplanEnemyTurns();
-        Check(ActionId(trueHand) == "core_hand_passive",
-            $"surviving Core hand must become passive, got {ActionId(trueHand)}");
+        Check(ActionId(trueHand) == "core_true_charge",
+            $"True must finish its maintenance step when False dies mid-step, got {ActionId(trueHand)}");
+
+        // Round 7: charge resolves; guard beam is planned. The player stands
+        // on odd cell 5 so the beam misses and applies no True marker.
+        _host.Player.SetMapPosition(5);
+        battle.EndTurn();
+        await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn
+            && battle.RoundNumber == 8,
+            "Core round 7 did not resolve");
+        Check(ActionId(trueHand) == "core_true_guard_beam",
+            $"True must plan maintenance step 3 after False died, got {ActionId(trueHand)}");
+
+        // Round 8: the beam misses, no marker is applied, and with False dead
+        // True locks into the death loop protection for good.
+        battle.EndTurn();
+        await WaitFor(() => battle.CurrentPhase == BattleManager.Phase.PlayerTurn
+            && battle.RoundNumber == 9,
+            "Core round 8 did not resolve");
+        Check(ActionId(trueHand) == "core_true_death_loop",
+            $"True must lock into the death loop after its maintenance step ends, got {ActionId(trueHand)}");
+        Check(!trueHand.GetStats().Call(GDScriptKeys.Stats.HasBuff, "true").AsBool(),
+            "True must carry no marker when locked into the death loop");
 
         playerStats.Call(GDScriptKeys.Stats.ClearBuffs);
         _host.Player.SetMapPosition(6);

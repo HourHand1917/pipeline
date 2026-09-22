@@ -237,6 +237,14 @@ public partial class HomeStoryGuideController : Node
         {
             _f2DialogueCompleted = true;
             SaveF2State();
+            // 对话完毕后鼠鼠直接消失，商店引导继续
+            if (_activeMousy != null && IsInstanceValid(_activeMousy))
+            {
+                DisconnectMousy();
+                _activeMousy.QueueFree();
+            }
+            _activeMousy = null;
+            _pendingDialogueStart = false;
             StoreGuide?.ContinueToInteraction();
         }
     }

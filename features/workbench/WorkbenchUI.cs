@@ -210,6 +210,29 @@ public partial class WorkbenchUI : Control
         EmitSignal(SignalName.Closed);
     }
 
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        // 工作台打开时移动已锁定，A/D（或左右方向键）用来左右切换三个工作台页签
+        if (!_open || _tabs == null || _tabs.Length == 0)
+            return;
+
+        if (@event is not InputEventKey { Pressed: true, Echo: false } key)
+            return;
+
+        int direction = 0;
+        if (key.Keycode == Key.A || key.Keycode == Key.Left) direction = -1;
+        else if (key.Keycode == Key.D || key.Keycode == Key.Right) direction = 1;
+        if (direction == 0)
+            return;
+
+        int next = (_currentIndex + direction + _tabs.Length) % _tabs.Length;
+        if (next == _currentIndex || _tabs[next] == null)
+            return;
+
+        SwitchToPage(next);
+        GetViewport().SetInputAsHandled();
+    }
+
     /// <summary>
     /// 关闭时取消进行中的页切换。页切换动画被 hide_workbench 打断后，
     /// OnPanelHidden / OnPanelShown 不会触发，必须手动复位状态并同步页面可见性，

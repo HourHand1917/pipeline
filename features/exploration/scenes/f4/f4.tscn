@@ -66,8 +66,11 @@
 [ext_resource type="Texture2D" uid="uid://bgs3ixtuymu3m" path="res://anime_assets/frames/core_body/idle/0040_4.png" id="60_8ja7b"]
 [ext_resource type="Texture2D" uid="uid://csy46xu5ljotw" path="res://anime_assets/frames/core_body/idle/0041_4.png" id="61_n5reg"]
 [ext_resource type="Texture2D" uid="uid://375mf354frdm" path="res://anime_assets/frames/core_body/idle/0042_4.png" id="62_fr1gv"]
+[ext_resource type="Script" uid="uid://b1f0qtiqum20y" path="res://features/exploration/scripts/CS/interactables/WorkbenchInteractable.cs" id="62_k63x2"]
 [ext_resource type="Texture2D" uid="uid://ntc6oamm3ory" path="res://anime_assets/frames/core_body/idle/0043_5.png" id="63_h7w5d"]
+[ext_resource type="Texture2D" uid="uid://dtoceqfcdbl7e" path="res://features/exploration/art_assets/maps/补给机器.png" id="63_lu8mk"]
 [ext_resource type="Texture2D" uid="uid://c8bqupoijklet" path="res://anime_assets/frames/core_body/idle/0044_4.png" id="64_by6ap"]
+[ext_resource type="Script" uid="uid://cl5e831aqmrd" path="res://features/exploration/scripts/CS/interactables/BlinkComponent.cs" id="64_fv50c"]
 [ext_resource type="Texture2D" uid="uid://bllar2i7de08f" path="res://anime_assets/frames/core_body/idle/0045_4.png" id="65_bfpg2"]
 [ext_resource type="PackedScene" uid="uid://bvt8ghrymx8mo" path="res://features/workbench/SupplyWorkbench.tscn" id="65_ripjy"]
 [ext_resource type="Texture2D" uid="uid://68bwdgt5mx0t" path="res://anime_assets/frames/core_body/idle/0046_4.png" id="66_poq87"]
@@ -222,6 +225,12 @@ animations = [{
 "name": &"idle",
 "speed": 30.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1d443"]
+size = Vector2(214.81485, 288.88876)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_01lfq"]
+size = Vector2(158.02477, 302.4691)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2nqeu"]
 radius = 120.0
@@ -639,6 +648,38 @@ sprite_frames = SubResource("SpriteFrames_ml8fk")
 animation = &"idle"
 autoplay = "idle"
 
+[node name="补给机器" type="Area2D" parent="MapLayer" unique_id=1808427573 node_paths=PackedStringArray("WorkbenchUI", "Hud", "_blink")]
+position = Vector2(636, 546)
+scale = Vector2(0.7, 0.7)
+script = ExtResource("62_k63x2")
+WorkbenchUI = NodePath("../../UILayer/SupplyWorkbench")
+Hud = NodePath("../../UILayer/HUD")
+DisplayName = "补给机器"
+_blink = NodePath("Blink")
+
+[node name="Sprite" type="Sprite2D" parent="MapLayer/补给机器" unique_id=1195526630]
+scale = Vector2(0.8, 0.8)
+texture = ExtResource("63_lu8mk")
+
+[node name="DetectionRange" type="CollisionShape2D" parent="MapLayer/补给机器" unique_id=873311730]
+position = Vector2(-7.4075317, 13.5802)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_1d443")
+
+[node name="ClickZone" type="Area2D" parent="MapLayer/补给机器" unique_id=445648232]
+collision_layer = 2
+collision_mask = 0
+
+[node name="ClickShape" type="CollisionShape2D" parent="MapLayer/补给机器/ClickZone" unique_id=1645432804]
+position = Vector2(2.4690552, 15.432129)
+scale = Vector2(1.0000005, 1.0000005)
+shape = SubResource("RectangleShape2D_01lfq")
+
+[node name="Blink" type="Node" parent="MapLayer/补给机器" unique_id=2092834804 node_paths=PackedStringArray("_sprite", "_clickZone")]
+script = ExtResource("64_fv50c")
+_sprite = NodePath("../Sprite")
+_clickZone = NodePath("../ClickZone")
+
 [node name="通用地板（要是厚度不够就用这个贴一下）" type="Sprite2D" parent="MapLayer" unique_id=166224864]
 position = Vector2(3231, 1262)
 scale = Vector2(3.3804762, 1)
@@ -708,7 +749,6 @@ script = ExtResource("35_stage_actor")
 position = Vector2(4, -2)
 AutoTriggerByRange = false
 AutoStartBattleAfterDialogue = false
-AllowEscapeToExitDialogue = true
 
 [node name="SequenceAnimationPlayer" type="AnimationPlayer" parent="Core00Encounter" unique_id=1945808337]
 libraries/ = SubResource("AnimationLibrary_f4_sequence")

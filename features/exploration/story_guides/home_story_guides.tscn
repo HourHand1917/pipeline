@@ -19,8 +19,8 @@ editor_description = "打败 Rocky 后第一次回家时，home_mousy_npc 在这
 position = Vector2(-235, 672)
 
 [node name="PostF2MousySpawn" type="Marker2D" parent="." unique_id=1746316769]
-editor_description = "打败 Sharkk 后第一次回家时，post_sharkk_mousy_npc 在这里生成。可直接拖动。"
-position = Vector2(-230, 674)
+editor_description = "打败 Sharkk 后第一次回家时，post_sharkk_mousy_npc 在商店位置生成（商店左侧，与玩家同一条行走线）。可直接拖动。"
+position = Vector2(1152, 529)
 
 [node name="WorkbenchGuide" type="CanvasLayer" parent="." unique_id=581137190]
 script = ExtResource("2_guide")

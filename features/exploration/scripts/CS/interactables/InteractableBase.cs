@@ -40,6 +40,14 @@ public abstract partial class InteractableBase : Area2D, IPersistable
 
         // 子 Area2D：点击事件
         clickZone.InputEvent += (v, e, i) => OnClickInput(v, e, i);
+
+        // 注册到 E 键交互服务（按 E 代替鼠标点击）
+        EInteractService.Register(this);
+    }
+
+    public override void _ExitTree()
+    {
+        EInteractService.Unregister(this);
     }
 
     /// <summary>由 ExplorationManager 注入，保存 mapId 并恢复持久化状态</summary>

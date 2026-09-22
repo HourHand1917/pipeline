@@ -88,7 +88,21 @@ public partial class ExplorationInteractionGuide : CanvasLayer
 
     public override void _Input(InputEvent @event)
     {
-        if (Phase != GuidePhase.Interact || !Visible)
+        if (!Visible)
+            return;
+
+        // ESC：退出引导。对话进行中不拦截，把 ESC 留给对话系统跳行。
+        if (@event is InputEventKey key && key.Pressed && !key.Echo && key.Keycode == Key.Escape)
+        {
+            if (Phase is GuidePhase.Approach or GuidePhase.Interact)
+            {
+                CompleteGuide();
+                GetViewport().SetInputAsHandled();
+            }
+            return;
+        }
+
+        if (Phase != GuidePhase.Interact)
             return;
 
         if (@event is InputEventMouseButton mouse)

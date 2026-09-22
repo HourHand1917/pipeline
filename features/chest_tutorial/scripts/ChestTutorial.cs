@@ -94,6 +94,15 @@ public partial class ChestTutorial : CanvasLayer
     public override void _Input(InputEvent @event)
     {
         if (!_active || !Visible) return;
+
+        // ESC：直接退出教学（ShowOnlyOnce 时记入已完成，不再出现）
+        if (@event is InputEventKey key && key.Pressed && !key.Echo && key.Keycode == Key.Escape)
+        {
+            FinishTutorial();
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+
         if (@event is InputEventMouseButton mouse)
         {
             if (!_inputRect.HasPoint(mouse.Position)) GetViewport().SetInputAsHandled();
@@ -104,7 +113,7 @@ public partial class ChestTutorial : CanvasLayer
             if (!_inputRect.HasPoint(touch.Position)) GetViewport().SetInputAsHandled();
             return;
         }
-        if (@event is InputEventKey key && key.Pressed)
+        if (@event is InputEventKey key2 && key2.Pressed)
             GetViewport().SetInputAsHandled();
     }
 

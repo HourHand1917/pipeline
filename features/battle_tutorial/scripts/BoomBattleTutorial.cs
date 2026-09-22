@@ -120,6 +120,14 @@ public partial class BoomBattleTutorial : CanvasLayer
     {
         if (!_active || !Visible) return;
 
+        // ESC：直接退出教学，恢复战斗操作
+        if (@event is InputEventKey key && key.Pressed && !key.Echo && key.Keycode == Key.Escape)
+        {
+            FinishTutorial();
+            GetViewport().SetInputAsHandled();
+            return;
+        }
+
         if (@event is InputEventMouseButton mouse)
         {
             if (!_inputRect.HasPoint(mouse.Position))
@@ -136,7 +144,7 @@ public partial class BoomBattleTutorial : CanvasLayer
 
         // Tutorial steps are mouse interactions. Suppress unrelated gameplay
         // shortcuts until the highlighted production control is used.
-        if (@event is InputEventKey key && key.Pressed)
+        if (@event is InputEventKey key2 && key2.Pressed)
             GetViewport().SetInputAsHandled();
     }
 

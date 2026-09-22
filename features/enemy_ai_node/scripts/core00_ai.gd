@@ -9,15 +9,16 @@ class_name Core00EnemyAI
 @export_range(1, 30, 1) var teleport_reaction_damage: int = 8
 @export_range(0.0, 1.0, 0.05) var phase_two_attack_chance: float = 0.72
 
-## True uses 0 as its judgement state. Once step 1 starts, confirmation moves
-## this through 2 and 3 without re-checking the Buff until the chain finishes.
-var _true_step: int = 0
+## True 手的维护步骤：0 为判定状态（死循环保护 / 维护步骤1）。
+## 维护步骤一旦开始，确认推进 2、3 两步时不再重新检查 True 标记，
+## 直到维护步骤走完才回到判定。
+var _maintenance_step: int = 0
 var _false_cycle: int = 1
 
 
 func reset_ai() -> void:
 	super.reset_ai()
-	_true_step = 0
+	_maintenance_step = 0
 	_false_cycle = 1
 
 
@@ -29,20 +30,23 @@ func select_action(context: EnemyAIContext) -> EnemyActionData:
 
 
 func _select_hand_action(context: EnemyAIContext) -> EnemyActionData:
-	var is_true := context.role == left_hand_role
-	var counterpart_alive := context.false_hand_hp > 0 if is_true else context.true_hand_hp > 0
-	if not counterpart_alive:
-		return commit_action(action_by_id(&"core_hand_passive"))
-	if is_true:
+	if context.role == left_hand_role:
 		return _select_true_hand_action(context)
+	# False 手永远按固定5步循环行动，不受 True 手生死影响
 	return _select_false_hand_action()
 
 
 func _select_true_hand_action(context: EnemyAIContext) -> EnemyActionData:
 	var selected_id: StringName
-	if _true_step == 0:
-		selected_id = &"core_true_death_loop" if context.enemy_has_true_buff else &"core_true_send_heal"
-	elif _true_step == 2:
+	if _maintenance_step == 0:
+		# 死循环保护：自身带 True 标记时维持；False 手已死时也永远困在死循环里。
+		# 否则进入维护步骤：步骤1发射治疗包 → 步骤2蓄力 → 步骤3保护光束。
+		# 维护步骤一旦开始（步骤2/3）不重新检查标记，走完才回到这里的判定。
+		if context.enemy_has_true_buff or context.false_hand_hp <= 0:
+			selected_id = &"core_true_death_loop"
+		else:
+			selected_id = &"core_true_send_heal"
+	elif _maintenance_step == 2:
 		selected_id = &"core_true_charge"
 	else:
 		selected_id = &"core_true_guard_beam"
@@ -66,9 +70,9 @@ func _on_action_confirmed(action: EnemyActionData, context: EnemyAIContext) -> v
 		return
 	if context.role == left_hand_role:
 		match action.id:
-			&"core_true_send_heal": _true_step = 2
-			&"core_true_charge": _true_step = 3
-			&"core_true_guard_beam": _true_step = 0
+			&"core_true_send_heal": _maintenance_step = 2
+			&"core_true_charge": _maintenance_step = 3
+			&"core_true_guard_beam": _maintenance_step = 0
 	elif context.role == right_hand_role:
 		match action.id:
 			&"core_false_charge", &"core_false_heal", &"core_false_stun", &"core_false_charge_complete", &"core_false_break_beam":

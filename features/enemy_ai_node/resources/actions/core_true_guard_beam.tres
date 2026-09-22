@@ -9,7 +9,7 @@
 script = ExtResource("1")
 id = &"core_true_guard_beam"
 display_name = "保护光束"
-intent_text = "步骤3：偶数格7伤；命中后链接True并使False获得25格挡"
+intent_text = "维护步骤3：偶数格7伤；命中后链接True并使False获得25格挡"
 priority = 20
 min_range = 0
 max_range = 0

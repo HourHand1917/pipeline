@@ -109,8 +109,8 @@ func _test_core00() -> void:
 	var false_ai := _scene("res://features/enemy_ai_node/scenes/core00_ai.tscn")
 	if true_ai == null or false_ai == null: return
 
-	# True starts a latched three-step sequence. A True flag that appears in
-	# the middle cannot interrupt it; only the judgement after step 3 sees it.
+	# 开局无 True 标记：True 直接进入维护步骤（步骤1发射治疗包）。
+	# 维护步骤中途出现的 True 标记不能打断它；只有步骤3之后的判定才看到它。
 	var true_expected := [
 		&"core_true_send_heal", &"core_true_charge", &"core_true_guard_beam",
 		&"core_true_death_loop", &"core_true_death_loop", &"core_true_send_heal",
@@ -146,16 +146,35 @@ func _test_core00() -> void:
 		false_ai.confirm_action(action, context)
 
 	true_ai.reset_ai()
-	var passive_true := true_ai.select_action(_ctx({
+	# False 手死后，True 若无标记且维护步骤未开始，直接被困进死循环保护
+	var stuck_true := true_ai.select_action(_ctx({
 		"role": &"true_hand", "phase": 1, "true_hand_hp": 21, "false_hand_hp": 0,
+		"enemy_has_true_buff": false,
 	}))
-	var passive_false := false_ai.select_action(_ctx({
+	_check(stuck_true != null and stuck_true.id == &"core_true_death_loop",
+		"True without its marker must lock into the death loop once False dies")
+	# False 手中途死亡时，True 把已开始的维护步骤走完（步骤2蓄力），不受影响
+	true_ai.reset_ai()
+	var start_context := _ctx({
+		"role": &"true_hand", "phase": 1, "round_number": 1,
+		"true_hand_hp": 21, "false_hand_hp": 21, "enemy_has_true_buff": false,
+	})
+	var step1 := true_ai.select_action(start_context)
+	_check(step1 != null and step1.id == &"core_true_send_heal",
+		"True maintenance step must start at step 1")
+	true_ai.confirm_action(step1, start_context)
+	var mid_step := true_ai.select_action(_ctx({
+		"role": &"true_hand", "phase": 1, "round_number": 2,
+		"true_hand_hp": 21, "false_hand_hp": 0, "enemy_has_true_buff": false,
+	}))
+	_check(mid_step != null and mid_step.id == &"core_true_charge",
+		"True must finish its maintenance step when False dies mid-step")
+	# True 手死后，False 手继续自己的5步循环
+	var looping_false := false_ai.select_action(_ctx({
 		"role": &"false_hand", "phase": 1, "true_hand_hp": 0, "false_hand_hp": 21,
 	}))
-	_check(passive_true != null and passive_true.id == &"core_hand_passive",
-		"True must become passive after False dies")
-	_check(passive_false != null and passive_false.id == &"core_hand_passive",
-		"False must become passive after True dies")
+	_check(looping_false != null and looping_false.id == &"core_false_charge",
+		"False must keep its cycle after True dies")
 
 	# Buff state is part of the adapter signature; changing only that flag must
 	# invalidate the cached preview in the same round.

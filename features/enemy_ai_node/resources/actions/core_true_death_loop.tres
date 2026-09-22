@@ -4,8 +4,8 @@
 [resource]
 script = ExtResource("1")
 id = &"core_true_death_loop"
-display_name = "死循环"
-intent_text = "检测到自身True：维持死循环并获得15格挡"
+display_name = "死循环保护"
+intent_text = "自身带True标记或False手已毁：维持死循环并获得15格挡"
 priority = 20
 min_range = 0
 max_range = 99

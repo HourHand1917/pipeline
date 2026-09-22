@@ -4,7 +4,7 @@
 script = ExtResource("1")
 id = &"core_true_charge"
 display_name = "蓄力"
-intent_text = "步骤2：完成治疗包发射后的蓄力"
+intent_text = "维护步骤2：完成治疗包发射后的蓄力"
 priority = 20
 min_range = 0
 max_range = 99

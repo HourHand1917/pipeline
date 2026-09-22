@@ -28,6 +28,7 @@ AudioManager="*res://tileset/AudioManager.cs"
 Dialogic="*uid://ds2q0uclmolvu"
 GrowthManager="*res://Script/CS/GrowthManager.cs"
 SaveManager="*res://Script/CS/SaveManager.cs"
+EInteractService="*res://features/exploration/scripts/CS/EInteractService.cs"
 PauseMenu="*res://features/pause_ui/scenes/pause_menu.tscn"
 
 [dialogic]
